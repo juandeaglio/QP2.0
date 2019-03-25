@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/john.storie420/StudioProjects/QP2.0/app/src/main/assets"/><source path="/Users/john.storie420/StudioProjects/QP2.0/app/build/intermediates/shader_assets/debug/compileDebugShaders/out"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/john.storie420/StudioProjects/QP2.0/app/src/debug/assets"/></dataSet></merger>
+=======
+<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/anthony.volkov384/AndroidStudioProjects/QP2.0/app/src/main/assets"/><source path="/Users/anthony.volkov384/AndroidStudioProjects/QP2.0/app/build/intermediates/shader_assets/debug/compileDebugShaders/out"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/anthony.volkov384/AndroidStudioProjects/QP2.0/app/src/debug/assets"/></dataSet></merger>
+>>>>>>> 8e6f1cf749b071cb80fe0306b4c590686c113f19

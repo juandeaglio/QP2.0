@@ -8,4 +8,8 @@ gradlew
 app/proguard-rules.pro
 app/app.iml
 app/build.gradle
+<<<<<<< HEAD
 app/build/*
+=======
+app/build/*
+>>>>>>> 8e6f1cf749b071cb80fe0306b4c590686c113f19

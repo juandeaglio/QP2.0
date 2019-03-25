@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #Mon Mar 25 15:27:02 PDT 2019
+=======
+#Mon Mar 25 15:15:02 PDT 2019
+>>>>>>> 8e6f1cf749b071cb80fe0306b4c590686c113f19
 path.1=classes.dex
 path.0=classes.dex
 renamed.10=classes11.dex
@@ -10,6 +14,7 @@ renamed.5=classes6.dex
 renamed.4=classes5.dex
 renamed.3=classes4.dex
 renamed.2=classes3.dex
+<<<<<<< HEAD
 base.9=/Users/john.storie420/StudioProjects/QP2.0/app/build/intermediates/transforms/dexMerger/debug/11
 renamed.1=classes2.dex
 base.8=/Users/john.storie420/StudioProjects/QP2.0/app/build/intermediates/transforms/dexMerger/debug/21
@@ -23,6 +28,21 @@ base.2=/Users/john.storie420/StudioProjects/QP2.0/app/build/intermediates/transf
 base.1=/Users/john.storie420/StudioProjects/QP2.0/app/build/intermediates/transforms/dexMerger/debug/19
 base.0=/Users/john.storie420/StudioProjects/QP2.0/app/build/intermediates/transforms/dexMerger/debug/18
 base.10=/Users/john.storie420/StudioProjects/QP2.0/app/build/intermediates/transforms/dexMerger/debug/20
+=======
+base.9=/Users/anthony.volkov384/AndroidStudioProjects/QP2.0/app/build/intermediates/transforms/dexMerger/debug/19
+renamed.1=classes2.dex
+base.8=/Users/anthony.volkov384/AndroidStudioProjects/QP2.0/app/build/intermediates/transforms/dexMerger/debug/17
+renamed.0=classes.dex
+base.7=/Users/anthony.volkov384/AndroidStudioProjects/QP2.0/app/build/intermediates/transforms/dexMerger/debug/15
+base.6=/Users/anthony.volkov384/AndroidStudioProjects/QP2.0/app/build/intermediates/transforms/dexMerger/debug/18
+base.5=/Users/anthony.volkov384/AndroidStudioProjects/QP2.0/app/build/intermediates/transforms/dexMerger/debug/13
+base.4=/Users/anthony.volkov384/AndroidStudioProjects/QP2.0/app/build/intermediates/transforms/dexMerger/debug/16
+base.3=/Users/anthony.volkov384/AndroidStudioProjects/QP2.0/app/build/intermediates/transforms/dexMerger/debug/11
+base.2=/Users/anthony.volkov384/AndroidStudioProjects/QP2.0/app/build/intermediates/transforms/dexMerger/debug/14
+base.1=/Users/anthony.volkov384/AndroidStudioProjects/QP2.0/app/build/intermediates/transforms/dexMerger/debug/20
+base.0=/Users/anthony.volkov384/AndroidStudioProjects/QP2.0/app/build/intermediates/transforms/dexMerger/debug/12
+base.10=/Users/anthony.volkov384/AndroidStudioProjects/QP2.0/app/build/intermediates/transforms/dexMerger/debug/21
+>>>>>>> 8e6f1cf749b071cb80fe0306b4c590686c113f19
 path.10=classes.dex
 path.9=classes.dex
 path.8=classes.dex
