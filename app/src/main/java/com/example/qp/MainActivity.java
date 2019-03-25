@@ -46,13 +46,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         Button createTaskButton = findViewById(R.id.createTaskBtn);
-//        createTaskButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //openCalendarViewActivity();
-//                openCreateTaskActivity();
-//            }
-//        });
+        createTaskButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCreateTaskActivity(v);
+            }
+        });
 
         Button viewTask1 = findViewById(R.id.viewTask1);
         viewTask1.setOnClickListener(new View.OnClickListener() {
@@ -62,24 +61,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 openViewTaskActivity(0);
             }
         });
-//        Button viewTask2 = findViewById(R.id.viewTask2);
-//        viewTask2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                openViewTaskActivity(1);
-//            }
-//        });
+        Button viewTask2 = findViewById(R.id.viewTask2);
+        viewTask2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openViewTaskActivity(1);
+            }
+        });
+        displayTaskToCard();
     }
 
-//    protected void onResume()
-//    {
-//        super.onResume();
-//        //setContentView(R.layout.content_main);
-//
-//        displayTaskToCard();
-//
-//
-//    }
 
     public void openViewTaskActivity(int index)
     {
