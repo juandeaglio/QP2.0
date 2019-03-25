@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 EditText priority = findViewById(R.id.numPriority03);
                 priority.setText(String.format("%d", globalTaskList.get(1).getPriority()));
 
-                CheckBox completed = findViewById(R.id.checkBox7);
+                CheckBox cgitompleted = findViewById(R.id.checkBox7);
                 completed.setChecked(false);
                 if(completed.isChecked())
                 {
