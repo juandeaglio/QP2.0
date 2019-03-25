@@ -1,1 +1,4 @@
-#Sat Mar 23 12:10:00 PDT 2019
+#Mon Mar 25 15:37:01 PDT 2019
+base.0=/Users/ethan.collins335/AndroidStudioProjects/QP2.0/app/build/intermediates/transforms/dexMerger/debug/7
+path.0=classes.dex
+renamed.0=classes.dex
