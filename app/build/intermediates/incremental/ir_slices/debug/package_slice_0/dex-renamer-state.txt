@@ -1,0 +1,4 @@
+#Mon Mar 25 12:44:00 PDT 2019
+base.0=/Users/EthanCC/Downloads/QPTest2/app/build/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex
