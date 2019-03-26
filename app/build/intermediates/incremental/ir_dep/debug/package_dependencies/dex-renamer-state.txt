@@ -1,4 +1,4 @@
-#Sat Mar 23 12:09:59 PDT 2019
-base.0=/home/tony/StudioProjects/QPTest2/app/build/intermediates/transforms/dexMerger/debug/10
+#Mon Mar 25 12:43:58 PDT 2019
+base.0=/Users/EthanCC/Downloads/QPTest2/app/build/intermediates/transforms/dexMerger/debug/10
 path.0=classes.dex
 renamed.0=classes.dex
