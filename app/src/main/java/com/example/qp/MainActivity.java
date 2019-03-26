@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.DatabaseHelper;
+
 import java.sql.Time;
 import java.util.ArrayList;
 
@@ -27,10 +29,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static ArrayList<Task> globalCompletedTaskList = new ArrayList<>();
     public Intent myIntent;
 
+    //Database Variables
+    DatabaseHelper taskDb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        taskDb = new DatabaseHelper(this);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -69,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
         displayTaskToCard();
+
     }
 
 
