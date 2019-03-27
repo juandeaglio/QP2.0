@@ -86,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myIntent = new Intent(MainActivity.this, ViewTask.class);
         myIntent.putExtra("index", index);
         startActivity(myIntent);
+
+
     }
 
 
@@ -135,8 +137,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 priority.setText(String.format("%d", globalTaskList.get(1).getPriority()));
 
                 CheckBox cgitompleted = findViewById(R.id.checkBox7);
-                completed.setChecked(false);
-                if(completed.isChecked())
+                cgitompleted.setChecked(false);
+                if(cgitompleted.isChecked())
                 {
                     //move to completed tasks
                 }
