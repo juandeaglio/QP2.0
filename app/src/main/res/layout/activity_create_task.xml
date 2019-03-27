@@ -97,7 +97,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="164dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="date"
         android:text="03/12/2019"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

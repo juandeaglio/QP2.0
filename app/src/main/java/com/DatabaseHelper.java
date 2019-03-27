@@ -47,7 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1, taskName);
-        contentValues.put(COL_2, dueDate);
+        contentValues.put(COL_2, dueDate.toString());
         contentValues.put(COL_3, priority);
         contentValues.put(COL_4, description);
         contentValues.put(COL_5, isCompleted);

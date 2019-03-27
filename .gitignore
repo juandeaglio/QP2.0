@@ -15,3 +15,5 @@ app/build/*
 build/*
 
 >>>>>>> b54055dccb64a731194137a0730bb9a24f368ebc
+
+app/src/\.DS_Store

@@ -95,8 +95,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     {
         //Dummy task fields
         Date testDate= new Date(2019, 4, 9, 13, 0, 0);
-        Task testTask = new Task("Prototype", testDate, 1, "I need to finish the prototype and present it to the class.", 0);
-        Task testTask2 = new Task("Some other task",  testDate, 5, "I need to finish this task sometime.", 0);
+        Task testTask = new Task("Prototype", testDate.toString(), 1, "I need to finish the prototype and present it to the class.", 0);
+        Task testTask2 = new Task("Some other task",  testDate.toString(), 5, "I need to finish this task sometime.", 0);
         globalTaskList.add(testTask);
         globalTaskList.add(testTask2);
         if (!globalTaskList.isEmpty()) {
