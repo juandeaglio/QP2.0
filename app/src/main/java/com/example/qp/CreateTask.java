@@ -30,12 +30,14 @@ public class CreateTask extends AppCompatActivity {
                 EditText taskName = (EditText) findViewById(R.id.taskName);
                 //EditText priority = (EditText) findViewById(R.id.priorityNum);
                 EditText taskNotes = (EditText) findViewById(R.id.taskNotes);
+                //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
                 EditText dueDate = (EditText) findViewById(R.id.taskDueDate);
 
                 newTask.setDescription(taskNotes.getText().toString());
                 newTask.setTaskName(taskName.getText().toString());
                 newTask.setPriority(2);
-                newTask.setDueDate(dueDate.getText().toString());
+                //TODO: change this so it creates a Date() rather than a string
+                //newTask.setDueDate(dueDate.getText().toString());
 
                 saveTask(newTask);
                 goBackToHomepage();
@@ -61,10 +63,6 @@ public class CreateTask extends AppCompatActivity {
     }
 
 
-
-    public void newAnthonyMethod(){
-        //new method
-    }
 
     public void printNow(){
         System.out.println("Hello");
