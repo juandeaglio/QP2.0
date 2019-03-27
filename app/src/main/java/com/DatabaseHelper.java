@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.example.qp.MainActivity;
 
 import java.util.Date;
+import java.util.UUID;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -21,6 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_3 = "Task_Priority";
     public static final String COL_4 = "Task_Description";
     public static final String COL_5 = "Task_Completed"; //This data will be an int. 1 for completed, 0 for not
+    public static final String COL_6 = "Task_ID";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -30,7 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_NAME + "(Task_Name varchar(255), Task_Due_Date varchar(255), Task_Priority INT, Task_Description varchar(255), Task_Completed INT)"); //SQL querey creating our database
+        db.execSQL("create table " + TABLE_NAME + "(Task_Name varchar(255), Task_Due_Date varchar(255), Task_Priority INT, Task_Description varchar(255), Task_Completed INT, Task_ID INT)"); //SQL querey creating our database
 
     }
 
@@ -40,7 +42,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertData(String taskName, int priority, String dueDate, String description, int isCompleted){
+    public boolean insertData(String taskName, int priority, String dueDate, String description, int isCompleted, UUID taskID){
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -49,6 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_3, priority);
         contentValues.put(COL_4, description);
         contentValues.put(COL_5, isCompleted);
+        contentValues.put(COL_6, taskID.toString());
         long result = db.insert(TABLE_NAME, null, contentValues); //Will return -1 if not inserted properly
 
         if(result == -1){
