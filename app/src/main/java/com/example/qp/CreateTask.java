@@ -8,18 +8,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.DatabaseHelper;
 
 public class CreateTask extends AppCompatActivity {
 
     //Global variable for the array list of tasks
     MainActivity mainActivity = new MainActivity();
+    DatabaseHelper db = new DatabaseHelper(this);
+    Toast toast = null;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_task);
 
-
         Button saveTaskBtn = findViewById(R.id.saveTaskButton);
+        this.toast = Toast.makeText(this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
 
         saveTaskBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,7 +41,7 @@ public class CreateTask extends AppCompatActivity {
                 newTask.setTaskName(taskName.getText().toString());
                 newTask.setPriority(2);
                 newTask.setDueDate(dueDate.getText().toString());
-
+                newTask.setCompleted(0);
                 saveTask(newTask);
                 goBackToHomepage();
 
@@ -52,8 +57,14 @@ public class CreateTask extends AppCompatActivity {
     public void saveTask(Task newTask){
         //Saves task in array list
         mainActivity.globalTaskList.add(newTask);
-        //mainActivity.globalTaskList.sort();
+        boolean saveCompleted = db.insertData(newTask.getTaskName(), newTask.getPriority(), newTask.getDueDate(), newTask.getDescription(), newTask.getCompleted());
 
+        if(saveCompleted == true){
+            toast.show();
+        }
+        else {
+            //Toast.makeText(mainActivity,"Task Failed to save", Toast.LENGTH_LONG);
+        }
     }
 
     public void goBackToHomepage(){
@@ -61,13 +72,5 @@ public class CreateTask extends AppCompatActivity {
     }
 
 
-
-    public void newAnthonyMethod(){
-        //new method
-    }
-
-    public void printNow(){
-        System.out.println("Hello");
-    }
 
 }

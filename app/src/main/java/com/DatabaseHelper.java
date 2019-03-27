@@ -1,10 +1,15 @@
 package com;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.qp.MainActivity;
+
+import java.util.Date;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -17,10 +22,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_4 = "Task_Description";
     public static final String COL_5 = "Task_Completed"; //This data will be an int. 1 for completed, 0 for not
 
-
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
-        //SQLiteDatabase db = this.getWritableDatabase(); //Get instance of our database so we can use this class in other classes
     }
 
 
@@ -35,5 +38,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade (SQLiteDatabase db,int oldVersion, int newVersion){
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME); //If the table already exists in android studio we ignore
         onCreate(db);
+    }
+
+    public boolean insertData(String taskName, int priority, String dueDate, String description, int isCompleted){
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_1, taskName);
+        contentValues.put(COL_2, dueDate);
+        contentValues.put(COL_3, priority);
+        contentValues.put(COL_4, description);
+        contentValues.put(COL_5, isCompleted);
+        long result = db.insert(TABLE_NAME, null, contentValues); //Will return -1 if not inserted properly
+
+        if(result == -1){
+            return false;
+
+        }
+        else {
+            return true;
+        }
+
+
     }
 }

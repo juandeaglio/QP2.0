@@ -12,16 +12,16 @@ public class Task {
     private int priority;
     //private String priority;
     private String description;
-    private boolean completed;
+    private int completed; //1 for yes, 0 for no
 
     //Default constuctor
-    public Task(String taskName, String  dueDate, Time timeDueDate, int priority, String description, boolean completed) {
+    public Task(String taskName, String  dueDate, Time timeDueDate, int priority, String description, int completed) {
         this.taskName = taskName;
         this.dueDate = dueDate;
         this.timeDueDate = timeDueDate;
         this.priority = priority;
         this.description = description;
-        this.completed = completed;
+        this.completed = 0;
     }
 
     //For prototype
@@ -31,7 +31,7 @@ public class Task {
         this.timeDueDate = null;
         this.priority = 0;
         this.description = "";
-        this.completed = false;
+        this.completed = 0;
     }
     /*
     //Overloaded constuctor
@@ -78,9 +78,11 @@ public class Task {
         return description;
     }
 
-    public boolean isCompleted() { return completed; }
+    public int getCompleted(){
+        return this.completed;
+    }
 
-    public void setCompleted(boolean completed) { this.completed = completed; }
+    public void setCompleted(int completed) { this.completed = completed; }
 
     public void setDescription(String description) {
         this.description = description;

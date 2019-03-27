@@ -2,6 +2,7 @@ package com.example.qp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -30,14 +31,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public Intent myIntent;
 
     //Database Variables
-    DatabaseHelper taskDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        taskDb = new DatabaseHelper(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,20 +51,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        Button createTaskButton = findViewById(R.id.createTaskBtn);
-        createTaskButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openCreateTaskActivity(v);
-            }
-        });
-
         Button viewTask1 = findViewById(R.id.viewTask1);
         viewTask1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 openViewTaskActivity(0);
             }
         });
@@ -76,11 +65,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 openViewTaskActivity(1);
             }
         });
-<<<<<<< HEAD
     }
 
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         //setContentView(R.layout.content_main);
 
@@ -88,28 +75,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
-=======
-        displayTaskToCard();
 
-    }
 
->>>>>>> 72a2e3fa8bfdb6c6bc4abdee3e7d7d8d0976037b
 
-    public void openViewTaskActivity(int index)
-    {
+
+
+    public void openViewTaskActivity(int index) {
         myIntent = new Intent(MainActivity.this, ViewTask.class);
         myIntent.putExtra("index", index);
         startActivity(myIntent);
     }
 
 
-
-    public void displayTaskToCard()
-    {
+    public void displayTaskToCard() {
         //Dummy task fields
         Time testTime = new Time(13, 44, 3);
-        Task testTask = new Task("Prototype", "03/11/19", testTime, 1, "I need to finish the prototype and present it to the class.", false);
-        Task testTask2 = new Task("Some other task", "03/14/19", testTime, 5, "I need to finish this task sometime.", false);
+        Task testTask = new Task("Prototype", "03/11/19", testTime, 1, "I need to finish the prototype and present it to the class.", 0);
+        Task testTask2 = new Task("Some other task", "03/14/19", testTime, 5, "I need to finish this task sometime.", 0);
         globalTaskList.add(testTask);
         globalTaskList.add(testTask2);
         if (!globalTaskList.isEmpty()) {
@@ -129,9 +111,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 CheckBox completed = findViewById(R.id.checkBox6);
                 completed.setChecked(false);
-                if(completed.isChecked())
-                {
-                //move to completed tasks
+                if (completed.isChecked()) {
+                    //move to completed tasks
                 }
             }
             //card 2
@@ -150,8 +131,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 CheckBox completed = findViewById(R.id.checkBox7);
                 completed.setChecked(false);
-                if(completed.isChecked())
-                {
+                if (completed.isChecked()) {
                     //move to completed tasks
                 }
             }
@@ -159,83 +139,79 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void openViewTask(){
+    public void openViewTask() {
         startActivity(new Intent(this, ViewTask.class));
     }
 
 
-    public void openCalendarViewActivity(){
+    public void openCalendarViewActivity() {
         startActivity(new Intent(MainActivity.this, CalendarView.class));
 
     }
 
 
-
-        public void openCreateTaskActivity(View view) {
-            startActivity(new Intent(this, CreateTask.class));
-        }
-
+    public void openCreateTaskActivity(View view) {
+        startActivity(new Intent(this, CreateTask.class));
+    }
 
 
-        public void openCalendarView() {
-            startActivity(new Intent(MainActivity.this, CalendarView.class));
-        }
+    public void openCalendarView() {
+        startActivity(new Intent(MainActivity.this, CalendarView.class));
+    }
 
-        public void openCompletedTasks() {
-            startActivity(new Intent(MainActivity.this, CompletedTasks.class));
-        }
+    public void openCompletedTasks() {
+        startActivity(new Intent(MainActivity.this, CompletedTasks.class));
+    }
 
-        @Override
-        public boolean onCreateOptionsMenu(Menu menu) {
-            // Inflate the menu; this adds items to the action bar if it is present.
-            getMenuInflater().inflate(R.menu.menu_main, menu);
-            return true;
-        }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
 
     @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            // Handle action bar item clicks here. The action bar will
-            // automatically handle clicks on the Home/Up button, so long
-            // as you specify a parent activity in AndroidManifest.xml.
-            int id = item.getItemId();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-            //noinspection SimplifiableIfStatement
-            if (id == R.id.action_settings) {
-                return true;
-            }
-
-            return super.onOptionsItemSelected(item);
-        }
-
-
-        public boolean onNavigationItemSelected(MenuItem item) { // to be further implemented -keghvart hagopian.
-            // Handle navigation view item clicks here.
-            int id = item.getItemId();
-
-            if (id == R.id.nav_calendar) {
-                openCalendarView();
-
-
-            } else if (id == R.id.nav_completed_tasks) {
-                openCompletedTasks();
-
-            } else if (id == R.id.nav_tools) {
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "Implement me",
-                        Toast.LENGTH_SHORT);
-                toast.show();
-            }
-
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            drawer.closeDrawer(GravityCompat.START);
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
             return true;
         }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    public boolean onNavigationItemSelected(MenuItem item) { // to be further implemented -keghvart hagopian.
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_calendar) {
+            openCalendarView();
+
+
+        } else if (id == R.id.nav_completed_tasks) {
+            openCompletedTasks();
+
+        } else if (id == R.id.nav_tools) {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Implement me",
+                    Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
 }
-
