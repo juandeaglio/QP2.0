@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.DatabaseHelper;
+
 import java.sql.Time;
 import java.util.ArrayList;
 
@@ -27,10 +29,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static ArrayList<Task> globalCompletedTaskList = new ArrayList<>();
     public Intent myIntent;
 
+    //Database Variables
+    DatabaseHelper taskDb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        taskDb = new DatabaseHelper(this);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -46,13 +54,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         Button createTaskButton = findViewById(R.id.createTaskBtn);
-//        createTaskButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //openCalendarViewActivity();
-//                openCreateTaskActivity();
-//            }
-//        });
+        createTaskButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCreateTaskActivity(v);
+            }
+        });
 
         Button viewTask1 = findViewById(R.id.viewTask1);
         viewTask1.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 openViewTaskActivity(1);
             }
         });
+<<<<<<< HEAD
     }
 
     protected void onResume()
@@ -80,6 +88,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
+=======
+        displayTaskToCard();
+
+    }
+
+>>>>>>> 72a2e3fa8bfdb6c6bc4abdee3e7d7d8d0976037b
 
     public void openViewTaskActivity(int index)
     {
