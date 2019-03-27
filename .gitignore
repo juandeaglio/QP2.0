@@ -8,5 +8,9 @@ gradlew
 app/proguard-rules.pro
 app/app.iml
 app/build.gradle
+<<<<<<< HEAD
+app/build/*
+=======
 app/build/*
 build/*
+>>>>>>> 72a2e3fa8bfdb6c6bc4abdee3e7d7d8d0976037b
