@@ -80,62 +80,60 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     //TODO: needs recycler view
-//    public void displayTaskToCard()
-//    {
-//        //Dummy task fields
-//        Date testDate= new Date(2019, 4, 9, 13, 0, 0);
-//        Task testTask = new Task("Prototype", testDate, 1, "I need to finish the prototype and present it to the class.", false);
-//        Task testTask2 = new Task("Some other task",  testDate, 5, "I need to finish this task sometime.", false);
-//        globalTaskList.add(testTask);
-//        globalTaskList.add(testTask2);
-//        if (!globalTaskList.isEmpty()) {
-//            //card 1
-//            if (globalTaskList.get(0) != null) {
-//                TextView taskName = findViewById(R.id.taskName02);
-//                taskName.setText(globalTaskList.get(0).getTaskName());
-//                //TODO: Use date() to display day, month, year, time, etc.
-//                /*
-//                TextView dueDate = findViewById(R.id.dueDateDesc02);
-//                dueDate.setText(globalTaskList.get(0).getDueDate());
-//                */
-//                TextView description = findViewById(R.id.descriptionText02);
-//                description.setText(globalTaskList.get(0).getDescription());
-//
-//                EditText priority = findViewById(R.id.numPriority02);
-//                priority.setText(String.format("%d", globalTaskList.get(0).getPriority()));
-//
-//                CheckBox completed = findViewById(R.id.checkBox6);
-//                completed.setChecked(false);
-//                if(completed.isChecked())
-//                {
-//                //move to completed tasks
-//                }
-//            }
-//            //card 2
-//            if (globalTaskList.get(1) != null) {
-//                TextView taskName = findViewById(R.id.taskName03);
-//                taskName.setText(globalTaskList.get(1).getTaskName());
-//                //TODO: Use date() to display day, month, year, time, etc.
-//                /*
-//                TextView dueDate = findViewById(R.id.dueDateDesc03);
-//                dueDate.setText(globalTaskList.get(1).getDueDate());
-//                */
-//                TextView description = findViewById(R.id.descriptionText03);
-//                description.setText(globalTaskList.get(1).getDescription());
-//
-//                EditText priority = findViewById(R.id.numPriority03);
-//                priority.setText(String.format("%d", globalTaskList.get(1).getPriority()));
-//
-//                CheckBox completed = findViewById(R.id.checkBox7);
-//                completed.setChecked(false);
-//                if(completed.isChecked())
-//                {
-//                    //move to completed tasks
-//                }
-//            }
-//
-//        }
-//    }
+    public void displayTaskToCard()
+    {
+        //Dummy task fields
+        Date testDate= new Date(2019, 4, 9, 13, 0, 0);
+        Task testTask = new Task("Prototype", testDate, 1, "I need to finish the prototype and present it to the class.", 0);
+        Task testTask2 = new Task("Some other task",  testDate, 5, "I need to finish this task sometime.", 0);
+        globalTaskList.add(testTask);
+        globalTaskList.add(testTask2);
+        if (!globalTaskList.isEmpty()) {
+            //card 1
+            if (globalTaskList.get(0) != null) {
+                TextView taskName = findViewById(R.id.taskName02);
+                taskName.setText(globalTaskList.get(0).getTaskName());
+                //TODO: Use date() to display day, month, year, time, etc.
+                /*
+                TextView dueDate = findViewById(R.id.dueDateDesc02);
+                dueDate.setText(globalTaskList.get(0).getDueDate());
+                */
+                TextView description = findViewById(R.id.descriptionText02);
+                description.setText(globalTaskList.get(0).getDescription());
+
+                EditText priority = findViewById(R.id.numPriority02);
+                priority.setText(String.format("%d", globalTaskList.get(0).getPriority()));
+
+                CheckBox completed = findViewById(R.id.checkBox6);
+                completed.setChecked(false);
+                if (completed.isChecked()) {
+                    //move to completed tasks
+                }
+            }
+            //card 2
+            if (globalTaskList.get(1) != null) {
+                TextView taskName = findViewById(R.id.taskName03);
+                taskName.setText(globalTaskList.get(1).getTaskName());
+                //TODO: Use date() to display day, month, year, time, etc.
+                /*
+                TextView dueDate = findViewById(R.id.dueDateDesc03);
+                dueDate.setText(globalTaskList.get(1).getDueDate());
+                */
+                TextView description = findViewById(R.id.descriptionText03);
+                description.setText(globalTaskList.get(1).getDescription());
+
+                EditText priority = findViewById(R.id.numPriority03);
+                priority.setText(String.format("%d", globalTaskList.get(1).getPriority()));
+
+                CheckBox completed = findViewById(R.id.checkBox7);
+                completed.setChecked(false);
+                if (completed.isChecked()) {
+                    //move to completed tasks
+                }
+            }
+
+        }
+    }
     //TODO: refactor this code
     // Sorting home page cards
     public ArrayList<Task> sortCards(int mode)
