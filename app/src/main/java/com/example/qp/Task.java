@@ -1,51 +1,52 @@
+//changed datatype of dueDate, removed timeDueDate since Date() includes it
+//added new variable, dateAssigned, just in case we need it
+
 package com.example.qp;
 
 import java.sql.Time;
 import java.util.Date;
+import java.util.UUID;
 
 public class Task {
 
+    private UUID taskId;
     private String taskName;
-    //private Date dueDate;
-    private String dueDate;
-    private Time timeDueDate;
+    private Date dueDate;
+    //private Time timeDueDate;
+    private Date dateAssigned = new Date();
     private int priority;
-    //private String priority;
     private String description;
-    private boolean completed;
+    private int completed; //1 for yes, 0 for no
 
     //Default constuctor
-    public Task(String taskName, String  dueDate, Time timeDueDate, int priority, String description, boolean completed) {
+    public Task(String taskName, Date  dueDate, int priority, String description, int completed) {
         this.taskName = taskName;
         this.dueDate = dueDate;
-        this.timeDueDate = timeDueDate;
         this.priority = priority;
         this.description = description;
-        this.completed = completed;
+        this.completed = 0;
     }
 
     //For prototype
     public Task() {
         this.taskName = "";
-        this.dueDate = "";
-        this.timeDueDate = null;
+        this.dueDate = new Date();
+        //this.timeDueDate = null;
         this.priority = 0;
         this.description = "";
-        this.completed = false;
+        this.completed = 0;
     }
-    /*
-    //Overloaded constuctor
-    public Task(String taskName, Date dueDate, Time timeDueDate, int priority, String description) {
-        this.taskName = taskName;
-        this.dueDate = dueDate;
-        this.timeDueDate = timeDueDate;
-        this.priority = priority;
-        this.description = description;
-        this.completed = false;
+
+    public UUID getTaskId() {
+        return taskId;
     }
-    */
+
+    public void setTaskId() { //Generates a random uuid no need for a parameter when setting
+        this.taskId = UUID.randomUUID();
+    }
+
     public String getTaskName() {
-        return taskName;
+        return this.taskName;
     }
 
     public void setTaskName(String taskName) {
@@ -53,19 +54,16 @@ public class Task {
     }
 
     //temporary: public Date getDueDate() {
-    public String getDueDate() { return dueDate; }
+    public Date getDueDate() { return this.dueDate; }
 
-
-    public void setDueDate(String dueDate) {
+    public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
 
-    public Time getTimeDueDate() {
-        return timeDueDate;
-    }
+    public Date getDateAssigned() { return this.dateAssigned; }
 
-    public void setTimeDueDate(Time timeDueDate) {
-        this.timeDueDate = timeDueDate;
+    public void setDateAssigned(Date dateAssigned) {
+        this.dateAssigned = dateAssigned;
     }
 
     public int getPriority() {
@@ -75,12 +73,12 @@ public class Task {
     public void setPriority(int priority) { this.priority = priority; }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
-    public boolean isCompleted() { return completed; }
+    public int getCompleted() { return this.completed; }
 
-    public void setCompleted(boolean completed) { this.completed = completed; }
+    public void setCompleted(int completed) { this.completed = completed; }
 
     public void setDescription(String description) {
         this.description = description;
@@ -90,9 +88,8 @@ public class Task {
     public String toString() {
         return "Task{" +
                 "taskName='" + taskName + '\'' +
-                ", dueDate=" + dueDate +
-                ", timeDueDate=" + timeDueDate +
-                ", priority=" + priority +
+                ", dueDate=" + dueDate.toString() + '\'' +
+                ", priority=" + priority + '\'' +
                 ", description='" + description + '\'' +
                 ", completed='" + completed + '\'' +
                 '}';
