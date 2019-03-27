@@ -147,9 +147,101 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
     }
-    //Sorting home page cards
-    public void sortCards()
+    //TODO: refactor this code
+    // Sorting home page cards
+    public ArrayList<Task> sortCards(int mode)
     {
+        ArrayList<Task> copyGlobalArray = globalTaskList;
+        ArrayList<Task> sortedArrList = new ArrayList<Task>();
+        if(!globalTaskList.isEmpty())
+        {
+            Task currentTask = globalTaskList.get(0);
+            Task temp = new Task();
+            int index = 0;
+            switch(mode)
+            {
+                // "Name" sorting mode
+                //TODO: check this for loop, possibly needs to be a while loop?
+                //TODO: verify this sorts correctly
+                //"dueDate" sorting mode
+                case 0:
+                    // a sorted Array, continues until whole array is iterated through.
+                    for(int i = 0; i < copyGlobalArray.size(); i++)
+                    {
+                        for(int j = 0; j < copyGlobalArray.size(); j++)
+                        {
+                            temp = copyGlobalArray.get(j);
+                            if(currentTask.getDueDate().compareTo(temp.getDueDate()) > 0)
+                            {
+                                currentTask = temp;
+                                index = j;
+                            }
+                            else if(currentTask.getDueDate().compareTo(temp.getDueDate()) == 0)
+                            {
+
+                                if(currentTask.getPriority() < temp.getPriority())
+                                {
+                                    currentTask = temp;
+                                    index = j;
+                                }
+                            }
+                        }
+                        copyGlobalArray.remove(index);
+                        sortedArrList.add(temp);
+                    }
+                    break;
+
+                //"priority" sorting mode
+                case 1:
+                    // a sorted Array, continues until whole array is iterated through.
+                    for(int i = 0; i < copyGlobalArray.size(); i++)
+                    {
+                        for(int j = 0; j < copyGlobalArray.size(); j++)
+                        {
+                            temp = copyGlobalArray.get(j);
+                            if(currentTask.getPriority() < temp.getPriority())
+                            {
+                                currentTask = temp;
+                                index = j;
+                            }
+                            else if (currentTask.getPriority() == temp.getPriority())
+                            {
+                                if (currentTask.getDueDate().compareTo(temp.getDueDate()) > 0)
+                                {
+                                    currentTask = temp;
+                                    index = j;
+                                }
+                            }
+                        }
+                        copyGlobalArray.remove(index);
+                        sortedArrList.add(temp);
+                    }
+                    break;
+
+                //"Name" sorting mode (on startup of application)
+                case 2:
+                default:
+                    // search through global task array, finds the first in alphabetical order adds to
+                    // a sorted Array, continues until whole array is iterated through.
+                    for(int i = 0; i < copyGlobalArray.size(); i++)
+                    {
+                        for(int j = 0; j < copyGlobalArray.size(); j++)
+                        {
+                            temp = copyGlobalArray.get(j);
+                            if(currentTask.getTaskName().compareTo(temp.getTaskName()) > 0)
+                            {
+                                currentTask = temp;
+                                index = j;
+                            }
+                        }
+                        copyGlobalArray.remove(index);
+                        sortedArrList.add(temp);
+                    }
+                    break;
+            }
+
+        }
+        return sortedArrList;
 
     }
     public void openViewTask(){
