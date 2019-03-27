@@ -10,3 +10,4 @@ app/app.iml
 app/build.gradle
 app/build/*
 app/.DS_Store
+.idea/modules.xml
