@@ -5,9 +5,11 @@ package com.example.qp;
 
 import java.sql.Time;
 import java.util.Date;
+import java.util.UUID;
 
 public class Task {
 
+    private UUID taskId;
     private String taskName;
     private Date dueDate;
     //private Time timeDueDate;
@@ -17,7 +19,7 @@ public class Task {
     private int completed; //1 for yes, 0 for no
 
     //Default constuctor
-    public Task(String taskName, Date  dueDate, int priority, String description, boolean completed) {
+    public Task(String taskName, Date  dueDate, int priority, String description, int completed) {
         this.taskName = taskName;
         this.dueDate = dueDate;
         this.priority = priority;
@@ -33,6 +35,14 @@ public class Task {
         this.priority = 0;
         this.description = "";
         this.completed = 0;
+    }
+
+    public UUID getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId() { //Generates a random uuid no need for a parameter when setting
+        this.taskId = UUID.randomUUID();
     }
 
     public String getTaskName() {
@@ -66,7 +76,7 @@ public class Task {
         return this.description;
     }
 
-    public boolean isCompleted() { return this.completed; }
+    public int getCompleted() { return this.completed; }
 
     public void setCompleted(int completed) { this.completed = completed; }
 

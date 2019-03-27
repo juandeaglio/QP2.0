@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.DatabaseHelper;
 
+import java.util.UUID;
+
 public class CreateTask extends AppCompatActivity {
 
     //Global variable for the array list of tasks
@@ -43,6 +45,7 @@ public class CreateTask extends AppCompatActivity {
                 newTask.setPriority(2);
                 //TODO: change this so it creates a Date() rather than a string
                 //newTask.setDueDate(dueDate.getText().toString());
+                newTask.setTaskId();
 
                 saveTask(newTask);
                 goBackToHomepage();
@@ -59,7 +62,7 @@ public class CreateTask extends AppCompatActivity {
     public void saveTask(Task newTask){
         //Saves task in array list
         mainActivity.globalTaskList.add(newTask);
-        boolean saveCompleted = db.insertData(newTask.getTaskName(), newTask.getPriority(), newTask.getDueDate(), newTask.getDescription(), newTask.getCompleted());
+        boolean saveCompleted = db.insertData(newTask.getTaskName(), newTask.getPriority(), newTask.getDueDate().toString(), newTask.getDescription(), newTask.getCompleted(), newTask.getTaskId());
 
         if(saveCompleted == true){
             toast.show();
