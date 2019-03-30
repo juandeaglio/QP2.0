@@ -40,15 +40,6 @@ public class CalendarView extends AppCompatActivity {
             }
         });
 
-
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
     }
 
     private void populate(){
@@ -67,7 +58,7 @@ public class CalendarView extends AppCompatActivity {
     }
 
     private void updateRecyclerView(String date){
-        taskNames = new ArrayList<>();
+        taskNames.clear();
         for(int i=0; i < globalTaskList.size(); i++)
         {
             if(date.equals(globalTaskList.get(i).getDueDate()))

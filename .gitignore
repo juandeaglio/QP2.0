@@ -13,4 +13,7 @@ app/build/*
 =======
 app/build/*
 build/*
->>>>>>> 72a2e3fa8bfdb6c6bc4abdee3e7d7d8d0976037b
+
+>>>>>>> b54055dccb64a731194137a0730bb9a24f368ebc
+
+app/src/\.DS_Store
