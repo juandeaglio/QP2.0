@@ -1,5 +1,7 @@
 package com.example.qp;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.*;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -48,6 +50,7 @@ public class CreateTask extends AppCompatActivity {
                 newTask.setTaskId();
 
                 saveTask(newTask);
+                populateArrayList();
                 goBackToHomepage();
 
             }
@@ -70,6 +73,20 @@ public class CreateTask extends AppCompatActivity {
         else {
             //Toast.makeText(mainActivity,"Task Failed to save", Toast.LENGTH_LONG);
         }
+    }
+
+    public void populateArrayList(){
+        SQLiteDatabase tempDb = db.getReadableDatabase();
+        String query = "SELECT * FROM " + DatabaseHelper.TABLE_NAME;
+
+        Cursor cursor = tempDb.rawQuery(query, null);
+
+        if(cursor.moveToFirst()){
+            do {
+
+            }while (cursor.moveToNext());
+        }
+
     }
 
     public void goBackToHomepage(){
