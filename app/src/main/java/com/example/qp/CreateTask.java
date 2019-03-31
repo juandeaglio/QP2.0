@@ -75,13 +75,14 @@ public class CreateTask extends AppCompatActivity {
             do {
                 //MainActivity.globalTaskList.add();
                 Task newTask  = new Task();
-                newTask.setTaskName(cursor.getString(0));
-                newTask.setDueDate(cursor.getString(1));
-                newTask.setPriority(cursor.getInt(2));
-                newTask.setDescription(cursor.getString(3));
-                newTask.setCompleted(cursor.getShort(4));
-                newTask.setTaskId();
+                newTask.setTaskName(cursor.getString(0)); //Task Name
+                newTask.setDueDate(cursor.getString(1)); // Due Date
+                newTask.setPriority(cursor.getInt(2)); //Priority
+                newTask.setDescription(cursor.getString(3)); //Description
+                newTask.setCompleted(cursor.getShort(4)); //Is Completed: 1 = yes; 2 = no
+                newTask.setTaskId(); // Check this method in Task class. Generates a random UUID through Java
 
+                MainActivity.globalTaskList.add(newTask); //Adds it to the global array list
             }while (cursor.moveToNext());
         }
 

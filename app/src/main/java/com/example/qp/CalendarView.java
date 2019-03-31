@@ -44,15 +44,15 @@ public class CalendarView extends AppCompatActivity {
     }
 
     private void populate(){
-        globalTaskList.add(new Task("Task 1", new Date(2019, 3, 27), 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 2", new Date(2019, 3, 27), 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 3", new Date(2019, 3, 27), 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 4", new Date(2019, 3, 27), 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 5", new Date(2019, 3, 27), 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 6", new Date(2019, 3, 28), 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 7", new Date(2019, 3, 28), 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 8", new Date(2019, 3, 28), 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 9", new Date(2019, 3, 28), 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 1", new Date(2019, 3, 27).toString(), 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 2", new Date(2019, 3, 27).toString(), 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 3", new Date(2019, 3, 27).toString(), 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 4", new Date(2019, 3, 27).toString(), 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 5", new Date(2019, 3, 27).toString(), 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 6", new Date(2019, 3, 28).toString(), 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 7", new Date(2019, 3, 28).toString(), 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 8", new Date(2019, 3, 28).toString(), 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 9", new Date(2019, 3, 28).toString(), 1, "nothing", 0));
     }
 
     private void updateRecyclerView(Date date){
