@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".CreateTask">
 
+
     <TextView
         android:id="@+id/textView6"
         android:layout_width="0dp"
@@ -26,7 +27,6 @@
         android:layout_marginTop="72dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Do Homework"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,12 +50,11 @@
         android:layout_marginTop="260dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="COMP 350"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/priorityNum"
+        android:id="@+id/priorityNumLabel"
         android:layout_width="75dp"
         android:layout_height="37dp"
         android:layout_marginTop="60dp"
@@ -73,8 +72,7 @@
         android:layout_marginEnd="44dp"
         android:layout_marginRight="44dp"
         android:ems="10"
-        android:inputType="text"
-        android:text="2"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -85,7 +83,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="136dp"
-        android:text="Due Date"
+        android:text="Due Date(mm/dd/yyy)"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -97,8 +95,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="164dp"
         android:ems="10"
-        android:inputType="date"
-        android:text="03/12/2019"
+        android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -106,11 +103,14 @@
         android:id="@+id/saveTaskButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="44dp"
-        android:layout_marginRight="44dp"
+        android:layout_marginTop="260dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginRight="28dp"
         android:layout_marginBottom="420dp"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.988" />
 
 </android.support.constraint.ConstraintLayout>

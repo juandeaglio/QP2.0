@@ -42,8 +42,8 @@ public class Task {
         return taskId;
     }
 
-    public void setTaskId() { //Generates a random uuid no need for a parameter when setting
-        this.taskId = UUID.randomUUID();
+    public void setTaskId(UUID newTaskID) { //Generates a random uuid no need for a parameter when setting
+        this.taskId = newTaskID;
     }
 
     public String getTaskName() {

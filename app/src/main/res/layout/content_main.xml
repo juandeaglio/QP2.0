@@ -5,10 +5,11 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/background_color">
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
+
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/taskModule02"
@@ -17,11 +18,12 @@
 
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="76dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:background="@android:color/darker_gray"
+        android:background="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -169,12 +171,12 @@
 
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:background="@android:color/darker_gray"
+        android:background="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/taskModule02">
 
@@ -293,8 +295,8 @@
             android:id="@+id/viewTask2"
             android:layout_width="230dp"
             android:layout_height="196dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginLeft="48dp"
             android:background="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -302,15 +304,17 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/createTaskBtn"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="66dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="52dp"
-        android:layout_marginRight="52dp"
-        android:layout_marginBottom="104dp"
-        android:onClick="openCreateTaskActivity"
-        android:text="+"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="28dp"
+        android:layout_marginRight="28dp"
+        android:layout_marginBottom="32dp"
+        android:clickable="true"
+        app:backgroundTint="@color/colorAccent"
+        app:fabCustomSize="90dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="56dp"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
 
 </android.support.constraint.ConstraintLayout>

@@ -2,20 +2,16 @@ package com.example.qp;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v4.*;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.DatabaseHelper;
 
-import java.sql.ResultSet;
-import java.util.Date;
 import java.util.UUID;
 
 public class CreateTask extends AppCompatActivity {
@@ -35,27 +31,8 @@ public class CreateTask extends AppCompatActivity {
         saveTaskBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Task newTask = new Task();
-                //goBackToHomepage();
-
-                EditText taskName = (EditText) findViewById(R.id.taskName);
-                //EditText priority = (EditText) findViewById(R.id.priorityNum);
-                EditText taskNotes = (EditText) findViewById(R.id.taskNotes);
-                //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
-                EditText dueDate = (EditText) findViewById(R.id.taskDueDate);
-
-
-
-                newTask.setDueDate(dueDate.getText().toString());
-                newTask.setDescription(taskNotes.getText().toString());
-                newTask.setTaskName(taskName.getText().toString());
-                newTask.setPriority(2);
-                //TODO: change this so it creates a Date() rather than a string
-                //newTask.setDueDate(dueDate.getText().toString());
-                newTask.setTaskId();
-
-                saveTask(newTask);
-                populateArrayList(newTask);
+                Task taskToSave = new Task();
+                saveTask();
                 goBackToHomepage();
 
             }
@@ -66,7 +43,7 @@ public class CreateTask extends AppCompatActivity {
 
     }
 
-    public void populateArrayList(Task emptyTask){
+    public void populateArrayList(UUID newTaskID){
         String query = "SELECT * FROM " + DatabaseHelper.TABLE_NAME;
         SQLiteDatabase tempDB = db.getReadableDatabase();
         Cursor cursor = tempDB.rawQuery(query, null);
@@ -80,40 +57,39 @@ public class CreateTask extends AppCompatActivity {
                 newTask.setPriority(cursor.getInt(2)); //Priority
                 newTask.setDescription(cursor.getString(3)); //Description
                 newTask.setCompleted(cursor.getShort(4)); //Is Completed: 1 = yes; 2 = no
-                newTask.setTaskId(); // Check this method in Task class. Generates a random UUID through Java
+                newTask.setTaskId(newTaskID); // Check this method in Task class. Generates a random UUID through Java
 
                 MainActivity.globalTaskList.add(newTask); //Adds it to the global array list
             }while (cursor.moveToNext());
+
         }
 
     }
 
 
-    public void saveTask(Task newTask){
+    public void saveTask(){
         //Saves task in array list
         //mainActivity.globalTaskList.add(newTask);
-        boolean saveCompleted = db.insertData(newTask.getTaskName(), newTask.getPriority(), newTask.getDueDate(), newTask.getDescription(), newTask.getCompleted(), newTask.getTaskId());
+        //Task newTask = new Task();
+        //goBackToHomepage();
+
+        EditText taskName = (EditText) findViewById(R.id.taskName);
+        EditText priority = (EditText) findViewById(R.id.priorityNum);
+        EditText taskNotes = (EditText) findViewById(R.id.taskNotes);
+        //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
+        EditText dueDate = (EditText) findViewById(R.id.taskDueDate);
+        UUID taskID = UUID.randomUUID();
+
+        boolean saveCompleted = db.insertData(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()),dueDate.getText().toString(), taskNotes.getText().toString(), 0, taskID);
 
         if(saveCompleted == true){
+            populateArrayList(taskID);
             toast.show();
         }
         else {
+
             //Toast.makeText(mainActivity,"Task Failed to save", Toast.LENGTH_LONG);
         }
-    }
-
-    public void populateArrayList(){
-        SQLiteDatabase tempDb = db.getReadableDatabase();
-        String query = "SELECT * FROM " + DatabaseHelper.TABLE_NAME;
-
-        Cursor cursor = tempDb.rawQuery(query, null);
-
-        if(cursor.moveToFirst()){
-            do {
-
-            }while (cursor.moveToNext());
-        }
-
     }
 
     public void goBackToHomepage(){
