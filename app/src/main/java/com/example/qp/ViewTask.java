@@ -43,27 +43,4 @@ public class ViewTask extends AppCompatActivity {
 
     }
 
-//    public void displayTaskToCard(int index)
-//    {
-//        //Dummy task fields
-//        if (!MainActivity.globalTaskList.isEmpty())
-//        {
-//            //card 1
-//            if (MainActivity.globalTaskList.get(index) != null)
-//            {
-//                TextView taskName = findViewById(R.id.editText11);
-//                taskName.setText(MainActivity.globalTaskList.get(index).getTaskName());
-//
-//                TextView dueDate = findViewById(R.id.editText12);
-//                dueDate.setText(MainActivity.globalTaskList.get(index).getDueDate());
-//
-//                TextView description = findViewById(R.id.editText14);
-//                description.setText(MainActivity.globalTaskList.get(index).getDescription());
-//
-//                EditText priority = findViewById(R.id.editText13);
-//                priority.setText(String.format("%d", MainActivity.globalTaskList.get(index).getPriority()));
-//
-//            }
-//        }
-//    }
 }

@@ -10,20 +10,18 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/taskModule02"
-        android:layout_width="395dp"
-        android:layout_height="196dp"
+        android:layout_width="380dp"
+        android:layout_height="200dp"
 
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="72dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:background="@android:color/white"
+        android:background="#CDFFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -166,17 +164,16 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/taskModule03"
-        android:layout_width="393dp"
-        android:layout_height="196dp"
+        android:layout_width="380dp"
+        android:layout_height="200dp"
 
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="36dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:background="@android:color/white"
+        android:background="#CDFFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/taskModule02">
 
@@ -304,17 +301,17 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/createTaskBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="57dp"
         android:layout_marginEnd="28dp"
         android:layout_marginRight="28dp"
         android:layout_marginBottom="32dp"
         android:clickable="true"
         app:backgroundTint="@color/colorAccent"
-        app:fabCustomSize="90dp"
+        app:fabSize="auto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:maxImageSize="56dp"
+        app:maxImageSize="40dp"
         app:srcCompat="@android:drawable/ic_menu_edit" />
 
 </android.support.constraint.ConstraintLayout>
