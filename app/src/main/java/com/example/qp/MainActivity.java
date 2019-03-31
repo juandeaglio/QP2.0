@@ -2,8 +2,9 @@ package com.example.qp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -52,27 +53,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Button viewTask1 = findViewById(R.id.viewTask1);
-        viewTask1.setOnClickListener(new View.OnClickListener() {
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.createTaskBtn);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                openViewTaskActivity(0);
+            public void onClick(View view) {
+                openCreateTaskActivity(view);
             }
         });
-        Button viewTask2 = findViewById(R.id.viewTask2);
-        viewTask2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openViewTaskActivity(1);
-            }
-        });
-    }
 
-    protected void onResume() {
-        super.onResume();
-        //setContentView(R.layout.content_main);
 
-        displayTaskToCard();
+
 
 
     }
