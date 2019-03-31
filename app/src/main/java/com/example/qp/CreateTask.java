@@ -44,9 +44,8 @@ public class CreateTask extends AppCompatActivity {
     }
 
     public void populateArrayList(UUID newTaskID){
-        String query = "SELECT * FROM " + DatabaseHelper.TABLE_NAME;
-        SQLiteDatabase tempDB = db.getReadableDatabase();
-        Cursor cursor = tempDB.rawQuery(query, null);
+
+        Cursor cursor = this.db.getAllDataFromTable();
 
         if(cursor.moveToFirst()){
             do {

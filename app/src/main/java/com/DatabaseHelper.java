@@ -2,6 +2,7 @@ package com;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase;
@@ -61,7 +62,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         else {
             return true;
         }
-
-
     }
+
+    public Cursor getAllDataFromTable(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor result = db.rawQuery("select * from " + TABLE_NAME,null);
+
+        return  result;
+    }
+
+    //TODO: needs testing - Ethan
+    public boolean updateTable(String taskName, int priority, String dueDate, String description, int isCompleted, UUID taskID){
+        SQLiteDatabase tempDb = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_1, taskName);
+        contentValues.put(COL_2, dueDate);
+        contentValues.put(COL_3, priority);
+        contentValues.put(COL_4, description);
+        contentValues.put(COL_5,isCompleted);
+        contentValues.put(COL_6, taskID.toString());
+
+        tempDb.update(TABLE_NAME , contentValues, "Task_ID = ?", new String[] { taskID.toString() });
+        return true;
+    }
+
+
+
 }
