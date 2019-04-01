@@ -43,9 +43,9 @@ public class CreateTask extends AppCompatActivity {
 
     }
 
-    public void populateArrayList(){
-
-        Cursor cursor = db.sortTable("Task_Priority");
+    public void populateArrayList(String sortBy, String orderBy){
+        MainActivity.globalTaskList.clear();
+        Cursor cursor = db.sortTable("Task_Priority", "asc");
 
         if(cursor.moveToFirst()){
             do {
@@ -82,7 +82,7 @@ public class CreateTask extends AppCompatActivity {
         boolean saveCompleted = db.insertData(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()),dueDate.getText().toString(), taskNotes.getText().toString(), 0, taskID);
 
         if(saveCompleted == true){
-            populateArrayList();
+            populateArrayList("Task_Priority", "asc");
             toast.show();
         }
         else {
