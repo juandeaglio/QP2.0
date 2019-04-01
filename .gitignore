@@ -11,5 +11,5 @@ app/build.gradle
 build/*
 app/build/*
 app/src/\.DS_Store
-
 app/build/
+.DS_Store~HEAD*
