@@ -87,5 +87,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+    //Returns the due date to a specific task id
+    public String getTaskDueDate(String taskID){
+        Cursor data = getAllDataFromTable();
+
+        if ((data.moveToFirst())){
+            do {
+                if(data.getString(5).equals(taskID)){
+                    return data.getString(1);
+                }
+            }while (data.moveToNext());
+        }
+
+        return ""; //Didn't find it
+    }
+
+    //Marks the task with the associated TaskID and changes it's completed field to 1
+    //On the home page have a function that if this returns tru then you move the task to the global completed list
+    public boolean markTaskCompleted(String taskID){
+        Cursor data = getAllDataFromTable();
+        SQLiteDatabase tempDB = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(COL_5, 1);
+        if(data.moveToFirst()){
+            do {
+                if (data.getString(5).equals(taskID)){
+                    tempDB.update(TABLE_NAME, contentValues, "Task_ID = ?", new String[] { taskID});
+                    return true; //Successful update
+                }
+            }while (data.moveToNext());
+        }
+
+        return false; // :(
+    }
+
+
 
 }

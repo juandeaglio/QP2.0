@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static ArrayList<Task> globalTaskList = new ArrayList<>();
     public static ArrayList<Task> globalCompletedTaskList = new ArrayList<>();
     public Intent myIntent;
+    private DatabaseHelper mDB;
+    private Toast toast = null;
 
     //Database Variables
 
@@ -73,8 +75,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myIntent = new Intent(MainActivity.this, ViewTask.class);
         myIntent.putExtra("index", index);
         startActivity(myIntent);
+    }
 
-
+    public void completeTask(){
+        if(mDB.markTaskCompleted(globalTaskList.get(0).getTaskId().toString())){
+            this.toast = Toast.makeText(this, "Task Marked Completed", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        else {
+            this.toast = Toast.makeText(this, "Error", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
 
