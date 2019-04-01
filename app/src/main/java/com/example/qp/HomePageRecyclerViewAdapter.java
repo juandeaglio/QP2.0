@@ -1,6 +1,7 @@
 package com.example.qp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -9,20 +10,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.content.Intent;
 
 import java.util.ArrayList;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
+public class HomePageRecyclerViewAdapter extends RecyclerView.Adapter<HomePageRecyclerViewAdapter.ViewHolder>{
     private static final String TAG = "RecyclerViewAdapter";
     private ArrayList<String> mTaskNames = new ArrayList<>();
     private Context mContext;
 
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder
+    {
         TextView text;
         RelativeLayout parentLayout;
-        public ViewHolder (View itemView){
+        public ViewHolder (View itemView)
+        {
             super(itemView);
             text = itemView.findViewById(R.id.recycle_text);
             parentLayout = itemView.findViewById(R.id.recycler_layout);
@@ -30,7 +31,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     }
 
-    public RecyclerViewAdapter(Context context, ArrayList<String> imageNames)
+    public HomePageRecyclerViewAdapter(Context context, ArrayList<String> imageNames)
     {
         mContext = context;
         mTaskNames = imageNames;
