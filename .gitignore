@@ -9,4 +9,5 @@ app/proguard-rules.pro
 app/app.iml
 app/build.gradle
 build/*
+app/build/*
 app/src/\.DS_Store
