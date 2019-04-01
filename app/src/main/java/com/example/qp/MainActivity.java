@@ -25,6 +25,7 @@ import com.DatabaseHelper;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -71,9 +72,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    public void openViewTaskActivity(int index) {
+    public void openViewTaskActivity(UUID taskID) {
         myIntent = new Intent(MainActivity.this, ViewTask.class);
-        myIntent.putExtra("index", index);
+        myIntent.putExtra("taskid", taskID);
         startActivity(myIntent);
     }
 
