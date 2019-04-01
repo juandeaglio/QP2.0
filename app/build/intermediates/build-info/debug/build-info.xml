@@ -6,8 +6,8 @@
     density="420dpi"
     format="10"
     plugin-version="3.3.2"
-    timestamp="1554070549350"
-    token="-2443657338765043546"
+    timestamp="1554073014183"
+    token="6269825608454632791"
     verifier="FULL_BUILD_REQUESTED" >
 
     <task
@@ -24,87 +24,87 @@
         duration="0" />
 
     <artifact
-        location="D:\QP2.0\app\build\intermediates\split-apk\debug\slices\slice_9.apk"
+        location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
         type="SPLIT" />
     <artifact
-        location="D:\QP2.0\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
+        location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/split-apk/debug/dep/dependencies.apk"
         type="SPLIT" />
     <artifact
-        location="D:\QP2.0\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
+        location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
         type="SPLIT" />
     <artifact
-        location="D:\QP2.0\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
+        location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/resources/instant-run/debug/resources-debug.apk"
         type="SPLIT" />
     <artifact
-        location="D:\QP2.0\app\build\intermediates\split-apk\debug\slices\slice_7.apk"
+        location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/split-apk/debug/slices/slice_5.apk"
         type="SPLIT" />
     <artifact
-        location="D:\QP2.0\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
+        location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/split-apk/debug/slices/slice_8.apk"
         type="SPLIT" />
     <artifact
-        location="D:\QP2.0\app\build\intermediates\resources\instant-run\debug\resources-debug.apk"
+        location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/split-apk/debug/slices/slice_9.apk"
         type="SPLIT" />
     <artifact
-        location="D:\QP2.0\app\build\intermediates\split-apk\debug\dep\dependencies.apk"
+        location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/split-apk/debug/slices/slice_1.apk"
         type="SPLIT" />
     <artifact
-        location="D:\QP2.0\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
+        location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
         type="SPLIT" />
     <artifact
-        location="D:\QP2.0\app\build\intermediates\split-apk\debug\slices\slice_1.apk"
+        location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/split-apk/debug/slices/slice_6.apk"
         type="SPLIT" />
     <artifact
-        location="D:\QP2.0\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
+        location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
         type="SPLIT" />
     <artifact
-        location="D:\QP2.0\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
+        location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
         type="SPLIT" />
     <artifact
-        location="D:\QP2.0\app\build\intermediates\instant-run-apk\debug\app-debug.apk"
+        location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/instant-run-apk/debug/app-debug.apk"
         type="SPLIT_MAIN" />
 
     <build
         build-mode="FULL"
-        timestamp="1554070549350"
+        timestamp="1554073014183"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
-            location="D:\QP2.0\app\build\intermediates\split-apk\debug\slices\slice_9.apk"
+            location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
             type="SPLIT" />
         <artifact
-            location="D:\QP2.0\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
+            location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/split-apk/debug/dep/dependencies.apk"
             type="SPLIT" />
         <artifact
-            location="D:\QP2.0\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
+            location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
             type="SPLIT" />
         <artifact
-            location="D:\QP2.0\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
+            location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/resources/instant-run/debug/resources-debug.apk"
             type="SPLIT" />
         <artifact
-            location="D:\QP2.0\app\build\intermediates\split-apk\debug\slices\slice_7.apk"
+            location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/split-apk/debug/slices/slice_5.apk"
             type="SPLIT" />
         <artifact
-            location="D:\QP2.0\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
+            location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/split-apk/debug/slices/slice_8.apk"
             type="SPLIT" />
         <artifact
-            location="D:\QP2.0\app\build\intermediates\resources\instant-run\debug\resources-debug.apk"
+            location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/split-apk/debug/slices/slice_9.apk"
             type="SPLIT" />
         <artifact
-            location="D:\QP2.0\app\build\intermediates\split-apk\debug\dep\dependencies.apk"
+            location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/split-apk/debug/slices/slice_1.apk"
             type="SPLIT" />
         <artifact
-            location="D:\QP2.0\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
+            location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
             type="SPLIT" />
         <artifact
-            location="D:\QP2.0\app\build\intermediates\split-apk\debug\slices\slice_1.apk"
+            location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/split-apk/debug/slices/slice_6.apk"
             type="SPLIT" />
         <artifact
-            location="D:\QP2.0\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
+            location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
             type="SPLIT" />
         <artifact
-            location="D:\QP2.0\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
+            location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
             type="SPLIT" />
         <artifact
-            location="D:\QP2.0\app\build\intermediates\instant-run-apk\debug\app-debug.apk"
+            location="/home/tony/StudioProjects/QP2.0/app/build/intermediates/instant-run-apk/debug/app-debug.apk"
             type="SPLIT_MAIN" />
     </build>
 

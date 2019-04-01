@@ -36,7 +36,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //Database Variables
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -56,7 +57,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         FloatingActionButton fab =  findViewById(R.id.createTaskBtn);
-        fab.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View view) {
                 openCreateTaskActivity(view);
@@ -65,11 +67,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
-
-
-
-
-
 
 
     public void openViewTaskActivity(int index) {
