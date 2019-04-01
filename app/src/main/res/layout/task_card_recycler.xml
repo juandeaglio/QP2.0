@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/task_card"
     android:layout_margin="5dp"
-    app:cardBackgroundColor="#81C784"
+    app:cardBackgroundColor="#E6819CA9"
     app:cardCornerRadius="12dp"
     app:cardElevation="3dp"
     app:contentPadding="4dp">
