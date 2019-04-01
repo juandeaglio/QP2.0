@@ -108,41 +108,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-
-
-                EditText priority = findViewById(R.id.numPriority02);
-                priority.setText(String.format("%d", globalTaskList.get(0).getPriority()));
-
-                CheckBox completed = findViewById(R.id.checkBox6);
-                completed.setChecked(false);
-                if (completed.isChecked()) {
-                    //move to completed tasks
-                }
-            }
-            //card 2
-            if (globalTaskList.get(1) != null) {
-                TextView taskName = findViewById(R.id.taskName03);
-                taskName.setText(globalTaskList.get(1).getTaskName());
-                //TODO: Use date() to display day, month, year, time, etc.
-                /*
-                TextView dueDate = findViewById(R.id.dueDateDesc03);
-                dueDate.setText(globalTaskList.get(1).getDueDate());
-                */
-                TextView description = findViewById(R.id.descriptionText03);
-                description.setText(globalTaskList.get(1).getDescription());
-
-                EditText priority = findViewById(R.id.numPriority03);
-                priority.setText(String.format("%d", globalTaskList.get(1).getPriority()));
-
-                CheckBox completed = findViewById(R.id.checkBox7);
-                completed.setChecked(false);
-                if (completed.isChecked()) {
-                    //move to completed tasks
-                }
-            }
-
-        }
-    }
     //TODO: refactor this code
     // Sorting home page cards
 //    public ArrayList<Task> sortCards(int mode)
