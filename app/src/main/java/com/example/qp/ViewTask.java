@@ -69,7 +69,7 @@ public class ViewTask extends AppCompatActivity {
     }
     public void displayTask(UUID taskID)
     {
-        //Display task from array list
+        //Display task from array lis
         Task viewedTask = findTaskFromArrayList(taskID);
 
         EditText taskName = (EditText) findViewById(R.id.viewTaskName);
