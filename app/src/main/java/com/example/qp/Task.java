@@ -18,7 +18,7 @@ public class Task {
     private String description;
     private short completed; //1 for yes, 0 for no
 
-    //Default constuctor
+    //Default constructor
     public Task(String taskName, String  dueDate, int priority, String description, int completed) {
         this.taskName = taskName;
         this.dueDate = dueDate;

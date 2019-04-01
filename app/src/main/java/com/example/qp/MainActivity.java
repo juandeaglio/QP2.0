@@ -10,6 +10,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,7 +30,6 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-
     public static ArrayList<Task> globalTaskList = new ArrayList<>();
     public static ArrayList<Task> globalCompletedTaskList = new ArrayList<>();
     public Intent myIntent;
@@ -38,13 +39,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //Database Variables
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -58,19 +61,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         FloatingActionButton fab =  findViewById(R.id.createTaskBtn);
-        fab.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View view) {
                 openCreateTaskActivity(view);
             }
         });
 
+        populate();
+        TaskCardRecyclerAdapter adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
+        RecyclerView taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        taskRecycler.setLayoutManager(layoutManager);
+        taskRecycler.setAdapter(adapter);
 
     }
 
 
-
-
+    private void populate(){
+        globalTaskList.add(new Task("Task 1","2/31/2019", 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 2","2/31/2019", 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 3","2/31/2019" , 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 4","2/31/2019" , 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 5","2/31/2019" , 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 6","2/31/2019" , 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 7","2/31/2019", 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 8","2/31/2019" , 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 9","2/31/2019" , 1, "nothing", 0));
+    }
 
 
 
@@ -92,61 +111,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    //TODO: needs recycler view
-    public void displayTaskToCard()
-    {
-        //Dummy task fields
-        Date testDate= new Date(2019, 4, 9, 13, 0, 0);
-        Task testTask = new Task("Prototype", testDate.toString(), 1, "I need to finish the prototype and present it to the class.", 0);
-        Task testTask2 = new Task("Some other task",  testDate.toString(), 5, "I need to finish this task sometime.", 0);
-        globalTaskList.add(testTask);
-        globalTaskList.add(testTask2);
-        if (!globalTaskList.isEmpty()) {
-            //card 1
-            if (globalTaskList.get(0) != null) {
-                TextView taskName = findViewById(R.id.taskName02);
-                taskName.setText(globalTaskList.get(0).getTaskName());
-                //TODO: Use date() to display day, month, year, time, etc.
-                /*
-                TextView dueDate = findViewById(R.id.dueDateDesc02);
-                dueDate.setText(globalTaskList.get(0).getDueDate());
-                */
-                TextView description = findViewById(R.id.descriptionText02);
-                description.setText(globalTaskList.get(0).getDescription());
 
-                EditText priority = findViewById(R.id.numPriority02);
-                priority.setText(String.format("%d", globalTaskList.get(0).getPriority()));
-
-                CheckBox completed = findViewById(R.id.checkBox6);
-                completed.setChecked(false);
-                if (completed.isChecked()) {
-                    //move to completed tasks
-                }
-            }
-            //card 2
-            if (globalTaskList.get(1) != null) {
-                TextView taskName = findViewById(R.id.taskName03);
-                taskName.setText(globalTaskList.get(1).getTaskName());
-                //TODO: Use date() to display day, month, year, time, etc.
-                /*
-                TextView dueDate = findViewById(R.id.dueDateDesc03);
-                dueDate.setText(globalTaskList.get(1).getDueDate());
-                */
-                TextView description = findViewById(R.id.descriptionText03);
-                description.setText(globalTaskList.get(1).getDescription());
-
-                EditText priority = findViewById(R.id.numPriority03);
-                priority.setText(String.format("%d", globalTaskList.get(1).getPriority()));
-
-                CheckBox completed = findViewById(R.id.checkBox7);
-                completed.setChecked(false);
-                if (completed.isChecked()) {
-                    //move to completed tasks
-                }
-            }
-
-        }
-    }
     //TODO: refactor this code
     // Sorting home page cards
     public ArrayList<Task> sortCards(int mode)

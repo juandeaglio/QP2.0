@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.qp.CreateTask;
 import com.example.qp.MainActivity;
 
 import java.util.Date;
@@ -24,6 +25,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_4 = "Task_Description";
     public static final String COL_5 = "Task_Completed"; //This data will be an int. 1 for completed, 0 for not
     public static final String COL_6 = "Task_ID";
+
+    public String[] allColumns = {COL_1, COL_2, COL_3, COL_4, COL_5, COL_6}; //Some parameters require that you pass in all the columns being affected, updated, sorted, etc...
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -121,6 +124,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return false; // :(
     }
+
+    public Cursor sortTable(String column){
+        //Thinking we clear the data table and repopulate it after we sort the table
+        //MainActivity.globalTaskList.clear();
+        Cursor sortedTable = this.getWritableDatabase().query(TABLE_NAME, this.allColumns,null,null,null,null, column + " asc");
+        return sortedTable;
+    }
+
+
+
 
 
 
