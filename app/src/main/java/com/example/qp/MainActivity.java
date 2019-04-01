@@ -32,12 +32,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static ArrayList<Task> globalTaskList = new ArrayList<>();
     public static ArrayList<Task> globalCompletedTaskList = new ArrayList<>();
     public Intent myIntent;
+
+    //Class variables
     private DatabaseHelper mDB;
     private Toast toast = null;
 
     //Database Variables
 
-    @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -61,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FloatingActionButton fab =  findViewById(R.id.createTaskBtn);
         fab.setOnClickListener(new View.OnClickListener()
         {
-            @Override
             public void onClick(View view) {
                 openCreateTaskActivity(view);
             }
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(myIntent);
     }
 
-    public void completeTask(){
+    public void completeTask(View view){
         if(mDB.markTaskCompleted(globalTaskList.get(0).getTaskId().toString())){
             this.toast = Toast.makeText(this, "Task Marked Completed", Toast.LENGTH_SHORT);
             toast.show();
@@ -144,103 +144,102 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
     }
-    //TODO: refactor this code
     // Sorting home page cards
-    public ArrayList<Task> sortCards(int mode)
-    {
-        ArrayList<Task> copyGlobalArray = globalTaskList;
-        ArrayList<Task> sortedArrList = new ArrayList<Task>();
-        if(!globalTaskList.isEmpty())
-        {
-            Task currentTask = globalTaskList.get(0);
-            Task temp = new Task();
-            int index = 0;
-            switch(mode)
-            {
-                // "Name" sorting mode
-                //TODO: check this for loop, possibly needs to be a while loop?
-                //TODO: verify this sorts correctly
-                //"dueDate" sorting mode
-                case 0:
-                    // a sorted Array, continues until whole array is iterated through.
-                    for(int i = 0; i < copyGlobalArray.size(); i++)
-                    {
-                        for(int j = 0; j < copyGlobalArray.size(); j++)
-                        {
-                            temp = copyGlobalArray.get(j);
-                            if(currentTask.getDueDate().compareTo(temp.getDueDate()) > 0)
-                            {
-                                currentTask = temp;
-                                index = j;
-                            }
-                            else if(currentTask.getDueDate().compareTo(temp.getDueDate()) == 0)
-                            {
-
-                                if(currentTask.getPriority() < temp.getPriority())
-                                {
-                                    currentTask = temp;
-                                    index = j;
-                                }
-                            }
-                        }
-                        copyGlobalArray.remove(index);
-                        sortedArrList.add(temp);
-                    }
-                    break;
-
-                //"priority" sorting mode
-                case 1:
-                    // a sorted Array, continues until whole array is iterated through.
-                    for(int i = 0; i < copyGlobalArray.size(); i++)
-                    {
-                        for(int j = 0; j < copyGlobalArray.size(); j++)
-                        {
-                            temp = copyGlobalArray.get(j);
-                            if(currentTask.getPriority() < temp.getPriority())
-                            {
-                                currentTask = temp;
-                                index = j;
-                            }
-                            else if (currentTask.getPriority() == temp.getPriority())
-                            {
-                                if (currentTask.getDueDate().compareTo(temp.getDueDate()) > 0)
-                                {
-                                    currentTask = temp;
-                                    index = j;
-                                }
-                            }
-                        }
-                        copyGlobalArray.remove(index);
-                        sortedArrList.add(temp);
-                    }
-                    break;
-
-                //"Name" sorting mode (on startup of application)
-                case 2:
-                default:
-                    // search through global task array, finds the first in alphabetical order adds to
-                    // a sorted Array, continues until whole array is iterated through.
-                    for(int i = 0; i < copyGlobalArray.size(); i++)
-                    {
-                        for(int j = 0; j < copyGlobalArray.size(); j++)
-                        {
-                            temp = copyGlobalArray.get(j);
-                            if(currentTask.getTaskName().compareTo(temp.getTaskName()) > 0)
-                            {
-                                currentTask = temp;
-                                index = j;
-                            }
-                        }
-                        copyGlobalArray.remove(index);
-                        sortedArrList.add(temp);
-                    }
-                    break;
-            }
-
-        }
-        return sortedArrList;
-
-    }
+//    public ArrayList<Task> sortCards(int mode)
+//    {
+//        ArrayList<Task> copyGlobalArray = globalTaskList;
+//        ArrayList<Task> sortedArrList = new ArrayList<Task>();
+//        if(!globalTaskList.isEmpty())
+//        {
+//            Task currentTask = globalTaskList.get(0);
+//            Task temp = new Task();
+//            int index = 0;
+//            switch(mode)
+//            {
+//                // "Name" sorting mode
+//                //TODO: check this for loop, possibly needs to be a while loop?
+//                //TODO: verify this sorts correctly
+//                //"dueDate" sorting mode
+//                case 0:
+//                    // a sorted Array, continues until whole array is iterated through.
+//                    for(int i = 0; i < copyGlobalArray.size(); i++)
+//                    {
+//                        for(int j = 0; j < copyGlobalArray.size(); j++)
+//                        {
+//                            temp = copyGlobalArray.get(j);
+//                            if(currentTask.getDueDate().compareTo(temp.getDueDate()) > 0)
+//                            {
+//                                currentTask = temp;
+//                                index = j;
+//                            }
+//                            else if(currentTask.getDueDate().compareTo(temp.getDueDate()) == 0)
+//                            {
+//
+//                                if(currentTask.getPriority() < temp.getPriority())
+//                                {
+//                                    currentTask = temp;
+//                                    index = j;
+//                                }
+//                            }
+//                        }
+//                        copyGlobalArray.remove(index);
+//                        sortedArrList.add(temp);
+//                    }
+//                    break;
+//
+//                //"priority" sorting mode
+//                case 1:
+//                    // a sorted Array, continues until whole array is iterated through.
+//                    for(int i = 0; i < copyGlobalArray.size(); i++)
+//                    {
+//                        for(int j = 0; j < copyGlobalArray.size(); j++)
+//                        {
+//                            temp = copyGlobalArray.get(j);
+//                            if(currentTask.getPriority() < temp.getPriority())
+//                            {
+//                                currentTask = temp;
+//                                index = j;
+//                            }
+//                            else if (currentTask.getPriority() == temp.getPriority())
+//                            {
+//                                if (currentTask.getDueDate().compareTo(temp.getDueDate()) > 0)
+//                                {
+//                                    currentTask = temp;
+//                                    index = j;
+//                                }
+//                            }
+//                        }
+//                        copyGlobalArray.remove(index);
+//                        sortedArrList.add(temp);
+//                    }
+//                    break;
+//
+//                //"Name" sorting mode (on startup of application)
+//                case 2:
+//                default:
+//                    // search through global task array, finds the first in alphabetical order adds to
+//                    // a sorted Array, continues until whole array is iterated through.
+//                    for(int i = 0; i < copyGlobalArray.size(); i++)
+//                    {
+//                        for(int j = 0; j < copyGlobalArray.size(); j++)
+//                        {
+//                            temp = copyGlobalArray.get(j);
+//                            if(currentTask.getTaskName().compareTo(temp.getTaskName()) > 0)
+//                            {
+//                                currentTask = temp;
+//                                index = j;
+//                            }
+//                        }
+//                        copyGlobalArray.remove(index);
+//                        sortedArrList.add(temp);
+//                    }
+//                    break;
+//            }
+//
+//        }
+//        return sortedArrList;
+//
+//    }
     public void openViewTask(){
         startActivity(new Intent(this, ViewTask.class));
     }
@@ -273,18 +272,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    @Override
+    //TODO: To be implemented and tested - Ethan
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
+//        switch (item.getItemId()){
+//            case R.id.mSortPriority:
+//                //Maybe use mDB.SortTable()?
+//                break;
+//            case R.id.mSortDate:
+//                this.createTask.populateArrayList("Task_Due_Date", "desc");
+//                break;
+//            case R.id.mSortNames:
+//                this.createTask.populateArrayList("Task_Name", "asc");
+//                break;
 //        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -312,8 +315,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
 
-    }
 }

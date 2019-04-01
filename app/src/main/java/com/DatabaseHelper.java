@@ -51,7 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1, taskName);
-        contentValues.put(COL_2, dueDate.toString());
+        contentValues.put(COL_2, dueDate);
         contentValues.put(COL_3, priority);
         contentValues.put(COL_4, description);
         contentValues.put(COL_5, isCompleted);
@@ -125,10 +125,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return false; // :(
     }
 
-    public Cursor sortTable(String column){
+    public Cursor sortTable(String column, String order){
         //Thinking we clear the data table and repopulate it after we sort the table
         //MainActivity.globalTaskList.clear();
-        Cursor sortedTable = this.getWritableDatabase().query(TABLE_NAME, this.allColumns,null,null,null,null, column + " asc");
+        Cursor sortedTable = this.getWritableDatabase().query(TABLE_NAME, this.allColumns,null,null,null,null, column + " " + order); //ex: Task_Priority(Column) + order("asc" or "desc")
         return sortedTable;
     }
 

@@ -2212,10 +2212,6 @@
         "source": "C:\\Users\\Ethan\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\097bcb4d0c6b9c98817c6f0e4d86c8ea\\res\\drawable-xxhdpi-v4\\abc_ic_menu_share_mtrl_alpha.png"
     },
     {
-        "merged": "C:\\Users\\Ethan\\Desktop\\QP2.0\\app\\build\\intermediates\\res\\merged\\debug\\layout_layout_listitem.xml.flat",
-        "source": "C:\\Users\\Ethan\\Desktop\\QP2.0\\app\\src\\main\\res\\layout\\layout_listitem.xml"
-    },
-    {
         "merged": "C:\\Users\\Ethan\\Desktop\\QP2.0\\app\\build\\intermediates\\res\\merged\\debug\\layout_design_bottom_sheet_dialog.xml.flat",
         "source": "C:\\Users\\Ethan\\.gradle\\caches\\transforms-1\\files-1.1\\design-28.0.0.aar\\f80488b528154f01837b67b76f4a035b\\res\\layout\\design_bottom_sheet_dialog.xml"
     },
