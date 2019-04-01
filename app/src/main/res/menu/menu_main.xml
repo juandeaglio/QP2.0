@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.qp.MainActivity">
+
+    <item
+        android:id="@+id/mSortPriority"
+        android:orderInCategory="100"
+        android:title="@string/sort_priority"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/mSortNames"
+        android:orderInCategory="100"
+        android:title="@string/sort_names"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/mSortDate"
+        android:orderInCategory="100"
+        android:title="@string/sort_date"
+        app:showAsAction="never" />
+
+
+</menu>
