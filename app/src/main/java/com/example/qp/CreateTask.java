@@ -43,9 +43,9 @@ public class CreateTask extends AppCompatActivity {
 
     }
 
-    public void populateArrayList(UUID newTaskID){
+    public void populateArrayList(){
 
-        Cursor cursor = this.db.getAllDataFromTable();
+        Cursor cursor = db.sortTable("Task_Priority");
 
         if(cursor.moveToFirst()){
             do {
@@ -56,7 +56,7 @@ public class CreateTask extends AppCompatActivity {
                 newTask.setPriority(cursor.getInt(2)); //Priority
                 newTask.setDescription(cursor.getString(3)); //Description
                 newTask.setCompleted(cursor.getShort(4)); //Is Completed: 1 = yes; 2 = no
-                newTask.setTaskId(newTaskID); // Check this method in Task class. Generates a random UUID through Java
+                newTask.setTaskId(UUID.fromString(cursor.getString(5))); // Check this method in Task class. Generates a random UUID through Java
 
                 MainActivity.globalTaskList.add(newTask); //Adds it to the global array list
             }while (cursor.moveToNext());
@@ -82,12 +82,13 @@ public class CreateTask extends AppCompatActivity {
         boolean saveCompleted = db.insertData(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()),dueDate.getText().toString(), taskNotes.getText().toString(), 0, taskID);
 
         if(saveCompleted == true){
-            populateArrayList(taskID);
+            populateArrayList();
             toast.show();
         }
         else {
 
-            //Toast.makeText(mainActivity,"Task Failed to save", Toast.LENGTH_LONG);
+            this.toast = Toast.makeText(mainActivity,"Task failed to save", Toast.LENGTH_LONG);
+            toast.show();
         }
     }
 
