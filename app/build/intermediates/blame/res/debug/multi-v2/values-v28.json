@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\QP2.0\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v28\\values-v28.xml",
+            "outputFile": "C:\\Users\\Ethan\\Desktop\\QP2.0\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v28\\values-v28.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Ethan\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\097bcb4d0c6b9c98817c6f0e4d86c8ea\\res\\values-v28\\values-v28.xml",
