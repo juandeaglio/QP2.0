@@ -20,6 +20,10 @@ public class ViewTask extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_task);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        Task currentTask = new Task();
+
+
+
         setSupportActionBar(toolbar);
     }
 
@@ -28,9 +32,6 @@ public class ViewTask extends AppCompatActivity {
         super.onResume();
         setContentView(R.layout.activity_view_task);
         Intent myIntent = getIntent();
-
-        //displayTaskToCard(myIntent.getIntExtra("index",0));
-
     }
 
     public void goHome(View view){
@@ -39,8 +40,11 @@ public class ViewTask extends AppCompatActivity {
 
     public void save(View view){
         //Save the changes to the task details
+
         startActivity(new Intent(this, MainActivity.class));
 
     }
+
+
 
 }

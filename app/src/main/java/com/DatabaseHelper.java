@@ -86,6 +86,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public String getTaskDueDate(String taskID){ //Pass in the task id and you will get the due date for that id
+        //SQLiteDatabase tempDb = this.getWritableDatabase();
+        Cursor data = getAllDataFromTable();
+
+        if(data.moveToFirst()){
+            while (data.moveToNext()){
+                if (data.getString(5).equals(taskID)){
+                    return data.getString(1);
+                }
+            }
+        }
+        return ""; //Didn't find it
+
+    }
+
 
 
 }
