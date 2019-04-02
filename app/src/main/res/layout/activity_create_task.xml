@@ -8,33 +8,14 @@
     tools:context=".CreateTask">
 
 
-    <EditText
-        android:id="@+id/taskLocation"
-        android:layout_width="382dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:shadowColor="@android:color/white"
-        android:textColor="@android:color/white"
-        android:textColorLink="@android:color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LocationLabel" />
-
     <TextView
-        android:id="@+id/LocationLabel"
+        android:id="@+id/taskTime"
         android:layout_width="153dp"
         android:layout_height="39dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="160dp"
-        android:text="Location"
+        android:layout_marginTop="192dp"
+        android:text="Time"
         android:textColor="@android:color/white"
         android:textSize="8pt"
         app:fontFamily="@font/poppins"
@@ -134,12 +115,12 @@
         android:layout_height="44dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="256dp"
+        android:layout_marginTop="148dp"
         android:background="@drawable/text_view_border"
         android:ems="10"
+        android:inputType="textPersonName"
         android:paddingLeft="10sp"
         android:paddingTop="5dp"
-        android:inputType="textPersonName"
         android:text="Due Date"
         android:textColor="@android:color/white"
         android:textSize="8pt"
