@@ -1,6 +1,7 @@
 package com.example.qp;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.content.Intent;
@@ -14,11 +15,14 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.DatabaseHelper;
 
+import java.sql.Time;
 import java.util.Calendar;
+import java.util.Timer;
 import java.util.UUID;
 
 public class CreateTask extends AppCompatActivity {
@@ -28,7 +32,8 @@ public class CreateTask extends AppCompatActivity {
     DatabaseHelper db = new DatabaseHelper(this);
 
     private TextView dueDate;
-    private DatePickerDialog.OnDateSetListener mDateSetListeener;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private TimePickerDialog.OnTimeSetListener mTimeSetListener;
     Toast toast = null;
     private String taskDueDateValue = "";
 
@@ -64,18 +69,17 @@ public class CreateTask extends AppCompatActivity {
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(CreateTask.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, mDateSetListeener, year, month, day);
+                DatePickerDialog dialog = new DatePickerDialog(CreateTask.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, mDateSetListener, year, month, day);
 
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
 
-
             }
-
-
         });
 
-        mDateSetListeener = new DatePickerDialog.OnDateSetListener() {
+
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 Log.d("Date Picker", "onDateSet: date " + (month + 1)+ "/" + dayOfMonth + "/" + year);
@@ -84,6 +88,27 @@ public class CreateTask extends AppCompatActivity {
             }
         };
 
+//        TextView time = findViewById(R.id.taskTime);
+//
+//        time.setOnClickListener(new View.OnClickListener(){
+//
+//            @Override
+//            public void onClick(View v) {
+//                Calendar cal  = Calendar.getInstance();
+//                int year = cal.get(Calendar.YEAR);
+//                int month = cal.get(Calendar.MONTH);
+//                int day = cal.get(Calendar.DAY_OF_MONTH);
+//
+//
+//
+//
+//                //TimePickerDialog timePickerDialog = new TimePickerDialog(CreateTask.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, mTimeSetListener, year, month, day);
+//
+//                //timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//                //timePickerDialog.show();
+//
+//            }
+//        });
 
 
 
@@ -124,6 +149,11 @@ public class CreateTask extends AppCompatActivity {
         //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
         TextView dueDate =  findViewById(R.id.taskDueDate);
         UUID taskID = UUID.randomUUID();
+        if(taskName.getText().length() == 0){
+            toast = Toast.makeText(this, "Task name but be longer than 0 characters", Toast.LENGTH_LONG);
+            toast.show();
+        }
+
 
         boolean saveCompleted = db.insertData(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()),this.taskDueDateValue, taskNotes.getText().toString(), 0, taskID);
 
