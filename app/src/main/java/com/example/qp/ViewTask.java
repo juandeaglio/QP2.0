@@ -94,9 +94,9 @@ public class ViewTask extends AppCompatActivity {
         EditText taskNotes = (EditText) findViewById(R.id.viewDescription);
         //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
         EditText dueDate = (EditText) findViewById(R.id.viewDueDate);
+        TextView taskTime = findViewById(R.id.taskTime);
 
-
-        boolean updateCompleted = db.updateTable(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()),dueDate.getText().toString(), taskNotes.getText().toString(), 0, taskID);
+        boolean updateCompleted = db.updateTable(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()),dueDate.getText().toString(), taskNotes.getText().toString(), 0, taskID, taskTime.getText().toString());
 
         if(updateCompleted)
         {

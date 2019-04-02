@@ -37,6 +37,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
     private TimePickerDialog.OnTimeSetListener mTimeSetListener;
     Toast toast = null;
     private String taskDueDateValue = "";
+    private String taskTime = "";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +106,13 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 
     }
 
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        TextView taskTime = (TextView) findViewById(R.id.taskTime);
+        taskTime.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+        this.taskTime = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
+    }
+
     public void populateArrayList(String sortBy, String orderBy){
         MainActivity.globalTaskList.clear();
         Cursor cursor = db.sortTable("Task_Priority", "asc");
@@ -140,13 +148,13 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
         //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
         TextView dueDate =  findViewById(R.id.taskDueDate);
         UUID taskID = UUID.randomUUID();
-        if(taskName.getText().length() == 0){
-            toast = Toast.makeText(this, "Task name but be longer than 0 characters", Toast.LENGTH_LONG);
-            toast.show();
-        }
+//        if(taskName.getText().length() == 0){
+//            toast = Toast.makeText(this, "Task name but be longer than 0 characters", Toast.LENGTH_LONG);
+//            toast.show();
+//        }
 
 
-        boolean saveCompleted = db.insertData(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()),this.taskDueDateValue, taskNotes.getText().toString(), 0, taskID);
+        boolean saveCompleted = db.insertData(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()),this.taskDueDateValue, taskNotes.getText().toString(), 0, taskID, this.taskTime);
 
         if(saveCompleted == true){
             populateArrayList("Task_Priority", "asc");
@@ -165,14 +173,4 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 
 
 
-    public void printNow(){
-        System.out.println("Hello");
-    }
-
-    @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        TextView taskTime = (TextView) findViewById(R.id.taskTime);
-        taskTime.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
-
-    }
 }

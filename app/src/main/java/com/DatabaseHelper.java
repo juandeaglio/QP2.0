@@ -25,8 +25,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_4 = "Task_Description";
     public static final String COL_5 = "Task_Completed"; //This data will be an int. 1 for completed, 0 for not
     public static final String COL_6 = "Task_ID";
+    public static final String COL_7 = "Task_Time";
 
-    public String[] allColumns = {COL_1, COL_2, COL_3, COL_4, COL_5, COL_6}; //Some parameters require that you pass in all the columns being affected, updated, sorted, etc...
+    public String[] allColumns = {COL_1, COL_2, COL_3, COL_4, COL_5, COL_6, COL_7}; //Some parameters require that you pass in all the columns being affected, updated, sorted, etc...
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -36,7 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_NAME + "(Task_Name varchar(255), Task_Due_Date varchar(255), Task_Priority INT, Task_Description varchar(255), Task_Completed INT, Task_ID varchar(255))"); //SQL querey creating our database
+        db.execSQL("create table " + TABLE_NAME + "(Task_Name varchar(255), Task_Due_Date varchar(255), Task_Priority INT, Task_Description varchar(255), Task_Completed INT, Task_ID varchar(255), Task_Time varchar(255))"); //SQL querey creating our database
 
     }
 
@@ -46,7 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertData(String taskName, int priority, String dueDate, String description, int isCompleted, UUID taskID){
+    public boolean insertData(String taskName, int priority, String dueDate, String description, int isCompleted, UUID taskID, String taskTime){
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -56,6 +57,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_4, description);
         contentValues.put(COL_5, isCompleted);
         contentValues.put(COL_6, taskID.toString());
+        contentValues.put(COL_7, taskTime);
+
         long result = db.insert(TABLE_NAME, null, contentValues); //Will return -1 if not inserted properly
 
         if(result == -1){
@@ -75,7 +78,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //TODO: needs testing - Ethan
-    public boolean updateTable(String taskName, int priority, String dueDate, String description, int isCompleted, UUID taskID){
+    public boolean updateTable(String taskName, int priority, String dueDate, String description, int isCompleted, UUID taskID, String taskTime){
         SQLiteDatabase tempDb = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1, taskName);
@@ -84,6 +87,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_4, description);
         contentValues.put(COL_5,isCompleted);
         contentValues.put(COL_6, taskID.toString());
+        contentValues.put(COL_7, taskTime);
 
         tempDb.update(TABLE_NAME , contentValues, "Task_ID = ?", new String[] { taskID.toString() });
         return true;

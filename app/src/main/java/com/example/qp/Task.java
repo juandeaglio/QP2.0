@@ -12,7 +12,7 @@ public class Task {
     private UUID taskId;
     private String taskName;
     private String dueDate;
-    //private Time timeDueDate;
+    private String timeDueDate;
     private Date dateAssigned = new Date();
     private int priority;
     private String description;
@@ -59,6 +59,14 @@ public class Task {
 
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public String getTimeDueDate() {
+        return this.timeDueDate;
+    }
+
+    public void setTimeDueDate(String timeDueDate) {
+        this.timeDueDate = timeDueDate;
     }
 
     public Date getDateAssigned() { return this.dateAssigned; }
