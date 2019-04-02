@@ -41,15 +41,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     //Database Variables
 
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -62,9 +60,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        FloatingActionButton fab =  findViewById(R.id.createTaskBtn);
-        fab.setOnClickListener(new View.OnClickListener()
-        {
+        FloatingActionButton fab = findViewById(R.id.createTaskBtn);
+        fab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 openCreateTaskActivity(view);
             }
@@ -80,29 +77,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    private void populate(){
-        globalTaskList.add(new Task("Task 1","2/31/2019", 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 2","2/31/2019", 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 3","2/31/2019" , 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 4","2/31/2019" , 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 5","2/31/2019" , 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 6","2/31/2019" , 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 7","2/31/2019", 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 8","2/31/2019" , 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 9","2/31/2019" , 1, "nothing", 0));
+    private void populate() {
+        globalTaskList.add(new Task("Task 1", "2/31/2019", 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 2", "2/31/2019", 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 3", "2/31/2019", 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 4", "2/31/2019", 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 5", "2/31/2019", 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 6", "2/31/2019", 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 7", "2/31/2019", 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 8", "2/31/2019", 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 9", "2/31/2019", 1, "nothing", 0));
     }
+
     public void openViewTaskActivity(UUID taskID) {
         myIntent = new Intent(MainActivity.this, ViewTask.class);
         myIntent.putExtra("taskid", taskID);
         startActivity(myIntent);
     }
 
-    public void completeTask(View view){
-        if(mDB.markTaskCompleted(globalTaskList.get(0).getTaskId().toString())){
+    public void completeTask(View view) {
+        if (mDB.markTaskCompleted(globalTaskList.get(0).getTaskId().toString())) {
             this.toast = Toast.makeText(this, "Task Marked Completed", Toast.LENGTH_SHORT);
             toast.show();
-        }
-        else {
+        } else {
             this.toast = Toast.makeText(this, "Error", Toast.LENGTH_SHORT);
             toast.show();
         }
@@ -205,10 +202,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        return sortedArrList;
 //
 //    }
-    public void openViewTask(){
+    public void openViewTask() {
         startActivity(new Intent(this, ViewTask.class));
     }
 
+    public void openReminderActivity() {
+        startActivity(new Intent(this, Reminder.class));
+    }
 
     public void openCalendarViewActivity() {
         startActivity(new Intent(MainActivity.this, CalendarView.class));
@@ -264,7 +264,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_calendar) {
             openCalendarView();
 
-
         } else if (id == R.id.nav_completed_tasks) {
             openCompletedTasks();
 
@@ -273,6 +272,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     "Implement me",
                     Toast.LENGTH_SHORT);
             toast.show();
+
+
+        } else if (id == R.id.nav_reminder) {
+            openReminderActivity();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
