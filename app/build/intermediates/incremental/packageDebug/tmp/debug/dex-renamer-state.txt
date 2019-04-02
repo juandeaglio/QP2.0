@@ -1,4 +1,0 @@
-#Sun Mar 31 15:47:32 PDT 2019
-base.0=D\:\\QP2.0\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
-path.0=classes.dex
-renamed.0=classes.dex

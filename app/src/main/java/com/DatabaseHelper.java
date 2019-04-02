@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.qp.CreateTask;
 import com.example.qp.MainActivity;
 
 import java.util.Date;
@@ -24,6 +25,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_4 = "Task_Description";
     public static final String COL_5 = "Task_Completed"; //This data will be an int. 1 for completed, 0 for not
     public static final String COL_6 = "Task_ID";
+
+    public String[] allColumns = {COL_1, COL_2, COL_3, COL_4, COL_5, COL_6}; //Some parameters require that you pass in all the columns being affected, updated, sorted, etc...
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -48,7 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1, taskName);
-        contentValues.put(COL_2, dueDate.toString());
+        contentValues.put(COL_2, dueDate);
         contentValues.put(COL_3, priority);
         contentValues.put(COL_4, description);
         contentValues.put(COL_5, isCompleted);
@@ -100,6 +103,52 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return ""; //Didn't find it
 
     }
+
+
+    //Returns the due date to a specific task id
+    public String getTaskDueDate(String taskID){
+        Cursor data = getAllDataFromTable();
+
+        if ((data.moveToFirst())){
+            do {
+                if(data.getString(5).equals(taskID)){
+                    return data.getString(1);
+                }
+            }while (data.moveToNext());
+        }
+
+        return ""; //Didn't find it
+    }
+
+    //Marks the task with the associated TaskID and changes it's completed field to 1
+    //On the home page have a function that if this returns tru then you move the task to the global completed list
+    public boolean markTaskCompleted(String taskID){
+        Cursor data = getAllDataFromTable();
+        SQLiteDatabase tempDB = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(COL_5, 1);
+        if(data.moveToFirst()){
+            do {
+                if (data.getString(5).equals(taskID)){
+                    tempDB.update(TABLE_NAME, contentValues, "Task_ID = ?", new String[] { taskID});
+                    return true; //Successful update
+                }
+            }while (data.moveToNext());
+        }
+
+        return false; // :(
+    }
+
+    public Cursor sortTable(String column, String order){
+        //Thinking we clear the data table and repopulate it after we sort the table
+        //MainActivity.globalTaskList.clear();
+        Cursor sortedTable = this.getWritableDatabase().query(TABLE_NAME, this.allColumns,null,null,null,null, column + " " + order); //ex: Task_Priority(Column) + order("asc" or "desc")
+        return sortedTable;
+    }
+
+
+
 
 
 

@@ -31,12 +31,11 @@ public class CalendarView extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.task_recycler);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        updateRecyclerView(new Date(calendar.getDate()));
 
         calendar.setOnDateChangeListener(new android.widget.CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull android.widget.CalendarView view, int year, int month, int dayOfMonth) {
-                Date date = new Date(year, month, dayOfMonth);
+                String date = month + "/" + dayOfMonth + "/" + year;
                 updateRecyclerView(date);
             }
         });
@@ -44,18 +43,18 @@ public class CalendarView extends AppCompatActivity {
     }
 
     private void populate(){
-        globalTaskList.add(new Task("Task 1", new Date(2019, 3, 27).toString(), 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 2", new Date(2019, 3, 27).toString(), 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 3", new Date(2019, 3, 27).toString(), 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 4", new Date(2019, 3, 27).toString(), 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 5", new Date(2019, 3, 27).toString(), 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 6", new Date(2019, 3, 28).toString(), 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 7", new Date(2019, 3, 28).toString(), 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 8", new Date(2019, 3, 28).toString(), 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 9", new Date(2019, 3, 28).toString(), 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 1","2/31/2019", 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 2","2/31/2019", 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 3","2/31/2019" , 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 4","2/31/2019" , 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 5","2/31/2019" , 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 6","2/31/2019" , 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 7","2/31/2019", 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 8","2/31/2019" , 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 9","2/31/2019" , 1, "nothing", 0));
     }
 
-    private void updateRecyclerView(Date date){
+    private void updateRecyclerView(String date){
         taskNames.clear();
         for(int i=0; i < globalTaskList.size(); i++)
         {
