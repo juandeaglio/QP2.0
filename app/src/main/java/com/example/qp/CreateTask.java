@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,7 +26,7 @@ import java.util.Calendar;
 import java.util.Timer;
 import java.util.UUID;
 
-public class CreateTask extends AppCompatActivity {
+public class CreateTask extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
     //Global variable for the array list of tasks
     MainActivity mainActivity = new MainActivity();
@@ -88,27 +89,17 @@ public class CreateTask extends AppCompatActivity {
             }
         };
 
-//        TextView time = findViewById(R.id.taskTime);
-//
-//        time.setOnClickListener(new View.OnClickListener(){
-//
-//            @Override
-//            public void onClick(View v) {
-//                Calendar cal  = Calendar.getInstance();
-//                int year = cal.get(Calendar.YEAR);
-//                int month = cal.get(Calendar.MONTH);
-//                int day = cal.get(Calendar.DAY_OF_MONTH);
-//
-//
-//
-//
-//                //TimePickerDialog timePickerDialog = new TimePickerDialog(CreateTask.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, mTimeSetListener, year, month, day);
-//
-//                //timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//                //timePickerDialog.show();
-//
-//            }
-//        });
+        TextView time = findViewById(R.id.taskTime);
+
+        time.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                DialogFragment timePicker = new TimePickerFragment();
+                timePicker.show(getSupportFragmentManager(), "time picker");
+
+            }
+        });
 
 
 
@@ -178,4 +169,10 @@ public class CreateTask extends AppCompatActivity {
         System.out.println("Hello");
     }
 
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        TextView taskTime = (TextView) findViewById(R.id.taskTime);
+        taskTime.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+
+    }
 }
