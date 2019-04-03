@@ -88,7 +88,6 @@
         android:layout_marginLeft="20dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="COMP 350"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
@@ -98,7 +97,6 @@
         android:layout_height="39dp"
         android:ems="10"
         android:inputType="date"
-        android:text="03/13/2019"
         app:layout_constraintStart_toStartOf="@+id/textView18"
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
@@ -106,9 +104,7 @@
         android:id="@+id/viewPriority"
         android:layout_width="59dp"
         android:layout_height="42dp"
-        android:ems="10"
         android:inputType="number"
-        android:text="3"
         app:layout_constraintStart_toStartOf="@+id/textView17"
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
@@ -121,7 +117,6 @@
         android:gravity="start"
         android:inputType="textMultiLine"
         android:singleLine="false"
-        android:text="Give prototype presentation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
@@ -129,9 +124,9 @@
         android:id="@+id/editViewTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="76dp"
-        android:layout_marginRight="76dp"
-        android:layout_marginBottom="240dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginBottom="216dp"
         android:onClick="save"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -141,9 +136,9 @@
         android:id="@+id/button7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginLeft="76dp"
+        android:layout_marginTop="16dp"
         android:onClick="goHome"
         android:text="Home"
         app:layout_constraintStart_toStartOf="parent"
