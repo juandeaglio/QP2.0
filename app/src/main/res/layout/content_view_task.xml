@@ -111,8 +111,8 @@
 
     <EditText
         android:id="@+id/viewDescription"
-        android:layout_width="327dp"
-        android:layout_height="181dp"
+        android:layout_width="375dp"
+        android:layout_height="55dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:gravity="start"
@@ -125,12 +125,12 @@
         android:id="@+id/editViewTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="80dp"
-        android:layout_marginRight="80dp"
-        android:layout_marginBottom="216dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginLeft="76dp"
+        android:layout_marginBottom="324dp"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/button7" />
 
     <Button
         android:id="@+id/button7"
@@ -138,7 +138,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="76dp"
         android:layout_marginLeft="76dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="28dp"
         android:onClick="goHome"
         android:text="Home"
         app:layout_constraintStart_toStartOf="parent"

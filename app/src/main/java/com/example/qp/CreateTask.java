@@ -57,7 +57,6 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
                 //Task taskToSave = new Task();
                 saveTask();
                 goBackToHomepage();
-
             }
 
 
@@ -124,6 +123,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
     }
 
     public void populateArrayList(String sortBy, String orderBy){
+        //TODO: Check if arraylist is null here - Ethan
         MainActivity.globalTaskList.clear();
         Cursor cursor = db.sortTable("Task_Priority", "asc");
 

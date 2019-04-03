@@ -29,16 +29,14 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener  {
 
     public static ArrayList<Task> globalTaskList = new ArrayList<>();
     public static ArrayList<Task> globalCompletedTaskList = new ArrayList<>();
     public Intent myIntent;
     DatabaseHelper db = new DatabaseHelper(this);
-    //int databasesize;
-    //Cursor retrievedData = db.getAllDataFromTable();
-    //Class variables
-    private DatabaseHelper mDB;
+    private CreateTask createTask;
+    //private DatabaseHelper mDB;
     private Toast toast = null;
 
     //Database Variables
@@ -81,7 +79,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         databasesize = cursorSize;
         */
-        populate();
+        //populate();
+        createTask = new CreateTask();
+        createTask.populateArrayList("Task_Priority", "asc");
         TaskCardRecyclerAdapter adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
         RecyclerView taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     //TODO: Ant
     public void completeTask(View view) {
-        if (mDB.markTaskCompleted(globalTaskList.get(0).getTaskId().toString())) {
+        if (db.markTaskCompleted(globalTaskList.get(0).getTaskId().toString())) {
             this.toast = Toast.makeText(this, "Task Marked Completed", Toast.LENGTH_SHORT);
             toast.show();
         } else {
