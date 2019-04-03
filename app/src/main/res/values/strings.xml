@@ -25,4 +25,5 @@
     <string name="repeat_off">Off</string>
     <string name="repeat_no">Repetition Interval </string>
     <string name="repeat_type">Type of Repetitions</string>
+    <string name="title">Title</string>
 </resources>

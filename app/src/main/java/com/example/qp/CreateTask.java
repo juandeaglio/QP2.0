@@ -47,12 +47,14 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 
 
         Button saveTaskBtn = findViewById(R.id.saveTaskButton);
+        Button cancelButton = findViewById(R.id.cancelButton);
+
         this.toast = Toast.makeText(this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
 
         saveTaskBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Task taskToSave = new Task();
+                //Task taskToSave = new Task();
                 saveTask();
                 goBackToHomepage();
 
@@ -60,6 +62,14 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 
 
 
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goBackToHomepage();
+
+            }
         });
 
         this.dueDate.setOnClickListener(new View.OnClickListener(){
