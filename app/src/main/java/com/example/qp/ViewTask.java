@@ -30,13 +30,10 @@ public class ViewTask extends AppCompatActivity {
         Intent myIntent = getIntent();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        Task currentTask = new Task();
-
-
 
         setSupportActionBar(toolbar);
-
-        final UUID taskID = UUID.fromString(myIntent.getStringExtra("taskid"));
+        String taskIDStr = myIntent.getStringExtra("taskid");
+        final UUID taskID = UUID.fromString(taskIDStr);
         displayTask(taskID);
         Button saveTaskBtn = findViewById(R.id.editViewTask);
         saveTaskBtn.setOnClickListener(new View.OnClickListener() {
@@ -55,19 +52,22 @@ public class ViewTask extends AppCompatActivity {
 
     public Task findTaskFromArrayList(UUID taskID)
     {
-        Task viewedTask = new Task();
+        UUID searchFor = taskID;
+        UUID found = null;
         for (Task taskIter : MainActivity.globalTaskList)
         {
-            if(taskIter.getTaskId() == taskID)
+            found = taskIter.getTaskId();
+            if(found.toString().equals(searchFor.toString()))
             {
-                viewedTask = taskIter;
+                return taskIter;
             }
         }
-        return viewedTask;
+        return null;
     }
     public void goHome(View view){
         startActivity(new Intent(this, MainActivity.class));
     }
+    //TODO: test this method - Ant
     public void displayTask(UUID taskID)
     {
         //Display task from array lis
@@ -78,17 +78,22 @@ public class ViewTask extends AppCompatActivity {
         EditText taskNotes = (EditText) findViewById(R.id.viewDescription);
         //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
         EditText dueDate = (EditText) findViewById(R.id.viewDueDate);
-
-        taskName.setText(viewedTask.getTaskName());
-        priority.setText(viewedTask.getPriority());
-        taskNotes.setText(viewedTask.getDescription());
-        dueDate.setText(viewedTask.getDueDate());
+        int priorityTemp = viewedTask.getPriority();
+        String str1 = viewedTask.getTaskName();
+        String str3 = viewedTask.getDescription();
+        String str4 = viewedTask.getDueDate();
+        taskName.setText(str1);
+        priority.setText(Integer.toString(priorityTemp));
+        taskNotes.setText(str3);
+        dueDate.setText(str4);
 
     }
-
+    //TODO: test this method - Ant
     public void saveTask(UUID taskID)
     {
+        //TODO: fix crashing here - Ant
         //Edits task from array list
+        /*
         EditText taskName = (EditText) findViewById(R.id.viewTaskName);
         EditText priority = (EditText) findViewById(R.id.viewPriority);
         EditText taskNotes = (EditText) findViewById(R.id.viewDescription);
@@ -107,5 +112,6 @@ public class ViewTask extends AppCompatActivity {
             this.toast = Toast.makeText(mainActivity,"Task failed to save", Toast.LENGTH_LONG);
             toast.show();
         }
+        */
     }
 }

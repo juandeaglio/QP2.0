@@ -19,7 +19,9 @@ public class Task {
     private short completed; //1 for yes, 0 for no
 
     //Default constructor
-    public Task(String taskName, String  dueDate, int priority, String description, int completed) {
+    public Task(String taskName, String  dueDate, int priority, String description, int completed)
+    {
+        this.taskId = UUID.randomUUID();
         this.taskName = taskName;
         this.dueDate = dueDate;
         this.priority = priority;
@@ -29,6 +31,7 @@ public class Task {
 
     //For prototype
     public Task() {
+        this.taskId = UUID.randomUUID();
         this.taskName = "";
         //this.dueDate = new Date();
         this.dueDate = "";
@@ -96,6 +99,7 @@ public class Task {
     @Override
     public String toString() {
         return "Task{" +
+                "taskID='" + taskId + '\'' +
                 "taskName='" + taskName + '\'' +
                 ", dueDate=" + dueDate.toString() + '\'' +
                 ", priority=" + priority + '\'' +

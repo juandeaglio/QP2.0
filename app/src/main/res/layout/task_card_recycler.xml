@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/task_card"
     android:layout_margin="5dp"
-    app:cardBackgroundColor="#E6819CA9"
+    app:cardBackgroundColor="#ffffff"
     app:cardCornerRadius="12dp"
     app:cardElevation="3dp"
     app:contentPadding="4dp">
@@ -26,7 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/card_check_box"
-            android:layout_toRightOf="@id/card_check_box" />
+            android:layout_toRightOf="@id/card_check_box"
+            android:textSize="10pt" />
 
         <TextView
             android:id="@+id/card_priority"
@@ -40,6 +41,7 @@
             android:id="@+id/card_due_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="8pt"
             android:layout_below="@+id/card_priority"
             android:layout_toEndOf="@id/card_check_box"
             android:layout_toRightOf="@id/card_check_box" />

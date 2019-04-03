@@ -47,12 +47,14 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 
 
         Button saveTaskBtn = findViewById(R.id.saveTaskButton);
+        Button cancelButton = findViewById(R.id.cancelButton);
+
         this.toast = Toast.makeText(this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
 
         saveTaskBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Task taskToSave = new Task();
+                //Task taskToSave = new Task();
                 saveTask();
                 goBackToHomepage();
 
@@ -60,6 +62,14 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 
 
 
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goBackToHomepage();
+
+            }
         });
 
         this.dueDate.setOnClickListener(new View.OnClickListener(){
@@ -127,7 +137,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
                 newTask.setDescription(cursor.getString(3)); //Description
                 newTask.setCompleted(cursor.getShort(4)); //Is Completed: 1 = yes; 2 = no
                 newTask.setTaskId(UUID.fromString(cursor.getString(5))); // Check this method in Task class. Generates a random UUID through Java
-
+                newTask.setTimeDueDate(cursor.getString(6));
                 MainActivity.globalTaskList.add(newTask); //Adds it to the global array list
             }while (cursor.moveToNext());
 
@@ -148,6 +158,8 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
         //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
         TextView dueDate =  findViewById(R.id.taskDueDate);
         UUID taskID = UUID.randomUUID();
+
+
 //        if(taskName.getText().length() == 0){
 //            toast = Toast.makeText(this, "Task name but be longer than 0 characters", Toast.LENGTH_LONG);
 //            toast.show();
