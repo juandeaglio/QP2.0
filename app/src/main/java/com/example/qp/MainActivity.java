@@ -117,6 +117,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myIntent = new Intent(MainActivity.this, ViewTask.class);
         myIntent.putExtra("taskid", taskID);
         startActivity(myIntent);
+
+
     }
     //TODO: Ant
     public void completeTask(View view) {
