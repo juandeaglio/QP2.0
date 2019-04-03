@@ -68,6 +68,7 @@ public class ViewTask extends AppCompatActivity {
     public void goHome(View view){
         startActivity(new Intent(this, MainActivity.class));
     }
+    //TODO: test this method - Ant
     public void displayTask(UUID taskID)
     {
         //Display task from array lis
@@ -85,7 +86,7 @@ public class ViewTask extends AppCompatActivity {
         dueDate.setText(viewedTask.getDueDate());
 
     }
-
+    //TODO: test this method - Ant
     public void saveTask(UUID taskID)
     {
         //Edits task from array list
