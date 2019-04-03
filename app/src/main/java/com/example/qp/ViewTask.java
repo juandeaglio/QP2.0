@@ -44,11 +44,11 @@ public class ViewTask extends AppCompatActivity {
         });
     }
 
-    protected void onResume() {
-        super.onResume();
-        setContentView(R.layout.activity_view_task);
-        Intent myIntent = getIntent();
-    }
+//    protected void onResume() {
+//        super.onResume();
+//        setContentView(R.layout.activity_view_task);
+//        Intent myIntent = getIntent();
+//    }
 
     public Task findTaskFromArrayList(UUID taskID)
     {
@@ -82,6 +82,8 @@ public class ViewTask extends AppCompatActivity {
         String str1 = viewedTask.getTaskName();
         String str3 = viewedTask.getDescription();
         String str4 = viewedTask.getDueDate();
+
+
         taskName.setText(str1);
         priority.setText(Integer.toString(priorityTemp));
         taskNotes.setText(str3);
