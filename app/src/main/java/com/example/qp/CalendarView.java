@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CalendarView extends AppCompatActivity {
 
@@ -27,7 +28,6 @@ public class CalendarView extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         android.widget.CalendarView calendar = findViewById(R.id.calendarView);
-        populate();
         RecyclerView recyclerView = findViewById(R.id.task_recycler);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -40,34 +40,22 @@ public class CalendarView extends AppCompatActivity {
             }
         });
 
-
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
     }
 
     private void populate(){
-
-        //Using fall back constructor for fake data/testing
-        globalTaskList.add(new Task());
-        globalTaskList.add(new Task());
-        globalTaskList.add(new Task());
-        globalTaskList.add(new Task());
-        globalTaskList.add(new Task());
-        globalTaskList.add(new Task());
-        globalTaskList.add(new Task());
-        globalTaskList.add(new Task());
-        globalTaskList.add(new Task());
-
+        globalTaskList.add(new Task("Task 1","2/31/2019", 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 2","2/31/2019", 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 3","2/31/2019" , 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 4","2/31/2019" , 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 5","2/31/2019" , 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 6","2/31/2019" , 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 7","2/31/2019", 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 8","2/31/2019" , 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 9","2/31/2019" , 1, "nothing", 0));
     }
 
     private void updateRecyclerView(String date){
-        taskNames = new ArrayList<>();
+        taskNames.clear();
         for(int i=0; i < globalTaskList.size(); i++)
         {
             if(date.equals(globalTaskList.get(i).getDueDate()))

@@ -6,10 +6,23 @@
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_all_tasks">AllTasks</string>
     <string name="title_activity_view_task">ViewTask</string>
+    <string name="title_activity_reminder">Reminder</string>
     <string name="current_date">03/06/2019</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">QP</string>
     <string name="nav_header_subtitle">Set a task!</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="sort_priority">Sort by Priority</string>
+    <string name="sort_names">Sort by Name</string>
+    <string name="sort_date">Sort by Date</string>
+
+    <string name="add_reminder">Remind me to...</string>
+    <string name="details">Details</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="repeat">Repeat</string>
+    <string name="repeat_off">Off</string>
+    <string name="repeat_no">Repetition Interval </string>
+    <string name="repeat_type">Type of Repetitions</string>
 </resources>
