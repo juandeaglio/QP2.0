@@ -78,16 +78,18 @@ public class ViewTask extends AppCompatActivity {
         EditText taskNotes = (EditText) findViewById(R.id.viewDescription);
         //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
         EditText dueDate = (EditText) findViewById(R.id.viewDueDate);
+        EditText dueTime = (EditText) findViewById(R.id.viewTime);
         int priorityTemp = viewedTask.getPriority();
         String str1 = viewedTask.getTaskName();
         String str3 = viewedTask.getDescription();
         String str4 = viewedTask.getDueDate();
-
+        String str5 = viewedTask.getTimeDueDate();
 
         taskName.setText(str1);
         priority.setText(Integer.toString(priorityTemp));
         taskNotes.setText(str3);
         dueDate.setText(str4);
+        dueTime.setText(str5);
 
     }
     //TODO: test this method - Ant
