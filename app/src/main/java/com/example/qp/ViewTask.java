@@ -7,63 +7,113 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.DatabaseHelper;
 
 import java.sql.Time;
+import java.util.UUID;
 
 public class ViewTask extends AppCompatActivity {
+    MainActivity mainActivity = new MainActivity();
+    DatabaseHelper db = new DatabaseHelper(this);
+    Toast toast = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_task);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-    }
-
-    protected void onResume()
-    {
-        super.onResume();
-        setContentView(R.layout.activity_view_task);
         Intent myIntent = getIntent();
 
-        //displayTaskToCard(myIntent.getIntExtra("index",0));
+        Toolbar toolbar = findViewById(R.id.toolbar);
 
+        setSupportActionBar(toolbar);
+        String taskIDStr = myIntent.getStringExtra("taskid");
+        final UUID taskID = UUID.fromString(taskIDStr);
+        displayTask(taskID);
+        Button saveTaskBtn = findViewById(R.id.editViewTask);
+        saveTaskBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveTask(taskID);
+            }
+        });
     }
 
+//    protected void onResume() {
+//        super.onResume();
+//        setContentView(R.layout.activity_view_task);
+//        Intent myIntent = getIntent();
+//    }
+
+    public Task findTaskFromArrayList(UUID taskID)
+    {
+        UUID searchFor = taskID;
+        UUID found = null;
+        for (Task taskIter : MainActivity.globalTaskList)
+        {
+            found = taskIter.getTaskId();
+            if(found.toString().equals(searchFor.toString()))
+            {
+                return taskIter;
+            }
+        }
+        return null;
+    }
     public void goHome(View view){
         startActivity(new Intent(this, MainActivity.class));
     }
+    //TODO: test this method - Ant
+    public void displayTask(UUID taskID)
+    {
+        //Display task from array lis
+        Task viewedTask = findTaskFromArrayList(taskID);
 
-    public void save(View view){
-        //Save the changes to the task details
-        startActivity(new Intent(this, MainActivity.class));
+        EditText taskName = (EditText) findViewById(R.id.viewTaskName);
+        EditText priority = (EditText) findViewById(R.id.viewPriority);
+        EditText taskNotes = (EditText) findViewById(R.id.viewDescription);
+        //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
+        EditText dueDate = (EditText) findViewById(R.id.viewDueDate);
+        int priorityTemp = viewedTask.getPriority();
+        String str1 = viewedTask.getTaskName();
+        String str3 = viewedTask.getDescription();
+        String str4 = viewedTask.getDueDate();
+
+
+        taskName.setText(str1);
+        priority.setText(Integer.toString(priorityTemp));
+        taskNotes.setText(str3);
+        dueDate.setText(str4);
 
     }
+    //TODO: test this method - Ant
+    public void saveTask(UUID taskID)
+    {
+        //TODO: fix crashing here - Ant
+        //Edits task from array list
+        /*
+        EditText taskName = (EditText) findViewById(R.id.viewTaskName);
+        EditText priority = (EditText) findViewById(R.id.viewPriority);
+        EditText taskNotes = (EditText) findViewById(R.id.viewDescription);
+        //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
+        EditText dueDate = (EditText) findViewById(R.id.viewDueDate);
+        TextView taskTime = findViewById(R.id.taskTime);
 
-//    public void displayTaskToCard(int index)
-//    {
-//        //Dummy task fields
-//        if (!MainActivity.globalTaskList.isEmpty())
-//        {
-//            //card 1
-//            if (MainActivity.globalTaskList.get(index) != null)
-//            {
-//                TextView taskName = findViewById(R.id.editText11);
-//                taskName.setText(MainActivity.globalTaskList.get(index).getTaskName());
-//
-//                TextView dueDate = findViewById(R.id.editText12);
-//                dueDate.setText(MainActivity.globalTaskList.get(index).getDueDate());
-//
-//                TextView description = findViewById(R.id.editText14);
-//                description.setText(MainActivity.globalTaskList.get(index).getDescription());
-//
-//                EditText priority = findViewById(R.id.editText13);
-//                priority.setText(String.format("%d", MainActivity.globalTaskList.get(index).getPriority()));
-//
-//            }
-//        }
-//    }
+        boolean updateCompleted = db.updateTable(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()),dueDate.getText().toString(), taskNotes.getText().toString(), 0, taskID, taskTime.getText().toString());
+
+        if(updateCompleted)
+        {
+            toast.show();
+        }
+        else
+        {
+            this.toast = Toast.makeText(mainActivity,"Task failed to save", Toast.LENGTH_LONG);
+            toast.show();
+        }
+        */
+    }
 }

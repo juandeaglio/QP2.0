@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CalendarView extends AppCompatActivity {
 
@@ -27,7 +28,6 @@ public class CalendarView extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         android.widget.CalendarView calendar = findViewById(R.id.calendarView);
-        populate();
         RecyclerView recyclerView = findViewById(R.id.task_recycler);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -43,18 +43,15 @@ public class CalendarView extends AppCompatActivity {
     }
 
     private void populate(){
-
-        //Using fall back constructor for fake data/testing
-        globalTaskList.add(new Task());
-        globalTaskList.add(new Task());
-        globalTaskList.add(new Task());
-        globalTaskList.add(new Task());
-        globalTaskList.add(new Task());
-        globalTaskList.add(new Task());
-        globalTaskList.add(new Task());
-        globalTaskList.add(new Task());
-        globalTaskList.add(new Task());
-
+        globalTaskList.add(new Task("Task 1","2/31/2019", 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 2","2/31/2019", 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 3","2/31/2019" , 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 4","2/31/2019" , 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 5","2/31/2019" , 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 6","2/31/2019" , 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 7","2/31/2019", 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 8","2/31/2019" , 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 9","2/31/2019" , 1, "nothing", 0));
     }
 
     private void updateRecyclerView(String date){

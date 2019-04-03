@@ -11,15 +11,17 @@ public class Task {
 
     private UUID taskId;
     private String taskName;
-    private Date dueDate;
-    //private Time timeDueDate;
+    private String dueDate;
+    private String timeDueDate;
     private Date dateAssigned = new Date();
     private int priority;
     private String description;
-    private int completed; //1 for yes, 0 for no
+    private short completed; //1 for yes, 0 for no
 
-    //Default constuctor
-    public Task(String taskName, Date  dueDate, int priority, String description, int completed) {
+    //Default constructor
+    public Task(String taskName, String  dueDate, int priority, String description, int completed)
+    {
+        this.taskId = UUID.randomUUID();
         this.taskName = taskName;
         this.dueDate = dueDate;
         this.priority = priority;
@@ -29,8 +31,10 @@ public class Task {
 
     //For prototype
     public Task() {
+        this.taskId = UUID.randomUUID();
         this.taskName = "";
-        this.dueDate = new Date();
+        //this.dueDate = new Date();
+        this.dueDate = "";
         //this.timeDueDate = null;
         this.priority = 0;
         this.description = "";
@@ -41,8 +45,8 @@ public class Task {
         return taskId;
     }
 
-    public void setTaskId() { //Generates a random uuid no need for a parameter when setting
-        this.taskId = UUID.randomUUID();
+    public void setTaskId(UUID newTaskID) { //Generates a random uuid no need for a parameter when setting
+        this.taskId = newTaskID;
     }
 
     public String getTaskName() {
@@ -54,10 +58,18 @@ public class Task {
     }
 
     //temporary: public Date getDueDate() {
-    public Date getDueDate() { return this.dueDate; }
+    public String getDueDate() { return this.dueDate; }
 
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public String getTimeDueDate() {
+        return this.timeDueDate;
+    }
+
+    public void setTimeDueDate(String timeDueDate) {
+        this.timeDueDate = timeDueDate;
     }
 
     public Date getDateAssigned() { return this.dateAssigned; }
@@ -78,7 +90,7 @@ public class Task {
 
     public int getCompleted() { return this.completed; }
 
-    public void setCompleted(int completed) { this.completed = completed; }
+    public void setCompleted(short completed) { this.completed = completed; }
 
     public void setDescription(String description) {
         this.description = description;
@@ -87,6 +99,7 @@ public class Task {
     @Override
     public String toString() {
         return "Task{" +
+                "taskID='" + taskId + '\'' +
                 "taskName='" + taskName + '\'' +
                 ", dueDate=" + dueDate.toString() + '\'' +
                 ", priority=" + priority + '\'' +
@@ -94,4 +107,10 @@ public class Task {
                 ", completed='" + completed + '\'' +
                 '}';
     }
+
+    public void getDescription(String string) {
+        this.description = string;
+    }
+
+
 }
