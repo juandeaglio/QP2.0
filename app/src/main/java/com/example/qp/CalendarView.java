@@ -43,15 +43,15 @@ public class CalendarView extends AppCompatActivity {
     }
 
     private void populate(){
-        globalTaskList.add(new Task("Task 1","2/31/2019", 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 2","2/31/2019", 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 3","2/31/2019" , 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 4","2/31/2019" , 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 5","2/31/2019" , 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 6","2/31/2019" , 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 7","2/31/2019", 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 8","2/31/2019" , 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 9","2/31/2019" , 1, "nothing", 0));
+        globalTaskList.add(new Task("Task 1","2/31/2019", 1, "nothing", 0, "12:00:00"));
+        globalTaskList.add(new Task("Task 2","2/31/2019", 1, "nothing", 0, "12:00:00"));
+        globalTaskList.add(new Task("Task 3","2/31/2019" , 1, "nothing", 0, "12:00:00"));
+        globalTaskList.add(new Task("Task 4","2/31/2019" , 1, "nothing", 0, "12:00:00"));
+        globalTaskList.add(new Task("Task 5","2/31/2019" , 1, "nothing", 0, "12:00:00"));
+        globalTaskList.add(new Task("Task 6","2/31/2019" , 1, "nothing", 0, "12:00:00"));
+        globalTaskList.add(new Task("Task 7","2/31/2019", 1, "nothing", 0, "12:00:00"));
+        globalTaskList.add(new Task("Task 8","2/31/2019" , 1, "nothing", 0, "12:00:00"));
+        globalTaskList.add(new Task("Task 9","2/31/2019" , 1, "nothing", 0, "12:00:00"));
     }
 
     private void updateRecyclerView(String date){

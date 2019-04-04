@@ -6,6 +6,7 @@
     </shared>
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="869fe29b-4afe-41d8-9491-43c76102c477" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.1/fileHashes/fileHashes.lock" afterDir="false" />
@@ -23,6 +24,9 @@
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/qp/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/qp/MainActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/qp/TaskCardRecyclerAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/qp/TaskCardRecyclerAdapter.java" afterDir="false" />
     </list>
+=======
+    <list default="true" id="869fe29b-4afe-41d8-9491-43c76102c477" name="Default Changelist" comment="" />
+>>>>>>> 4cc2da162a2af375fe1674089e36e6fe32aa2bc8
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -94,25 +98,43 @@
     <session id="-910223882">
       <usages-collector id="statistics.file.extensions.open">
         <counts>
+<<<<<<< HEAD
           <entry key="java" value="16" />
           <entry key="xml" value="5" />
+=======
+          <entry key="java" value="3" />
+          <entry key="xml" value="4" />
+>>>>>>> 4cc2da162a2af375fe1674089e36e6fe32aa2bc8
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
+<<<<<<< HEAD
           <entry key="JAVA" value="16" />
           <entry key="XML" value="5" />
+=======
+          <entry key="JAVA" value="3" />
+          <entry key="XML" value="4" />
+>>>>>>> 4cc2da162a2af375fe1674089e36e6fe32aa2bc8
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
+<<<<<<< HEAD
           <entry key="java" value="569" />
+=======
+          <entry key="java" value="218" />
+>>>>>>> 4cc2da162a2af375fe1674089e36e6fe32aa2bc8
           <entry key="xml" value="119" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
+<<<<<<< HEAD
           <entry key="JAVA" value="569" />
+=======
+          <entry key="JAVA" value="218" />
+>>>>>>> 4cc2da162a2af375fe1674089e36e6fe32aa2bc8
           <entry key="XML" value="119" />
         </counts>
       </usages-collector>
@@ -129,6 +151,28 @@
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_view_task.xml">
+<<<<<<< HEAD
+=======
+          <provider editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="16" column="27" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
+            </state>
+          </provider>
+          <provider selected="true" editor-type-id="android-designer2" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/qp/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="83" selection-start-line="83" selection-end-line="83" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_create_task.xml">
+>>>>>>> 4cc2da162a2af375fe1674089e36e6fe32aa2bc8
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="272">
               <caret line="16" column="27" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
@@ -138,6 +182,7 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/qp/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="600">
@@ -146,6 +191,22 @@
                 <element signature="e#5638#5639#0" expanded="true" />
                 <element signature="e#5677#5678#0" expanded="true" />
               </folding>
+=======
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_view_task.xml">
+          <provider editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="22" column="4" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="4" />
+            </state>
+          </provider>
+          <provider selected="true" editor-type-id="android-designer2" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/qp/CreateTask.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="125" column="55" selection-start-line="125" selection-start-column="55" selection-end-line="125" selection-end-column="55" />
+>>>>>>> 4cc2da162a2af375fe1674089e36e6fe32aa2bc8
             </state>
           </provider>
         </entry>
@@ -2449,8 +2510,11 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_create_task.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/content_view_task.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/DatabaseHelper.java" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/qp/TaskCardRecyclerAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/content_main.xml" />
+=======
+>>>>>>> 4cc2da162a2af375fe1674089e36e6fe32aa2bc8
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/qp/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/qp/CreateTask.java" />
       </list>
@@ -2736,9 +2800,15 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/qp/MainActivity.java</url>
+<<<<<<< HEAD
           <line>118</line>
           <properties class="com.example.qp.MainActivity" method="populateArrayList" />
           <option name="timeStamp" value="25" />
+=======
+          <line>82</line>
+          <properties />
+          <option name="timeStamp" value="16" />
+>>>>>>> 4cc2da162a2af375fe1674089e36e6fe32aa2bc8
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -2854,6 +2924,7 @@
       </provider>
       <provider editor-type-id="android-designer2" />
     </entry>
+<<<<<<< HEAD
     <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/sources/android-28/android/app/Activity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="141">
@@ -2879,12 +2950,16 @@
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/sources/android-28/android/app/servertransaction/LaunchActivityItem.java">
+=======
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/DatabaseHelper.java">
+>>>>>>> 4cc2da162a2af375fe1674089e36e6fe32aa2bc8
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="149">
           <caret line="78" selection-start-line="78" selection-end-line="78" />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/sources/android-28/android/app/servertransaction/TransactionExecutor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="141">
@@ -2903,11 +2978,25 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2325">
           <caret line="195" column="36" lean-forward="true" selection-start-line="195" selection-start-column="36" selection-end-line="195" selection-end-column="36" />
+=======
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/qp/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="83" selection-start-line="83" selection-end-line="83" />
+>>>>>>> 4cc2da162a2af375fe1674089e36e6fe32aa2bc8
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/qp/MainActivity.java">
+    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/sources/android-28/android/app/ActivityThread.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="302">
+          <caret line="2913" column="13" lean-forward="true" selection-start-line="2913" selection-start-column="13" selection-end-line="2913" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/qp/CreateTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="600">
           <caret line="86" selection-start-line="86" selection-end-line="86" />
           <folding>
@@ -2921,6 +3010,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="141">
           <caret line="53" column="16" selection-start-line="53" selection-start-column="16" selection-end-line="53" selection-end-column="16" />
+=======
+        <state relative-caret-position="51">
+          <caret line="125" column="55" selection-start-line="125" selection-start-column="55" selection-end-line="125" selection-end-column="55" />
+>>>>>>> 4cc2da162a2af375fe1674089e36e6fe32aa2bc8
         </state>
       </provider>
     </entry>

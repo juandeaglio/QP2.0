@@ -19,11 +19,12 @@ public class Task {
     private short completed; //1 for yes, 0 for no
 
     //Default constructor
-    public Task(String taskName, String  dueDate, int priority, String description, int completed)
+    public Task(String taskName, String  dueDate, int priority, String description, int completed, String dueTime)
     {
         this.taskId = UUID.randomUUID();
         this.taskName = taskName;
         this.dueDate = dueDate;
+        this.timeDueDate = dueTime;
         this.priority = priority;
         this.description = description;
         this.completed = 0;
@@ -33,12 +34,11 @@ public class Task {
     public Task() {
         this.taskId = UUID.randomUUID();
         this.taskName = "";
-        //this.dueDate = new Date();
         this.dueDate = "";
-        //this.timeDueDate = null;
         this.priority = 0;
         this.description = "";
         this.completed = 0;
+        this.timeDueDate = "";
     }
 
     public UUID getTaskId() {
