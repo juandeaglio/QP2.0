@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,13 +44,17 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_task);
 
+//        TextInputLayout inputTaskName = findViewById(R.id.input_task_name);
+//        TextInputLayout inputTaskPriority = findViewById(R.id.input_task_priority);
+//        TextInputLayout inputTaskDescription = findViewById(R.id.input_task_description);
+
+
+
+        this.toast = Toast.makeText(this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
         this.dueDate = findViewById(R.id.taskDueDate);
-
-
         Button saveTaskBtn = findViewById(R.id.saveTaskButton);
         Button cancelButton = findViewById(R.id.cancelButton);
 
-        this.toast = Toast.makeText(this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
 
         saveTaskBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,28 +127,32 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
         this.taskTime = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
     }
 
-    public void populateArrayList(String sortBy, String orderBy){
-        //TODO: Check if arraylist is null here - Ethan
-        MainActivity.globalTaskList.clear();
-        Cursor cursor = db.sortTable("Task_Priority", "asc");
 
-        if(cursor.moveToFirst()){
-            do {
-                //MainActivity.globalTaskList.add();
-                Task newTask  = new Task();
-                newTask.setTaskName(cursor.getString(0)); //Task Name
-                newTask.setDueDate(cursor.getString(1)); // Due Date
-                newTask.setPriority(cursor.getInt(2)); //Priority
-                newTask.setDescription(cursor.getString(3)); //Description
-                newTask.setCompleted(cursor.getShort(4)); //Is Completed: 1 = yes; 2 = no
-                newTask.setTaskId(UUID.fromString(cursor.getString(5))); // Check this method in Task class. Generates a random UUID through Java
-                newTask.setTimeDueDate(cursor.getString(6));
-                MainActivity.globalTaskList.add(newTask); //Adds it to the global array list
-            }while (cursor.moveToNext());
+    /*
+    * This function will not reside in MainActivity class
+    * */
 
-        }
-
-    }
+//    public void populateArrayList(String sortBy, String orderBy, SQLiteDatabase taskDB){
+//        MainActivity.globalTaskList.clear();
+//        Cursor cursor = db.sortTable("Task_Priority", "asc");
+//
+//        if(cursor.moveToFirst()){
+//            do {
+//                //MainActivity.globalTaskList.add();
+//                Task newTask  = new Task();
+//                newTask.setTaskName(cursor.getString(0)); //Task Name
+//                newTask.setDueDate(cursor.getString(1)); // Due Date
+//                newTask.setPriority(cursor.getInt(2)); //Priority
+//                newTask.setDescription(cursor.getString(3)); //Description
+//                newTask.setCompleted(cursor.getShort(4)); //Is Completed: 1 = yes; 2 = no
+//                newTask.setTaskId(UUID.fromString(cursor.getString(5))); // Check this method in Task class. Generates a random UUID through Java
+//                newTask.setTimeDueDate(cursor.getString(6));
+//                MainActivity.globalTaskList.add(newTask); //Adds it to the global array list
+//            }while (cursor.moveToNext());
+//
+//        }
+//
+//    }
 
 
     public void saveTask(){
@@ -168,8 +177,8 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 
         boolean saveCompleted = db.insertData(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()),this.taskDueDateValue, taskNotes.getText().toString(), 0, taskID, this.taskTime);
 
-        if(saveCompleted == true){
-            populateArrayList("Task_Priority", "asc");
+        if(!saveCompleted){
+            mainActivity.populateArrayList();
             toast.show();
         }
         else {
