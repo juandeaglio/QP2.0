@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static ArrayList<Task> globalCompletedTaskList = new ArrayList<>();
     public Intent myIntent;
     DatabaseHelper db = new DatabaseHelper(this);
+    SQLiteDatabase taskDB;
     private CreateTask createTask;
     //private DatabaseHelper mDB;
     private Toast toast = null;
@@ -80,8 +81,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         databasesize = cursorSize;
         */
         //populate();
-        createTask = new CreateTask();
-        createTask.populateArrayList("Task_Priority", "asc");
+        //createTask = new CreateTask();
+        populateArrayList("Task_Priority", "asc");
         TaskCardRecyclerAdapter adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
         RecyclerView taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -89,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         taskRecycler.setAdapter(adapter);
 
     }
+
+
 
     //TODO: code dynamically - Ant
 //    private void populate()
@@ -112,12 +115,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        globalTaskList.add(new Task("Task 9", "2/31/2019", 1, "nothing", 0));
 //    }
 
+
+
+    public void populateArrayList(String sortBy, String orderBy){
+        //TODO: Check if arraylist is null here - Ethan
+        MainActivity.globalTaskList.clear();
+        Cursor cursor = db.sortTable("Task_Priority", "asc");
+
+        if(cursor.moveToFirst()){
+            do {
+                //MainActivity.globalTaskList.add();
+                Task newTask  = new Task();
+                newTask.setTaskName(cursor.getString(0)); //Task Name
+                newTask.setDueDate(cursor.getString(1)); // Due Date
+                newTask.setPriority(cursor.getInt(2)); //Priority
+                newTask.setDescription(cursor.getString(3)); //Description
+                newTask.setCompleted(cursor.getShort(4)); //Is Completed: 1 = yes; 2 = no
+                newTask.setTaskId(UUID.fromString(cursor.getString(5))); // Check this method in Task class. Generates a random UUID through Java
+                newTask.setTimeDueDate(cursor.getString(6));
+                MainActivity.globalTaskList.add(newTask); //Adds it to the global array list
+            }while (cursor.moveToNext());
+
+        }
+
+    }
     //TODO: check this works - Ant
     public void openViewTaskActivity(UUID taskID) {
-
         startActivity(myIntent);
-
-
     }
     //TODO: Ant
 //    public void completeTask(View view) {

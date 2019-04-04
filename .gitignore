@@ -12,3 +12,6 @@ build/*
 app/build/*
 app/build/
 .DS_Store
+*.bin
+app/src/main/java/com/example/qp/.DS_Store
+

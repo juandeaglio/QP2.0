@@ -24,16 +24,15 @@
         android:layout_height="60dp"
         android:layout_marginEnd="44dp"
         android:layout_marginRight="44dp"
-        android:layout_marginBottom="84dp"
+        android:layout_marginBottom="40dp"
         android:clickable="true"
         app:backgroundTint="#FFA55B"
+        app:fabCustomSize="60dp"
         app:fabSize="auto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:rippleColor="#FFA55B"
         app:maxImageSize="50dp"
-        app:srcCompat="@android:drawable/ic_input_add"
-        app:fabCustomSize="60dp"
-        />
+        app:rippleColor="#FFA55B"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
 </android.support.constraint.ConstraintLayout>
