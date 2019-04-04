@@ -91,26 +91,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     //TODO: code dynamically - Ant
-    private void populate()
-    {
-        /*
-        Task currentTask;
-        for(int i = 0; i < databasesize; i++)
-        {
-            currentTask = new Task(retrievedData.getString(0), retrievedData.getString(1)
-                    , retrievedData.getInt(2), retrievedData.getString(3), retrievedData.getInt(4));
-            globalTaskList.add(currentTask);
-        }*/
-        globalTaskList.add(new Task("Task 1", "2/31/2019", 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 2", "2/31/2019", 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 3", "2/31/2019", 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 4", "2/31/2019", 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 5", "2/31/2019", 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 6", "2/31/2019", 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 7", "2/31/2019", 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 8", "2/31/2019", 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 9", "2/31/2019", 1, "nothing", 0));
-    }
+//    private void populate()
+//    {
+//        /*
+//        Task currentTask;
+//        for(int i = 0; i < databasesize; i++)
+//        {
+//            currentTask = new Task(retrievedData.getString(0), retrievedData.getString(1)
+//                    , retrievedData.getInt(2), retrievedData.getString(3), retrievedData.getInt(4));
+//            globalTaskList.add(currentTask);
+//        }*/
+//        globalTaskList.add(new Task("Task 1", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 2", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 3", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 4", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 5", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 6", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 7", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 8", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 9", "2/31/2019", 1, "nothing", 0));
+//    }
 
     //TODO: check this works - Ant
     public void openViewTaskActivity(UUID taskID) {
@@ -120,15 +120,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
     //TODO: Ant
-    public void completeTask(View view) {
-        if (db.markTaskCompleted(globalTaskList.get(0).getTaskId().toString())) {
-            this.toast = Toast.makeText(this, "Task Marked Completed", Toast.LENGTH_SHORT);
-            toast.show();
-        } else {
-            this.toast = Toast.makeText(this, "Error", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-    }
+//    public void completeTask(View view) {
+//        if (db.markTaskCompleted(globalTaskList.get(0).getTaskId().toString())) {
+//            this.toast = Toast.makeText(this, "Task Marked Completed", Toast.LENGTH_SHORT);
+//            toast.show();
+//        } else {
+//            this.toast = Toast.makeText(this, "Error", Toast.LENGTH_SHORT);
+//            toast.show();
+//        }
+//    }
 
     //TODO: refactor this code
 

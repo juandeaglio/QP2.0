@@ -17,6 +17,12 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
     private ArrayList<Task> taskList;
     private Context context;
 
+    public TaskCardRecyclerAdapter(ArrayList<Task> globalTaskList, MainActivity context) {
+        this.taskList = globalTaskList;
+        this.context = context;
+
+    }
+
     public class TaskCardViewHolder extends RecyclerView.ViewHolder {
         CardView taskCard;
         TextView taskName;
@@ -50,7 +56,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
     @Override
     public void onBindViewHolder(TaskCardViewHolder taskCardViewHolder, int i)
     {
-        Task task = taskList.get(i);
+        Task task = this.taskList.get(i);
         final String taskID = taskList.get(i).getTaskId().toString();
         taskCardViewHolder.taskName.setText(task.getTaskName());
         taskCardViewHolder.priority.setText(Integer.toString(task.getPriority()));
