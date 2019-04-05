@@ -52,21 +52,26 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 
         this.toast = Toast.makeText(this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
         this.dueDate = findViewById(R.id.taskDueDate);
-        Button saveTaskBtn = findViewById(R.id.saveTaskButton);
         Button cancelButton = findViewById(R.id.cancelButton);
 
 
-        saveTaskBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Task taskToSave = new Task();
-                saveTask();
-                //goBackToHomepage();
-            }
-
-
-
-        });
+//        saveTaskBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+////            public void onClick(View v) {
+////                //Task taskToSave = new Task();
+////                if(saveTask()){
+////                    toast.show();
+////                }
+////                else {
+////                    toast = Toast.makeText(mainActivity,"Task failed to save", Toast.LENGTH_LONG);
+////                    toast.show();
+////                }
+////                //goBackToHomepage();
+////            }
+//
+//
+//
+//        });
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +125,18 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 
     }
 
+
+    public void SaveNewTask(View view)  {
+        if(saveTask()){
+            toast.show();
+            goBackToHomepage();
+        }
+        else {
+            toast = Toast.makeText(mainActivity,"Task failed to save", Toast.LENGTH_LONG);
+            toast.show();
+        }
+    }
+
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         TextView taskTime = (TextView) findViewById(R.id.taskTime);
@@ -155,7 +172,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 //    }
 
 
-    public void saveTask(){
+    public boolean saveTask(){
         //Saves task in array list
         //mainActivity.globalTaskList.add(newTask);
         //Task newTask = new Task();
@@ -177,14 +194,12 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 
         boolean saveCompleted = db.insertData(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()),this.taskDueDateValue, taskNotes.getText().toString(), 0, taskID, this.taskTime);
 
-        if(!saveCompleted){
-            mainActivity.populateArrayList();
-            toast.show();
+        if(saveCompleted){
+            return true;
         }
         else {
+            return false;
 
-            this.toast = Toast.makeText(mainActivity,"Task failed to save", Toast.LENGTH_LONG);
-            toast.show();
         }
     }
 

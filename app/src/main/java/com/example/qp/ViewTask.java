@@ -28,7 +28,7 @@ public class ViewTask extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_task);
         Intent myIntent = getIntent();
-
+        this.toast = Toast.makeText(this,"Task Successfuly Saved!", Toast.LENGTH_SHORT);
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
@@ -67,6 +67,11 @@ public class ViewTask extends AppCompatActivity {
     public void goHome(View view){
         startActivity(new Intent(this, MainActivity.class));
     }
+
+    public void returnToHome(){
+        startActivity(new Intent(this, MainActivity.class));
+
+    }
     //TODO: test this method - Ant
     public void displayTask(UUID taskID)
     {
@@ -97,25 +102,27 @@ public class ViewTask extends AppCompatActivity {
     {
         //TODO: fix crashing here - Ant
         //Edits task from array list
-        /*
+
         EditText taskName = (EditText) findViewById(R.id.viewTaskName);
         EditText priority = (EditText) findViewById(R.id.viewPriority);
         EditText taskNotes = (EditText) findViewById(R.id.viewDescription);
         //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
         EditText dueDate = (EditText) findViewById(R.id.viewDueDate);
-        TextView taskTime = findViewById(R.id.taskTime);
+        EditText taskTime = (EditText) findViewById(R.id.viewTime);
 
         boolean updateCompleted = db.updateTable(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()),dueDate.getText().toString(), taskNotes.getText().toString(), 0, taskID, taskTime.getText().toString());
 
         if(updateCompleted)
         {
             toast.show();
+            returnToHome();
+
         }
         else
         {
-            this.toast = Toast.makeText(mainActivity,"Task failed to save", Toast.LENGTH_LONG);
+            this.toast = Toast.makeText(this,"Task failed to save", Toast.LENGTH_LONG);
             toast.show();
         }
-        */
+
     }
 }

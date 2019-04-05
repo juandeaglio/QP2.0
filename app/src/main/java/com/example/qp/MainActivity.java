@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void populateArrayList(String sortBy, String orderBy){
         //TODO: Check if arraylist is null here - Ethan
         MainActivity.globalTaskList.clear();
-        Cursor cursor = db.sortTable("Task_Priority", "asc");
+        Cursor cursor = db.sortTable(sortBy, orderBy);
 
         if(cursor.moveToFirst()){
             do {
