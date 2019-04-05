@@ -11,7 +11,7 @@ app/build.gradle
 build/*
 app/build/*
 app/build/
-.DS_Store
+*.DS_Store
 *.bin
+*.pro
 app/src/main/java/com/example/qp/.DS_Store
-
