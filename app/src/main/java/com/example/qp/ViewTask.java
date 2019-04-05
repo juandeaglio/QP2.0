@@ -26,6 +26,7 @@ public class ViewTask extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_view_task);
         Intent myIntent = getIntent();
         this.toast = Toast.makeText(this,"Task Successfuly Saved!", Toast.LENGTH_SHORT);
