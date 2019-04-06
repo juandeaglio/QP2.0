@@ -53,7 +53,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         final Task task = taskList.get(i);
         taskCardViewHolder.taskName.setText(task.getTaskName());
         taskCardViewHolder.priority.setText(Integer.toString(task.getPriority()));
-        taskCardViewHolder.dueDate.setText(task.getDueDate());
+        taskCardViewHolder.dueDate.setText(dateCorrection(task.getDueDate()));
         taskCardViewHolder.taskCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,6 +62,16 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
                 context.startActivity(intent);
             }
         });
+    }
+
+    private String dateCorrection(String date)
+    {
+        String dateArr [];
+        dateArr = date.split("/");
+        int month = Integer.parseInt(dateArr[0]);
+        month++;
+        date = month + "/" + dateArr[1] + "/" + dateArr[2];
+        return date;
     }
 
     @Override

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/task_card"
     android:layout_margin="5dp"
-    app:cardBackgroundColor="#E6819CA9"
+    app:cardBackgroundColor="#ffffff"
     app:cardCornerRadius="12dp"
     app:cardElevation="3dp"
     app:contentPadding="4dp">
@@ -23,26 +23,33 @@
 
         <TextView
             android:id="@+id/card_task_name"
-            android:layout_width="match_parent"
+            android:layout_width="332dp"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/card_check_box"
-            android:layout_toRightOf="@id/card_check_box" />
+            android:layout_toRightOf="@id/card_check_box"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/card_priority"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/card_task_name"
-            android:layout_toEndOf="@id/card_check_box"
-            android:layout_toRightOf="@id/card_check_box" />
+            android:paddingLeft="5dp"
+            android:paddingStart="5dp"
+            android:paddingRight="5dp"
+            android:paddingEnd="5dp"
+            android:layout_above="@id/card_due_date"
+            android:layout_toEndOf="@id/card_task_name"
+            android:layout_toRightOf="@id/card_task_name"
+            android:textSize="15sp"/>
 
         <TextView
             android:id="@+id/card_due_date"
-            android:layout_width="match_parent"
+            android:layout_width="332dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/card_priority"
+            android:layout_below="@+id/card_task_name"
             android:layout_toEndOf="@id/card_check_box"
-            android:layout_toRightOf="@id/card_check_box" />
+            android:layout_toRightOf="@id/card_check_box"
+            android:textSize="15sp" />
     </RelativeLayout>
 
 
