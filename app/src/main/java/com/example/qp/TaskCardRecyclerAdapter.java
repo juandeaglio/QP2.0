@@ -63,8 +63,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
     @Override
     public void onBindViewHolder(TaskCardViewHolder taskCardViewHolder, int i)
     {
-        Task task = this.taskList.get(i);
-        final String taskID = taskList.get(i).getTaskId().toString();
+        final Task task = taskList.get(i);
         taskCardViewHolder.taskName.setText(task.getTaskName());
         if (task.getPriority() == RED)
         {
@@ -92,16 +91,25 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         }
 
         taskCardViewHolder.priority.setText(Integer.toString(task.getPriority()));
-        taskCardViewHolder.dueDate.setText(task.getDueDate());
+        taskCardViewHolder.dueDate.setText(dateCorrection(task.getDueDate()));
         taskCardViewHolder.taskCard.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                Intent myIntent = new Intent(context, ViewTask.class);
-                myIntent.putExtra("taskid", taskID);
-                context.startActivity(myIntent);
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ViewTask.class);
+                intent.putExtra("taskid", task.getTaskId().toString());
+                context.startActivity(intent);
             }
         });
+    }
+
+    private String dateCorrection(String date)
+    {
+        String dateArr [];
+        dateArr = date.split("/");
+        int month = Integer.parseInt(dateArr[0]);
+        month++;
+        date = month + "/" + dateArr[1] + "/" + dateArr[2];
+        return date;
     }
 
     @Override

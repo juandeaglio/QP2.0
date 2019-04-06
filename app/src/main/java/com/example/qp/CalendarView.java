@@ -18,9 +18,8 @@ import java.util.Date;
 
 public class CalendarView extends AppCompatActivity {
 
-    ArrayList<String>taskNames = new ArrayList<>();
-    ArrayList<Task>globalTaskList = new ArrayList<>();
-    RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, taskNames);
+    ArrayList<Task>sortedTaskList = new ArrayList<>();
+    TaskCardRecyclerAdapter adapter = new TaskCardRecyclerAdapter(sortedTaskList, this); //sortedTaskList is passed into adapter and any changes to sortedTaskList will changed array in the adapter. use updateSortedData to update screen elements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,9 +27,12 @@ public class CalendarView extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         android.widget.CalendarView calendar = findViewById(R.id.calendarView);
-        RecyclerView recyclerView = findViewById(R.id.task_recycler);
+
+        RecyclerView recyclerView = findViewById(R.id.calendar_recycler);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
         calendar.setOnDateChangeListener(new android.widget.CalendarView.OnDateChangeListener() {
             @Override
@@ -42,26 +44,15 @@ public class CalendarView extends AppCompatActivity {
 
     }
 
-    private void populate(){
-        globalTaskList.add(new Task("Task 1","2/31/2019", 1, "nothing", 0, "12:00:00"));
-        globalTaskList.add(new Task("Task 2","2/31/2019", 1, "nothing", 0, "12:00:00"));
-        globalTaskList.add(new Task("Task 3","2/31/2019" , 1, "nothing", 0, "12:00:00"));
-        globalTaskList.add(new Task("Task 4","2/31/2019" , 1, "nothing", 0, "12:00:00"));
-        globalTaskList.add(new Task("Task 5","2/31/2019" , 1, "nothing", 0, "12:00:00"));
-        globalTaskList.add(new Task("Task 6","2/31/2019" , 1, "nothing", 0, "12:00:00"));
-        globalTaskList.add(new Task("Task 7","2/31/2019", 1, "nothing", 0, "12:00:00"));
-        globalTaskList.add(new Task("Task 8","2/31/2019" , 1, "nothing", 0, "12:00:00"));
-        globalTaskList.add(new Task("Task 9","2/31/2019" , 1, "nothing", 0, "12:00:00"));
-    }
 
     private void updateRecyclerView(String date){
-        taskNames.clear();
-        for(int i=0; i < globalTaskList.size(); i++)
+        sortedTaskList.clear();
+        for(int i=0; i < MainActivity.globalTaskList.size(); i++)
         {
-            if(date.equals(globalTaskList.get(i).getDueDate()))
-                taskNames.add(globalTaskList.get(i).getTaskName());
+            if(date.equals(MainActivity.globalTaskList.get(i).getDueDate()))
+                sortedTaskList.add(MainActivity.globalTaskList.get(i));
         }
-        adapter.updateData(taskNames);
+       adapter.updateData();
     }
 
 }
