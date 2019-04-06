@@ -50,14 +50,16 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
     @Override
     public void onBindViewHolder(TaskCardViewHolder taskCardViewHolder, int i)
     {
-        Task task = taskList.get(i);
+        final Task task = taskList.get(i);
         taskCardViewHolder.taskName.setText(task.getTaskName());
         taskCardViewHolder.priority.setText(Integer.toString(task.getPriority()));
         taskCardViewHolder.dueDate.setText(task.getDueDate());
         taskCardViewHolder.taskCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, ViewTask.class));
+                Intent intent = new Intent(context, ViewTask.class);
+                intent.putExtra("taskid", task.getTaskId().toString());
+                context.startActivity(intent);
             }
         });
     }
