@@ -12,16 +12,19 @@ public class Task {
     private UUID taskId;
     private String taskName;
     private String dueDate;
-    //private Time timeDueDate;
+    private String timeDueDate;
     private Date dateAssigned = new Date();
     private int priority;
     private String description;
     private short completed; //1 for yes, 0 for no
 
     //Default constructor
-    public Task(String taskName, String  dueDate, int priority, String description, int completed) {
+    public Task(String taskName, String  dueDate, int priority, String description, int completed, String dueTime)
+    {
+        this.taskId = UUID.randomUUID();
         this.taskName = taskName;
         this.dueDate = dueDate;
+        this.timeDueDate = dueTime;
         this.priority = priority;
         this.description = description;
         this.completed = 0;
@@ -29,13 +32,13 @@ public class Task {
 
     //For prototype
     public Task() {
+        this.taskId = UUID.randomUUID();
         this.taskName = "";
-        //this.dueDate = new Date();
         this.dueDate = "";
-        //this.timeDueDate = null;
         this.priority = 0;
         this.description = "";
         this.completed = 0;
+        this.timeDueDate = "";
     }
 
     public UUID getTaskId() {
@@ -59,6 +62,14 @@ public class Task {
 
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public String getTimeDueDate() {
+        return this.timeDueDate;
+    }
+
+    public void setTimeDueDate(String timeDueDate) {
+        this.timeDueDate = timeDueDate;
     }
 
     public Date getDateAssigned() { return this.dateAssigned; }
@@ -88,6 +99,7 @@ public class Task {
     @Override
     public String toString() {
         return "Task{" +
+                "taskID='" + taskId + '\'' +
                 "taskName='" + taskName + '\'' +
                 ", dueDate=" + dueDate.toString() + '\'' +
                 ", priority=" + priority + '\'' +

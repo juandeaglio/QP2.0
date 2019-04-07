@@ -1,6 +1,7 @@
 package com.example.qp;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -28,28 +29,26 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
-
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener  {
 
     public static ArrayList<Task> globalTaskList = new ArrayList<>();
     public static ArrayList<Task> globalCompletedTaskList = new ArrayList<>();
     public Intent myIntent;
-
-    //Class variables
-    private DatabaseHelper mDB;
+    DatabaseHelper db = new DatabaseHelper(this);
+    SQLiteDatabase taskDB;
+    private CreateTask createTask;
+    //private DatabaseHelper mDB;
     private Toast toast = null;
 
     //Database Variables
 
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -62,15 +61,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        FloatingActionButton fab =  findViewById(R.id.createTaskBtn);
-        fab.setOnClickListener(new View.OnClickListener()
-        {
+        FloatingActionButton fab = findViewById(R.id.createTaskBtn);
+        fab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 openCreateTaskActivity(view);
             }
         });
-
-        populate();
+        //TODO: populate arrayList w/ database entries - Ant
+/*
+        int cursorSize = 0;
+        if(retrievedData.moveToFirst())
+        {
+            cursorSize = 1;
+            while(retrievedData.moveToNext())
+            {
+                cursorSize++;
+            }
+        }
+        databasesize = cursorSize;
+        */
+        //populate();
+        //createTask = new CreateTask();
+        populateArrayList("Task_Priority", "asc");
         TaskCardRecyclerAdapter adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
         RecyclerView taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -80,135 +92,77 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    private void populate(){
-        globalTaskList.add(new Task("Task 1","2/31/2019", 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 2","2/31/2019", 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 3","2/31/2019" , 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 4","2/31/2019" , 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 5","2/31/2019" , 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 6","2/31/2019" , 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 7","2/31/2019", 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 8","2/31/2019" , 1, "nothing", 0));
-        globalTaskList.add(new Task("Task 9","2/31/2019" , 1, "nothing", 0));
+
+    //TODO: code dynamically - Ant
+//    private void populate()
+//    {
+//        /*
+//        Task currentTask;
+//        for(int i = 0; i < databasesize; i++)
+//        {
+//            currentTask = new Task(retrievedData.getString(0), retrievedData.getString(1)
+//                    , retrievedData.getInt(2), retrievedData.getString(3), retrievedData.getInt(4));
+//            globalTaskList.add(currentTask);
+//        }*/
+//        globalTaskList.add(new Task("Task 1", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 2", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 3", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 4", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 5", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 6", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 7", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 8", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 9", "2/31/2019", 1, "nothing", 0));
+//    }
+
+
+
+    public void populateArrayList(String sortBy, String orderBy){
+        //TODO: Check if arraylist is null here - Ethan
+        MainActivity.globalTaskList.clear();
+        Cursor cursor = db.sortTable(sortBy, orderBy);
+
+        if(cursor.moveToFirst()){
+            do {
+                //MainActivity.globalTaskList.add();
+                Task newTask  = new Task();
+                newTask.setTaskName(cursor.getString(0)); //Task Name
+                newTask.setDueDate(cursor.getString(1)); // Due Date
+                newTask.setPriority(cursor.getInt(2)); //Priority
+                newTask.setDescription(cursor.getString(3)); //Description
+                newTask.setCompleted(cursor.getShort(4)); //Is Completed: 1 = yes; 2 = no
+                newTask.setTaskId(UUID.fromString(cursor.getString(5))); // Check this method in Task class. Generates a random UUID through Java
+                newTask.setTimeDueDate(cursor.getString(6));
+                MainActivity.globalTaskList.add(newTask); //Adds it to the global array list
+            }while (cursor.moveToNext());
+
+        }
+
     }
+    //TODO: check this works - Ant
     public void openViewTaskActivity(UUID taskID) {
-        myIntent = new Intent(MainActivity.this, ViewTask.class);
-        myIntent.putExtra("taskid", taskID);
         startActivity(myIntent);
     }
-
-    public void completeTask(View view){
-        if(mDB.markTaskCompleted(globalTaskList.get(0).getTaskId().toString())){
-            this.toast = Toast.makeText(this, "Task Marked Completed", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-        else {
-            this.toast = Toast.makeText(this, "Error", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-    }
+    //TODO: Ant
+//    public void completeTask(View view) {
+//        if (db.markTaskCompleted(globalTaskList.get(0).getTaskId().toString())) {
+//            this.toast = Toast.makeText(this, "Task Marked Completed", Toast.LENGTH_SHORT);
+//            toast.show();
+//        } else {
+//            this.toast = Toast.makeText(this, "Error", Toast.LENGTH_SHORT);
+//            toast.show();
+//        }
+//    }
 
     //TODO: refactor this code
-    // Sorting home page cards
-//    public ArrayList<Task> sortCards(int mode)
-//    {
-//        ArrayList<Task> copyGlobalArray = globalTaskList;
-//        ArrayList<Task> sortedArrList = new ArrayList<Task>();
-//        if(!globalTaskList.isEmpty())
-//        {
-//            Task currentTask = globalTaskList.get(0);
-//            Task temp = new Task();
-//            int index = 0;
-//            switch(mode)
-//            {
-//                // "Name" sorting mode
-//                //TODO: check this for loop, possibly needs to be a while loop?
-//                //TODO: verify this sorts correctly
-//                //"dueDate" sorting mode
-//                case 0:
-//                    // a sorted Array, continues until whole array is iterated through.
-//                    for(int i = 0; i < copyGlobalArray.size(); i++)
-//                    {
-//                        for(int j = 0; j < copyGlobalArray.size(); j++)
-//                        {
-//                            temp = copyGlobalArray.get(j);
-//                            if(currentTask.getDueDate().compareTo(temp.getDueDate()) > 0)
-//                            {
-//                                currentTask = temp;
-//                                index = j;
-//                            }
-//                            else if(currentTask.getDueDate().compareTo(temp.getDueDate()) == 0)
-//                            {
-//
-//                                if(currentTask.getPriority() < temp.getPriority())
-//                                {
-//                                    currentTask = temp;
-//                                    index = j;
-//                                }
-//                            }
-//                        }
-//                        copyGlobalArray.remove(index);
-//                        sortedArrList.add(temp);
-//                    }
-//                    break;
-//
-//                //"priority" sorting mode
-//                case 1:
-//                    // a sorted Array, continues until whole array is iterated through.
-//                    for(int i = 0; i < copyGlobalArray.size(); i++)
-//                    {
-//                        for(int j = 0; j < copyGlobalArray.size(); j++)
-//                        {
-//                            temp = copyGlobalArray.get(j);
-//                            if(currentTask.getPriority() < temp.getPriority())
-//                            {
-//                                currentTask = temp;
-//                                index = j;
-//                            }
-//                            else if (currentTask.getPriority() == temp.getPriority())
-//                            {
-//                                if (currentTask.getDueDate().compareTo(temp.getDueDate()) > 0)
-//                                {
-//                                    currentTask = temp;
-//                                    index = j;
-//                                }
-//                            }
-//                        }
-//                        copyGlobalArray.remove(index);
-//                        sortedArrList.add(temp);
-//                    }
-//                    break;
-//
-//                //"Name" sorting mode (on startup of application)
-//                case 2:
-//                default:
-//                    // search through global task array, finds the first in alphabetical order adds to
-//                    // a sorted Array, continues until whole array is iterated through.
-//                    for(int i = 0; i < copyGlobalArray.size(); i++)
-//                    {
-//                        for(int j = 0; j < copyGlobalArray.size(); j++)
-//                        {
-//                            temp = copyGlobalArray.get(j);
-//                            if(currentTask.getTaskName().compareTo(temp.getTaskName()) > 0)
-//                            {
-//                                currentTask = temp;
-//                                index = j;
-//                            }
-//                        }
-//                        copyGlobalArray.remove(index);
-//                        sortedArrList.add(temp);
-//                    }
-//                    break;
-//            }
-//
-//        }
-//        return sortedArrList;
-//
-//    }
-    public void openViewTask(){
+
+    public void openViewTask() {
         startActivity(new Intent(this, ViewTask.class));
     }
 
+    public void openReminderActivity() {
+        startActivity(new Intent(this, Reminder.class));
+    }
 
     public void openCalendarViewActivity() {
         startActivity(new Intent(MainActivity.this, CalendarView.class));
@@ -264,7 +218,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_calendar) {
             openCalendarView();
 
-
         } else if (id == R.id.nav_completed_tasks) {
             openCompletedTasks();
 
@@ -273,6 +226,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     "Implement me",
                     Toast.LENGTH_SHORT);
             toast.show();
+
+
+        } else if (id == R.id.nav_reminder) {
+            openReminderActivity();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
