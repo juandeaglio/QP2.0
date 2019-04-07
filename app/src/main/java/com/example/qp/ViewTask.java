@@ -43,6 +43,14 @@ public class ViewTask extends AppCompatActivity {
                 saveTask(taskID);
             }
         });
+
+        Button deleteTask = findViewById(R.id.deleteViewTask);
+        deleteTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteTask(taskID);
+            }
+        });
     }
 
 //    protected void onResume() {
@@ -124,6 +132,12 @@ public class ViewTask extends AppCompatActivity {
             this.toast = Toast.makeText(this,"Task failed to save", Toast.LENGTH_LONG);
             toast.show();
         }
+    }
 
+    public void deleteTask(UUID taskID)
+    {
+        //deletes the task from the arrayList and database
+        //this should be a return to previous screen since viewTask may be accessed from multiple places not just homepage.
+        returnToHome();
     }
 }
