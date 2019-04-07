@@ -26,6 +26,7 @@
     <string name="repeat_no">Repetition Interval </string>
     <string name="repeat_type">Type of Repetitions</string>
     <string name="title">Title</string>
+    <string name="channel_description">desc</string>
 
     <string name="hint_name">Full Name</string>
     <string name="hint_email">Email</string>

@@ -1,31 +1,40 @@
 package com.example.qp;
+
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
 
 
-public class Reminder extends AppCompatActivity
-{
-
+public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+    Calendar mCalendar = Calendar.getInstance();
     private EditText mTitleText;
     private TextView mDateText, mTimeText, mRepeatText, mRepeatNoText, mRepeatTypeText;
-    private FloatingActionButton mFAB1;
-    private FloatingActionButton mFAB2;
-    private Calendar mCalendar;
+    private FloatingActionButton mSaveButton;
+
     private int mYear, mMonth, mHour, mMinute, mDay;
     private long mRepeatTime;
     private Switch mRepeatSwitch;
@@ -36,6 +45,12 @@ public class Reminder extends AppCompatActivity
     private String mRepeatNo;
     private String mRepeatType;
     private String mActive;
+    private Toast toast;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+
+    public Reminder() {
+    }
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +63,7 @@ public class Reminder extends AppCompatActivity
         mRepeatNoText = (TextView) findViewById(R.id.set_repeat_no);
         mRepeatTypeText = (TextView) findViewById(R.id.set_repeat_type);
         mRepeatSwitch = (Switch) findViewById(R.id.repeat_switch);
+        mSaveButton = (FloatingActionButton) findViewById(R.id.floatingActionButtonSave);
 
         // Initialize default values
         mActive = "true";
@@ -55,21 +71,42 @@ public class Reminder extends AppCompatActivity
         mRepeatNo = Integer.toString(1);
         mRepeatType = "Hour";
 
-        mCalendar = Calendar.getInstance();
         mHour = mCalendar.get(Calendar.HOUR_OF_DAY);
         mMinute = mCalendar.get(Calendar.MINUTE);
         mYear = mCalendar.get(Calendar.YEAR);
         mMonth = mCalendar.get(Calendar.MONTH) + 1;
         mDay = mCalendar.get(Calendar.DATE);
 
-        mDate = mDay + "/" + mMonth + "/" + mYear;
+        mDate = mMonth + "/" + mDay + "/" + mYear;
         mTime = mHour + ":" + mMinute;
+        this.mDateText.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                int year = mCalendar.get(Calendar.YEAR);
+                int month = mCalendar.get(Calendar.MONTH);
+                int day = mCalendar.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(Reminder.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, mDateSetListener, year, month, day);
+
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+
+            }
+        });
+
+        this.mSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveReminder();
+            }
+        });
         // Setup Reminder Title EditText
         mTitleText.addTextChangedListener(new TextWatcher() {
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -78,7 +115,8 @@ public class Reminder extends AppCompatActivity
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
 
         // Setup TextViews using reminder values
@@ -88,6 +126,62 @@ public class Reminder extends AppCompatActivity
         mRepeatTypeText.setText(mRepeatType);
         mRepeatText.setText("Every " + mRepeatNo + " " + mRepeatType + "(s)");
 
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                mDate = (month + 1) + "/" + dayOfMonth + "/" + year;
+                mCalendar.set(year, month + 1, dayOfMonth);
+                mDateText.setText(mDate);
+
+            }
+        };
+
+
+    }
+
+
+    public void setDate(View view) {
+        int year = mCalendar.get(Calendar.YEAR);
+        int month = mCalendar.get(Calendar.MONTH);
+        int day = mCalendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dialog = new DatePickerDialog(Reminder.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, mDateSetListener, year, month, day);
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
+
+    public void setTime(View view) {
+        DialogFragment timePicker = new TimePickerFragment();
+        timePicker.show(getSupportFragmentManager(), "time picker");
+    }
+
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        mTimeText = (TextView) findViewById(R.id.set_time);
+        mCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        mCalendar.set(Calendar.MINUTE, minute);
+        mCalendar.set(Calendar.SECOND, 0);
+        mTime = hourOfDay + ":" + minute;
+        mTimeText.setText(mTime);
+    }
+    public void goBackToHomepage(){
+        startActivity(new Intent(Reminder.this, MainActivity.class));
+    }
+    public void saveReminder()
+    {
+        Intent intent1 = new Intent(Reminder.this, BroadCastService.class);
+        intent1.putExtra("Task Name",mTitle);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(Reminder.this, 0,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager am = (AlarmManager) Reminder.this.getSystemService(Reminder.this.ALARM_SERVICE);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        this.toast = Toast.makeText(this, "Reminder Successfully Saved!", Toast.LENGTH_SHORT);
+        toast.show();
+        goBackToHomepage();
+
+        // Database stuff
     }
 
     public void onSwitchRepeat(View view) {
@@ -101,7 +195,7 @@ public class Reminder extends AppCompatActivity
         }
     }
 
-    public void selectRepeatType(View v){
+    public void selectRepeatType(View v) {
         final String[] items = new String[5];
 
         items[0] = "Minute";
@@ -127,7 +221,7 @@ public class Reminder extends AppCompatActivity
     }
 
     // On clicking repeat interval button
-    public void setRepeatNo(View v){
+    public void setRepeatNo(View v) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Enter Number");
 
@@ -143,8 +237,7 @@ public class Reminder extends AppCompatActivity
                             mRepeatNo = Integer.toString(1);
                             mRepeatNoText.setText(mRepeatNo);
                             mRepeatText.setText("Every " + mRepeatNo + " " + mRepeatType + "(s)");
-                        }
-                        else {
+                        } else {
                             mRepeatNo = input.getText().toString().trim();
                             mRepeatNoText.setText(mRepeatNo);
                             mRepeatText.setText("Every " + mRepeatNo + " " + mRepeatType + "(s)");
