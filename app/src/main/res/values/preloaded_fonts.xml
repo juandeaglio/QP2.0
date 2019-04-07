@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="preloaded_fonts" translatable="false">
@@ -5,3 +6,12 @@
         <item>@font/poppins</item>
     </array>
 </resources>
+=======
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/biryani</item>
+        <item>@font/poppins</item>
+    </array>
+</resources>
+>>>>>>> DevA

@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String CHANNEL_NAME = "ANDROID CHANNEL";
     private NotificationManager notifManager;
 
+    //Database Variables
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -89,8 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         */
         //populate();
         //createTask = new CreateTask();
-        //createTask.populateArrayList("Task_Priority", "asc");
-        populateArrayList();
+        populateArrayList("Task_Priority", "asc");
         TaskCardRecyclerAdapter adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
         RecyclerView taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -98,56 +99,57 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         taskRecycler.setAdapter(adapter);
 
     }
-    public void createNotification(String aMessage, Context context) {
-        final int NOTIFY_ID = 0; // ID of notification
-        String id = CHANNEL_ID; // default_channel_id
-        String title = (CHANNEL_NAME); // Default Channel
-        Intent intent;
-        PendingIntent pendingIntent;
-        NotificationCompat.Builder builder;
-        if (notifManager == null) {
-            notifManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel mChannel = notifManager.getNotificationChannel(id);
-            if (mChannel == null) {
-                mChannel = new NotificationChannel(id, title, importance);
-                mChannel.enableVibration(true);
-                mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
-                notifManager.createNotificationChannel(mChannel);
-            }
-            builder = new NotificationCompat.Builder(context, id);
-            intent = new Intent(context, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-            builder.setContentTitle(aMessage)                            // required
-                    .setSmallIcon(android.R.drawable.ic_popup_reminder)   // required
-                    .setContentText(context.getString(R.string.app_name)) // required
-                    .setDefaults(Notification.DEFAULT_ALL)
-                    .setAutoCancel(true)
-                    .setContentIntent(pendingIntent)
-                    .setTicker(aMessage)
-                    .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
-        }
-        else {
-            builder = new NotificationCompat.Builder(context, id);
-            intent = new Intent(context, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-            builder.setContentTitle(aMessage)                            // required
-                    .setSmallIcon(android.R.drawable.ic_popup_reminder)   // required
-                    .setContentText(context.getString(R.string.app_name)) // required
-                    .setDefaults(Notification.DEFAULT_ALL)
-                    .setAutoCancel(true)
-                    .setContentIntent(pendingIntent)
-                    .setTicker(aMessage)
-                    .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400})
+    }
+        notifManager.notify(NOTIFY_ID, notification);
+        Notification notification = builder.build();
                     .setPriority(Notification.PRIORITY_HIGH);
         }
-        Notification notification = builder.build();
-        notifManager.notify(NOTIFY_ID, notification);
-    }
+                    .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400})
+                    .setTicker(aMessage)
+                    .setAutoCancel(true)
+                    .setContentIntent(pendingIntent)
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setContentText(context.getString(R.string.app_name)) // required
+            pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+            builder.setContentTitle(aMessage)                            // required
+                    .setSmallIcon(android.R.drawable.ic_popup_reminder)   // required
+            builder = new NotificationCompat.Builder(context, id);
+            intent = new Intent(context, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        else {
+        }
+                    .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+                    .setTicker(aMessage)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setContentText(context.getString(R.string.app_name)) // required
+                    .setSmallIcon(android.R.drawable.ic_popup_reminder)   // required
+            builder.setContentTitle(aMessage)                            // required
+            pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent = new Intent(context, MainActivity.class);
+            builder = new NotificationCompat.Builder(context, id);
+                notifManager.createNotificationChannel(mChannel);
+            }
+                mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+                mChannel.enableVibration(true);
+                mChannel = new NotificationChannel(id, title, importance);
+            if (mChannel == null) {
+            NotificationChannel mChannel = notifManager.getNotificationChannel(id);
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        }
+            notifManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (notifManager == null) {
+        NotificationCompat.Builder builder;
+        PendingIntent pendingIntent;
+        Intent intent;
+        String title = (CHANNEL_NAME); // Default Channel
+        String id = CHANNEL_ID; // default_channel_id
+        final int NOTIFY_ID = 0; // ID of notification
+    public void createNotification(String aMessage, Context context) {
+
 
 
     //TODO: code dynamically - Ant
@@ -172,10 +174,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        globalTaskList.add(new Task("Task 9", "2/31/2019", 1, "nothing", 0));
 //    }
 
-    public void populateArrayList(){
-        this.taskDB = db.getWritableDatabase();
-        this.globalTaskList.clear();
-        Cursor cursor = db.sortTable("Task_Priority", "asc");
+
+
+    public void populateArrayList(String sortBy, String orderBy){
+        //TODO: Check if arraylist is null here - Ethan
+        MainActivity.globalTaskList.clear();
+        Cursor cursor = db.sortTable(sortBy, orderBy);
 
         if(cursor.moveToFirst()){
             do {
@@ -192,8 +196,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }while (cursor.moveToNext());
 
         }
-    }
 
+    }
     //TODO: check this works - Ant
     public void openViewTaskActivity(UUID taskID) {
         startActivity(myIntent);

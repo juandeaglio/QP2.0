@@ -194,6 +194,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             toast.show();
         }
         else {
+            return false;
 
             this.toast = Toast.makeText(getApplicationContext(),"Task failed to save", Toast.LENGTH_LONG);
             toast.show();

@@ -12,27 +12,23 @@
         android:id="@+id/viewTime"
         android:layout_width="118dp"
         android:layout_height="39dp"
-        android:layout_marginTop="140dp"
-        android:layout_marginEnd="120dp"
-        android:layout_marginRight="120dp"
+
         android:ems="10"
         android:inputType="date"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/timeLabel"
+        app:layout_constraintTop_toBottomOf="@+id/timeLabel" />
 
     <TextView
         android:id="@+id/timeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="112dp"
-        android:layout_marginEnd="204dp"
-        android:layout_marginRight="204dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
         android:text="Time"
         android:textColor="@android:color/black"
         app:fontFamily="@font/poppins"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/viewDueDate"
+        app:layout_constraintTop_toTopOf="@+id/textView16" />
 
     <TextView
         android:id="@+id/textView18"
@@ -84,9 +80,8 @@
         android:id="@+id/viewTaskName"
         android:layout_width="213dp"
         android:layout_height="42dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:ems="10"
         android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
@@ -98,7 +93,7 @@
         android:layout_height="39dp"
         android:ems="10"
         android:inputType="date"
-        app:layout_constraintStart_toStartOf="@+id/textView18"
+        app:layout_constraintStart_toStartOf="@+id/textView16"
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
     <EditText
@@ -112,7 +107,7 @@
     <EditText
         android:id="@+id/viewDescription"
         android:layout_width="375dp"
-        android:layout_height="55dp"
+        android:layout_height="204dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:gravity="start"
@@ -123,24 +118,24 @@
 
     <Button
         android:id="@+id/editViewTask"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginLeft="76dp"
-        android:layout_marginBottom="324dp"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="76dp"
+        android:layout_marginRight="76dp"
         android:text="Save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button7" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewDescription" />
 
     <Button
-        android:id="@+id/button7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/deleteViewTask"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
         android:layout_marginStart="76dp"
         android:layout_marginLeft="76dp"
         android:layout_marginTop="28dp"
         android:onClick="goHome"
-        android:text="Home"
+        android:text="delete"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewDescription" />
 </android.support.constraint.ConstraintLayout>

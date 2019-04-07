@@ -27,20 +27,20 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/card_check_box"
             android:layout_toRightOf="@id/card_check_box"
-            android:textSize="20sp" />
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/card_priority"
             android:layout_width="28dp"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
-            android:paddingStart="5dp"
-            android:paddingRight="5dp"
-            android:paddingEnd="5dp"
             android:layout_above="@id/card_due_date"
+            android:layout_marginStart="1dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginBottom="-15dp"
             android:layout_toEndOf="@id/card_task_name"
             android:layout_toRightOf="@id/card_task_name"
-            android:textSize="15sp"/>
+            android:background="@drawable/blackcircle"
+            android:gravity="center"
 
             android:textSize="25sp" />
 
