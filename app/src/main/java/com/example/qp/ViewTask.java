@@ -145,7 +145,7 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
         EditText priority = (EditText) findViewById(R.id.viewPriority);
         EditText taskNotes = (EditText) findViewById(R.id.viewDescription);
         //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
-        TextView dueDate = (TextView) findViewById(R.id.viewDueDate);
+        //TextView dueDate = (TextView) findViewById(R.id.viewDueDate);
         TextView dueTime = (TextView) findViewById(R.id.viewTime);
         int priorityTemp = viewedTask.getPriority();
         String str1 = viewedTask.getTaskName();
