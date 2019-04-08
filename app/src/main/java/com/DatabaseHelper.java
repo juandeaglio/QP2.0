@@ -136,6 +136,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return sortedTable;
     }
 
+    public void deleteTask(String taskID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String querey = "DELETE FROM " + TABLE_NAME + " WHERE " +
+                COL_6 + " = '" + taskID + "'";
+    }
+
 
 
 
