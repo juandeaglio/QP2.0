@@ -1,7 +1,9 @@
 package com.example.qp;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -195,6 +197,11 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
 
         if(updateCompleted)
         {
+            Intent intent1 = new Intent(ViewTask.this, BroadCastService.class);
+            intent1.putExtra("Task Name",taskName.getText().toString());
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(ViewTask.this, 0,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager am = (AlarmManager) ViewTask.this.getSystemService(ViewTask.this.ALARM_SERVICE);
+            am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
             toast.show();
         }
         else
