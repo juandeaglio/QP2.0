@@ -30,6 +30,8 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
 
     }
 
+
+
     public class TaskCardViewHolder extends RecyclerView.ViewHolder {
         CardView taskCard;
         TextView taskName;

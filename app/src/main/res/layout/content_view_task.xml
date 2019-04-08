@@ -8,37 +8,30 @@
     tools:context=".ViewTask"
     tools:showIn="@layout/activity_view_task">
 
-    <EditText
-        android:id="@+id/viewTime"
-        android:layout_width="118dp"
-        android:layout_height="39dp"
-
-        android:layout_marginTop="204dp"
-        android:layout_marginEnd="120dp"
-        android:layout_marginRight="120dp"
-        android:ems="10"
-        android:inputType="date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
-        android:id="@+id/timeLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="176dp"
-        android:layout_marginEnd="204dp"
-        android:layout_marginRight="204dp"
-        android:text="Time"
-        android:textColor="@android:color/black"
+        android:id="@+id/viewTime"
+        android:layout_width="180dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="212dp"
+        android:layout_marginLeft="212dp"
+        android:layout_marginTop="124dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:hint="Time"
+        android:textColor="@color/colorBackgroundReminder"
+        android:textSize="19sp"
+        android:textStyle="bold"
         app:fontFamily="@font/poppins"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:textAlignment="center"
+
+        />
 
     <TextView
         android:id="@+id/textView18"
         android:layout_width="91dp"
         android:layout_height="26dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="16dp"
         android:text="Description"
         android:textColor="@android:color/black"
         app:fontFamily="@font/poppins"
@@ -49,7 +42,7 @@
         android:id="@+id/textView17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="80dp"
         android:layout_marginRight="80dp"
         android:text="Priority"
@@ -59,21 +52,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Due Date"
-        android:textColor="@android:color/black"
-        app:fontFamily="@font/poppins"
-        app:layout_constraintStart_toStartOf="@+id/viewTaskName"
-        app:layout_constraintTop_toBottomOf="@+id/viewTaskName" />
-
-    <TextView
         android:id="@+id/textView15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="32dp"
         android:text="Task Name"
         android:textColor="@android:color/black"
         app:fontFamily="@font/poppins"
@@ -86,27 +68,39 @@
         android:layout_height="42dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="64dp"
         android:ems="10"
         android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <TextView
         android:id="@+id/viewDueDate"
-        android:layout_width="118dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="180dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="124dp"
+        android:background="@android:drawable/btn_dropdown"
         android:ems="10"
-        android:inputType="date"
-        app:layout_constraintStart_toStartOf="@+id/textView18"
-        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+        android:hint="Due Date"
+        android:inputType="textPersonName"
+        android:paddingLeft="10sp"
+        android:paddingTop="5dp"
+        android:textColor="@android:color/black"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        app:fontFamily="@font/poppins"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:textAlignment="center" />
+
 
     <EditText
         android:id="@+id/viewPriority"
         android:layout_width="59dp"
         android:layout_height="42dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="68dp"
         android:layout_marginRight="68dp"
         android:inputType="number"
@@ -119,7 +113,7 @@
         android:layout_height="55dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:gravity="start"
         android:inputType="textMultiLine"
         android:singleLine="false"
@@ -130,9 +124,9 @@
         android:id="@+id/editViewTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
-        android:layout_marginLeft="56dp"
-        android:layout_marginBottom="188dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginLeft="68dp"
+        android:layout_marginBottom="256dp"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button7" />
@@ -141,9 +135,9 @@
         android:id="@+id/button7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
-        android:layout_marginLeft="96dp"
-        android:layout_marginBottom="188dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginLeft="84dp"
+        android:layout_marginBottom="256dp"
         android:onClick="goHome"
         android:text="Home"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -153,9 +147,9 @@
         android:id="@+id/deleteButton"
         android:layout_width="78dp"
         android:layout_height="75dp"
-        android:layout_marginStart="172dp"
-        android:layout_marginLeft="172dp"
-        android:layout_marginBottom="92dp"
+        android:layout_marginStart="164dp"
+        android:layout_marginLeft="164dp"
+        android:layout_marginBottom="180dp"
         android:background="@android:drawable/ic_delete"
         android:onClick="deleteTask"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
