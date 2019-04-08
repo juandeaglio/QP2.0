@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //populate();
         //createTask = new CreateTask();
         //createTask.populateArrayList("Task_Priority", "asc");
-        populateArrayList();
+        populateArrayList(this.db);
         TaskCardRecyclerAdapter adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
         RecyclerView taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -179,9 +179,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        globalTaskList.add(new Task("Task 9", "2/31/2019", 1, "nothing", 0));
 //    }
 
-    public void populateArrayList(){
+    public void populateArrayList(DatabaseHelper db){
         this.taskDB = db.getWritableDatabase();
-        this.globalTaskList.clear();
+        globalTaskList.clear();
         Cursor cursor = db.sortTable("Task_Priority", "asc");
 
         if(cursor.moveToFirst()){

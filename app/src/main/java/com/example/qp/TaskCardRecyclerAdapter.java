@@ -2,31 +2,39 @@ package com.example.qp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+
+import com.DatabaseHelper;
 
 import java.util.ArrayList;
 
 public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecyclerAdapter.TaskCardViewHolder> {
 
 
+    private DatabaseHelper db;
     private ArrayList<Task> taskList;
+    MainActivity mainActivity = new MainActivity();
     private Context context;
     private static final int RED = 1;
     private static final int ORANGE = 2;
     private static final int YELLOW = 3;
     private static final int LIGHT_YELLOW = 4;
-    private static final int GREEN = 5
-            ;
+    private static final int GREEN = 5;
     public TaskCardRecyclerAdapter(ArrayList<Task> globalTaskList, MainActivity context) {
         this.taskList = globalTaskList;
         this.context = context;
+        this.db = new DatabaseHelper(context);
+
 
     }
 
@@ -102,6 +110,25 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
                 context.startActivity(intent);
             }
         });
+
+        taskCardViewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(db.markTaskCompleted(task.getTaskId().toString())){
+                    System.out.println("True");
+                    mainActivity.populateArrayList(db);
+                    updateData();
+
+
+                }
+                else {
+                    System.out.println("False");
+                }
+
+            }
+        }
+        );
+
     }
 
     private String dateCorrection(String date)
@@ -109,7 +136,6 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         String dateArr [];
         dateArr = date.split("/");
         int month = Integer.parseInt(dateArr[0]);
-        month++;
         date = month + "/" + dateArr[1] + "/" + dateArr[2];
         return date;
     }

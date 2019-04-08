@@ -37,7 +37,8 @@ public class CalendarView extends AppCompatActivity {
         calendar.setOnDateChangeListener(new android.widget.CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull android.widget.CalendarView view, int year, int month, int dayOfMonth) {
-                String date = month + "/" + dayOfMonth + "/" + year;
+                month++;
+                String date = String.valueOf(month) + "/" + dayOfMonth + "/" + year;
                 updateRecyclerView(date);
             }
         });

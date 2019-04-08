@@ -47,6 +47,8 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_task);
         Intent myIntent = getIntent();
+        this.toast = Toast.makeText(this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
 
@@ -59,6 +61,7 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
             @Override
             public void onClick(View v) {
                 saveTask(taskID);
+                goHome(v);
             }
         });
 
@@ -106,7 +109,7 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
     }
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        TextView taskTime = (TextView) findViewById(R.id.taskTime);
+        TextView taskTime = (TextView) findViewById(R.id.viewTime);
         taskTime.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
