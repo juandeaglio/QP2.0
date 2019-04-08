@@ -190,7 +190,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             intent1.putExtra("Task Name",taskName.getText().toString());
             PendingIntent pendingIntent = PendingIntent.getBroadcast(CreateTask.this, 0,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager am = (AlarmManager) CreateTask.this.getSystemService(CreateTask.this.ALARM_SERVICE);
-            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+            am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
             toast.show();
         }
         else {

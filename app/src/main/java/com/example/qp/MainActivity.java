@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -134,9 +136,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             builder = new NotificationCompat.Builder(context, id);
             intent = new Intent(context, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            builder.setSound(sound);
             pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
             builder.setContentTitle(aMessage)                            // required
                     .setSmallIcon(android.R.drawable.ic_popup_reminder)   // required
+
                     .setContentText(context.getString(R.string.app_name)) // required
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setAutoCancel(true)

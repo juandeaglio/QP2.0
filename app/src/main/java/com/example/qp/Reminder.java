@@ -131,7 +131,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 mDate = (month + 1) + "/" + dayOfMonth + "/" + year;
-                mCalendar.set(year, month + 1, dayOfMonth);
+                mCalendar.set(year, month, dayOfMonth);
                 mDateText.setText(mDate);
 
             }
@@ -177,6 +177,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
         PendingIntent pendingIntent = PendingIntent.getBroadcast(Reminder.this, 0,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am = (AlarmManager) Reminder.this.getSystemService(Reminder.this.ALARM_SERVICE);
         am.setRepeating(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        am.set(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(),pendingIntent);
         this.toast = Toast.makeText(this, "Reminder Successfully Saved!", Toast.LENGTH_SHORT);
         toast.show();
         goBackToHomepage();
