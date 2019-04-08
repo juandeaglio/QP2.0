@@ -140,6 +140,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String querey = "DELETE FROM " + TABLE_NAME + " WHERE " +
                 COL_6 + " = '" + taskID + "'";
+
+        db.execSQL(querey);
+
+
     }
 
 

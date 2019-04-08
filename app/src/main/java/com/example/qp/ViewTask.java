@@ -22,6 +22,8 @@ public class ViewTask extends AppCompatActivity {
     MainActivity mainActivity = new MainActivity();
     DatabaseHelper db = new DatabaseHelper(this);
     Toast toast = null;
+    String taskIDStr;
+    private Intent myIntent = getIntent();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,7 @@ public class ViewTask extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
-        String taskIDStr = myIntent.getStringExtra("taskid");
+        this.taskIDStr = myIntent.getStringExtra("taskid");
         final UUID taskID = UUID.fromString(taskIDStr);
         displayTask(taskID);
         Button saveTaskBtn = findViewById(R.id.editViewTask);
@@ -42,6 +44,9 @@ public class ViewTask extends AppCompatActivity {
                 saveTask(taskID);
             }
         });
+
+        Button deleteButton = findViewById(R.id.deleteButton);
+
     }
 
 //    protected void onResume() {
@@ -49,6 +54,8 @@ public class ViewTask extends AppCompatActivity {
 //        setContentView(R.layout.activity_view_task);
 //        Intent myIntent = getIntent();
 //    }
+
+
 
     public Task findTaskFromArrayList(UUID taskID)
     {
@@ -64,6 +71,16 @@ public class ViewTask extends AppCompatActivity {
         }
         return null;
     }
+
+
+    public void deleteTask(View view){
+
+        db.deleteTask(this.taskIDStr);
+        startActivity(new Intent(this, MainActivity.class));
+
+    }
+
+
     public void goHome(View view){
         startActivity(new Intent(this, MainActivity.class));
     }
@@ -97,15 +114,15 @@ public class ViewTask extends AppCompatActivity {
     {
         //TODO: fix crashing here - Ant
         //Edits task from array list
-        /*
+
         EditText taskName = (EditText) findViewById(R.id.viewTaskName);
         EditText priority = (EditText) findViewById(R.id.viewPriority);
         EditText taskNotes = (EditText) findViewById(R.id.viewDescription);
         //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
-        EditText dueDate = (EditText) findViewById(R.id.viewDueDate);
-        TextView taskTime = findViewById(R.id.taskTime);
+        TextView dueDate = (EditText) findViewById(R.id.viewDueDate);
+        TextView taskTime = findViewById(R.id.viewTime);
 
-        boolean updateCompleted = db.updateTable(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()),dueDate.getText().toString(), taskNotes.getText().toString(), 0, taskID, taskTime.getText().toString());
+        boolean updateCompleted = db.updateTable(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()),dueDate.getText().toString(), taskNotes.getText().toString(), 0, UUID.fromString(this.taskIDStr), taskTime.getText().toString());
 
         if(updateCompleted)
         {
@@ -116,6 +133,6 @@ public class ViewTask extends AppCompatActivity {
             this.toast = Toast.makeText(mainActivity,"Task failed to save", Toast.LENGTH_LONG);
             toast.show();
         }
-        */
+
     }
 }
