@@ -111,18 +111,34 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
 
     }
 
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute)
-    {
-        TextView taskTime = (TextView) findViewById(R.id.viewTime);
-        taskTime.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        TextView taskTime = (TextView) findViewById(R.id.taskTimeText);
+        String am_pm = "";
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
-        //this.time = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
+
+        if(calendar.get(Calendar.AM_PM) == Calendar.AM){
+            am_pm = "AM";
+        }
+        else if(calendar.get(Calendar.AM_PM) == Calendar.PM){
+            am_pm = "PM";
+        }
+        String tempText = (calendar.get(Calendar.HOUR) == 0) ?"12":calendar.get(Calendar.HOUR)+"";
+        taskTime.setText(tempText+":"+calendar.get(Calendar.MINUTE)+" "+am_pm );
+        //.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + am_pm);
+
+        //this.taskTime = String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + " " + am_pm;
 
     }
 
 
+//    protected void onResume() {
+//        super.onResume();
+//        setContentView(R.layout.activity_view_task);
+//        Intent myIntent = getIntent();
+//    }
 
     public Task findTaskFromArrayList(UUID taskID)
     {
@@ -188,11 +204,12 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
         //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
         TextView dueDate = (TextView) findViewById(R.id.viewDueDate);
         TextView taskTime = findViewById(R.id.viewTime);
-
+        //calendar.set
         boolean updateCompleted = db.updateTable(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()),dueDate.getText().toString(), taskNotes.getText().toString(), 0, UUID.fromString(this.taskIDStr), taskTime.getText().toString());
 
         if(updateCompleted)
         {
+            //TODO: Fix when editing task to go to it's assigned time not the current time on system
             Intent intent1 = new Intent(ViewTask.this, BroadCastService.class);
             intent1.putExtra("Task Name",taskName.getText().toString());
             PendingIntent pendingIntent = PendingIntent.getBroadcast(ViewTask.this, 0,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
