@@ -180,6 +180,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    public void populateCompletedTaskList(DatabaseHelper db){
+        this.taskDB = db.getWritableDatabase();
+        globalCompletedTaskList.clear();
+        Cursor cursor = db.sortTable("Task_Priority", "asc");
+
+        if(cursor.moveToFirst()){
+            do {
+                //MainActivity.globalTaskList.add();
+                Task newTask  = new Task();
+                newTask.setTaskName(cursor.getString(0)); //Task Name
+                newTask.setDueDate(cursor.getString(1)); // Due Date
+                newTask.setPriority(cursor.getInt(2)); //Priority
+                newTask.setDescription(cursor.getString(3)); //Description
+                newTask.setCompleted(cursor.getShort(4)); //Is Completed: 1 = yes; 2 = no
+                newTask.setTaskId(UUID.fromString(cursor.getString(5))); // Check this method in Task class. Generates a random UUID through Java
+                newTask.setTimeDueDate(cursor.getString(6));
+                MainActivity.globalCompletedTaskList.add(newTask); //Adds it to the global array list
+            }while (cursor.moveToNext());
+
+        }
+    }
+
     //TODO: check this works - Ant
     public void openViewTaskActivity(UUID taskID) {
         startActivity(myIntent);

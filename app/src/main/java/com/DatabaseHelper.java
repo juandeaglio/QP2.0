@@ -143,6 +143,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return sortedTable;
     }
 
+    public Cursor sortCompletedTasks(String column, String order){
+        Cursor sortedTable = this.getWritableDatabase().query(TABLE_NAME + " Where " + COL_5 + " != 0", this.allColumns,null,null,null,null, column + " " + order); //ex: Task_Priority(Column) + order("asc" or "desc")
+        return sortedTable;
+    }
+
     public boolean unCheckCompletedTask(String taskID){
         Cursor data = getAllTasksFromtable();
         SQLiteDatabase tempDB = getWritableDatabase();

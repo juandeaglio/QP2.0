@@ -123,8 +123,8 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(db.markTaskCompleted(task.getTaskId().toString())){
                    // System.out.println("True");
-                    MainActivity.globalCompletedTaskList.add(task);
                     mainActivity.populateArrayList(db);
+                    mainActivity.populateCompletedTaskList(db);
                     updateData();
                 }
                 else {
