@@ -214,6 +214,17 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
             intent1.putExtra("Task Name",taskName.getText().toString());
             PendingIntent pendingIntent = PendingIntent.getBroadcast(ViewTask.this, 0,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager am = (AlarmManager) ViewTask.this.getSystemService(ViewTask.this.ALARM_SERVICE);
+
+            String taskDueDate = taskTime.getText().toString();
+            String hour = taskDueDate.substring( 0, taskDueDate.indexOf(":"));
+            String minute = taskDueDate.substring(taskDueDate.indexOf(":")+1, taskDueDate.indexOf(" "));
+
+            int hourToInt = Integer.parseInt(hour);
+            int minuteToInt = Integer.parseInt(minute);
+
+            calendar.set(Calendar.HOUR_OF_DAY, hourToInt);
+            calendar.set(Calendar.MINUTE, minuteToInt);
+
             am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
             toast.show();
         }
