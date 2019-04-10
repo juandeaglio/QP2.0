@@ -90,7 +90,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(CreateTask.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, mDateSetListener, year, month, day);
+                DatePickerDialog dialog = new DatePickerDialog(CreateTask.this, android.R.style.Theme_Holo_Dialog_MinWidth, mDateSetListener, year, month, day);
 
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
@@ -125,32 +125,6 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             }
         });
 
-//
-//        //NumberPicker np = findViewById(R.id.priorityNum);
-//
-//        np.setMinValue(1);
-//        np.setMaxValue(5); //Can change these if we want
-//
-//        np.setOnValueChangedListener(onValueChangeListener);
-////        NumberPicker.OnValueChangeListener onValueChangeListener =
-////                new NumberPicker.OnValueChangeListener() {
-////                    @Override
-////                    public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-////                        Toast.makeText(CreateTask.this,
-////                                "selected number " + numberPicker.getValue(), Toast.LENGTH_SHORT);
-////                    }
-////                };
-//
-//    }
-//
-//    NumberPicker.OnValueChangeListener onValueChangeListener =
-//            new NumberPicker.OnValueChangeListener() {
-//                @Override
-//                public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-//                    Toast.makeText(CreateTask.this,
-//                            "selected number " + numberPicker.getValue(), Toast.LENGTH_SHORT);
-//                }
-//            };
     }
 
     private String getDayOfWeekStr(int dayOfTheMonth) {
@@ -169,7 +143,6 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         TextView taskTime = (TextView) findViewById(R.id.taskTimeText);
         String am_pm = "";
-        calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
@@ -184,7 +157,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
         taskTime.setText(tempText+":"+calendar.get(Calendar.MINUTE)+" "+am_pm );
         //.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + am_pm);
 
-        this.taskTime = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
+        this.taskTime = String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + am_pm;
 
     }
 
