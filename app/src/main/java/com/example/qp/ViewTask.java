@@ -113,7 +113,7 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
 
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        TextView taskTime = (TextView) findViewById(R.id.taskTimeText);
+        TextView taskTime = (TextView) findViewById(R.id.viewTime);
         String am_pm = "";
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
