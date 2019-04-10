@@ -34,6 +34,7 @@ public class CalendarView extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
 
+
         calendar.setOnDateChangeListener(new android.widget.CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull android.widget.CalendarView view, int year, int month, int dayOfMonth) {
@@ -42,6 +43,9 @@ public class CalendarView extends AppCompatActivity {
                 updateRecyclerView(date);
             }
         });
+
+
+
 
     }
 
