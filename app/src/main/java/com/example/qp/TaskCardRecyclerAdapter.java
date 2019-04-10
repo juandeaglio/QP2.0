@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.DatabaseHelper;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecyclerAdapter.TaskCardViewHolder> {
@@ -38,13 +40,12 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
 
     }
 
-
-
     public class TaskCardViewHolder extends RecyclerView.ViewHolder {
         CardView taskCard;
         TextView taskName;
         TextView priority;
         TextView dueDate;
+        TextView timeDue;
         CheckBox checkBox;
 
         public TaskCardViewHolder(View v)
@@ -55,6 +56,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
             priority = (TextView) v.findViewById(R.id.card_priority);
             dueDate = (TextView) v.findViewById(R.id.card_due_date);
             checkBox = v.findViewById(R.id.card_check_box);
+            timeDue = (TextView) v.findViewById(R.id.card_time);
         }
     }
 
@@ -75,33 +77,35 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
     {
         final Task task = taskList.get(i);
         taskCardViewHolder.taskName.setText(task.getTaskName());
-        if (task.getPriority() == RED)
-        {
-            taskCardViewHolder.priority.setTextColor(Color.parseColor("#d32f2f"));
-        }
-
-        else if (task.getPriority() == ORANGE)
-        {
-            taskCardViewHolder.priority.setTextColor(Color.parseColor("#f57c00"));
-        }
-
-        else if (task.getPriority() == YELLOW)
-        {
-            taskCardViewHolder.priority.setTextColor(Color.parseColor("#fbc02d"));
-        }
-
-        else if (task.getPriority() == LIGHT_YELLOW)
-        {
-            taskCardViewHolder.priority.setTextColor(Color.parseColor("#fff263"));
-        }
-
-        else
-        {
-            taskCardViewHolder.priority.setTextColor(Color.parseColor("#388e3c"));
-        }
+        taskCardViewHolder.priority.setTextColor(Color.parseColor("#000000"));
+//        if (task.getPriority() == RED)
+//        {
+//            taskCardViewHolder.priority.setTextColor(Color.parseColor("#d32f2f"));
+//        }
+//
+//        else if (task.getPriority() == ORANGE)
+//        {
+//            taskCardViewHolder.priority.setTextColor(Color.parseColor("#f57c00"));
+//        }
+//
+//        else if (task.getPriority() == YELLOW)
+//        {
+//            taskCardViewHolder.priority.setTextColor(Color.parseColor("#fbc02d"));
+//        }
+//
+//        else if (task.getPriority() == LIGHT_YELLOW)
+//        {
+//            taskCardViewHolder.priority.setTextColor(Color.parseColor("#fff263"));
+//        }
+//
+//        else
+//        {
+//            taskCardViewHolder.priority.setTextColor(Color.parseColor("#388e3c"));
+//        }
 
         taskCardViewHolder.priority.setText(Integer.toString(task.getPriority()));
         taskCardViewHolder.dueDate.setText(dateCorrection(task.getDueDate()));
+        taskCardViewHolder.timeDue.setText(task.getTimeDueDate());
         taskCardViewHolder.taskCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

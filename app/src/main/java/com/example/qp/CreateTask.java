@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -29,6 +30,8 @@ import java.util.Calendar;
 import java.util.Timer;
 import java.util.UUID;
 
+import static android.app.PendingIntent.getActivity;
+
 public class CreateTask extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
     //Global variable for the array list of tasks
@@ -37,6 +40,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 
     private TextView dueDate;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
+
     private TimePickerDialog.OnTimeSetListener mTimeSetListener;
     Toast toast;
     private String taskDueDateValue = "";
@@ -46,10 +50,10 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_task);
+
 //        TextInputLayout inputTaskName = findViewById(R.id.input_task_name);
 //        TextInputLayout inputTaskPriority = findViewById(R.id.input_task_priority);
 //        TextInputLayout inputTaskDescription = findViewById(R.id.input_task_description);
-
 
 
         this.toast = Toast.makeText(this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
@@ -67,7 +71,6 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             }
 
 
-
         });
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -78,16 +81,16 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             }
         });
 
-        this.dueDate.setOnClickListener(new View.OnClickListener(){
+        this.dueDate.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Calendar cal  = Calendar.getInstance();
+                Calendar cal = Calendar.getInstance();
                 int year = cal.get(Calendar.YEAR);
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(CreateTask.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, mDateSetListener, year, month, day);
+                DatePickerDialog dialog = new DatePickerDialog(CreateTask.this, android.R.style.Theme_Holo_Dialog_MinWidth, mDateSetListener, year, month, day);
 
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
@@ -100,16 +103,19 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                calendar.set(year,month,dayOfMonth);
-                Log.d("Date Picker", "onDateSet: date " + (month + 1)+ "/" + dayOfMonth + "/" + year);
-                taskDueDateValue = String.valueOf(month + 1) +  "/" + String.valueOf(dayOfMonth) + "/" + String.valueOf(year);
-                dueDate.setText(taskDueDateValue);
+//                int dayOfTheMonth = Calendar.DAY_OF_WEEK;
+//                String dayOfMonthStr = getDayOfWeekStr(dayOfTheMonth);
+                TextView taskDueDateText = findViewById(R.id.taskDueDateText);
+                calendar.set(year, month, dayOfMonth);
+                Log.d("Date Picker", "onDateSet: date " + (month + 1) + "/" + dayOfMonth + "/" + year);
+                taskDueDateValue = String.valueOf(month + 1) + "/" + String.valueOf(dayOfMonth) + "/" + String.valueOf(year);
+                taskDueDateText.setText(taskDueDateValue);
             }
         };
 
         TextView time = findViewById(R.id.taskTime);
 
-        time.setOnClickListener(new View.OnClickListener(){
+        time.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -119,25 +125,46 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             }
         });
 
+    }
 
-
+    private String getDayOfWeekStr(int dayOfTheMonth) {
+        switch (dayOfTheMonth){
+            case 1:
+                return "Mon";
+            case 2:
+                return "Tues";
+            case 3:
+                return "Wed";
+        }
+        return "";
     }
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        TextView taskTime = (TextView) findViewById(R.id.taskTime);
-        taskTime.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+        TextView taskTime = (TextView) findViewById(R.id.taskTimeText);
+        String am_pm = "";
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
-        this.taskTime = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
+
+        if(calendar.get(Calendar.AM_PM) == Calendar.AM){
+            am_pm = "AM";
+        }
+        else if(calendar.get(Calendar.AM_PM) == Calendar.PM){
+            am_pm = "PM";
+        }
+        String tempText = (calendar.get(Calendar.HOUR) == 0) ?"12":calendar.get(Calendar.HOUR)+"";
+        taskTime.setText(tempText+":"+calendar.get(Calendar.MINUTE)+" "+am_pm );
+        //.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + am_pm);
+
+        this.taskTime = String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + am_pm;
 
     }
 
 
     /*
-    * This function will not reside in MainActivity class
-    * */
+     * This function will not reside in MainActivity class
+     * */
 
 //    public void populateArrayList(String sortBy, String orderBy, SQLiteDatabase taskDB){
 //        MainActivity.globalTaskList.clear();
@@ -162,17 +189,17 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 //    }
 
 
-    public void saveTask(){
+    public void saveTask() {
         //Saves task in array list
         //mainActivity.globalTaskList.add(newTask);
         //Task newTask = new Task();
         //goBackToHomepage();
 
         EditText taskName = (EditText) findViewById(R.id.taskName);
-        EditText priority = (EditText) findViewById(R.id.priorityNum);
+        TextView priority = (TextView) findViewById(R.id.priorityNum);
         EditText taskNotes = (EditText) findViewById(R.id.taskNotes);
         //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
-        TextView dueDate =  findViewById(R.id.taskDueDate);
+        TextView dueDate = findViewById(R.id.taskDueDate);
         UUID taskID = UUID.randomUUID();
 
 
@@ -182,28 +209,26 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 //        }
 
 
-        boolean saveCompleted = db.insertData(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()),this.taskDueDateValue, taskNotes.getText().toString(), 0, taskID, this.taskTime);
+        boolean saveCompleted = db.insertData(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()), this.taskDueDateValue, taskNotes.getText().toString(), 0, taskID, this.taskTime);
 
-        if(saveCompleted){
+        if (saveCompleted) {
             //mainActivity.populateArrayList(); Commented out because it results in a crash
             Intent intent1 = new Intent(CreateTask.this, BroadCastService.class);
-            intent1.putExtra("Task Name",taskName.getText().toString());
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(CreateTask.this, 0,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+            intent1.putExtra("Task Name", taskName.getText().toString());
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(CreateTask.this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager am = (AlarmManager) CreateTask.this.getSystemService(CreateTask.this.ALARM_SERVICE);
-            am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
+            am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
             toast.show();
-        }
-        else {
+        } else {
 
-            this.toast = Toast.makeText(getApplicationContext(),"Task failed to save", Toast.LENGTH_LONG);
+            this.toast = Toast.makeText(getApplicationContext(), "Task failed to save", Toast.LENGTH_LONG);
             toast.show();
         }
     }
 
-    public void goBackToHomepage(){
+    public void goBackToHomepage() {
         startActivity(new Intent(CreateTask.this, MainActivity.class));
     }
-
 
 
 }
