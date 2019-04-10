@@ -103,12 +103,13 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                int dayOfTheMonth = Calendar.DAY_OF_WEEK;
-                String dayOfMonth = getDayOfWeekStr(dayOfTheMonth);
+//                int dayOfTheMonth = Calendar.DAY_OF_WEEK;
+//                String dayOfMonthStr = getDayOfWeekStr(dayOfTheMonth);
+                TextView taskDueDateText = findViewById(R.id.taskDueDateText);
                 calendar.set(year, month, dayOfMonth);
                 Log.d("Date Picker", "onDateSet: date " + (month + 1) + "/" + dayOfMonth + "/" + year);
                 taskDueDateValue = String.valueOf(month + 1) + "/" + String.valueOf(dayOfMonth) + "/" + String.valueOf(year);
-                dueDate.setText(taskDueDateValue);
+                taskDueDateText.setText(taskDueDateValue);
             }
         };
 
@@ -161,15 +162,28 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             case 3:
                 return "Wed";
         }
+        return "";
     }
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        TextView taskTime = (TextView) findViewById(R.id.taskTime);
-        taskTime.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+        TextView taskTime = (TextView) findViewById(R.id.taskTimeText);
+        String am_pm = "";
+        calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
+
+        if(calendar.get(Calendar.AM_PM) == Calendar.AM){
+            am_pm = "AM";
+        }
+        else if(calendar.get(Calendar.AM_PM) == Calendar.PM){
+            am_pm = "PM";
+        }
+        String tempText = (calendar.get(Calendar.HOUR) == 0) ?"12":calendar.get(Calendar.HOUR)+"";
+        taskTime.setText(tempText+":"+calendar.get(Calendar.MINUTE)+" "+am_pm );
+        //.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + am_pm);
+
         this.taskTime = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
 
     }
@@ -209,7 +223,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
         //goBackToHomepage();
 
         EditText taskName = (EditText) findViewById(R.id.taskName);
-        NumberPicker priority = (NumberPicker) findViewById(R.id.priorityNum);
+        TextView priority = (TextView) findViewById(R.id.priorityNum);
         EditText taskNotes = (EditText) findViewById(R.id.taskNotes);
         //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
         TextView dueDate = findViewById(R.id.taskDueDate);
@@ -222,7 +236,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 //        }
 
 
-        boolean saveCompleted = db.insertData(taskName.getText().toString(), priority.getValue(), this.taskDueDateValue, taskNotes.getText().toString(), 0, taskID, this.taskTime);
+        boolean saveCompleted = db.insertData(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()), this.taskDueDateValue, taskNotes.getText().toString(), 0, taskID, this.taskTime);
 
         if (saveCompleted) {
             //mainActivity.populateArrayList(); Commented out because it results in a crash
