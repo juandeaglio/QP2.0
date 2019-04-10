@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        CheckBox checkBox = findViewById(R.id.checkBox);
         //TODO: populate arrayList w/ database entries - Ant
 /*
         int cursorSize = 0;

@@ -114,7 +114,10 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
                 context.startActivity(intent);
             }
         });
-
+        if(task.getCompleted() == 1)
+        {
+            taskCardViewHolder.checkBox.setChecked(true);
+        }
         taskCardViewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
