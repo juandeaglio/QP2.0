@@ -5,10 +5,10 @@ gradle/*
 gradlew
 *.bat
 *.iml
+*.DS_Store
 app/proguard-rules.pro
 app/app.iml
 app/build.gradle
 build/*
 app/build/*
-app/src/\.DS_Store
 app/build/
