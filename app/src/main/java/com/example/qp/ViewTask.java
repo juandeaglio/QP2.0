@@ -59,7 +59,8 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
         final UUID taskID = UUID.fromString(taskIDStr);
         displayTask(taskID);
         Button saveTaskBtn = findViewById(R.id.editViewTask);
-        saveTaskBtn.setOnClickListener(new View.OnClickListener() {
+        saveTaskBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
                 saveTask(taskID);
@@ -110,7 +111,8 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
 
     }
 
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute)
+    {
         TextView taskTime = (TextView) findViewById(R.id.viewTime);
         taskTime.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
@@ -119,12 +121,6 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
         //this.time = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
 
     }
-
-//    protected void onResume() {
-//        super.onResume();
-//        setContentView(R.layout.activity_view_task);
-//        Intent myIntent = getIntent();
-//    }
 
 
 
@@ -151,11 +147,11 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
 
     }
 
-
+    //TODO: goHome should be changed to just go back to screen that was before this (can't assume it was home)
     public void goHome(View view){
         startActivity(new Intent(this, MainActivity.class));
     }
-    //TODO: test this method - Ant
+
     public void displayTask(UUID taskID)
     {
         //Display task from array lis
@@ -168,16 +164,16 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
         TextView dueDate = (TextView) findViewById(R.id.viewDueDate);
         TextView dueTime = (TextView) findViewById(R.id.viewTime);
         int priorityTemp = viewedTask.getPriority();
-        String str1 = viewedTask.getTaskName();
-        String str3 = viewedTask.getDescription();
-        String str4 = viewedTask.getDueDate();
-        String str5 = viewedTask.getTimeDueDate();
+        String textBoxName = viewedTask.getTaskName();
+        String textBoxDescription = viewedTask.getDescription();
+        String textBoxDueDate = viewedTask.getDueDate();
+        String textBoxTime = viewedTask.getTimeDueDate();
 
-        taskName.setText(str1);
+        taskName.setText(textBoxName);
         priority.setText(Integer.toString(priorityTemp));
-        taskNotes.setText(str3);
-        dueDate.setText(str4);
-        dueTime.setText(str5);
+        taskNotes.setText(textBoxDescription);
+        dueDate.setText(textBoxDueDate);
+        dueTime.setText(textBoxTime);
 
     }
     //TODO: test this method - Ant
