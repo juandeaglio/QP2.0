@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.DatabaseHelper;
+
 public class CompletedTasks extends AppCompatActivity {
 
 
@@ -19,6 +21,9 @@ public class CompletedTasks extends AppCompatActivity {
         setContentView(R.layout.activity_completed_tasks);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        MainActivity mainActivity = new MainActivity();
+        DatabaseHelper db = new DatabaseHelper(this);
+        mainActivity.populateCompletedTaskList(db);
 
         TaskCardRecyclerAdapter adapter = new TaskCardRecyclerAdapter(MainActivity.globalCompletedTaskList, this);
         RecyclerView taskRecycler = (RecyclerView) findViewById(R.id.completed_task_recycler);
