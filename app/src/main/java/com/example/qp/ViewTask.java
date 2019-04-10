@@ -224,7 +224,7 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
 
             calendar.set(Calendar.HOUR_OF_DAY, hourToInt);
             calendar.set(Calendar.MINUTE, minuteToInt);
-
+            calendar.set(Calendar.SECOND,0);
             am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
             toast.show();
         }
