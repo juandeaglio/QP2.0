@@ -77,24 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        //TODO: populate arrayList w/ database entries - Ant
-/*
-        int cursorSize = 0;
-        if(retrievedData.moveToFirst())
-        {
-            cursorSize = 1;
-            while(retrievedData.moveToNext())
-            {
-                cursorSize++;
-            }
-        }
-        databasesize = cursorSize;
-        */
-        //populate();
-        //createTask = new CreateTask();
-        //createTask.populateArrayList("Task_Priority", "asc");
         populateArrayList(this.db);
-
         TaskCardRecyclerAdapter adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
         RecyclerView taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
