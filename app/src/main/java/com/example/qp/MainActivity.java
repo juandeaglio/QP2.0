@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //createTask = new CreateTask();
         //createTask.populateArrayList("Task_Priority", "asc");
         populateArrayList(this.db);
+        populateCompletedTaskList(this.db);
         TaskCardRecyclerAdapter adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
         RecyclerView taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
