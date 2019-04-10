@@ -9,110 +9,150 @@
     tools:showIn="@layout/activity_view_task">
 
     <TextView
+        android:id="@+id/viewTime"
+        android:layout_width="180dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="212dp"
+        android:layout_marginLeft="212dp"
+        android:layout_marginTop="124dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:hint="Time"
+        android:textColor="@color/colorBackgroundReminder"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        app:fontFamily="@font/poppins"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:textAlignment="center"
+
+        />
+
+    <TextView
         android:id="@+id/textView18"
-        android:layout_width="78dp"
+        android:layout_width="91dp"
         android:layout_height="26dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="Description"
-        app:layout_constraintStart_toStartOf="@+id/editText14"
-        app:layout_constraintTop_toBottomOf="@+id/editText12" />
+        android:textColor="@android:color/black"
+        app:fontFamily="@font/poppins"
+        app:layout_constraintStart_toStartOf="@+id/viewDescription"
+        app:layout_constraintTop_toBottomOf="@+id/viewDueDate" />
 
     <TextView
         android:id="@+id/textView17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="80dp"
         android:layout_marginRight="80dp"
         android:text="Priority"
+        android:textColor="@android:color/black"
+        app:fontFamily="@font/poppins"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Due Date"
-        app:layout_constraintStart_toStartOf="@+id/editText11"
-        app:layout_constraintTop_toBottomOf="@+id/editText11" />
 
     <TextView
         android:id="@+id/textView15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="32dp"
         android:text="Task Name"
-        app:layout_constraintStart_toStartOf="@+id/editText11"
+        android:textColor="@android:color/black"
+        app:fontFamily="@font/poppins"
+        app:layout_constraintStart_toStartOf="@+id/viewTaskName"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText11"
+        android:id="@+id/viewTaskName"
         android:layout_width="213dp"
         android:layout_height="42dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="64dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="COMP 350"
+        android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editText12"
-        android:layout_width="217dp"
-        android:layout_height="39dp"
+    <TextView
+        android:id="@+id/viewDueDate"
+        android:layout_width="180dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="124dp"
+        android:background="@android:drawable/btn_dropdown"
         android:ems="10"
-        android:inputType="date"
-        android:text="03/13/2019"
-        app:layout_constraintStart_toStartOf="@+id/textView18"
-        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+        android:hint="Due Date"
+        android:inputType="textPersonName"
+        android:paddingLeft="10sp"
+        android:paddingTop="5dp"
+        android:textColor="@android:color/black"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        app:fontFamily="@font/poppins"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:textAlignment="center" />
+
 
     <EditText
-        android:id="@+id/editText13"
+        android:id="@+id/viewPriority"
         android:layout_width="59dp"
         android:layout_height="42dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="68dp"
+        android:layout_marginRight="68dp"
         android:inputType="number"
-        android:text="3"
-        app:layout_constraintStart_toStartOf="@+id/textView17"
-        app:layout_constraintTop_toBottomOf="@+id/textView17" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText14"
-        android:layout_width="327dp"
-        android:layout_height="181dp"
+        android:id="@+id/viewDescription"
+        android:layout_width="375dp"
+        android:layout_height="55dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
         android:gravity="start"
         android:inputType="textMultiLine"
         android:singleLine="false"
-        android:text="Give prototype presentation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/editViewTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="76dp"
-        android:layout_marginRight="76dp"
-        android:layout_marginBottom="240dp"
-        android:onClick="save"
+        android:layout_marginStart="68dp"
+        android:layout_marginLeft="68dp"
+        android:layout_marginBottom="256dp"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/button7" />
 
     <Button
         android:id="@+id/button7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginLeft="84dp"
+        android:layout_marginBottom="256dp"
         android:onClick="goHome"
         android:text="Home"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText14" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="78dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="164dp"
+        android:layout_marginLeft="164dp"
+        android:layout_marginBottom="180dp"
+        android:background="@android:drawable/ic_delete"
+        android:onClick="deleteTask"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

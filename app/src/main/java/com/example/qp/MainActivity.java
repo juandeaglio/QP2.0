@@ -1,12 +1,27 @@
 package com.example.qp;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,23 +36,25 @@ import com.DatabaseHelper;
 
 import java.sql.Time;
 import java.util.ArrayList;
-
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+import java.util.Date;
+import java.util.UUID;
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener  {
 
     public static ArrayList<Task> globalTaskList = new ArrayList<>();
     public static ArrayList<Task> globalCompletedTaskList = new ArrayList<>();
     public Intent myIntent;
+    DatabaseHelper db = new DatabaseHelper(this);
+    SQLiteDatabase taskDB;
+    private CreateTask createTask;
+    //private DatabaseHelper mDB;
+    private Toast toast = null;
+    public static final String CHANNEL_ID = "com.chikeandroid.tutsplustalerts.ANDROID";
+    public static final String CHANNEL_NAME = "ANDROID CHANNEL";
+    private NotificationManager notifManager;
 
-    //Database Variables
-    DatabaseHelper taskDb;
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        taskDb = new DatabaseHelper(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -53,175 +70,234 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        Button createTaskButton = findViewById(R.id.createTaskBtn);
-        createTaskButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openCreateTaskActivity(v);
+        FloatingActionButton fab = findViewById(R.id.createTaskBtn);
+        fab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                openCreateTaskActivity(view);
             }
         });
 
-        Button viewTask1 = findViewById(R.id.viewTask1);
-        viewTask1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
+        CheckBox checkBox = findViewById(R.id.checkBox);
+        //TODO: populate arrayList w/ database entries - Ant
+/*
+        int cursorSize = 0;
+        if(retrievedData.moveToFirst())
+        {
+            cursorSize = 1;
+            while(retrievedData.moveToNext())
             {
-                openViewTaskActivity(0);
+                cursorSize++;
             }
-        });
-        Button viewTask2 = findViewById(R.id.viewTask2);
-        viewTask2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openViewTaskActivity(1);
-            }
-        });
-        displayTaskToCard();
+        }
+        databasesize = cursorSize;
+        */
+        //populate();
+        //createTask = new CreateTask();
+        //createTask.populateArrayList("Task_Priority", "asc");
+        populateArrayList(this.db);
+        TaskCardRecyclerAdapter adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
+        RecyclerView taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        taskRecycler.setLayoutManager(layoutManager);
+        taskRecycler.setAdapter(adapter);
 
+    }
+    public void createNotification(String aMessage, Context context) {
+        final int NOTIFY_ID = 0; // ID of notification
+        String id = CHANNEL_ID; // default_channel_id
+        String title = (CHANNEL_NAME); // Default Channel
+        Intent intent;
+        PendingIntent pendingIntent;
+        NotificationCompat.Builder builder;
+        if (notifManager == null) {
+            notifManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel mChannel = notifManager.getNotificationChannel(id);
+            if (mChannel == null) {
+                mChannel = new NotificationChannel(id, title, importance);
+                mChannel.enableVibration(true);
+                mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+                notifManager.createNotificationChannel(mChannel);
+            }
+            builder = new NotificationCompat.Builder(context, id);
+            intent = new Intent(context, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+            builder.setContentTitle(aMessage)                            // required
+                    .setSmallIcon(android.R.drawable.ic_popup_reminder)   // required
+                    .setContentText(context.getString(R.string.app_name)) // required
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setAutoCancel(true)
+                    .setContentIntent(pendingIntent)
+                    .setTicker(aMessage)
+                    .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+        }
+        else {
+            builder = new NotificationCompat.Builder(context, id);
+            intent = new Intent(context, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            builder.setSound(sound);
+            pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+            builder.setContentTitle(aMessage)                            // required
+                    .setSmallIcon(android.R.drawable.ic_popup_reminder)   // required
+
+                    .setContentText(context.getString(R.string.app_name)) // required
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setAutoCancel(true)
+                    .setContentIntent(pendingIntent)
+                    .setTicker(aMessage)
+                    .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400})
+                    .setPriority(Notification.PRIORITY_HIGH);
+        }
+        Notification notification = builder.build();
+        notifManager.notify(NOTIFY_ID, notification);
     }
 
 
-    public void openViewTaskActivity(int index)
-    {
-        myIntent = new Intent(MainActivity.this, ViewTask.class);
-        myIntent.putExtra("index", index);
-        startActivity(myIntent);
-    }
+    //TODO: code dynamically - Ant
+//    private void populate()
+//    {
+//        /*
+//        Task currentTask;
+//        for(int i = 0; i < databasesize; i++)
+//        {
+//            currentTask = new Task(retrievedData.getString(0), retrievedData.getString(1)
+//                    , retrievedData.getInt(2), retrievedData.getString(3), retrievedData.getInt(4));
+//            globalTaskList.add(currentTask);
+//        }*/
+//        globalTaskList.add(new Task("Task 1", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 2", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 3", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 4", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 5", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 6", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 7", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 8", "2/31/2019", 1, "nothing", 0));
+//        globalTaskList.add(new Task("Task 9", "2/31/2019", 1, "nothing", 0));
+//    }
 
+    public void populateArrayList(DatabaseHelper db){
+        this.taskDB = db.getWritableDatabase();
+        globalTaskList.clear();
+        Cursor cursor = db.sortTable("Task_Priority", "asc");
 
-
-    public void displayTaskToCard()
-    {
-        //Dummy task fields
-        Time testTime = new Time(13, 44, 3);
-        Task testTask = new Task("Prototype", "03/11/19", testTime, 1, "I need to finish the prototype and present it to the class.", false);
-        Task testTask2 = new Task("Some other task", "03/14/19", testTime, 5, "I need to finish this task sometime.", false);
-        globalTaskList.add(testTask);
-        globalTaskList.add(testTask2);
-        if (!globalTaskList.isEmpty()) {
-            //card 1
-            if (globalTaskList.get(0) != null) {
-                TextView taskName = findViewById(R.id.taskName02);
-                taskName.setText(globalTaskList.get(0).getTaskName());
-
-                TextView dueDate = findViewById(R.id.dueDateDesc02);
-                dueDate.setText(globalTaskList.get(0).getDueDate());
-
-                TextView description = findViewById(R.id.descriptionText02);
-                description.setText(globalTaskList.get(0).getDescription());
-
-                EditText priority = findViewById(R.id.numPriority02);
-                priority.setText(String.format("%d", globalTaskList.get(0).getPriority()));
-
-                CheckBox completed = findViewById(R.id.checkBox6);
-                completed.setChecked(false);
-                if(completed.isChecked())
-                {
-                //move to completed tasks
-                }
-            }
-            //card 2
-            if (globalTaskList.get(1) != null) {
-                TextView taskName = findViewById(R.id.taskName03);
-                taskName.setText(globalTaskList.get(1).getTaskName());
-
-                TextView dueDate = findViewById(R.id.dueDateDesc03);
-                dueDate.setText(globalTaskList.get(1).getDueDate());
-
-                TextView description = findViewById(R.id.descriptionText03);
-                description.setText(globalTaskList.get(1).getDescription());
-
-                EditText priority = findViewById(R.id.numPriority03);
-                priority.setText(String.format("%d", globalTaskList.get(1).getPriority()));
-
-                CheckBox completed = findViewById(R.id.checkBox7);
-                completed.setChecked(false);
-                if(completed.isChecked())
-                {
-                    //move to completed tasks
-                }
-            }
+        if(cursor.moveToFirst()){
+            do {
+                //MainActivity.globalTaskList.add();
+                Task newTask  = new Task();
+                newTask.setTaskName(cursor.getString(0)); //Task Name
+                newTask.setDueDate(cursor.getString(1)); // Due Date
+                newTask.setPriority(cursor.getInt(2)); //Priority
+                newTask.setDescription(cursor.getString(3)); //Description
+                newTask.setCompleted(cursor.getShort(4)); //Is Completed: 1 = yes; 2 = no
+                newTask.setTaskId(UUID.fromString(cursor.getString(5))); // Check this method in Task class. Generates a random UUID through Java
+                newTask.setTimeDueDate(cursor.getString(6));
+                MainActivity.globalTaskList.add(newTask); //Adds it to the global array list
+            }while (cursor.moveToNext());
 
         }
     }
 
-    public void openViewTask(){
+    //TODO: check this works - Ant
+    public void openViewTaskActivity(UUID taskID) {
+        startActivity(myIntent);
+    }
+    //TODO: Ant
+//    public void completeTask(View view) {
+//        if (db.markTaskCompleted(globalTaskList.get(0).getTaskId().toString())) {
+//            this.toast = Toast.makeText(this, "Task Marked Completed", Toast.LENGTH_SHORT);
+//            toast.show();
+//        } else {
+//            this.toast = Toast.makeText(this, "Error", Toast.LENGTH_SHORT);
+//            toast.show();
+//        }
+//    }
+
+    //TODO: refactor this code
+
+    public void openViewTask() {
         startActivity(new Intent(this, ViewTask.class));
     }
 
+    public void openReminderActivity() {
+        startActivity(new Intent(this, Reminder.class));
+    }
 
-    public void openCalendarViewActivity(){
+    public void openCalendarViewActivity() {
         startActivity(new Intent(MainActivity.this, CalendarView.class));
 
     }
 
 
-
-        public void openCreateTaskActivity(View view) {
-            startActivity(new Intent(this, CreateTask.class));
-        }
-
-
-
-        public void openCalendarView() {
-            startActivity(new Intent(MainActivity.this, CalendarView.class));
-        }
-
-        public void openCompletedTasks() {
-            startActivity(new Intent(MainActivity.this, CompletedTasks.class));
-        }
-
-        @Override
-        public boolean onCreateOptionsMenu(Menu menu) {
-            // Inflate the menu; this adds items to the action bar if it is present.
-            getMenuInflater().inflate(R.menu.menu_main, menu);
-            return true;
-        }
-
-
-
-    @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            // Handle action bar item clicks here. The action bar will
-            // automatically handle clicks on the Home/Up button, so long
-            // as you specify a parent activity in AndroidManifest.xml.
-            int id = item.getItemId();
-
-            //noinspection SimplifiableIfStatement
-            if (id == R.id.action_settings) {
-                return true;
-            }
-
-            return super.onOptionsItemSelected(item);
-        }
-
-
-        public boolean onNavigationItemSelected(MenuItem item) { // to be further implemented -keghvart hagopian.
-            // Handle navigation view item clicks here.
-            int id = item.getItemId();
-
-            if (id == R.id.nav_calendar) {
-                openCalendarView();
-
-
-            } else if (id == R.id.nav_completed_tasks) {
-                openCompletedTasks();
-
-            } else if (id == R.id.nav_tools) {
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "Implement me",
-                        Toast.LENGTH_SHORT);
-                toast.show();
-            }
-
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            drawer.closeDrawer(GravityCompat.START);
-            return true;
-        }
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-
+    public void openCreateTaskActivity(View view) {
+        startActivity(new Intent(this, CreateTask.class));
     }
-}
 
+
+    public void openCalendarView() {
+        startActivity(new Intent(MainActivity.this, CalendarView.class));
+    }
+
+    public void openCompletedTasks() {
+        startActivity(new Intent(MainActivity.this, CompletedTasks.class));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+
+    //TODO: To be implemented and tested - Ethan
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+//        switch (item.getItemId()){
+//            case R.id.mSortPriority:
+//                //Maybe use mDB.SortTable()?
+//                break;
+//            case R.id.mSortDate:
+//                this.createTask.populateArrayList("Task_Due_Date", "desc");
+//                break;
+//            case R.id.mSortNames:
+//                this.createTask.populateArrayList("Task_Name", "asc");
+//                break;
+//        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    public boolean onNavigationItemSelected(MenuItem item) { // to be further implemented -keghvart hagopian.
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_calendar) {
+            openCalendarView();
+
+        } else if (id == R.id.nav_completed_tasks) {
+            openCompletedTasks();
+
+        } else if (id == R.id.nav_tools) {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Implement me",
+                    Toast.LENGTH_SHORT);
+            toast.show();
+
+
+        } else if (id == R.id.nav_reminder) {
+            openReminderActivity();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+
+}
