@@ -46,6 +46,7 @@
         android:layout_marginTop="384dp"
         android:layout_marginEnd="56dp"
         android:layout_marginRight="56dp"
+        android:textColor="@android:color/black"
         android:textSize="20sp"
         app:fontFamily="@font/biryani"
         app:layout_constraintEnd_toEndOf="parent"

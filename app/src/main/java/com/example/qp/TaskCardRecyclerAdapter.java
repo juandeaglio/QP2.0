@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.DatabaseHelper;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecyclerAdapter.TaskCardViewHolder> {
@@ -43,6 +45,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         TextView taskName;
         TextView priority;
         TextView dueDate;
+        TextView timeDue;
         CheckBox checkBox;
 
         public TaskCardViewHolder(View v)
@@ -53,6 +56,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
             priority = (TextView) v.findViewById(R.id.card_priority);
             dueDate = (TextView) v.findViewById(R.id.card_due_date);
             checkBox = v.findViewById(R.id.card_check_box);
+            timeDue = (TextView) v.findViewById(R.id.card_time);
         }
     }
 
@@ -101,6 +105,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
 
         taskCardViewHolder.priority.setText(Integer.toString(task.getPriority()));
         taskCardViewHolder.dueDate.setText(dateCorrection(task.getDueDate()));
+        taskCardViewHolder.timeDue.setText(task.getTimeDueDate());
         taskCardViewHolder.taskCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
