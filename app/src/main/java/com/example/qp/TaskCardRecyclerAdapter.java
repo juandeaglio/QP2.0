@@ -38,8 +38,6 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
 
     }
 
-
-
     public class TaskCardViewHolder extends RecyclerView.ViewHolder {
         CardView taskCard;
         TextView taskName;
@@ -75,30 +73,31 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
     {
         final Task task = taskList.get(i);
         taskCardViewHolder.taskName.setText(task.getTaskName());
-        if (task.getPriority() == RED)
-        {
-            taskCardViewHolder.priority.setTextColor(Color.parseColor("#d32f2f"));
-        }
-
-        else if (task.getPriority() == ORANGE)
-        {
-            taskCardViewHolder.priority.setTextColor(Color.parseColor("#f57c00"));
-        }
-
-        else if (task.getPriority() == YELLOW)
-        {
-            taskCardViewHolder.priority.setTextColor(Color.parseColor("#fbc02d"));
-        }
-
-        else if (task.getPriority() == LIGHT_YELLOW)
-        {
-            taskCardViewHolder.priority.setTextColor(Color.parseColor("#fff263"));
-        }
-
-        else
-        {
-            taskCardViewHolder.priority.setTextColor(Color.parseColor("#388e3c"));
-        }
+        taskCardViewHolder.priority.setTextColor(Color.parseColor("#000000"));
+//        if (task.getPriority() == RED)
+//        {
+//            taskCardViewHolder.priority.setTextColor(Color.parseColor("#d32f2f"));
+//        }
+//
+//        else if (task.getPriority() == ORANGE)
+//        {
+//            taskCardViewHolder.priority.setTextColor(Color.parseColor("#f57c00"));
+//        }
+//
+//        else if (task.getPriority() == YELLOW)
+//        {
+//            taskCardViewHolder.priority.setTextColor(Color.parseColor("#fbc02d"));
+//        }
+//
+//        else if (task.getPriority() == LIGHT_YELLOW)
+//        {
+//            taskCardViewHolder.priority.setTextColor(Color.parseColor("#fff263"));
+//        }
+//
+//        else
+//        {
+//            taskCardViewHolder.priority.setTextColor(Color.parseColor("#388e3c"));
+//        }
 
         taskCardViewHolder.priority.setText(Integer.toString(task.getPriority()));
         taskCardViewHolder.dueDate.setText(dateCorrection(task.getDueDate()));
