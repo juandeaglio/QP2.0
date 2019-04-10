@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.widget.LinearLayout;
 
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -33,6 +34,8 @@ public class CalendarView extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
+        activateRecycler(calendar.getDate());
+
 
 
         calendar.setOnDateChangeListener(new android.widget.CalendarView.OnDateChangeListener() {
@@ -49,6 +52,12 @@ public class CalendarView extends AppCompatActivity {
 
     }
 
+    /*Populates the recycler when calendar is opened*/
+    private void activateRecycler(long dateAsLong){
+        SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy");
+        String date = sdf.format(new Date(dateAsLong));
+        updateRecyclerView(date);
+    }
 
     private void updateRecyclerView(String date){
         sortedTaskList.clear();
