@@ -52,7 +52,7 @@ public class CalendarView extends AppCompatActivity {
 
     }
 
-    /*Populates the recycler for the day of week before any dates have been clicked on*/
+    /*Populates the recycler when calendar is opened*/
     private void activateRecycler(long dateAsLong){
         SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy");
         String date = sdf.format(new Date(dateAsLong));
