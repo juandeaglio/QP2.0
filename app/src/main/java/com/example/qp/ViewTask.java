@@ -111,14 +111,26 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
     }
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        TextView taskTime = (TextView) findViewById(R.id.viewTime);
-        taskTime.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+        TextView taskTime = (TextView) findViewById(R.id.taskTimeText);
+        String am_pm = "";
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
-        //this.time = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
+
+        if(calendar.get(Calendar.AM_PM) == Calendar.AM){
+            am_pm = "AM";
+        }
+        else if(calendar.get(Calendar.AM_PM) == Calendar.PM){
+            am_pm = "PM";
+        }
+        String tempText = (calendar.get(Calendar.HOUR) == 0) ?"12":calendar.get(Calendar.HOUR)+"";
+        taskTime.setText(tempText+":"+calendar.get(Calendar.MINUTE)+" "+am_pm );
+        //.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + am_pm);
+
+        //this.taskTime = String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + " " + am_pm;
 
     }
+
 
 //    protected void onResume() {
 //        super.onResume();

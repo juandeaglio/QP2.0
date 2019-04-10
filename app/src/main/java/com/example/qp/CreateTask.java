@@ -2,6 +2,7 @@ package com.example.qp;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.database.Cursor;
@@ -32,15 +33,17 @@ import java.util.UUID;
 
 import static android.app.PendingIntent.getActivity;
 
-public class CreateTask extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+public class CreateTask extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, NumberPicker.OnValueChangeListener {
 
     //Global variable for the array list of tasks
     MainActivity mainActivity = new MainActivity();
     DatabaseHelper db = new DatabaseHelper(this);
 
     private TextView dueDate;
-    private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private TextView numberPicker;
 
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private NumberPicker.OnClickListener mNumberListener;
     private TimePickerDialog.OnTimeSetListener mTimeSetListener;
     Toast toast;
     private String taskDueDateValue = "";
@@ -125,8 +128,50 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             }
         });
 
+        numberPicker = findViewById(R.id.priorityNum);
+        numberPicker.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                showNumberPicker();
+            }
+        });
+
     }
 
+    public void showNumberPicker()
+    {
+        final Dialog d = new Dialog(CreateTask.this);
+        d.setTitle("NumberPicker");
+        d.setContentView(R.layout.number_picker_dialog);
+        Button b1 = (Button) d.findViewById(R.id.button1);
+        Button b2 = (Button) d.findViewById(R.id.button2);
+        final NumberPicker np = d.findViewById(R.id.numberPicker1);
+        np.setMaxValue(5); // max value 100
+        np.setMinValue(1);   // min value 0
+        np.setWrapSelectorWheel(true);
+        np.setOnValueChangedListener(this);
+        b1.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                numberPicker.setText(String.valueOf(np.getValue())); //set the value to textview
+                d.dismiss();
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                d.dismiss(); // dismiss the dialog
+            }
+        });
+        d.show();
+
+
+    }
+
+    //TODO: get day of week
     private String getDayOfWeekStr(int dayOfTheMonth) {
         switch (dayOfTheMonth){
             case 1:
@@ -157,36 +202,9 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
         taskTime.setText(tempText+":"+calendar.get(Calendar.MINUTE)+" "+am_pm );
         //.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + am_pm);
 
-        this.taskTime = String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + am_pm;
+        this.taskTime = String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + " " + am_pm;
 
     }
-
-
-    /*
-     * This function will not reside in MainActivity class
-     * */
-
-//    public void populateArrayList(String sortBy, String orderBy, SQLiteDatabase taskDB){
-//        MainActivity.globalTaskList.clear();
-//        Cursor cursor = db.sortTable("Task_Priority", "asc");
-//
-//        if(cursor.moveToFirst()){
-//            do {
-//                //MainActivity.globalTaskList.add();
-//                Task newTask  = new Task();
-//                newTask.setTaskName(cursor.getString(0)); //Task Name
-//                newTask.setDueDate(cursor.getString(1)); // Due Date
-//                newTask.setPriority(cursor.getInt(2)); //Priority
-//                newTask.setDescription(cursor.getString(3)); //Description
-//                newTask.setCompleted(cursor.getShort(4)); //Is Completed: 1 = yes; 2 = no
-//                newTask.setTaskId(UUID.fromString(cursor.getString(5))); // Check this method in Task class. Generates a random UUID through Java
-//                newTask.setTimeDueDate(cursor.getString(6));
-//                MainActivity.globalTaskList.add(newTask); //Adds it to the global array list
-//            }while (cursor.moveToNext());
-//
-//        }
-//
-//    }
 
 
     public void saveTask() {
@@ -201,13 +219,6 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
         //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
         TextView dueDate = findViewById(R.id.taskDueDate);
         UUID taskID = UUID.randomUUID();
-
-
-//        if(taskName.getText().length() == 0){
-//            toast = Toast.makeText(this, "Task name but be longer than 0 characters", Toast.LENGTH_LONG);
-//            toast.show();
-//        }
-
 
         boolean saveCompleted = db.insertData(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()), this.taskDueDateValue, taskNotes.getText().toString(), 0, taskID, this.taskTime);
 
@@ -231,4 +242,8 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
     }
 
 
+    @Override
+    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+
+    }
 }
