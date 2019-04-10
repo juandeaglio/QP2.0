@@ -27,22 +27,15 @@ import java.util.ArrayList;
 public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecyclerAdapter.TaskCardViewHolder> {
 
 
-    private DatabaseHelper db;
+    private DatabaseHelper db ;
     private ArrayList<Task> taskList;
     MainActivity mainActivity = new MainActivity();
     private Context context;
-    private static final int RED = 1;
-    private static final int ORANGE = 2;
-    private static final int YELLOW = 3;
-    private static final int LIGHT_YELLOW = 4;
-    private static final int GREEN = 5;
-    public TaskCardRecyclerAdapter(ArrayList<Task> globalTaskList, MainActivity context) {
+   /* public TaskCardRecyclerAdapter(ArrayList<Task> globalTaskList, MainActivity context) {
         this.taskList = globalTaskList;
         this.context = context;
         this.db = new DatabaseHelper(context);
-
-
-    }
+    }*/
 
     public class TaskCardViewHolder extends RecyclerView.ViewHolder {
         CardView taskCard;
@@ -67,7 +60,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
     public TaskCardRecyclerAdapter (ArrayList<Task> taskList, Context context)
     {
         this.taskList = taskList;
-
+        this.db = new DatabaseHelper(context);
         this.context = context;
     }
 
@@ -82,6 +75,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         final Task task = taskList.get(i);
         taskCardViewHolder.taskName.setText(task.getTaskName());
         taskCardViewHolder.priority.setTextColor(Color.parseColor("#000000"));
+
 //        if (task.getPriority() == RED)
 //        {
 //            taskCardViewHolder.priority.setTextColor(Color.parseColor("#d32f2f"));
@@ -135,6 +129,12 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
                 return true;
             }
         });
+        taskCardViewHolder.checkBox.setOnCheckedChangeListener(null);
+        if(task.getCompleted() == 1)
+        {
+            taskCardViewHolder.checkBox.setChecked(true);
+        }
+
         taskCardViewHolder.taskCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -145,21 +145,27 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
             }
 
         });
-        if(task.getCompleted() == 1)
-        {
-            taskCardViewHolder.checkBox.setChecked(true);
-        }
         taskCardViewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(db.markTaskCompleted(task.getTaskId().toString())){
-                   // System.out.println("True");
-                    mainActivity.populateArrayList(db);
-                    mainActivity.populateCompletedTaskList(db);
-                    updateData();
+                if(isChecked){
+                    if(db.markTaskCompleted(task.getTaskId().toString())){
+                        // System.out.println("True");
+                        mainActivity.populateArrayList(db);
+                        mainActivity.populateCompletedTaskList(db);
+                        updateData();
+                    }
+                    else {
+                        System.out.println("False");
+                    }
                 }
-                else {
-                    System.out.println("False");
+                else
+                {
+                    if(db.unCheckCompletedTask(task.getTaskId().toString())){
+                        mainActivity.populateArrayList(db);
+                        mainActivity.populateCompletedTaskList(db);
+                        updateData();
+                    }
                 }
 
             }
