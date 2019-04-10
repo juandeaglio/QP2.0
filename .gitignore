@@ -10,5 +10,5 @@ app/proguard-rules.pro
 app/app.iml
 app/build.gradle
 build/*
-app/build/*
+app/build/*git
 app/build/
