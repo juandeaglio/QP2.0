@@ -143,6 +143,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return sortedTable;
     }
 
+    public boolean unCheckCompletedTask(String taskID){
+        Cursor data = getAllTasksFromtable();
+        SQLiteDatabase tempDB = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(COL_5, 0);
+        if(data.moveToFirst()){
+            do {
+                if (data.getString(5).equals(taskID)){
+                    tempDB.update(TABLE_NAME, contentValues, "Task_ID = ?", new String[] { taskID});
+                    return true; //Successful update
+                }
+            }while (data.moveToNext());
+        }
+
+        return false; // :(
+    }
+
     public void deleteTask(String taskID){
         SQLiteDatabase db = this.getWritableDatabase();
         String querey = "DELETE FROM " + TABLE_NAME + " WHERE " +
