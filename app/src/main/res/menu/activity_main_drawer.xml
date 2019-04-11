@@ -4,6 +4,11 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+
+        <item android:id="@+id/home"
+            android:icon="@drawable/home_icon_menu"
+            android:title="Home"
+            ></item>
         <item
             android:id="@+id/nav_calendar"
             android:icon="@drawable/ic_calendar_with_a_clock_time_tools"

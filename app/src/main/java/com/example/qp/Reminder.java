@@ -224,6 +224,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
     public void setRepeatNo(View v) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Enter Number");
+
         // Create EditText box to input repeat number
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_NUMBER);

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/Ceil"
+    android:background="@color/colorPrimaryDark"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -29,7 +29,7 @@
             android:gravity="top|left"
             android:textColor="@android:color/white"
             android:scrollHorizontally="false"
-            android:textColorHint="@android:color/black"
+            android:textColorHint="@color/primary_text_disabled_material_dark"
             android:inputType="textCapWords|textMultiLine"
             android:layout_marginRight="16dp"
             android:layout_height="140dp"/>
@@ -55,7 +55,7 @@
                 android:textSize="15dp"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="72dp"
-                android:textColor="@android:color/black"
+                android:textColor="@color/abc_secondary_text_material_dark"
                 android:layout_height="72dp"/>
 
             <RelativeLayout
@@ -89,14 +89,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/date"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/abc_primary_text_material_dark"
                         android:textSize="15dp" />
 
                     <TextView
                         android:id="@+id/set_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/abc_secondary_text_material_dark"
                         android:textSize="15dp" />
 
                 </LinearLayout>
@@ -130,7 +130,7 @@
 
                     <TextView
                         android:id="@+id/time_text"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/abc_primary_text_material_dark"
                         android:layout_width="wrap_content"
                         android:textSize="15dp"
                         android:layout_height="wrap_content"
@@ -140,7 +140,7 @@
                         android:layout_width="wrap_content"
                         android:id="@+id/set_time"
                         android:textSize="15dp"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/abc_secondary_text_material_dark"
                         android:layout_height="wrap_content"/>
 
                 </LinearLayout>
@@ -172,7 +172,7 @@
 
                     <TextView
                         android:id="@+id/repeat_text"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/abc_primary_text_material_dark"
                         android:layout_width="wrap_content"
                         android:textSize="15dp"
                         android:layout_height="wrap_content"
@@ -182,7 +182,7 @@
                         android:layout_width="wrap_content"
                         android:id="@+id/set_repeat"
                         android:textSize="15dp"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/abc_secondary_text_material_dark"
                         android:layout_height="wrap_content"/>
 
                 </LinearLayout>
@@ -229,7 +229,7 @@
 
                     <TextView
                         android:id="@+id/repeat_no_text"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/abc_primary_text_material_dark"
                         android:layout_width="wrap_content"
                         android:textSize="15dp"
                         android:layout_height="wrap_content"
@@ -239,7 +239,7 @@
                         android:layout_width="wrap_content"
                         android:id="@+id/set_repeat_no"
                         android:textSize="15dp"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/abc_secondary_text_material_dark"
                         android:layout_height="wrap_content"/>
 
                 </LinearLayout>
@@ -273,7 +273,7 @@
 
                     <TextView
                         android:id="@+id/repeat_type_text"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/abc_primary_text_material_dark"
                         android:layout_width="wrap_content"
                         android:textSize="15dp"
                         android:layout_height="wrap_content"
@@ -283,7 +283,7 @@
                         android:layout_width="wrap_content"
                         android:id="@+id/set_repeat_type"
                         android:textSize="15dp"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/abc_secondary_text_material_dark"
                         android:layout_height="wrap_content"/>
 
                 </LinearLayout>

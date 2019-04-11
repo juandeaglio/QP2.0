@@ -153,7 +153,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase tempDB = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(COL_5, 0);
+        contentValues.put(COL_5, "0");
         if(data.moveToFirst()){
             do {
                 if (data.getString(5).equals(taskID)){
