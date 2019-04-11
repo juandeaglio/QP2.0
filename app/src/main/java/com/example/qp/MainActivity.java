@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String CHANNEL_ID = "com.chikeandroid.tutsplustalerts.ANDROID";
     public static final String CHANNEL_NAME = "ANDROID CHANNEL";
     private NotificationManager notifManager;
+    TaskCardRecyclerAdapter adapter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,22 +79,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         populateArrayList(this.db);
-        TaskCardRecyclerAdapter adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
+
+        adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
         RecyclerView taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         taskRecycler.setLayoutManager(layoutManager);
         taskRecycler.setAdapter(adapter);
 
     }
-
-    public void onResume()
-    {  // After a pause OR at startup
+    @Override
+    protected void onResume()
+    {
         super.onResume();
-        //Refresh your stuff here
-        populateArrayList(this.db);
+        adapter.updateData();
 
     }
-
     public void createNotification(String aMessage, Context context) {
         final int NOTIFY_ID = 0; // ID of notification
         String id = CHANNEL_ID; // default_channel_id
