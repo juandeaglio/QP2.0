@@ -8,10 +8,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Canvas;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -23,6 +25,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,7 +54,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String CHANNEL_ID = "com.chikeandroid.tutsplustalerts.ANDROID";
     public static final String CHANNEL_NAME = "ANDROID CHANNEL";
     private NotificationManager notifManager;
-    TaskCardRecyclerAdapter adapter;
+    private TaskCardRecyclerAdapter adapter;
+    SwipeController swipeController;
 
     public String sortSelector = "Task_Priority"; // This will be used to keep track of what type of sorting order the user has selected
 
@@ -86,11 +90,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         populateArrayList(this.db, this.sortSelector);
 
         adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
-        RecyclerView taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
+        setUpRecyclerView();
+
+    }
+
+    private void setUpRecyclerView(){
+        RecyclerView taskRecycler;
+        taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         taskRecycler.setLayoutManager(layoutManager);
         taskRecycler.setAdapter(adapter);
-
+        swipeController = new SwipeController(new SwipeControllerActions() {
+            @Override
+            public void onRightClicked(int position) {
+                db.deleteTask(globalTaskList.get(position).getTaskId().toString());
+                globalTaskList.remove(position);
+                adapter.updateData();
+            }
+        });
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
+        itemTouchHelper.attachToRecyclerView(taskRecycler);
+        taskRecycler.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                swipeController.onDraw(c);
+            }
+        });
     }
     @Override
     protected void onResume()
