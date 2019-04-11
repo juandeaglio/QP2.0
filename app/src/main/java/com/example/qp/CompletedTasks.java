@@ -1,5 +1,6 @@
 package com.example.qp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -45,7 +46,7 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
 
         MainActivity mainActivity = new MainActivity();
         DatabaseHelper db = new DatabaseHelper(this);
-        mainActivity.populateCompletedTaskList(db);
+        mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
 
         TaskCardRecyclerAdapter adapter = new TaskCardRecyclerAdapter(MainActivity.globalCompletedTaskList, this);
         RecyclerView taskRecycler = (RecyclerView) findViewById(R.id.completed_task_recycler);
@@ -61,12 +62,17 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
     public boolean onNavigationItemSelected(MenuItem item) { // to be further implemented -keghvart hagopian.
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_calendar) {
-            //openCalendarView();
+        if(id == R.id.nav_home){
+            startActivity(new Intent(CompletedTasks.this, MainActivity.class));
+        }
+       else if (id == R.id.nav_calendar) {
+            startActivity(new Intent(CompletedTasks.this, CalendarView.class));
 
         } else if (id == R.id.nav_completed_tasks) {
-            //openCompletedTasks();
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "*poof*",
+                    Toast.LENGTH_SHORT);
+            toast.show();
 
         } else if (id == R.id.nav_tools) {
             Toast toast = Toast.makeText(getApplicationContext(),
@@ -78,6 +84,8 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
         } else if (id == R.id.nav_reminder) {
             //openReminderActivity();
         }
+
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

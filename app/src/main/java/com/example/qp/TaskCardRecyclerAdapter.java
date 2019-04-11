@@ -96,8 +96,8 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
                 if(isChecked){
                     if(db.markTaskCompleted(task.getTaskId().toString())){
                         // System.out.println("True");
-                        mainActivity.populateArrayList(db);
-                        mainActivity.populateCompletedTaskList(db);
+                        mainActivity.populateArrayList(db, mainActivity.sortSelector);
+                        mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
                         updateData();
                     }
                     else {
@@ -108,7 +108,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
                 {
                     if(db.unCheckCompletedTask(task.getTaskId().toString())){
 //                        mainActivity.populateArrayList(db);
-                        mainActivity.populateCompletedTaskList(db);
+                        mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
                         updateData();
                     }
                 }

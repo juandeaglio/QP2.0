@@ -53,6 +53,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NotificationManager notifManager;
     TaskCardRecyclerAdapter adapter;
 
+    public String sortSelector = "Task_Priority"; // This will be used to keep track of what type of sorting order the user has selected
+
+    @Override
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -78,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        populateArrayList(this.db);
+        populateArrayList(this.db, this.sortSelector);
 
         adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
         RecyclerView taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
@@ -151,10 +156,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-    public void populateArrayList(DatabaseHelper db){
+    public void populateArrayList(DatabaseHelper db, String sortSelector){
         this.taskDB = db.getWritableDatabase();
         globalTaskList.clear();
-        Cursor cursor = db.sortTable("Task_Priority", "asc");
+        Cursor cursor = db.sortUnCompletedTasks(sortSelector); //Going to assume the user wants in ascending order?
 
         if(cursor.moveToFirst()){
             do {
@@ -171,12 +176,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }while (cursor.moveToNext());
 
         }
+
     }
 
-    public void populateCompletedTaskList(DatabaseHelper db){
+    public void populateCompletedTaskList(DatabaseHelper db, String sortSelector){
         this.taskDB = db.getWritableDatabase();
         globalCompletedTaskList.clear();
-        Cursor cursor = db.sortCompletedTasks("Task_Priority", "asc");
+        Cursor cursor = db.sortCompletedTasks(sortSelector);
 
         if(cursor.moveToFirst()){
             do {
@@ -195,20 +201,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    //TODO: check this works - Ant
-    public void openViewTaskActivity(UUID taskID) {
-        startActivity(myIntent);
-    }
-    //TODO: Ant
-//    public void completeTask(View view) {
-//        if (db.markTaskCompleted(globalTaskList.get(0).getTaskId().toString())) {
-//            this.toast = Toast.makeText(this, "Task Marked Completed", Toast.LENGTH_SHORT);
-//            toast.show();
-//        } else {
-//            this.toast = Toast.makeText(this, "Error", Toast.LENGTH_SHORT);
-//            toast.show();
-//        }
-//    }
 
     //TODO: refactor this code
 
@@ -247,22 +239,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    //TODO: To be implemented and tested - Ethan
+    //TODO: Update recycler for the new sorting order - Ethan
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-//        switch (item.getItemId()){
-//            case R.id.mSortPriority:
-//                //Maybe use mDB.SortTable()?
-//                break;
-//            case R.id.mSortDate:
-//                this.createTask.populateArrayList("Task_Due_Date", "desc");
-//                break;
-//            case R.id.mSortNames:
-//                this.createTask.populateArrayList("Task_Name", "asc");
-//                break;
-//        }
+        switch (item.getItemId()){
+            case R.id.mSortPriority:
+                //Maybe use mDB.SortTable()?
+                this.sortSelector = "Task_Priority";
+                populateArrayList(this.db, sortSelector);
+                //Update here!!!
+                break;
+            case R.id.mSortDate:
+                this.sortSelector = "Task_Due_Date";
+                populateArrayList(this.db, sortSelector);
+                break;
+            case R.id.mSortNames:
+                this.sortSelector = "Task_Name";
+                populateArrayList(this.db, sortSelector);
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 

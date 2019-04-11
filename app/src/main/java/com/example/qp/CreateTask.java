@@ -199,10 +199,19 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             am_pm = "PM";
         }
         String tempText = (calendar.get(Calendar.HOUR) == 0) ?"12":calendar.get(Calendar.HOUR)+"";
-        taskTime.setText(tempText+":"+calendar.get(Calendar.MINUTE)+" "+am_pm );
+        String minuteStr = "";
+
+        //Error checking because android treats 1:00 pm as 1:__ Pm ????
+        if(minute <= 9){
+            minuteStr = "0" + String.valueOf(minute);
+        }
+        else {
+            minuteStr = String.valueOf(minute);
+        }
+        taskTime.setText(tempText+":"+minuteStr+" "+am_pm );
         //.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + am_pm);
 
-        this.taskTime = String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + " " + am_pm;
+        this.taskTime = String.valueOf(tempText) + ":" + minuteStr + " " + am_pm;
 
     }
 
