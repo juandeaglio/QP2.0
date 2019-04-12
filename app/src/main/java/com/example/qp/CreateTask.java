@@ -69,8 +69,13 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             @Override
             public void onClick(View v) {
                 //Task taskToSave = new Task();
-                saveTask();
-                goBackToHomepage();
+                if (saveTask()){
+                    goBackToHomepage();
+                }
+                else {
+                    toast = Toast.makeText(getApplicationContext(), "Task failed to save", Toast.LENGTH_LONG);
+                    toast.show();
+                }
             }
 
 
@@ -210,17 +215,42 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
     }
 
 
-    public void saveTask() {
+
+
+    public boolean saveTask() {
         //Saves task in array list
         //mainActivity.globalTaskList.add(newTask);
         //Task newTask = new Task();
         //goBackToHomepage();
 
         EditText taskName = (EditText) findViewById(R.id.taskName);
-        TextView priority = (TextView) findViewById(R.id.priorityNum);
-        EditText taskNotes = (EditText) findViewById(R.id.taskNotes);
-        //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
+        if(taskName.getText().length() == 0){
+            taskName.setError("Title cannot be Blank");
+            return false;
+        }
+
         TextView dueDate = findViewById(R.id.taskDueDate);
+        if(this.taskDueDateValue.length() == 0){
+            dueDate.setError("Due Date cannot be blank");
+            return false;
+        }
+
+        if(this.taskTime.length() == 0){
+            TextView time = findViewById(R.id.taskTime);
+            time.setError("Time cannot be left blank");
+            return false;
+        }
+
+        EditText taskNotes = (EditText) findViewById(R.id.taskNotes);
+        if(taskNotes.getText().length() == 0){
+            taskNotes.setText(""); // IIf user didn't specify priority just set to 1
+        }
+
+        TextView priority = (TextView) findViewById(R.id.priorityNum);
+        if(priority.getText().toString().equals("")){
+            priority.setText("1"); // IIf user didn't specify priority just set to 1
+        }
+
         UUID taskID = UUID.randomUUID();
 
         boolean saveCompleted = db.insertData(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()), this.taskDueDateValue, taskNotes.getText().toString(), 0, taskID, this.taskTime);
@@ -240,10 +270,13 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             am.set(AlarmManager.RTC_WAKEUP, start, pendingIntent);
 
             toast.show();
+            return true;
         } else {
 
             this.toast = Toast.makeText(getApplicationContext(), "Task failed to save", Toast.LENGTH_LONG);
             toast.show();
+            return false;
+
         }
     }
 
