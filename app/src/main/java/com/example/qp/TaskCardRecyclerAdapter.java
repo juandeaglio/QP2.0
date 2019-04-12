@@ -72,30 +72,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         taskCardViewHolder.taskName.setText(task.getTaskName());
         taskCardViewHolder.priority.setTextColor(Color.parseColor("#000000"));
 
-//        if (task.getPriority() == RED)
-//        {
-//            taskCardViewHolder.priority.setTextColor(Color.parseColor("#d32f2f"));
-//        }
-//
-//        else if (task.getPriority() == ORANGE)
-//        {
-//            taskCardViewHolder.priority.setTextColor(Color.parseColor("#f57c00"));
-//        }
-//
-//        else if (task.getPriority() == YELLOW)
-//        {
-//            taskCardViewHolder.priority.setTextColor(Color.parseColor("#fbc02d"));
-//        }
-//
-//        else if (task.getPriority() == LIGHT_YELLOW)
-//        {
-//            taskCardViewHolder.priority.setTextColor(Color.parseColor("#fff263"));
-//        }
-//
-//        else
-//        {
-//            taskCardViewHolder.priority.setTextColor(Color.parseColor("#388e3c"));
-//        }
+
 
         taskCardViewHolder.priority.setText(Integer.toString(task.getPriority()));
         taskCardViewHolder.dueDate.setText(dateCorrection(task.getDueDate()));
@@ -119,8 +96,8 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
                 if(isChecked){
                     if(db.markTaskCompleted(task.getTaskId().toString())){
                         // System.out.println("True");
-                        mainActivity.populateArrayList(db);
-                        mainActivity.populateCompletedTaskList(db);
+                        mainActivity.populateArrayList(db, mainActivity.sortSelector);
+                        mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
                         updateData();
                     }
                     else {
@@ -130,8 +107,8 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
                 else
                 {
                     if(db.unCheckCompletedTask(task.getTaskId().toString())){
-                        mainActivity.populateArrayList(db);
-                        mainActivity.populateCompletedTaskList(db);
+//                        mainActivity.populateArrayList(db);
+                        mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
                         updateData();
                     }
                 }
@@ -154,12 +131,14 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
     @Override
     public TaskCardViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.task_card_recycler, viewGroup, false);
-
-
         return new TaskCardViewHolder(itemView);
     }
+
+
 
     public void updateData(){
         notifyDataSetChanged();
     }
+
+
 }

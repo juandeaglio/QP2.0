@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Ceil"
-    tools:context=".CalendarView">
-
+    tools:context=".CompletedTasks">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -17,11 +15,14 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorAccent"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:background="@color/matteOrange"
+            android:theme="@style/AlertDialog.AppCompat"
+            app:popupTheme="@style/AppTheme.AppBarOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_calendar_view" />
+    <include layout="@layout/content_main"/>
+    <include layout="@layout/content_completed_tasks"/>
+
 
 </android.support.design.widget.CoordinatorLayout>

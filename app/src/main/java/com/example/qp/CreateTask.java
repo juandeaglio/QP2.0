@@ -102,7 +102,6 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
         });
 
 
-
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -139,8 +138,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 
     }
 
-    public void showNumberPicker()
-    {
+    public void showNumberPicker() {
         final Dialog d = new Dialog(CreateTask.this);
         d.setTitle("NumberPicker");
         d.setContentView(R.layout.number_picker_dialog);
@@ -151,16 +149,14 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
         np.setMinValue(1);   // min value 0
         np.setWrapSelectorWheel(true);
         np.setOnValueChangedListener(this);
-        b1.setOnClickListener(new View.OnClickListener()
-        {
+        b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 numberPicker.setText(String.valueOf(np.getValue())); //set the value to textview
                 d.dismiss();
             }
         });
-        b2.setOnClickListener(new View.OnClickListener()
-        {
+        b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 d.dismiss(); // dismiss the dialog
@@ -173,7 +169,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 
     //TODO: get day of week
     private String getDayOfWeekStr(int dayOfTheMonth) {
-        switch (dayOfTheMonth){
+        switch (dayOfTheMonth) {
             case 1:
                 return "Mon";
             case 2:
@@ -192,17 +188,24 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
 
-        if(calendar.get(Calendar.AM_PM) == Calendar.AM){
+        if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
             am_pm = "AM";
-        }
-        else if(calendar.get(Calendar.AM_PM) == Calendar.PM){
+        } else if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
             am_pm = "PM";
         }
-        String tempText = (calendar.get(Calendar.HOUR) == 0) ?"12":calendar.get(Calendar.HOUR)+"";
-        taskTime.setText(tempText+":"+calendar.get(Calendar.MINUTE)+" "+am_pm );
+        String tempText = (calendar.get(Calendar.HOUR) == 0) ? "12" : calendar.get(Calendar.HOUR) + "";
+        String minuteStr = "";
+
+        //Error checking because android treats 1:00 pm as 1:__ Pm ????
+        if (minute <= 9) {
+            minuteStr = "0" + String.valueOf(minute);
+        } else {
+            minuteStr = String.valueOf(minute);
+        }
+        taskTime.setText(tempText + ":" + minuteStr + " " + am_pm);
         //.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + am_pm);
 
-        this.taskTime = String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + " " + am_pm;
+        this.taskTime = String.valueOf(tempText) + ":" + minuteStr + " " + am_pm;
 
     }
 
@@ -227,8 +230,15 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             Intent intent1 = new Intent(CreateTask.this, BroadCastService.class);
             intent1.putExtra("Task Name", taskName.getText().toString());
             PendingIntent pendingIntent = PendingIntent.getBroadcast(CreateTask.this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+            Log.d("Calendar", "Hour " + calendar.get(Calendar.HOUR) + " minute " + calendar.get(Calendar.MINUTE)); // debug -keg
             AlarmManager am = (AlarmManager) CreateTask.this.getSystemService(CreateTask.this.ALARM_SERVICE);
-            am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            long diff = Calendar.getInstance().getTimeInMillis() - calendar.getTimeInMillis();
+            if (diff > 0) {
+                calendar.add(Calendar.DATE, 1);
+            }
+            long start = calendar.getTimeInMillis();
+            am.set(AlarmManager.RTC_WAKEUP, start, pendingIntent);
+
             toast.show();
         } else {
 
