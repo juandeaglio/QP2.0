@@ -63,8 +63,11 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
         {
             @Override
             public void onClick(View v) {
-                saveTask(taskID);
-                goHome(v);
+                if (saveTask(taskID)){
+                    goHome(v);
+                }
+
+
             }
         });
 
@@ -157,9 +160,10 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
 
 
     public void deleteTask(View view){
-
-        db.deleteTask(this.taskIDStr);
-        startActivity(new Intent(this, MainActivity.class));
+        DeletePrompt deletePrompt = new DeletePrompt();
+        deletePrompt.show(getSupportFragmentManager(), "deletePrompt");
+//        db.deleteTask(this.taskIDStr);
+//        startActivity(new Intent(this, MainActivity.class));
 
     }
 
@@ -193,17 +197,40 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
 
     }
     //TODO: test this method - Ant
-    public void saveTask(UUID taskID)
+    public boolean saveTask(UUID taskID)
     {
         //TODO: fix crashing here - Ant
         //Edits task from array list
 
+
         EditText taskName = (EditText) findViewById(R.id.viewTaskName);
-        EditText priority = (EditText) findViewById(R.id.viewPriority);
+        if(taskName.getText().length() == 0){
+            taskName.setError("Task Name cannot be Blank");
+            return false;
+        }
+
+        TextView dueDate = findViewById(R.id.viewDueDate);
+        if(dueDate.getText().toString().length() == 0){
+            dueDate.setError("Task Due Date cannot be blank");
+            return false;
+        }
+
+        TextView taskTime = (TextView) findViewById(R.id.viewTime);
+        if(taskTime.getText().toString().length() == 0){
+            taskTime.setError("Task Time cannot be blank");
+            return false;
+        }
+
         EditText taskNotes = (EditText) findViewById(R.id.viewDescription);
+        if(taskNotes.getText().length() == 0){
+            taskNotes.setText(""); // IIf user didn't specify priority just set to 1
+        }
+
+        EditText priority = (EditText) findViewById(R.id.viewPriority);
+        if(priority.getText().length() == 0){
+            priority.setText("1"); // IIf user didn't specify priority just set to 1
+        }
         //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
-        TextView dueDate = (TextView) findViewById(R.id.viewDueDate);
-        TextView taskTime = findViewById(R.id.viewTime);
         //calendar.set
         boolean updateCompleted = db.updateTable(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()),dueDate.getText().toString(), taskNotes.getText().toString(), 0, UUID.fromString(this.taskIDStr), taskTime.getText().toString());
 
@@ -234,5 +261,6 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
             toast.show();
         }
 
+        return true;
     }
 }

@@ -23,10 +23,10 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.009"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.972"
+        app:layout_constraintVertical_bias="0.937"
         tools:textSize="20dp" />
 
     <TextView
@@ -78,23 +78,21 @@
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_task_name"
-        android:layout_width="369dp"
+        android:layout_width="367dp"
         android:layout_height="71dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="68dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginRight="36dp"
         android:textColor="#2b3a75"
         android:textColorHint="@color/navyBlue"
+        android:paddingBottom="5dp"
         app:hintTextAppearance="@style/TextAppearance.AppCompat"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
             android:id="@+id/taskName"
-            android:layout_width="match_parent"
+            android:layout_width="326dp"
             android:layout_height="50dp"
             android:layout_marginStart="16dp"
 
@@ -102,11 +100,12 @@
             android:layout_marginTop="92dp"
             android:background="@drawable/edit_text_border"
             android:ems="10"
-            android:hint="Title"
+            android:hint="@string/title_hint"
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
             android:shadowColor="@android:color/black"
             android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.design.widget.TextInputLayout>
@@ -114,10 +113,10 @@
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_task_description"
         android:layout_width="357dp"
-        android:layout_height="121dp"
+        android:layout_height="120dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="304dp"
+        android:layout_marginTop="288dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:defaultFocusHighlightEnabled="true"
@@ -125,6 +124,7 @@
         android:textColorHint="@color/colorPrimary"
         app:hintTextAppearance="@style/TextAppearance.AppCompat"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.21"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -142,6 +142,7 @@
             android:singleLine="false"
             android:textColor="@android:color/black"
             android:textColorHint="@color/colorPrimaryDark"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -150,8 +151,8 @@
 
     <TextView
         android:id="@+id/priorityNum"
-        android:layout_width="75dp"
-        android:layout_height="70dp"
+        android:layout_width="110dp"
+        android:layout_height="77dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="464dp"
@@ -162,12 +163,13 @@
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="@color/navyBlue"
         android:textColorHint="@color/navyBlue"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.032"
@@ -244,7 +246,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.972"
+        app:layout_constraintVertical_bias="0.937"
         tools:textAlignment="center"
         tools:textSize="20dp" />
 
@@ -263,7 +265,7 @@
 
     <TextView
         android:id="@+id/priorityLabel"
-        android:layout_width="wrap_content"
+        android:layout_width="147dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
@@ -273,10 +275,12 @@
         android:text="Priority"
         android:textColor="@color/navyBlue"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:fontFamily="@font/poppins"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:textAlignment="center" />
 
 
 </android.support.constraint.ConstraintLayout>

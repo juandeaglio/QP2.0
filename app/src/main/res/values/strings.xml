@@ -16,6 +16,9 @@
     <string name="sort_priority">Sort by Priority</string>
     <string name="sort_names">Sort by Name</string>
     <string name="sort_date">Sort by Date</string>
+    <string name="deletePrompt">Delete task forever?</string>
+
+    <string name="title_hint"><font size="50">Title</font></string>
 
     <string name="add_reminder">Remind me to...</string>
     <string name="details">Details</string>

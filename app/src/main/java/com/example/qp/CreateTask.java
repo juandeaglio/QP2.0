@@ -214,6 +214,14 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 
     }
 
+    private String fixTaskName(){
+        EditText taskName = (EditText) findViewById(R.id.taskName);
+        char capitalLetter = Character.toUpperCase(taskName.getText().toString().charAt(0));
+        return taskName.getText().toString().replace(taskName.getText().toString().charAt(0),capitalLetter);
+
+
+    }
+
 
 
 
@@ -228,6 +236,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             taskName.setError("Title cannot be Blank");
             return false;
         }
+        taskName.setText(fixTaskName());
 
         TextView dueDate = findViewById(R.id.taskDueDate);
         if(this.taskDueDateValue.length() == 0){
