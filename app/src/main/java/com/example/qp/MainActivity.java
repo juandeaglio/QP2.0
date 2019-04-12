@@ -85,6 +85,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         taskRecycler.setAdapter(adapter);
 
     }
+
+    protected void OnBackPressed(){
+
+    }
     public void createNotification(String aMessage, Context context) {
         final int NOTIFY_ID = 0; // ID of notification
         String id = CHANNEL_ID; // default_channel_id
