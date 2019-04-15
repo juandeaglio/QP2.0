@@ -16,6 +16,7 @@
         android:layout_marginStart="36dp"
         android:layout_marginLeft="36dp"
         android:layout_marginTop="8dp"
+
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
@@ -55,7 +56,7 @@
 
     <TextView
         android:id="@+id/taskTimeText"
-        android:layout_width="123dp"
+        android:layout_width="141dp"
         android:layout_height="39dp"
         android:layout_marginStart="232dp"
         android:layout_marginLeft="232dp"
@@ -64,16 +65,20 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:textColor="@android:color/black"
+        android:background="@drawable/border_rounded_corners"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:fontFamily="@font/biryani"
+        android:paddingBottom="4dp"
+        android:visibility="invisible"
+        app:fontFamily="@font/poppins"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.229"
+        app:layout_constraintHorizontal_bias="0.066"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.01"
-        tools:textAlignment="center" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:textAlignment="center"
+        tools:text="@tools:sample/date/hhmmss" />
 
 
     <android.support.design.widget.TextInputLayout
@@ -95,10 +100,10 @@
             android:layout_width="326dp"
             android:layout_height="50dp"
             android:layout_marginStart="16dp"
-
             android:layout_marginLeft="10dp"
             android:layout_marginTop="92dp"
             android:background="@drawable/edit_text_border"
+            app:fontFamily="@font/poppins"
             android:ems="10"
             android:hint="@string/title_hint"
             android:inputType="textPersonName"
@@ -139,6 +144,7 @@
             android:ems="10"
             android:hint="Description"
             android:inputType="textPersonName"
+            app:fontFamily="@font/poppins"
             android:singleLine="false"
             android:textColor="@android:color/black"
             android:textColorHint="@color/colorPrimaryDark"
@@ -157,6 +163,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="464dp"
         android:layout_marginEnd="8dp"
+        app:fontFamily="@font/poppins"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/edit_text_border"
@@ -189,11 +196,10 @@
         android:background="@android:drawable/btn_dropdown"
         android:ems="10"
         android:hint="Due Date"
-        android:inputType="textPersonName"
         android:paddingLeft="10sp"
         android:paddingTop="5dp"
         android:textColor="@android:color/black"
-
+        tools:textColor="@color/navyBlue"
         android:textSize="19sp"
         android:textStyle="bold"
         app:fontFamily="@font/poppins"
@@ -205,24 +211,25 @@
 
     <TextView
         android:id="@+id/taskDueDateText"
-        android:layout_width="122dp"
+        android:layout_width="142dp"
         android:layout_height="39dp"
         android:layout_marginStart="232dp"
         android:layout_marginLeft="232dp"
-
         android:layout_marginTop="148dp"
         android:layout_marginEnd="8dp"
+        android:visibility="invisible"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:background="@drawable/border_rounded_corners"
         android:ems="10"
         android:paddingTop="5dp"
         android:textColor="@android:color/black"
         android:textSize="19sp"
         android:textStyle="bold"
-        app:fontFamily="@font/biryani"
+        app:fontFamily="@font/poppins"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.244"
+        app:layout_constraintHorizontal_bias="0.034"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.009"
@@ -273,14 +280,22 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="Priority"
-        android:textColor="@color/navyBlue"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:fontFamily="@font/poppins"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:textAlignment="center" />
+
+    <Switch
+        android:id="@+id/isAllDay"
+        android:layout_width="123dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="244dp"
+        android:layout_marginLeft="244dp"
+        android:layout_marginTop="248dp"
+        android:text="All Day       "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>
