@@ -3,6 +3,7 @@ package com.example.qp;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Picture;
 import android.graphics.RectF;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper.Callback;
@@ -152,7 +153,7 @@ class SwipeController extends Callback {
         RectF rightButton = new RectF(itemView.getRight() - buttonWidthWithoutPadding, itemView.getTop(), itemView.getRight(), itemView.getBottom());
         p.setColor(Color.RED);
         c.drawRoundRect(rightButton, corners, corners, p);
-        drawText("DELETE", c, rightButton, p);
+        drawText("Delete", c, rightButton, p);
 
         buttonInstance = null;
         if (buttonShowedState == ButtonsState.RIGHT_VISIBLE) {
