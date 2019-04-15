@@ -144,6 +144,7 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
         notifyDataSetChanged();
     }
 
+
     public void updateData(){
         notifyDataSetChanged();
     }
