@@ -20,12 +20,12 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecyclerAdapter.TaskCardViewHolder> {
+public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecyclerAdapter.TaskCardViewHolder> {
 
 
     private DatabaseHelper db ;
     private ArrayList<Task> taskList;
-    MainActivity mainActivity = new MainActivity();
+    private MainActivity mainActivity = new MainActivity();
     private Context context;
    /* public TaskCardRecyclerAdapter(ArrayList<Task> globalTaskList, MainActivity context) {
         this.taskList = globalTaskList;
@@ -53,7 +53,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         }
     }
 
-    public TaskCardRecyclerAdapter (ArrayList<Task> taskList, Context context)
+    public CalendarRecyclerAdapter (ArrayList<Task> taskList, Context context)
     {
         this.taskList = taskList;
         this.db = new DatabaseHelper(context);
@@ -71,19 +71,9 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         final Task task = taskList.get(i);
         taskCardViewHolder.taskName.setText(task.getTaskName());
         taskCardViewHolder.priority.setTextColor(Color.parseColor("#000000"));
-
-
-
         taskCardViewHolder.priority.setText(Integer.toString(task.getPriority()));
         taskCardViewHolder.dueDate.setText(dateCorrection(task.getDueDate()));
         taskCardViewHolder.timeDue.setText(task.getTimeDueDate());
-        taskCardViewHolder.checkBox.setOnCheckedChangeListener(null);
-        if(task.getCompleted() == 0)
-        {
-            taskCardViewHolder.checkBox.setChecked(false);
-        }
-        else
-            taskCardViewHolder.checkBox.setChecked(true);
         taskCardViewHolder.taskCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,31 +82,38 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
                 context.startActivity(intent);
             }
         });
+        taskCardViewHolder.checkBox.setOnCheckedChangeListener(null);
+        if(task.getCompleted() == 0)
+            taskCardViewHolder.checkBox.setChecked(false);
+        else
+            taskCardViewHolder.checkBox.setChecked(true);
         taskCardViewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    if(db.markTaskCompleted(task.getTaskId().toString())){
-                        // System.out.println("True");
-                        mainActivity.populateArrayList(db, mainActivity.sortSelector);
-                        mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
-                        updateData();
-                    }
-                    else {
-                        System.out.println("False");
-                    }
-                }
-                else
-                {
-                    if(db.unCheckCompletedTask(task.getTaskId().toString())){
-//                        mainActivity.populateArrayList(db);
-                        mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
-                        updateData();
-                    }
-                }
+                                                                   @Override
+                                                                   public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                                                       if(isChecked){
+                                                                           if(db.markTaskCompleted(task.getTaskId().toString())){
+                                                                               // System.out.println("True");
+                                                                               mainActivity.populateArrayList(db, mainActivity.sortSelector);
+                                                                               mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
 
-            }
-        }
+                                                                               updateRecyclerView(task.getDueDate());
+                                                                               updateData();
+                                                                           }
+                                                                           else {
+                                                                               System.out.println("False");
+                                                                           }
+                                                                       }
+                                                                       else
+                                                                       {
+                                                                           if(db.unCheckCompletedTask(task.getTaskId().toString())){
+//                        mainActivity.populateArrayList(db);
+                                                                               mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
+                                                                               updateData();
+                                                                           }
+                                                                       }
+
+                                                                   }
+                                                               }
         );
 
     }
@@ -137,6 +134,15 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
     }
 
 
+    public void updateRecyclerView(String date){
+        taskList.clear();
+        for(int i=0; i < MainActivity.globalTaskList.size(); i++)
+        {
+            if(date.equals(MainActivity.globalTaskList.get(i).getDueDate()))
+                taskList.add(MainActivity.globalTaskList.get(i));
+        }
+        notifyDataSetChanged();
+    }
 
     public void updateData(){
         notifyDataSetChanged();

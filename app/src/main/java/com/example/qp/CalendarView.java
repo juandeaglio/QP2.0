@@ -20,7 +20,7 @@ import java.util.Date;
 public class CalendarView extends AppCompatActivity {
 
     ArrayList<Task>sortedTaskList = new ArrayList<>();
-    TaskCardRecyclerAdapter adapter = new TaskCardRecyclerAdapter(sortedTaskList, this); //sortedTaskList is passed into adapter and any changes to sortedTaskList will changed array in the adapter. use updateSortedData to update screen elements
+    CalendarRecyclerAdapter adapter = new CalendarRecyclerAdapter(sortedTaskList, this); //sortedTaskList is passed into adapter and any changes to sortedTaskList will changed array in the adapter. use updateSortedData to update screen elements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,10 +29,7 @@ public class CalendarView extends AppCompatActivity {
         setSupportActionBar(toolbar);
         android.widget.CalendarView calendar = findViewById(R.id.calendarView);
 
-        RecyclerView recyclerView = findViewById(R.id.calendar_recycler);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        setUpRecycler();
 
         activateRecycler(calendar.getDate());
 
@@ -43,7 +40,7 @@ public class CalendarView extends AppCompatActivity {
             public void onSelectedDayChange(@NonNull android.widget.CalendarView view, int year, int month, int dayOfMonth) {
                 month++;
                 String date = String.valueOf(month) + "/" + dayOfMonth + "/" + year;
-                updateRecyclerView(date);
+                adapter.updateRecyclerView(date);
             }
         });
 
@@ -52,21 +49,19 @@ public class CalendarView extends AppCompatActivity {
 
     }
 
+    private void setUpRecycler(){
+        RecyclerView recyclerView = findViewById(R.id.calendar_recycler);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+    }
+
     /*Populates the recycler when calendar is opened*/
     private void activateRecycler(long dateAsLong){
         SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy");
         String date = sdf.format(new Date(dateAsLong));
-        updateRecyclerView(date);
+        adapter.updateRecyclerView(date);
     }
 
-    private void updateRecyclerView(String date){
-        sortedTaskList.clear();
-        for(int i=0; i < MainActivity.globalTaskList.size(); i++)
-        {
-            if(date.equals(MainActivity.globalTaskList.get(i).getDueDate()))
-                sortedTaskList.add(MainActivity.globalTaskList.get(i));
-        }
-       adapter.updateData();
-    }
 
 }
