@@ -59,11 +59,15 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
         final UUID taskID = UUID.fromString(taskIDStr);
         displayTask(taskID);
         Button saveTaskBtn = findViewById(R.id.editViewTask);
-        saveTaskBtn.setOnClickListener(new View.OnClickListener() {
+        saveTaskBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
-                saveTask(taskID);
-                goHome(v);
+                if (saveTask(taskID)){
+                    goHome(v);
+                }
+
+
             }
         });
 
@@ -110,23 +114,34 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
 
     }
 
+
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         TextView taskTime = (TextView) findViewById(R.id.viewTime);
-        taskTime.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+        String am_pm = "";
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
-        //this.time = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
+
+        if(calendar.get(Calendar.AM_PM) == Calendar.AM){
+            am_pm = "AM";
+        }
+        else if(calendar.get(Calendar.AM_PM) == Calendar.PM){
+            am_pm = "PM";
+        }
+        String tempText = (calendar.get(Calendar.HOUR) == 0) ?"12":calendar.get(Calendar.HOUR)+"";
+        taskTime.setText(tempText+":"+calendar.get(Calendar.MINUTE)+" "+am_pm );
+        //.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + am_pm);
+
+        //this.taskTime = String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + " " + am_pm;
 
     }
+
 
 //    protected void onResume() {
 //        super.onResume();
 //        setContentView(R.layout.activity_view_task);
 //        Intent myIntent = getIntent();
 //    }
-
-
 
     public Task findTaskFromArrayList(UUID taskID)
     {
@@ -145,17 +160,18 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
 
 
     public void deleteTask(View view){
-
-        db.deleteTask(this.taskIDStr);
-        startActivity(new Intent(this, MainActivity.class));
+        DeletePrompt deletePrompt = new DeletePrompt();
+        deletePrompt.show(getSupportFragmentManager(), "deletePrompt");
+//        db.deleteTask(this.taskIDStr);
+//        startActivity(new Intent(this, MainActivity.class));
 
     }
 
-
+    //TODO: goHome should be changed to just go back to screen that was before this (can't assume it was home)
     public void goHome(View view){
         startActivity(new Intent(this, MainActivity.class));
     }
-    //TODO: test this method - Ant
+
     public void displayTask(UUID taskID)
     {
         //Display task from array lis
@@ -168,39 +184,74 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
         TextView dueDate = (TextView) findViewById(R.id.viewDueDate);
         TextView dueTime = (TextView) findViewById(R.id.viewTime);
         int priorityTemp = viewedTask.getPriority();
-        String str1 = viewedTask.getTaskName();
-        String str3 = viewedTask.getDescription();
-        String str4 = viewedTask.getDueDate();
-        String str5 = viewedTask.getTimeDueDate();
+        String textBoxName = viewedTask.getTaskName();
+        String textBoxDescription = viewedTask.getDescription();
+        String textBoxDueDate = viewedTask.getDueDate();
+        String textBoxTime = viewedTask.getTimeDueDate();
 
-        taskName.setText(str1);
+        taskName.setText(textBoxName);
         priority.setText(Integer.toString(priorityTemp));
-        taskNotes.setText(str3);
-        dueDate.setText(str4);
-        dueTime.setText(str5);
+        taskNotes.setText(textBoxDescription);
+        dueDate.setText(textBoxDueDate);
+        dueTime.setText(textBoxTime);
 
     }
     //TODO: test this method - Ant
-    public void saveTask(UUID taskID)
+    public boolean saveTask(UUID taskID)
     {
         //TODO: fix crashing here - Ant
         //Edits task from array list
 
-        EditText taskName = (EditText) findViewById(R.id.viewTaskName);
-        EditText priority = (EditText) findViewById(R.id.viewPriority);
-        EditText taskNotes = (EditText) findViewById(R.id.viewDescription);
-        //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
-        TextView dueDate = (TextView) findViewById(R.id.viewDueDate);
-        TextView taskTime = findViewById(R.id.viewTime);
 
+        EditText taskName = (EditText) findViewById(R.id.viewTaskName);
+        if(taskName.getText().length() == 0){
+            taskName.setError("Task Name cannot be Blank");
+            return false;
+        }
+
+        TextView dueDate = findViewById(R.id.viewDueDate);
+        if(dueDate.getText().toString().length() == 0){
+            dueDate.setError("Task Due Date cannot be blank");
+            return false;
+        }
+
+        TextView taskTime = (TextView) findViewById(R.id.viewTime);
+        if(taskTime.getText().toString().length() == 0){
+            taskTime.setError("Task Time cannot be blank");
+            return false;
+        }
+
+        EditText taskNotes = (EditText) findViewById(R.id.viewDescription);
+        if(taskNotes.getText().length() == 0){
+            taskNotes.setText(""); // IIf user didn't specify priority just set to 1
+        }
+
+        EditText priority = (EditText) findViewById(R.id.viewPriority);
+        if(priority.getText().length() == 0){
+            priority.setText("1"); // IIf user didn't specify priority just set to 1
+        }
+        //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
+        //calendar.set
         boolean updateCompleted = db.updateTable(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()),dueDate.getText().toString(), taskNotes.getText().toString(), 0, UUID.fromString(this.taskIDStr), taskTime.getText().toString());
 
         if(updateCompleted)
         {
+            //TODO: Fix when editing task to go to it's assigned time not the current time on system
             Intent intent1 = new Intent(ViewTask.this, BroadCastService.class);
             intent1.putExtra("Task Name",taskName.getText().toString());
             PendingIntent pendingIntent = PendingIntent.getBroadcast(ViewTask.this, 0,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager am = (AlarmManager) ViewTask.this.getSystemService(ViewTask.this.ALARM_SERVICE);
+
+            String taskDueDate = taskTime.getText().toString();
+            String hour = taskDueDate.substring( 0, taskDueDate.indexOf(":"));
+            String minute = taskDueDate.substring(taskDueDate.indexOf(":")+1, taskDueDate.indexOf(" "));
+
+            int hourToInt = Integer.parseInt(hour);
+            int minuteToInt = Integer.parseInt(minute);
+
+            calendar.set(Calendar.HOUR_OF_DAY, hourToInt);
+            calendar.set(Calendar.MINUTE, minuteToInt);
+            calendar.set(Calendar.SECOND,0);
             am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
             toast.show();
         }
@@ -210,5 +261,6 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
             toast.show();
         }
 
+        return true;
     }
 }

@@ -8,7 +8,7 @@
     tools:showIn="@layout/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_color">
+    android:background="@android:color/white">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/task_card_recycler"
@@ -22,9 +22,10 @@
         android:id="@+id/createTaskBtn"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginEnd="44dp"
-        android:layout_marginRight="44dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginRight="52dp"
+        android:layout_marginBottom="44dp"
+        app:layout_behavior="com.valdio.valdioveliu.floatingactionbuttonproject.Scrolling_Floating_Action_Button.FAB_Hide_on_Scroll"
         android:clickable="true"
         app:backgroundTint="#FFA55B"
         app:fabCustomSize="60dp"
@@ -32,7 +33,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:maxImageSize="50dp"
-        app:rippleColor="#FFA55B"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:rippleColor="@color/navyBlue"
+        app:srcCompat="@drawable/baseline_add_24px" />
 
 </android.support.constraint.ConstraintLayout>
