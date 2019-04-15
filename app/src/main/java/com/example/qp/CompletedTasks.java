@@ -1,6 +1,7 @@
 package com.example.qp;
 
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -21,7 +23,9 @@ import com.DatabaseHelper;
 
 public class CompletedTasks extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-
+    private SwipeController swipeController;
+    private TaskCardRecyclerAdapter adapter;
+    private DatabaseHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,17 +48,40 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
 
 
         MainActivity mainActivity = new MainActivity();
-        DatabaseHelper db = new DatabaseHelper(this);
+        db = new DatabaseHelper(this);
         mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
 
-        TaskCardRecyclerAdapter adapter = new TaskCardRecyclerAdapter(MainActivity.globalCompletedTaskList, this);
-        RecyclerView taskRecycler = (RecyclerView) findViewById(R.id.completed_task_recycler);
+        setUpRecycler();
+
+
+
+
+    }
+
+    private void setUpRecycler(){
+        RecyclerView taskRecycler;
+        taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         taskRecycler.setLayoutManager(layoutManager);
         taskRecycler.setAdapter(adapter);
+        //registerForContextMenu(adapter);
 
-
-
+        swipeController = new SwipeController(new SwipeControllerActions() {
+            @Override
+            public void onRightClicked(int position) {
+                db.deleteTask(MainActivity.globalCompletedTaskList.get(position).getTaskId().toString());
+                MainActivity.globalCompletedTaskList.remove(position);
+                adapter.updateData();
+            }
+        });
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
+        itemTouchHelper.attachToRecyclerView(taskRecycler);
+        taskRecycler.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                swipeController.onDraw(c);
+            }
+        });
 
     }
 
