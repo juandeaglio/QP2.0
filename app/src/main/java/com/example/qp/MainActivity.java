@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TaskCardRecyclerAdapter adapter;
     SwipeController swipeController;
 
-    public String sortSelector = "Task_Priority"; // This will be used to keep track of what type of sorting order the user has selected
+    public String sortSelector = "Task_Priority"; // Default sorting priority
 
     @Override
 
