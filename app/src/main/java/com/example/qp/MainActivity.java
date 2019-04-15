@@ -268,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    //TODO: Update recycler for the new sorting order - Ethan
+    //Sorting function
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -278,15 +278,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //Maybe use mDB.SortTable()?
                 this.sortSelector = "Task_Priority";
                 populateArrayList(this.db, sortSelector);
-                //Update here!!!
+                adapter.updateData();
                 break;
             case R.id.mSortDate:
                 this.sortSelector = "Task_Due_Date";
                 populateArrayList(this.db, sortSelector);
+                adapter.updateData();
                 break;
             case R.id.mSortNames:
                 this.sortSelector = "Task_Name";
                 populateArrayList(this.db, sortSelector);
+                adapter.updateData();
                 break;
         }
         return super.onOptionsItemSelected(item);
