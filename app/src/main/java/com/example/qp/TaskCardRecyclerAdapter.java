@@ -50,6 +50,8 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
             dueDate = (TextView) v.findViewById(R.id.card_due_date);
             checkBox = v.findViewById(R.id.card_check_box);
             timeDue = (TextView) v.findViewById(R.id.card_time);
+
+
         }
     }
 
@@ -71,13 +73,12 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         final Task task = taskList.get(i);
         taskCardViewHolder.taskName.setText(task.getTaskName());
         taskCardViewHolder.priority.setTextColor(Color.parseColor("#000000"));
-
-
-
         taskCardViewHolder.priority.setText(Integer.toString(task.getPriority()));
         taskCardViewHolder.dueDate.setText(dateCorrection(task.getDueDate()));
         taskCardViewHolder.timeDue.setText(task.getTimeDueDate());
         taskCardViewHolder.checkBox.setOnCheckedChangeListener(null);
+
+
         if(task.getCompleted() == 1)
         {
             taskCardViewHolder.checkBox.setChecked(true);
@@ -90,6 +91,9 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
                 context.startActivity(intent);
             }
         });
+
+       // mainActivity.registerForContextMenu(taskCardViewHolder.taskCard);
+
         taskCardViewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -116,6 +120,8 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
             }
         }
         );
+
+
 
     }
 
