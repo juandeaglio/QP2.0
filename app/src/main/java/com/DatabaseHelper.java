@@ -177,8 +177,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COL_6 + " = '" + taskID + "'";
 
         db.execSQL(querey);
+    }
 
-
+    public void deleteAllCompletedTasks(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String querey = "DELETE FROM " + TABLE_NAME + " WHERE " + COL_5 + " = 1";
+        db.execSQL(querey);
     }
 
 
