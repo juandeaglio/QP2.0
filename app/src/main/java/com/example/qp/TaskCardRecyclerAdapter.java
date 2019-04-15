@@ -109,7 +109,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
                 else
                 {
                     if(db.unCheckCompletedTask(task.getTaskId().toString())){
-//                        mainActivity.populateArrayList(db);
+                        mainActivity.populateArrayList(db, mainActivity.sortSelector);
                         mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
                         updateData();
                     }
