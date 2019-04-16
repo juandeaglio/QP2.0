@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.qp"
-    android:installLocation="internalOnly">
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.qp">
 
     <application
         android:allowBackup="true"
@@ -11,8 +10,6 @@
         android:roundIcon="@mipmap/ic_qp_homescreen_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-
-        >
 
         tools:ignore="GoogleAppIndexingWarning">
 

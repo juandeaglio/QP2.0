@@ -24,7 +24,7 @@ import com.DatabaseHelper;
 public class CompletedTasks extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private SwipeController swipeController;
-    private TaskCardRecyclerAdapter adapter;
+    private TaskCardRecyclerAdapter adapter = new TaskCardRecyclerAdapter(MainActivity.globalCompletedTaskList, this);
     private DatabaseHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,7 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
 
     private void setUpRecycler(){
         RecyclerView taskRecycler;
-        taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
+        taskRecycler = (RecyclerView) findViewById(R.id.completed_task_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         taskRecycler.setLayoutManager(layoutManager);
         taskRecycler.setAdapter(adapter);
