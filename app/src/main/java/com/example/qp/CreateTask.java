@@ -50,10 +50,11 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
         private String taskDueDateValue = "";
         private String taskTime = "";
         Calendar calendar = Calendar.getInstance();
+        AlarmManager am;
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_create_task);
-
+             am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
     //        TextInputLayout inputTaskName = findViewById(R.id.input_task_name);
     //        TextInputLayout inputTaskPriority = findViewById(R.id.input_task_priority);
     //        TextInputLayout inputTaskDescription = findViewById(R.id.input_task_description);
@@ -192,6 +193,8 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             String am_pm = "";
             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
             calendar.set(Calendar.MINUTE, minute);
+            calendar.set(Calendar.SECOND,0);
+            calendar.set(Calendar.MILLISECOND,0);
             //calendar.set(Calendar.SECOND, 0);
 
             if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
@@ -228,6 +231,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 
 
         public boolean saveTask() {
+
             //Saves task in array list
             //mainActivity.globalTaskList.add(newTask);
             //Task newTask = new Task();
@@ -271,7 +275,6 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
                 Intent intent1 = new Intent(CreateTask.this, StartService.class);
                 intent1.putExtra("Task Name", taskName.getText().toString());
 
-                AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 int id = (int) System.currentTimeMillis();
                 PendingIntent pendingIntent = PendingIntent.getService(this, id, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
                 Log.d("Calendar", "Hour " + calendar.get(Calendar.HOUR) + " minute " + calendar.get(Calendar.MINUTE)); // debug -keg
@@ -281,8 +284,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
                 if (diff > 0) { // To accommodate if the user input's time from the past e.g Current Date: 4/15/19 1:03 p.m Set Date : 4/14/19 1:03 p.m
                     calendar.add(Calendar.DATE, 1);
                 }
-                calendar.set(Calendar.SECOND,0);
-                calendar.set(Calendar.MILLISECOND,0);
+
                 am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
                 toast.show();

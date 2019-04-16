@@ -114,7 +114,6 @@
             android:shadowColor="@android:color/black"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:fontFamily="@font/poppins"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.design.widget.TextInputLayout>
