@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -136,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         PendingIntent pendingIntent;
         NotificationCompat.Builder builder;
         if (notifManager == null) {
-            notifManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+            notifManager = (NotificationManager)context.getSystemService(Service.NOTIFICATION_SERVICE);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_HIGH;

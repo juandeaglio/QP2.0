@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.content.Intent;
@@ -269,19 +270,20 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
                 //mainActivity.populateArrayList(); Commented out because it results in a crash
                 Intent intent1 = new Intent(CreateTask.this, StartService.class);
                 intent1.putExtra("Task Name", taskName.getText().toString());
-                AlarmManager am = (AlarmManager) CreateTask.this.getSystemService(ALARM_SERVICE);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(CreateTask.this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                int id = (int) System.currentTimeMillis();
+                PendingIntent pendingIntent = PendingIntent.getService(this, id, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
                 Log.d("Calendar", "Hour " + calendar.get(Calendar.HOUR) + " minute " + calendar.get(Calendar.MINUTE)); // debug -keg
 
                 long diff = Calendar.getInstance().getTimeInMillis() - calendar.getTimeInMillis();
 
-                if (diff > 0) { // If the user input's time from the past e.g Current Date: 4/15/19 1:03 p.m Set Date : 4/14/19 1:03 p.m
+                if (diff > 0) { // To accommodate if the user input's time from the past e.g Current Date: 4/15/19 1:03 p.m Set Date : 4/14/19 1:03 p.m
                     calendar.add(Calendar.DATE, 1);
                 }
-
-                calendar.add(Calendar.SECOND, -35); // fixes delay in notification scheduling with the average delay being +-35 seconds
-                long start = calendar.getTimeInMillis();
-                am.set(AlarmManager.RTC_WAKEUP, start, pendingIntent);
+                calendar.set(Calendar.SECOND,0);
+                calendar.set(Calendar.MILLISECOND,0);
+                am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
                 toast.show();
                 return true;
