@@ -26,6 +26,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TaskCardRecyclerAdapter adapter;
     SwipeController swipeController;
 
-    public String sortSelector = "Task_Priority"; // This will be used to keep track of what type of sorting order the user has selected
+    public String sortSelector = "Task_Priority"; // Default sorting priority
 
     @Override
 
@@ -92,6 +93,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
         setUpRecyclerView();
 
+
+//        RecyclerView taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
+//
+//        registerForContextMenu(taskRecycler);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        getMenuInflater().inflate(R.menu.task_card_long_press, menu);
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.option1:
+                this.toast  = Toast.makeText(getApplicationContext(), "Implement me", Toast.LENGTH_SHORT);
+                toast.show();
+                break;
+            case R.id.option2:
+                this.toast  = Toast.makeText(getApplicationContext(), "Implement NOW!", Toast.LENGTH_SHORT);
+                toast.show();
+
+        }
+
+
+        return super.onContextItemSelected(item);
     }
 
     private void setUpRecyclerView(){
@@ -100,6 +130,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         taskRecycler.setLayoutManager(layoutManager);
         taskRecycler.setAdapter(adapter);
+        //registerForContextMenu(adapter);
+
         swipeController = new SwipeController(new SwipeControllerActions() {
             @Override
             public void onRightClicked(int position) {
@@ -116,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 swipeController.onDraw(c);
             }
         });
+
     }
     @Override
     protected void onResume()
@@ -125,9 +158,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    protected void OnBackPressed(){
 
-    }
     public void createNotification(String aMessage, Context context) {
         final int NOTIFY_ID = 0; // ID of notification
         String id = CHANNEL_ID; // default_channel_id
@@ -268,7 +299,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    //TODO: Update recycler for the new sorting order - Ethan
+    //Sorting function
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -278,15 +309,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //Maybe use mDB.SortTable()?
                 this.sortSelector = "Task_Priority";
                 populateArrayList(this.db, sortSelector);
-                //Update here!!!
+                adapter.updateData();
                 break;
             case R.id.mSortDate:
                 this.sortSelector = "Task_Due_Date";
                 populateArrayList(this.db, sortSelector);
+                adapter.updateData();
                 break;
             case R.id.mSortNames:
                 this.sortSelector = "Task_Name";
                 populateArrayList(this.db, sortSelector);
+                adapter.updateData();
                 break;
         }
         return super.onOptionsItemSelected(item);

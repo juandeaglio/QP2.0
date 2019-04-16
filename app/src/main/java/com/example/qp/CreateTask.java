@@ -117,6 +117,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
                 Log.d("Date Picker", "onDateSet: date " + (month + 1) + "/" + dayOfMonth + "/" + year);
                 taskDueDateValue = String.valueOf(month + 1) + "/" + String.valueOf(dayOfMonth) + "/" + String.valueOf(year);
                 taskDueDateText.setText(taskDueDateValue);
+                taskDueDateText.setVisibility(View.VISIBLE);
             }
         };
 
@@ -191,7 +192,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
         String am_pm = "";
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
-        calendar.set(Calendar.SECOND, 0);
+        //calendar.set(Calendar.SECOND, 0);
 
         if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
             am_pm = "AM";
@@ -208,6 +209,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             minuteStr = String.valueOf(minute);
         }
         taskTime.setText(tempText + ":" + minuteStr + " " + am_pm);
+        taskTime.setVisibility(View.VISIBLE);
         //.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + am_pm);
 
         this.taskTime = String.valueOf(tempText) + ":" + minuteStr + " " + am_pm;

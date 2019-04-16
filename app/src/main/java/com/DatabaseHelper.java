@@ -38,7 +38,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + TABLE_NAME + "(Task_Name varchar(255), Task_Due_Date varchar(255), Task_Priority INT, Task_Description varchar(255), Task_Completed INT, Task_ID varchar(255), Task_Time varchar(255))"); //SQL querey creating our database
-
     }
 
     @Override
@@ -178,8 +177,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COL_6 + " = '" + taskID + "'";
 
         db.execSQL(querey);
+    }
 
-
+    public void deleteAllCompletedTasks(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String querey = "DELETE FROM " + TABLE_NAME + " WHERE " + COL_5 + " = 1";
+        db.execSQL(querey);
     }
 
 

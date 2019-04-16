@@ -158,6 +158,22 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
         return null;
     }
 
+    public Task findCompletedTaskFromArrayList(UUID taskID)
+    {
+        UUID searchFor = taskID;
+        UUID found = null;
+        for (Task taskIter : MainActivity.globalCompletedTaskList)
+        {
+            found = taskIter.getTaskId();
+            if(found.toString().equals(searchFor.toString()))
+            {
+                return taskIter;
+            }
+        }
+        return null;
+    }
+
+
 
     public void deleteTask(View view){
         DeletePrompt deletePrompt = new DeletePrompt();
@@ -176,6 +192,10 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
     {
         //Display task from array lis
         Task viewedTask = findTaskFromArrayList(taskID);
+        if(viewedTask == null){
+            //If the task is not in the original array list check the completed task list
+            viewedTask = findCompletedTaskFromArrayList(taskID);
+        }
 
         EditText taskName = (EditText) findViewById(R.id.viewTaskName);
         EditText priority = (EditText) findViewById(R.id.viewPriority);
