@@ -10,7 +10,6 @@
         android:roundIcon="@mipmap/ic_qp_homescreen_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
@@ -26,14 +25,15 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CompletedTasks"
-            android:label="@string/app_name"
+            android:label="@string/completedTask"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity android:name=".CreateTask"
-            android:label="@string/title_activity_completed_tasks"
+            android:label="@string/title_activity_create_task"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
+            android:label="@string/homePage"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

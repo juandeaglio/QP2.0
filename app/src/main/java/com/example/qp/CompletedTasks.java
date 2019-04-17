@@ -96,14 +96,7 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
                     Toast.LENGTH_SHORT);
             toast.show();
 
-        } else if (id == R.id.nav_tools) {
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    "Implement me",
-                    Toast.LENGTH_SHORT);
-            toast.show();
-
-
-        } else if (id == R.id.nav_reminder) {
+        }  else if (id == R.id.nav_reminder) {
             //openReminderActivity();
         }
 
@@ -113,5 +106,13 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    public void deleteAllTasks(View view){
+        DeleteAllCompletedTasksPrompt deletePrompt = new DeleteAllCompletedTasksPrompt();
+        deletePrompt.show(getSupportFragmentManager(), "deletePrompt");
+//        db.deleteTask(this.taskIDStr);
+//        startActivity(new Intent(this, MainActivity.class));
+
+    }
+
 
 }

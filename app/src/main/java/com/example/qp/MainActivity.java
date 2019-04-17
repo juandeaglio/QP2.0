@@ -327,14 +327,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_completed_tasks) {
             openCompletedTasks();
 
-        } else if (id == R.id.nav_tools) {
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    "Implement me",
-                    Toast.LENGTH_SHORT);
-            toast.show();
-
-
-        } else if (id == R.id.nav_reminder) {
+        }  else if (id == R.id.nav_reminder) {
             openReminderActivity();
         }
 
