@@ -127,27 +127,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setUpRecyclerView(){
         RecyclerView taskRecycler;
         taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
+        SwipeControllerActions swipeControllerActions = new SwipeControllerActions() {
+            @Override
+            public void onLeftSwiped(UUID taskID) {
+                db.deleteTask(taskID.toString());
+                populateArrayList(db, sortSelector);
+                adapter.updateData();
+            }
+
+            @Override
+            public void onRightSwiped(UUID taskID){
+                db.markTaskCompleted(taskID.toString());
+                populateArrayList(db, sortSelector);
+                populateCompletedTaskList(db, sortSelector);
+                adapter.updateData();
+            }
+        };
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         taskRecycler.setLayoutManager(layoutManager);
         taskRecycler.setAdapter(adapter);
         //registerForContextMenu(adapter);
 
-        swipeController = new SwipeController(new SwipeControllerActions() {
-            @Override
-            public void onRightClicked(int position) {
-                db.deleteTask(globalTaskList.get(position).getTaskId().toString());
-                globalTaskList.remove(position);
-                adapter.updateData();
-            }
-        });
+        swipeController = new SwipeController(swipeControllerActions);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
         itemTouchHelper.attachToRecyclerView(taskRecycler);
-        taskRecycler.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                swipeController.onDraw(c);
-            }
-        });
+
 
     }
     @Override

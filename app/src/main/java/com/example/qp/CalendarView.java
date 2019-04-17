@@ -58,23 +58,8 @@ public class CalendarView extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        swipeController = new SwipeController(new SwipeControllerActions() {
-            @Override
-            public void onRightClicked(int position) {
-                String date = MainActivity.globalTaskList.get(position).getDueDate();
-                db.deleteTask(MainActivity.globalTaskList.get(position).getTaskId().toString());
-                MainActivity.globalTaskList.remove(position);
-                adapter.updateRecyclerView(date);
-            }
-        });
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
         itemTouchHelper.attachToRecyclerView(recyclerView);
-        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                swipeController.onDraw(c);
-            }
-        });
     }
 
     /*Populates the recycler when calendar is opened*/

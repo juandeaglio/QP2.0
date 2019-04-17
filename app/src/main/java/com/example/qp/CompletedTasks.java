@@ -21,11 +21,13 @@ import android.widget.Toast;
 
 import com.DatabaseHelper;
 
+import java.util.UUID;
+
 public class CompletedTasks extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private SwipeController swipeController;
     private TaskCardRecyclerAdapter adapter;
     private DatabaseHelper db;
+    private MainActivity mainActivity= new MainActivity();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +61,7 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
     }
 
     private void setUpRecycler(){
+        SwipeController swipeController;
         RecyclerView taskRecycler;
         taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -68,20 +71,22 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
 
         swipeController = new SwipeController(new SwipeControllerActions() {
             @Override
-            public void onRightClicked(int position) {
-                db.deleteTask(MainActivity.globalCompletedTaskList.get(position).getTaskId().toString());
-                MainActivity.globalCompletedTaskList.remove(position);
+            public void onLeftSwiped(UUID taskID) {
+                db.deleteTask(taskID.toString());
+                mainActivity.populateArrayList(db, mainActivity.sortSelector);
+                adapter.updateData();
+            }
+
+            @Override
+            public void onRightSwiped(UUID taskID){
+                db.unCheckCompletedTask(taskID.toString());
+                mainActivity.populateArrayList(db, mainActivity.sortSelector);
+                mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
                 adapter.updateData();
             }
         });
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
         itemTouchHelper.attachToRecyclerView(taskRecycler);
-        taskRecycler.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                swipeController.onDraw(c);
-            }
-        });
 
     }
 
