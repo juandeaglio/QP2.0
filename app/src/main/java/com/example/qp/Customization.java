@@ -15,6 +15,8 @@ public class Customization extends AppCompatActivity {
         setContentView(R.layout.activity_customization);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        findViewById(R.id.task_card_recycler);
     }
 
 }
