@@ -4,14 +4,17 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Canvas;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -23,6 +26,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,7 +56,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String CHANNEL_ID = "com.chikeandroid.tutsplustalerts.ANDROID";
     public static final String CHANNEL_NAME = "ANDROID CHANNEL";
     private NotificationManager notifManager;
+    private TaskCardRecyclerAdapter adapter;
+    SwipeController swipeController;
 
+    public String sortSelector = "Task_Priority"; // Default sorting priority
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -77,31 +87,72 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        //TODO: populate arrayList w/ database entries - Ant
-/*
-        int cursorSize = 0;
-        if(retrievedData.moveToFirst())
-        {
-            cursorSize = 1;
-            while(retrievedData.moveToNext())
-            {
-                cursorSize++;
-            }
-        }
-        databasesize = cursorSize;
-        */
-        //populate();
-        //createTask = new CreateTask();
-        //createTask.populateArrayList("Task_Priority", "asc");
-        populateArrayList(this.db);
+        populateArrayList(this.db, this.sortSelector);
 
-        TaskCardRecyclerAdapter adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
-        RecyclerView taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
+        adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
+        setUpRecyclerView();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        getMenuInflater().inflate(R.menu.task_card_long_press, menu);
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.option1:
+                this.toast  = Toast.makeText(getApplicationContext(), "Implement me", Toast.LENGTH_SHORT);
+                toast.show();
+                break;
+            case R.id.option2:
+                this.toast  = Toast.makeText(getApplicationContext(), "Implement NOW!", Toast.LENGTH_SHORT);
+                toast.show();
+
+        }
+
+
+        return super.onContextItemSelected(item);
+    }
+
+    private void setUpRecyclerView(){
+        RecyclerView taskRecycler;
+        taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         taskRecycler.setLayoutManager(layoutManager);
         taskRecycler.setAdapter(adapter);
+        //registerForContextMenu(adapter);
+
+        swipeController = new SwipeController(new SwipeControllerActions() {
+            @Override
+            public void onRightClicked(int position) {
+                db.deleteTask(globalTaskList.get(position).getTaskId().toString());
+                globalTaskList.remove(position);
+                adapter.updateData();
+            }
+        });
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
+        itemTouchHelper.attachToRecyclerView(taskRecycler);
+        taskRecycler.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                swipeController.onDraw(c);
+            }
+        });
 
     }
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        adapter.updateData();
+
+    }
+
+
     public void createNotification(String aMessage, Context context) {
         final int NOTIFY_ID = 0; // ID of notification
         String id = CHANNEL_ID; // default_channel_id
@@ -110,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         PendingIntent pendingIntent;
         NotificationCompat.Builder builder;
         if (notifManager == null) {
-            notifManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+            notifManager = (NotificationManager)context.getSystemService(Service.NOTIFICATION_SERVICE);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_HIGH;
@@ -122,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 notifManager.createNotificationChannel(mChannel);
             }
             builder = new NotificationCompat.Builder(context, id);
+            builder.setPriority(NotificationCompat.PRIORITY_MAX);
             intent = new Intent(context, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
@@ -129,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .setSmallIcon(android.R.drawable.ic_popup_reminder)   // required
                     .setContentText(context.getString(R.string.app_name)) // required
                     .setDefaults(Notification.DEFAULT_ALL)
+                    .setPriority(Notification.PRIORITY_MAX)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
                     .setTicker(aMessage)
@@ -159,10 +212,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-    public void populateArrayList(DatabaseHelper db){
+    public void populateArrayList(DatabaseHelper db, String sortSelector){
         this.taskDB = db.getWritableDatabase();
         globalTaskList.clear();
-        Cursor cursor = db.sortTable("Task_Priority", "asc");
+        Cursor cursor = db.sortUnCompletedTasks(sortSelector); //Going to assume the user wants in ascending order?
 
         if(cursor.moveToFirst()){
             do {
@@ -179,12 +232,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }while (cursor.moveToNext());
 
         }
+
     }
 
-    public void populateCompletedTaskList(DatabaseHelper db){
+    public void populateCompletedTaskList(DatabaseHelper db, String sortSelector){
         this.taskDB = db.getWritableDatabase();
         globalCompletedTaskList.clear();
-        Cursor cursor = db.sortCompletedTasks("Task_Priority", "asc");
+        Cursor cursor = db.sortCompletedTasks(sortSelector);
 
         if(cursor.moveToFirst()){
             do {
@@ -203,20 +257,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    //TODO: check this works - Ant
-    public void openViewTaskActivity(UUID taskID) {
-        startActivity(myIntent);
-    }
-    //TODO: Ant
-//    public void completeTask(View view) {
-//        if (db.markTaskCompleted(globalTaskList.get(0).getTaskId().toString())) {
-//            this.toast = Toast.makeText(this, "Task Marked Completed", Toast.LENGTH_SHORT);
-//            toast.show();
-//        } else {
-//            this.toast = Toast.makeText(this, "Error", Toast.LENGTH_SHORT);
-//            toast.show();
-//        }
-//    }
 
     //TODO: refactor this code
 
@@ -255,28 +295,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    //TODO: To be implemented and tested - Ethan
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-//        switch (item.getItemId()){
-//            case R.id.mSortPriority:
-//                //Maybe use mDB.SortTable()?
-//                break;
-//            case R.id.mSortDate:
-//                this.createTask.populateArrayList("Task_Due_Date", "desc");
-//                break;
-//            case R.id.mSortNames:
-//                this.createTask.populateArrayList("Task_Name", "asc");
-//                break;
-//        }
+        switch (item.getItemId()){
+            case R.id.mSortPriority:
+                //Maybe use mDB.SortTable()?
+                this.sortSelector = "Task_Priority";
+                populateArrayList(this.db, sortSelector);
+                adapter.updateData();
+                break;
+            case R.id.mSortDate:
+                this.sortSelector = "Task_Due_Date";
+                populateArrayList(this.db, sortSelector);
+                adapter.updateData();
+                break;
+            case R.id.mSortNames:
+                this.sortSelector = "Task_Name";
+                populateArrayList(this.db, sortSelector);
+                adapter.updateData();
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
 
     public boolean onNavigationItemSelected(MenuItem item) { // to be further implemented -keghvart hagopian.
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_calendar) {
@@ -285,14 +327,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_completed_tasks) {
             openCompletedTasks();
 
-        } else if (id == R.id.nav_tools) {
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    "Implement me",
-                    Toast.LENGTH_SHORT);
-            toast.show();
-
-
-        } else if (id == R.id.nav_reminder) {
+        }  else if (id == R.id.nav_reminder) {
             openReminderActivity();
         }
 

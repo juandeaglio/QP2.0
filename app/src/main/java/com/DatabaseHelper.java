@@ -7,13 +7,7 @@ import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.example.qp.CreateTask;
-import com.example.qp.MainActivity;
-
-import java.util.Date;
 import java.util.UUID;
-
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -27,7 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_6 = "Task_ID";
     public static final String COL_7 = "Task_Time";
 
-    public String[] allColumns = {COL_1, COL_2, COL_3, COL_4, COL_5, COL_6, COL_7}; //Some parameters require that you pass in all the columns being affected, updated, sorted, etc...
+    public String[] allColumns = {COL_1, COL_2, COL_3, COL_4, COL_5, COL_6, COL_7};
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -38,7 +32,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + TABLE_NAME + "(Task_Name varchar(255), Task_Due_Date varchar(255), Task_Priority INT, Task_Description varchar(255), Task_Completed INT, Task_ID varchar(255), Task_Time varchar(255))"); //SQL querey creating our database
-
     }
 
     @Override
@@ -70,7 +63,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor getAllDataFromTable(){
+    public Cursor getAllUnCompletedTasksFromTable(){
         SQLiteDatabase db = getWritableDatabase();
         Cursor result = db.rawQuery("select * from " + TABLE_NAME + " where " + COL_5 + " != 0",null);
 
@@ -84,7 +77,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return  result;
     }
 
-    //TODO: needs testing - Ethan
     public boolean updateTable(String taskName, int priority, String dueDate, String description, int isCompleted, UUID taskID, String taskTime){
         SQLiteDatabase tempDb = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -101,9 +93,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    //Returns the due date to a specific task id
     public String getTaskDueDate(String taskID){
-        Cursor data = getAllDataFromTable();
+        Cursor data = getAllTasksFromtable();
 
         if ((data.moveToFirst())){
             do {
@@ -136,15 +127,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return false; // :(
     }
 
-    public Cursor sortTable(String column, String order){
-        //Thinking we clear the data table and repopulate it after we sort the table
-        //MainActivity.globalTaskList.clear();
-        Cursor sortedTable = this.getWritableDatabase().query(TABLE_NAME + " Where " + COL_5 + " != 1", this.allColumns,null,null,null,null, column + " " + order); //ex: Task_Priority(Column) + order("asc" or "desc")
+
+
+    public Cursor sortCompletedTasks(String sortSelector){
+        Cursor sortedTable = this.getWritableDatabase().query(TABLE_NAME + " Where " + COL_5 + " != 0", this.allColumns,null,null,null,null, sortSelector + " " + "asc"); //ex: Task_Priority(Column) + order("asc" or "desc")
         return sortedTable;
     }
 
-    public Cursor sortCompletedTasks(String column, String order){
-        Cursor sortedTable = this.getWritableDatabase().query(TABLE_NAME + " Where " + COL_5 + " != 0", this.allColumns,null,null,null,null, column + " " + order); //ex: Task_Priority(Column) + order("asc" or "desc")
+    public Cursor sortUnCompletedTasks(String sortSelector){
+        Cursor sortedTable = this.getWritableDatabase().query(TABLE_NAME + " Where " + COL_5 + " != 1", this.allColumns,null,null,null,null, sortSelector + " " + "asc"); //ex: Task_Priority(Column) + order("asc" or "desc")
         return sortedTable;
     }
 
@@ -153,7 +144,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase tempDB = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(COL_5, 0);
+        contentValues.put(COL_5, "0");
         if(data.moveToFirst()){
             do {
                 if (data.getString(5).equals(taskID)){
@@ -163,7 +154,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }while (data.moveToNext());
         }
 
-        return false; // :(
+        return false;
     }
 
     public void deleteTask(String taskID){
@@ -172,8 +163,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COL_6 + " = '" + taskID + "'";
 
         db.execSQL(querey);
+    }
 
-
+    public void deleteAllCompletedTasks(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String querey = "DELETE FROM " + TABLE_NAME + " WHERE " + COL_5 + " = 1";
+        db.execSQL(querey);
     }
 
 

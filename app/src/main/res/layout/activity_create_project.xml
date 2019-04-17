@@ -6,16 +6,17 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     tools:context=".CreateTask"
+
     >
 
     <Button
         android:id="@+id/cancelButton"
         android:layout_width="150dp"
         android:layout_height="55dp"
-        android:layout_marginStart="8dp"
-
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
         android:layout_marginTop="8dp"
+
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
@@ -23,87 +24,54 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.937"
+        app:layout_constraintVertical_bias="0.966"
         tools:textSize="20dp" />
 
     <TextView
-        android:id="@+id/taskTime"
+        android:id="@+id/projectTime"
         android:layout_width="180dp"
         android:layout_height="44dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="204dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="148dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
         android:background="@android:drawable/btn_dropdown"
         android:hint="Time"
         android:textColor="@color/colorBackgroundReminder"
         android:textSize="19sp"
         android:textStyle="bold"
         app:fontFamily="@font/poppins"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.065"
+        app:layout_constraintHorizontal_bias="0.961"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         tools:textAlignment="center" />
-
-    <TextView
-        android:id="@+id/taskTimeText"
-        android:layout_width="141dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="232dp"
-        android:layout_marginLeft="232dp"
-        android:layout_marginTop="204dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:textColor="@android:color/black"
-        android:background="@drawable/border_rounded_corners"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:paddingBottom="4dp"
-        android:visibility="invisible"
-        app:fontFamily="@font/poppins"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.066"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:textAlignment="center"
-        tools:text="@tools:sample/date/hhmmss" />
 
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_task_name"
-        android:layout_width="345dp"
-        android:layout_height="68dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_width="367dp"
+        android:layout_height="73dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
         android:paddingBottom="5dp"
         android:textColor="#2b3a75"
         android:textColorHint="@color/navyBlue"
         app:hintTextAppearance="@style/TextAppearance.AppCompat"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/taskName"
+            android:id="@+id/projectName"
             android:layout_width="326dp"
             android:layout_height="50dp"
             android:layout_marginStart="16dp"
-            android:layout_marginLeft="0dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="92dp"
             android:background="@drawable/border_rounded_corners"
             android:ems="10"
@@ -120,11 +88,11 @@
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_task_description"
-        android:layout_width="383dp"
-        android:layout_height="118dp"
+        android:layout_width="367dp"
+        android:layout_height="120dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="208dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:defaultFocusHighlightEnabled="true"
@@ -132,12 +100,11 @@
         android:textColorHint="@color/colorPrimary"
         app:hintTextAppearance="@style/TextAppearance.AppCompat"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/isAllDay">
+        app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/taskNotes"
+            android:id="@+id/projectDescription"
             android:layout_width="343dp"
             android:layout_height="94dp"
             android:layout_marginStart="8dp"
@@ -158,38 +125,13 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <TextView
-        android:id="@+id/priorityNum"
-        android:layout_width="110dp"
-        android:layout_height="77dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/edit_text_border"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="@color/navyBlue"
-        android:textColorHint="@color/navyBlue"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:fontFamily="@font/poppins"
-        app:layout_constraintBottom_toTopOf="@+id/saveTaskButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="3"
-        tools:textSize="50sp" />
-
 
     <TextView
-        android:id="@+id/taskDueDate"
+        android:id="@+id/projectDueDate"
         android:layout_width="180dp"
         android:layout_height="44dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="148dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
@@ -199,61 +141,53 @@
         android:paddingLeft="10sp"
         android:paddingTop="5dp"
         android:textColor="@android:color/black"
+        tools:textColor="@color/navyBlue"
         android:textSize="19sp"
         android:textStyle="bold"
         app:fontFamily="@font/poppins"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.06"
+        app:layout_constraintHorizontal_bias="0.024"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:textAlignment="center"
-        tools:textColor="@color/navyBlue" />
+        tools:textAlignment="center" />
 
-    <TextView
-        android:id="@+id/taskDueDateText"
-        android:layout_width="142dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="232dp"
-        android:layout_marginLeft="232dp"
-        android:layout_marginTop="148dp"
-        android:layout_marginEnd="8dp"
-        android:visibility="invisible"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/border_rounded_corners"
-        android:ems="10"
-        android:paddingTop="5dp"
-        android:textColor="@android:color/black"
-        android:textSize="19sp"
-        android:textStyle="bold"
-        app:fontFamily="@font/poppins"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/createStageButton"
+        android:layout_width="61dp"
+        android:layout_height="59dp"
+        android:layout_marginEnd="332dp"
+        android:layout_marginRight="332dp"
+        android:layout_marginBottom="300dp"
+        android:clickable="true"
+        app:backgroundTint="#FFA55B"
+        app:fabCustomSize="60dp"
+        app:fabSize="auto"
+        app:layout_behavior="com.valdio.valdioveliu.floatingactionbuttonproject.Scrolling_Floating_Action_Button.FAB_Hide_on_Scroll"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.034"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.009"
-        tools:textAlignment="center" />
+        app:maxImageSize="50dp"
+        app:rippleColor="@color/navyBlue"
+        app:srcCompat="@drawable/baseline_add_24px" />
 
 
     <Button
-        android:id="@+id/saveTaskButton"
+        android:id="@+id/saveProjectButton"
         android:layout_width="150dp"
         android:layout_height="55dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginRight="36dp"
         android:layout_marginBottom="8dp"
         android:text="Save"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.922"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.937"
+        app:layout_constraintVertical_bias="0.966"
         tools:textAlignment="center"
         tools:textSize="20dp" />
 
@@ -266,44 +200,9 @@
         android:theme="@style/AppTheme"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Create New Task"
+        app:title="Create New Project"
         app:titleTextColor="@android:color/white"
         tools:textAlignment="center" />
-
-
-
-
-    <TextView
-        android:id="@+id/priorityLabel"
-        android:layout_width="147dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="4dp"
-        android:text="Priority"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/priorityNum"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.685"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:textAlignment="center" />
-
-    <Switch
-        android:id="@+id/isAllDay"
-        android:layout_width="123dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="240dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="All Day       "
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.897"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>
