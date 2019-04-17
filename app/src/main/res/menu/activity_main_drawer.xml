@@ -8,7 +8,7 @@
         <item android:id="@+id/nav_home"
             android:icon="@drawable/home_icon_menu"
             android:title="Home"
-            ></item>
+            />
         <item
             android:id="@+id/nav_calendar"
             android:icon="@drawable/ic_calendar_with_a_clock_time_tools"
@@ -23,11 +23,11 @@
             android:id="@+id/nav_completed_tasks"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Completed Tasks" />
-        <item
-            android:id="@+id/nav_tools"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
 
+        <item
+            android:id="@+id/customization"
+            android:icon="@drawable/paint_brush_icon"
+            android:title="Customization" />
 
     </group>
 

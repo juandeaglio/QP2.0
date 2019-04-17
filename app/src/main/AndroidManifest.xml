@@ -10,9 +10,11 @@
         android:roundIcon="@mipmap/ic_qp_homescreen_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity
+            android:name=".Customization"
+            android:label="@string/title_activity_customization"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ViewTask"
             android:label="@string/title_activity_view_task"
@@ -21,23 +23,20 @@
             android:name=".Reminder"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AllTasks"
-            android:label="@string/title_activity_all_tasks"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".CalendarView"
             android:label="@string/title_activity_calendar_view"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CompletedTasks"
-            android:label="@string/app_name"
+            android:label="@string/completedTask"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".CreateTask"
-            android:label="@string/title_activity_completed_tasks"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".CreateTask"
+            android:label="@string/title_activity_create_task"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
+            android:label="@string/homePage"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,11 +44,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name="com.example.qp.BroadCastService" >
+
+        <receiver
+            android:name=".BroadCastService"
+            android:directBootAware="true"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
         </receiver>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <service
+            android:name=".StartService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":remote" />
     </application>
 
 </manifest>

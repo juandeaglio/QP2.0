@@ -81,7 +81,7 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(ViewTask.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, mDateSetListener, year, month, day);
+                DatePickerDialog dialog = new DatePickerDialog(ViewTask.this, android.R.style.Theme_Holo_Dialog_MinWidth, mDateSetListener, year, month, day);
 
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
@@ -121,6 +121,7 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
+        String minuteStr = "";
 
         if(calendar.get(Calendar.AM_PM) == Calendar.AM){
             am_pm = "AM";
@@ -128,11 +129,15 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
         else if(calendar.get(Calendar.AM_PM) == Calendar.PM){
             am_pm = "PM";
         }
-        String tempText = (calendar.get(Calendar.HOUR) == 0) ?"12":calendar.get(Calendar.HOUR)+"";
-        taskTime.setText(tempText+":"+calendar.get(Calendar.MINUTE)+" "+am_pm );
-        //.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + am_pm);
+        if (minute <= 9) {
+            minuteStr = "0" + String.valueOf(minute);
+        } else {
+            minuteStr = String.valueOf(minute);
+        }
 
-        //this.taskTime = String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + " " + am_pm;
+        String tempText = (calendar.get(Calendar.HOUR) == 0) ?"12":calendar.get(Calendar.HOUR)+"";
+        taskTime.setText(tempText + ":" + minuteStr + " " + am_pm );
+
 
     }
 
@@ -190,17 +195,16 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
 
     public void displayTask(UUID taskID)
     {
-        //Display task from array lis
         Task viewedTask = findTaskFromArrayList(taskID);
+        //If the task is not in the original array list check the completed task list
         if(viewedTask == null){
-            //If the task is not in the original array list check the completed task list
+
             viewedTask = findCompletedTaskFromArrayList(taskID);
         }
 
         EditText taskName = (EditText) findViewById(R.id.viewTaskName);
         EditText priority = (EditText) findViewById(R.id.viewPriority);
         EditText taskNotes = (EditText) findViewById(R.id.viewDescription);
-        //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
         TextView dueDate = (TextView) findViewById(R.id.viewDueDate);
         TextView dueTime = (TextView) findViewById(R.id.viewTime);
         int priorityTemp = viewedTask.getPriority();
@@ -216,12 +220,8 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
         dueTime.setText(textBoxTime);
 
     }
-    //TODO: test this method - Ant
     public boolean saveTask(UUID taskID)
     {
-        //TODO: fix crashing here - Ant
-        //Edits task from array list
-
 
         EditText taskName = (EditText) findViewById(R.id.viewTaskName);
         if(taskName.getText().length() == 0){
@@ -250,13 +250,11 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
         if(priority.getText().length() == 0){
             priority.setText("1"); // IIf user didn't specify priority just set to 1
         }
-        //TODO: change dueDate so that the input fields are converted into a Date that can be used by Task class.
-        //calendar.set
+
         boolean updateCompleted = db.updateTable(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()),dueDate.getText().toString(), taskNotes.getText().toString(), 0, UUID.fromString(this.taskIDStr), taskTime.getText().toString());
 
         if(updateCompleted)
         {
-            //TODO: Fix when editing task to go to it's assigned time not the current time on system
             Intent intent1 = new Intent(ViewTask.this, BroadCastService.class);
             intent1.putExtra("Task Name",taskName.getText().toString());
             PendingIntent pendingIntent = PendingIntent.getBroadcast(ViewTask.this, 0,intent1, PendingIntent.FLAG_UPDATE_CURRENT);

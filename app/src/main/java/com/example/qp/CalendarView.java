@@ -20,12 +20,12 @@ import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 public class CalendarView extends AppCompatActivity {
 
     ArrayList<Task>sortedTaskList = new ArrayList<>();
     CalendarRecyclerAdapter adapter = new CalendarRecyclerAdapter(sortedTaskList, this); //sortedTaskList is passed into adapter and any changes to sortedTaskList will changed array in the adapter. use updateSortedData to update screen elements
-    private SwipeController swipeController;
     private DatabaseHelper db = new DatabaseHelper(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +54,29 @@ public class CalendarView extends AppCompatActivity {
     }
 
     private void setUpRecycler(){
+        final MainActivity mainActivity = new MainActivity();
         RecyclerView recyclerView = findViewById(R.id.calendar_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        SwipeController swipeController = new SwipeController(new SwipeControllerActions() {
+            @Override
+            public void onLeftSwiped(UUID taskID) {
+                String dueDate = db.getTaskDueDate(taskID.toString());
+                db.deleteTask(taskID.toString());
+                mainActivity.populateArrayList(db, mainActivity.sortSelector);
+                adapter.updateRecyclerView(dueDate);
+            }
+
+            @Override
+            public void onRightSwiped(UUID taskID){
+                String dueDate = db.getTaskDueDate(taskID.toString());
+                db.markTaskCompleted(taskID.toString());
+                mainActivity.populateArrayList(db, mainActivity.sortSelector);
+                mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
+                adapter.updateRecyclerView(dueDate);
+            }
+        });
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }

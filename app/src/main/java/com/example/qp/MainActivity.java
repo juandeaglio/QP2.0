@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -61,8 +62,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public String sortSelector = "Task_Priority"; // Default sorting priority
 
     @Override
-
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -92,11 +91,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
         setUpRecyclerView();
-
-
-//        RecyclerView taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
-//
-//        registerForContextMenu(taskRecycler);
     }
 
     @Override
@@ -171,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         PendingIntent pendingIntent;
         NotificationCompat.Builder builder;
         if (notifManager == null) {
-            notifManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+            notifManager = (NotificationManager)context.getSystemService(Service.NOTIFICATION_SERVICE);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_HIGH;
@@ -183,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 notifManager.createNotificationChannel(mChannel);
             }
             builder = new NotificationCompat.Builder(context, id);
+            builder.setPriority(NotificationCompat.PRIORITY_MAX);
             intent = new Intent(context, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
@@ -190,6 +185,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .setSmallIcon(android.R.drawable.ic_popup_reminder)   // required
                     .setContentText(context.getString(R.string.app_name)) // required
                     .setDefaults(Notification.DEFAULT_ALL)
+                    .setPriority(Notification.PRIORITY_MAX)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
                     .setTicker(aMessage)
@@ -295,6 +291,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(new Intent(MainActivity.this, CompletedTasks.class));
     }
 
+    public void openCustomizationActivity(){
+        startActivity(new Intent(this, Customization.class));
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -303,11 +303,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    //Sorting function
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()){
             case R.id.mSortPriority:
                 //Maybe use mDB.SortTable()?
@@ -331,7 +327,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     public boolean onNavigationItemSelected(MenuItem item) { // to be further implemented -keghvart hagopian.
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_calendar) {
@@ -340,15 +335,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_completed_tasks) {
             openCompletedTasks();
 
-        } else if (id == R.id.nav_tools) {
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    "Implement me",
-                    Toast.LENGTH_SHORT);
-            toast.show();
-
-
-        } else if (id == R.id.nav_reminder) {
+        }  else if (id == R.id.nav_reminder) {
             openReminderActivity();
+        }else if(id == R.id.customization){
+            openCustomizationActivity();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

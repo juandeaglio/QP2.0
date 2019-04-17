@@ -25,7 +25,7 @@ import java.util.UUID;
 
 public class CompletedTasks extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private TaskCardRecyclerAdapter adapter;
+    private TaskCardRecyclerAdapter adapter = new TaskCardRecyclerAdapter(MainActivity.globalCompletedTaskList, this);
     private DatabaseHelper db;
     private MainActivity mainActivity= new MainActivity();
     @Override
@@ -55,19 +55,15 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
 
         setUpRecycler();
 
-
-
-
     }
 
     private void setUpRecycler(){
         SwipeController swipeController;
         RecyclerView taskRecycler;
-        taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
+        taskRecycler = (RecyclerView) findViewById(R.id.completed_task_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         taskRecycler.setLayoutManager(layoutManager);
         taskRecycler.setAdapter(adapter);
-        //registerForContextMenu(adapter);
 
         swipeController = new SwipeController(new SwipeControllerActions() {
             @Override
@@ -90,8 +86,8 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
 
     }
 
-    public boolean onNavigationItemSelected(MenuItem item) { // to be further implemented -keghvart hagopian.
-        // Handle navigation view item clicks here.
+
+    public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.nav_home){
             startActivity(new Intent(CompletedTasks.this, MainActivity.class));
@@ -105,14 +101,7 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
                     Toast.LENGTH_SHORT);
             toast.show();
 
-        } else if (id == R.id.nav_tools) {
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    "Implement me",
-                    Toast.LENGTH_SHORT);
-            toast.show();
-
-
-        } else if (id == R.id.nav_reminder) {
+        }  else if (id == R.id.nav_reminder) {
             //openReminderActivity();
         }
 
@@ -122,5 +111,13 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    public void deleteAllTasks(View view){
+        DeleteAllCompletedTasksPrompt deletePrompt = new DeleteAllCompletedTasksPrompt();
+        deletePrompt.show(getSupportFragmentManager(), "deletePrompt");
+//        db.deleteTask(this.taskIDStr);
+//        startActivity(new Intent(this, MainActivity.class));
+
+    }
+
 
 }
