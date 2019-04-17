@@ -81,7 +81,7 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(ViewTask.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, mDateSetListener, year, month, day);
+                DatePickerDialog dialog = new DatePickerDialog(ViewTask.this, android.R.style.Theme_Holo_Dialog_MinWidth, mDateSetListener, year, month, day);
 
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
@@ -121,6 +121,7 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
+        String minuteStr = "";
 
         if(calendar.get(Calendar.AM_PM) == Calendar.AM){
             am_pm = "AM";
@@ -128,8 +129,14 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
         else if(calendar.get(Calendar.AM_PM) == Calendar.PM){
             am_pm = "PM";
         }
+        if (minute <= 9) {
+            minuteStr = "0" + String.valueOf(minute);
+        } else {
+            minuteStr = String.valueOf(minute);
+        }
+
         String tempText = (calendar.get(Calendar.HOUR) == 0) ?"12":calendar.get(Calendar.HOUR)+"";
-        taskTime.setText(tempText+":"+calendar.get(Calendar.MINUTE)+" "+am_pm );
+        taskTime.setText(tempText + ":" + minuteStr + " " + am_pm );
 
 
     }

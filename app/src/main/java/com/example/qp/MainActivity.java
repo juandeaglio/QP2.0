@@ -287,6 +287,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(new Intent(MainActivity.this, CompletedTasks.class));
     }
 
+    public void openCustomizationActivity(){
+        startActivity(new Intent(this, Customization.class));
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -329,6 +333,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }  else if (id == R.id.nav_reminder) {
             openReminderActivity();
+        }else if(id == R.id.customization){
+            openCustomizationActivity();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
