@@ -53,9 +53,6 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
 
         setUpRecycler();
 
-
-
-
     }
 
     private void setUpRecycler(){
@@ -64,7 +61,6 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         taskRecycler.setLayoutManager(layoutManager);
         taskRecycler.setAdapter(adapter);
-        //registerForContextMenu(adapter);
 
         swipeController = new SwipeController(new SwipeControllerActions() {
             @Override
@@ -85,8 +81,8 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
 
     }
 
-    public boolean onNavigationItemSelected(MenuItem item) { // to be further implemented -keghvart hagopian.
-        // Handle navigation view item clicks here.
+
+    public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.nav_home){
             startActivity(new Intent(CompletedTasks.this, MainActivity.class));

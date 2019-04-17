@@ -62,8 +62,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public String sortSelector = "Task_Priority"; // Default sorting priority
 
     @Override
-
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -93,11 +91,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
         setUpRecyclerView();
-
-
-//        RecyclerView taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
-//
-//        registerForContextMenu(taskRecycler);
     }
 
     @Override
@@ -302,11 +295,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    //Sorting function
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()){
             case R.id.mSortPriority:
                 //Maybe use mDB.SortTable()?
@@ -330,7 +319,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     public boolean onNavigationItemSelected(MenuItem item) { // to be further implemented -keghvart hagopian.
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_calendar) {
