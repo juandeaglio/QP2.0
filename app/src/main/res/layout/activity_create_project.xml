@@ -153,10 +153,10 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/createStageButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="328dp"
-        android:layout_marginRight="328dp"
+        android:layout_width="61dp"
+        android:layout_height="59dp"
+        android:layout_marginEnd="332dp"
+        android:layout_marginRight="332dp"
         android:layout_marginBottom="300dp"
         android:clickable="true"
         app:backgroundTint="#FFA55B"

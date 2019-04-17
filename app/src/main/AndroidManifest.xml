@@ -21,10 +21,6 @@
             android:name=".Reminder"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AllTasks"
-            android:label="@string/title_activity_all_tasks"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".CalendarView"
             android:label="@string/title_activity_calendar_view"
             android:theme="@style/AppTheme.NoActionBar" />

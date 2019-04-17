@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -44,8 +45,6 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
         private TextView numberPicker;
 
         private DatePickerDialog.OnDateSetListener mDateSetListener;
-        private NumberPicker.OnClickListener mNumberListener;
-        private TimePickerDialog.OnTimeSetListener mTimeSetListener;
         Toast toast;
         private String taskDueDateValue = "";
         private String taskTime = "";
@@ -55,9 +54,6 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_create_task);
              am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-    //        TextInputLayout inputTaskName = findViewById(R.id.input_task_name);
-    //        TextInputLayout inputTaskPriority = findViewById(R.id.input_task_priority);
-    //        TextInputLayout inputTaskDescription = findViewById(R.id.input_task_description);
 
 
             this.toast = Toast.makeText(this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
@@ -69,7 +65,6 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             saveTaskBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Task taskToSave = new Task();
                     if (saveTask()){
                         goBackToHomepage();
                     }
@@ -111,8 +106,6 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             mDateSetListener = new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-    //                int dayOfTheMonth = Calendar.DAY_OF_WEEK;
-    //                String dayOfMonthStr = getDayOfWeekStr(dayOfTheMonth);
                     TextView taskDueDateText = findViewById(R.id.taskDueDateText);
                     calendar.set(year, month, dayOfMonth);
                     Log.d("Date Picker", "onDateSet: date " + (month + 1) + "/" + dayOfMonth + "/" + year);
@@ -195,7 +188,6 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             calendar.set(Calendar.MINUTE, minute);
             calendar.set(Calendar.SECOND,0);
             calendar.set(Calendar.MILLISECOND,0);
-            //calendar.set(Calendar.SECOND, 0);
 
             if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
                 am_pm = "AM";
@@ -205,7 +197,6 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             String tempText = (calendar.get(Calendar.HOUR) == 0) ? "12" : calendar.get(Calendar.HOUR) + "";
             String minuteStr = "";
 
-            //Error checking because android treats 1:00 pm as 1:__ Pm ????
             if (minute <= 9) {
                 minuteStr = "0" + String.valueOf(minute);
             } else {
@@ -213,7 +204,6 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             }
             taskTime.setText(tempText + ":" + minuteStr + " " + am_pm);
             taskTime.setVisibility(View.VISIBLE);
-            //.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + am_pm);
 
             this.taskTime = String.valueOf(tempText) + ":" + minuteStr + " " + am_pm;
 
@@ -232,10 +222,6 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 
         public boolean saveTask() {
 
-            //Saves task in array list
-            //mainActivity.globalTaskList.add(newTask);
-            //Task newTask = new Task();
-            //goBackToHomepage();
 
             EditText taskName = (EditText) findViewById(R.id.taskName);
             if(taskName.getText().length() == 0){
@@ -256,6 +242,12 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
                 return false;
             }
 
+            Switch allDay = findViewById(R.id.isAllDay);
+            if (allDay.isChecked()){
+                taskTime = "All day";
+                //TODO: change the time of the task to just go off at the day instead of the time
+            }
+
             EditText taskNotes = (EditText) findViewById(R.id.taskNotes);
             if(taskNotes.getText().length() == 0){
                 taskNotes.setText(""); // IIf user didn't specify priority just set to 1
@@ -271,13 +263,11 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             boolean saveCompleted = db.insertData(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()), this.taskDueDateValue, taskNotes.getText().toString(), 0, taskID, this.taskTime);
 
             if (saveCompleted) {
-                //mainActivity.populateArrayList(); Commented out because it results in a crash
                 Intent intent1 = new Intent(CreateTask.this, StartService.class);
                 intent1.putExtra("Task Name", taskName.getText().toString());
 
                 int id = (int) System.currentTimeMillis();
                 PendingIntent pendingIntent = PendingIntent.getService(this, id, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-                Log.d("Calendar", "Hour " + calendar.get(Calendar.HOUR) + " minute " + calendar.get(Calendar.MINUTE)); // debug -keg
 
                 long diff = Calendar.getInstance().getTimeInMillis() - calendar.getTimeInMillis();
 
