@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     tools:context=".CreateTask"
-
     >
 
     <Button
@@ -270,6 +269,9 @@
         app:title="Create New Task"
         app:titleTextColor="@android:color/white"
         tools:textAlignment="center" />
+
+
+
 
     <TextView
         android:id="@+id/priorityLabel"
