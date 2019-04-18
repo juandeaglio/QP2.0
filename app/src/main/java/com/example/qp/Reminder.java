@@ -176,7 +176,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
         mTimeText.setText(mTime);
     }
     public void goBackToHomepage(){
-        startActivity(new Intent(Reminder.this, MainActivity.class));
+       this.finish();
     }
     public void saveReminder()
     {
