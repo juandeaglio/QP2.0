@@ -21,6 +21,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import maes.tech.intentanim.CustomIntent;
+
 public class CalendarView extends AppCompatActivity {
 
     ArrayList<Task>sortedTaskList = new ArrayList<>();
@@ -52,6 +54,13 @@ public class CalendarView extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        CustomIntent.customType(this, "right-to-left");
+    }
+
 
     private void setUpRecycler(){
         RecyclerView recyclerView = findViewById(R.id.calendar_recycler);

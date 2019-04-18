@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.DatabaseHelper;
 
+import maes.tech.intentanim.CustomIntent;
+
 public class CompletedTasks extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private SwipeController swipeController;
@@ -54,6 +56,12 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
         setUpRecycler();
 
     }
+    @Override
+    public void finish() {
+        super.finish();
+        CustomIntent.customType(this, "left-to-right");
+    }
+
 
     private void setUpRecycler(){
         RecyclerView taskRecycler;
@@ -97,7 +105,7 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
             toast.show();
 
         }  else if (id == R.id.nav_reminder) {
-            //openReminderActivity();
+            startActivity(new Intent(CompletedTasks.this, Reminder.class));
         }
 
 

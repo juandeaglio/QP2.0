@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
+import static maes.tech.intentanim.CustomIntent.customType;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -43,6 +44,9 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
+
+import maes.tech.intentanim.CustomIntent;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener  {
 
     public static ArrayList<Task> globalTaskList = new ArrayList<>();
@@ -266,29 +270,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void openReminderActivity() {
         startActivity(new Intent(this, Reminder.class));
-    }
-
-    public void openCalendarViewActivity() {
-        startActivity(new Intent(MainActivity.this, CalendarView.class));
+        CustomIntent.customType(this, "left-to-right");
 
     }
+
+
 
 
     public void openCreateTaskActivity(View view) {
         startActivity(new Intent(this, CreateTask.class));
+        CustomIntent.customType(this, "left-to-right");
     }
 
 
     public void openCalendarView() {
         startActivity(new Intent(MainActivity.this, CalendarView.class));
+        CustomIntent.customType(this, "left-to-right");
+
     }
 
     public void openCompletedTasks() {
         startActivity(new Intent(MainActivity.this, CompletedTasks.class));
+        CustomIntent.customType(this, "right-to-left");
     }
 
     public void openCustomizationActivity(){
         startActivity(new Intent(this, Customization.class));
+        CustomIntent.customType(this, "right-to-left");
     }
 
     @Override

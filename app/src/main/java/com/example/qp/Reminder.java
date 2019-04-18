@@ -28,6 +28,8 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
+import maes.tech.intentanim.CustomIntent;
+
 
 public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
     Calendar mCalendar = Calendar.getInstance();
@@ -140,6 +142,12 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
 
     }
 
+
+    @Override
+    public void finish() {
+        super.finish();
+        CustomIntent.customType(this, "left-to-right");
+    }
 
     public void setDate(View view) {
         int year = mCalendar.get(Calendar.YEAR);

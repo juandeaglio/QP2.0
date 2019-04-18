@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import maes.tech.intentanim.CustomIntent;
+
 public class Customization extends AppCompatActivity {
 
     @Override
@@ -15,6 +17,13 @@ public class Customization extends AppCompatActivity {
         setContentView(R.layout.activity_customization);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+    }
+
+
+    @Override
+    public void finish() {
+        super.finish();
+        CustomIntent.customType(this, "left-to-right");
     }
 
 }
