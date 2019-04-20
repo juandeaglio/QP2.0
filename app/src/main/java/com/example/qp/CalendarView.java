@@ -68,7 +68,7 @@ public class CalendarView extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        SwipeController swipeController = new SwipeController(new SwipeControllerActions() {
+        SwipeControllerCalendar swipeController = new SwipeControllerCalendar(new SwipeControllerActions() {
             @Override
             public void onLeftSwiped(UUID taskID) {
                 String dueDate = db.getTaskDueDate(taskID.toString());

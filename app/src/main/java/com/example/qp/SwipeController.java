@@ -18,7 +18,7 @@ enum ButtonsState {
     RIGHT_VISIBLE
 }
 
-class SwipeController extends Callback {
+public class SwipeController extends Callback {
 
     private boolean swipeBack = false;
 
@@ -28,7 +28,7 @@ class SwipeController extends Callback {
 
     private RecyclerView.ViewHolder currentItemViewHolder = null;
 
-    private SwipeControllerActions swipeActions = null;
+    protected SwipeControllerActions swipeActions = null;
 
     private static final float buttonWidth = 300;
 
