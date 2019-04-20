@@ -19,6 +19,7 @@ import com.DatabaseHelper;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecyclerAdapter.TaskCardViewHolder> {
 
@@ -40,6 +41,7 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
         TextView dueDate;
         TextView timeDue;
         CheckBox checkBox;
+        UUID taskID;
 
         public TaskCardViewHolder(View v)
         {
@@ -74,6 +76,8 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
         taskCardViewHolder.priority.setText(Integer.toString(task.getPriority()));
         taskCardViewHolder.dueDate.setText(dateCorrection(task.getDueDate()));
         taskCardViewHolder.timeDue.setText(task.getTimeDueDate());
+        taskCardViewHolder.taskID = task.getTaskId();
+
         taskCardViewHolder.taskCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,11 +86,14 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
                 context.startActivity(intent);
             }
         });
+
         taskCardViewHolder.checkBox.setOnCheckedChangeListener(null);
+
         if(task.getCompleted() == 0)
             taskCardViewHolder.checkBox.setChecked(false);
         else
             taskCardViewHolder.checkBox.setChecked(true);
+
         taskCardViewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                                                                    @Override
                                                                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

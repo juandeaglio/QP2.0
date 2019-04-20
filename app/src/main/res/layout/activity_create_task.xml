@@ -126,14 +126,14 @@
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="280dp"
+        android:layout_marginBottom="220dp"
         android:defaultFocusHighlightEnabled="true"
         android:textColor="@color/navyBlue"
         android:textColorHint="@color/navyBlue"
         app:hintTextAppearance="@style/TextAppearance.AppCompat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintHorizontal_bias="0.421"
         app:layout_constraintStart_toStartOf="parent">
 
         <EditText

@@ -4,35 +4,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@android:color/white"
     android:layout_height="match_parent">
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButtonSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="168dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="8dp"
+        fab:srcCompat="@drawable/ic_notifications_on_white_24dp" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_below="@+id/toolbar"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:id="@+id/add_reminder_layout_top"
+        android:layout_width="match_parent"
+        android:layout_height="106dp"
+        android:layout_below="@+id/toolbar"
         android:background="@drawable/background_color"
         android:orientation="vertical"
-        android:layout_height="148dp">
-
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
 
         <EditText
-            android:layout_width="match_parent"
             android:id="@+id/reminder_title"
+            android:layout_width="276dp"
+            android:layout_height="90dp"
             android:layout_marginLeft="72dp"
+            android:layout_marginRight="16dp"
+            android:gravity="top|left"
             android:hint="@string/add_reminder"
-            android:textSize="25dp"
+            android:inputType="textCapWords|textMultiLine"
             android:lines="4"
             android:minLines="4"
-            android:gravity="top|left"
-            android:textColor="@android:color/white"
             android:scrollHorizontally="false"
+            android:textColor="@android:color/black"
             android:textColorHint="@color/primary_text_disabled_material_dark"
-            android:inputType="textCapWords|textMultiLine"
-            android:layout_marginRight="16dp"
-            android:layout_height="140dp"/>
+            android:textSize="25dp" />
 
     </LinearLayout>
 
@@ -55,7 +64,7 @@
                 android:textSize="15dp"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="72dp"
-                android:textColor="@color/abc_secondary_text_material_dark"
+                android:textColor="@android:color/black"
                 android:layout_height="72dp"/>
 
             <RelativeLayout
@@ -89,7 +98,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/date"
-                        android:textColor="@color/abc_primary_text_material_dark"
+                        android:textColor="@android:color/black"
                         android:textSize="15dp" />
 
                     <TextView
@@ -130,7 +139,7 @@
 
                     <TextView
                         android:id="@+id/time_text"
-                        android:textColor="@color/abc_primary_text_material_dark"
+                        android:textColor="@android:color/black"
                         android:layout_width="wrap_content"
                         android:textSize="15dp"
                         android:layout_height="wrap_content"
@@ -140,7 +149,7 @@
                         android:layout_width="wrap_content"
                         android:id="@+id/set_time"
                         android:textSize="15dp"
-                        android:textColor="@color/abc_secondary_text_material_dark"
+                        android:textColor="@android:color/black"
                         android:layout_height="wrap_content"/>
 
                 </LinearLayout>
@@ -172,7 +181,7 @@
 
                     <TextView
                         android:id="@+id/repeat_text"
-                        android:textColor="@color/abc_primary_text_material_dark"
+                        android:textColor="@android:color/black"
                         android:layout_width="wrap_content"
                         android:textSize="15dp"
                         android:layout_height="wrap_content"
@@ -182,7 +191,7 @@
                         android:layout_width="wrap_content"
                         android:id="@+id/set_repeat"
                         android:textSize="15dp"
-                        android:textColor="@color/abc_secondary_text_material_dark"
+                        android:textColor="@android:color/black"
                         android:layout_height="wrap_content"/>
 
                 </LinearLayout>
@@ -229,7 +238,7 @@
 
                     <TextView
                         android:id="@+id/repeat_no_text"
-                        android:textColor="@color/abc_primary_text_material_dark"
+                        android:textColor="@android:color/black"
                         android:layout_width="wrap_content"
                         android:textSize="15dp"
                         android:layout_height="wrap_content"
@@ -273,7 +282,7 @@
 
                     <TextView
                         android:id="@+id/repeat_type_text"
-                        android:textColor="@color/abc_primary_text_material_dark"
+                        android:textColor="@android:color/black"
                         android:layout_width="wrap_content"
                         android:textSize="15dp"
                         android:layout_height="wrap_content"
@@ -283,7 +292,7 @@
                         android:layout_width="wrap_content"
                         android:id="@+id/set_repeat_type"
                         android:textSize="15dp"
-                        android:textColor="@color/abc_secondary_text_material_dark"
+                        android:textColor="@android:color/black"
                         android:layout_height="wrap_content"/>
 
                 </LinearLayout>
@@ -301,14 +310,5 @@
         android:background="@drawable/toolbar_dropshadow" />
 
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButtonSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="168dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="8dp"
-        fab:srcCompat="@drawable/ic_notifications_on_white_24dp" />
+
 </RelativeLayout>
