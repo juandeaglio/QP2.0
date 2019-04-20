@@ -23,6 +23,8 @@ import com.DatabaseHelper;
 
 import java.util.UUID;
 
+import maes.tech.intentanim.CustomIntent;
+
 public class CompletedTasks extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private TaskCardRecyclerAdapter adapter = new TaskCardRecyclerAdapter(MainActivity.globalCompletedTaskList, this);
@@ -56,6 +58,12 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
         setUpRecycler();
 
     }
+    @Override
+    public void finish() {
+        super.finish();
+        CustomIntent.customType(this, "left-to-right");
+    }
+
 
     private void setUpRecycler(){
         SwipeController swipeController;
@@ -102,7 +110,7 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
             toast.show();
 
         }  else if (id == R.id.nav_reminder) {
-            //openReminderActivity();
+            startActivity(new Intent(CompletedTasks.this, Reminder.class));
         }
 
 

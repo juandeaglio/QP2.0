@@ -9,6 +9,8 @@ import android.support.v4.app.DialogFragment;
 
 import com.DatabaseHelper;
 
+import maes.tech.intentanim.CustomIntent;
+
 public class DeleteAllCompletedTasksPrompt extends DialogFragment {
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -25,6 +27,8 @@ public class DeleteAllCompletedTasksPrompt extends DialogFragment {
                         String taskIDStr = getActivity().getIntent().getStringExtra("taskid");
                         db.deleteAllCompletedTasks();
                         startActivity(new Intent(getContext(), MainActivity.class));
+                        CustomIntent.customType(getContext(), "left-to-right");
+
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
