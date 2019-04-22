@@ -1,13 +1,14 @@
 package com.example.qp;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
 import static android.support.v7.widget.helper.ItemTouchHelper.RIGHT;
 
 public class SwipeControllerCalendar extends SwipeController {
 
-    public SwipeControllerCalendar (SwipeControllerActions swipeActions){
-        super(swipeActions);
+    public SwipeControllerCalendar (SwipeControllerActions swipeActions, Context context){
+        super(swipeActions, context);
     }
 
     @Override

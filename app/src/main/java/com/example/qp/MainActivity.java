@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         taskRecycler.setLayoutManager(layoutManager);
         taskRecycler.setAdapter(adapter);
 
-        swipeController = new SwipeController(swipeControllerActions);
+        swipeController = new SwipeController(swipeControllerActions, this);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
         itemTouchHelper.attachToRecyclerView(taskRecycler);
 
