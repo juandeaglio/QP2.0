@@ -41,7 +41,7 @@ import static android.app.PendingIntent.getActivity;
 public class CreateTask extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, NumberPicker.OnValueChangeListener {
 
         //Global variable for the array list of tasks
-        MainActivity mainActivity = new MainActivity();
+        //MainActivity mainActivity = new MainActivity();
         DatabaseHelper db = new DatabaseHelper(this);
 
         private TextView dueDate;

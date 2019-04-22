@@ -51,11 +51,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static ArrayList<Task> globalTaskList = new ArrayList<>();
     public static ArrayList<Task> globalCompletedTaskList = new ArrayList<>();
-    public Intent myIntent;
     DatabaseHelper db = new DatabaseHelper(this);
     SQLiteDatabase taskDB;
-    private CreateTask createTask;
-    //private DatabaseHelper mDB;
     private Toast toast = null;
     public static final String CHANNEL_ID = "com.chikeandroid.tutsplustalerts.ANDROID";
     public static final String CHANNEL_NAME = "ANDROID CHANNEL";
@@ -144,7 +141,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         taskRecycler.setLayoutManager(layoutManager);
         taskRecycler.setAdapter(adapter);
-        //registerForContextMenu(adapter);
 
         swipeController = new SwipeController(swipeControllerActions);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
@@ -159,7 +155,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adapter.updateData();
 
     }
-
 
     public void createNotification(String aMessage, Context context) {
         final int NOTIFY_ID = 0; // ID of notification
@@ -266,7 +261,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    //TODO: refactor this code
 
     public void openViewTask() {
         startActivity(new Intent(this, ViewTask.class));
@@ -277,9 +271,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         CustomIntent.customType(this, "left-to-right");
 
     }
-
-
-
 
     public void openCreateTaskActivity(View view) {
         startActivity(new Intent(this, CreateTask.class));
