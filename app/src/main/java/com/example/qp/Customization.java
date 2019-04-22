@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import maes.tech.intentanim.CustomIntent;
+
 public class Customization extends AppCompatActivity {
 
     @Override
@@ -17,6 +19,13 @@ public class Customization extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         findViewById(R.id.task_card_recycler);
+    }
+
+
+    @Override
+    public void finish() {
+        super.finish();
+        CustomIntent.customType(this, "left-to-right");
     }
 
 }

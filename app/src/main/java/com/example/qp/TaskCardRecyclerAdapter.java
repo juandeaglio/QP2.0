@@ -23,6 +23,7 @@ import com.DatabaseHelper;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecyclerAdapter.TaskCardViewHolder> {
 
@@ -44,6 +45,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         TextView dueDate;
         TextView timeDue;
         CheckBox checkBox;
+        UUID taskID;
 
         public TaskCardViewHolder(View v)
         {
@@ -54,6 +56,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
             dueDate = (TextView) v.findViewById(R.id.card_due_date);
             checkBox = v.findViewById(R.id.card_check_box);
             timeDue = (TextView) v.findViewById(R.id.card_time);
+
 
 
         }
@@ -80,31 +83,8 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         taskCardViewHolder.priority.setText(Integer.toString(task.getPriority()));
         taskCardViewHolder.dueDate.setText(dateCorrection(task.getDueDate()));
         taskCardViewHolder.timeDue.setText(task.getTimeDueDate());
-        taskCardViewHolder.taskCard.setOnLongClickListener(new View.OnLongClickListener()
-        {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public boolean onLongClick(View v)
-            {
-                taskCardViewHolder.taskCard.setOnDragListener(new View.OnDragListener()
-                {
-                    public boolean onDrag(View v, DragEvent event)
-                    {
-                        switch(event.getAction())
-                        {
-                            case MotionEvent.ACTION_MOVE:
-                                return true;
-                            case MotionEvent.ACTION_UP:
-                                return true;
-                            case MotionEvent.ACTION_DOWN:
-                                return true;
-                        }
-                        return false;
-                    }
-                });
-                return true;
-            }
-        });
+        taskCardViewHolder.taskID = task.getTaskId();
+
         taskCardViewHolder.checkBox.setOnCheckedChangeListener(null);
         if(task.getCompleted() == 0)
         {

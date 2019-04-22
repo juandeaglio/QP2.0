@@ -1,6 +1,7 @@
 package com.example.qp;
 
 import android.app.AlarmManager;
+import static maes.tech.intentanim.CustomIntent.customType;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
@@ -33,12 +34,14 @@ import java.util.Calendar;
 import java.util.Timer;
 import java.util.UUID;
 
+import maes.tech.intentanim.CustomIntent;
+
 import static android.app.PendingIntent.getActivity;
 
 public class CreateTask extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, NumberPicker.OnValueChangeListener {
 
         //Global variable for the array list of tasks
-        MainActivity mainActivity = new MainActivity();
+        //MainActivity mainActivity = new MainActivity();
         DatabaseHelper db = new DatabaseHelper(this);
 
         private TextView dueDate;
@@ -138,7 +141,13 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 
         }
 
-        public void showNumberPicker() {
+    @Override
+    public void finish() {
+        super.finish();
+        CustomIntent.customType(this, "left-to-right");
+    }
+
+    public void showNumberPicker() {
             final Dialog d = new Dialog(CreateTask.this);
             d.setTitle("NumberPicker");
             d.setContentView(R.layout.number_picker_dialog);
@@ -290,6 +299,8 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 
         public void goBackToHomepage() {
             startActivity(new Intent(CreateTask.this, MainActivity.class));
+            CustomIntent.customType(this, "right-to-left");
+
         }
 
 

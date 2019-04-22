@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
+import static maes.tech.intentanim.CustomIntent.customType;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -43,15 +44,15 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
+
+import maes.tech.intentanim.CustomIntent;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener  {
 
     public static ArrayList<Task> globalTaskList = new ArrayList<>();
     public static ArrayList<Task> globalCompletedTaskList = new ArrayList<>();
-    public Intent myIntent;
     DatabaseHelper db = new DatabaseHelper(this);
     SQLiteDatabase taskDB;
-    private CreateTask createTask;
-    //private DatabaseHelper mDB;
     private Toast toast = null;
     public static final String CHANNEL_ID = "com.chikeandroid.tutsplustalerts.ANDROID";
     public static final String CHANNEL_NAME = "ANDROID CHANNEL";
@@ -121,27 +122,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setUpRecyclerView(){
         RecyclerView taskRecycler;
         taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
+        SwipeControllerActions swipeControllerActions = new SwipeControllerActions() {
+            @Override
+            public void onLeftSwiped(UUID taskID) {
+                db.deleteTask(taskID.toString());
+                populateArrayList(db, sortSelector);
+                adapter.updateData();
+            }
+
+            @Override
+            public void onRightSwiped(UUID taskID){
+                db.markTaskCompleted(taskID.toString());
+                populateArrayList(db, sortSelector);
+                populateCompletedTaskList(db, sortSelector);
+                adapter.updateData();
+            }
+        };
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         taskRecycler.setLayoutManager(layoutManager);
         taskRecycler.setAdapter(adapter);
-        //registerForContextMenu(adapter);
 
-        swipeController = new SwipeController(new SwipeControllerActions() {
-            @Override
-            public void onRightClicked(int position) {
-                db.deleteTask(globalTaskList.get(position).getTaskId().toString());
-                globalTaskList.remove(position);
-                adapter.updateData();
-            }
-        });
+        swipeController = new SwipeController(swipeControllerActions);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
         itemTouchHelper.attachToRecyclerView(taskRecycler);
-        taskRecycler.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                swipeController.onDraw(c);
-            }
-        });
+
 
     }
     @Override
@@ -151,7 +155,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adapter.updateData();
 
     }
-
 
     public void createNotification(String aMessage, Context context) {
         final int NOTIFY_ID = 0; // ID of notification
@@ -258,7 +261,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    //TODO: refactor this code
 
     public void openViewTask() {
         startActivity(new Intent(this, ViewTask.class));
@@ -266,29 +268,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void openReminderActivity() {
         startActivity(new Intent(this, Reminder.class));
-    }
-
-    public void openCalendarViewActivity() {
-        startActivity(new Intent(MainActivity.this, CalendarView.class));
+        CustomIntent.customType(this, "left-to-right");
 
     }
-
 
     public void openCreateTaskActivity(View view) {
         startActivity(new Intent(this, CreateTask.class));
+        CustomIntent.customType(this, "left-to-right");
     }
 
 
     public void openCalendarView() {
         startActivity(new Intent(MainActivity.this, CalendarView.class));
+        CustomIntent.customType(this, "left-to-right");
+
     }
 
     public void openCompletedTasks() {
         startActivity(new Intent(MainActivity.this, CompletedTasks.class));
+        CustomIntent.customType(this, "right-to-left");
     }
 
     public void openCustomizationActivity(){
         startActivity(new Intent(this, Customization.class));
+        CustomIntent.customType(this, "right-to-left");
     }
 
     @Override

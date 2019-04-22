@@ -32,6 +32,8 @@ import java.sql.Time;
 import java.util.Calendar;
 import java.util.UUID;
 
+import maes.tech.intentanim.CustomIntent;
+
 public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener  {
     MainActivity mainActivity = new MainActivity();
     DatabaseHelper db = new DatabaseHelper(this);
@@ -113,6 +115,13 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
 
 
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        CustomIntent.customType(this, "left-to-right");
+    }
+
 
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
