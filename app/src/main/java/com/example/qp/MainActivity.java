@@ -63,13 +63,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public String sortSelector = "Task_Priority"; // Default sorting priority
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
         setUpRecyclerView();
+
     }
 
     @Override
@@ -157,7 +158,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     {
         super.onResume();
         adapter.updateData();
-
+        ColorManager colorManager = new ColorManager(this);
+        int color = colorManager.getColorAccent();
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(color);
     }
 
     public void createNotification(String aMessage, Context context) {

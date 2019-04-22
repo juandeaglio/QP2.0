@@ -20,20 +20,25 @@ public class Customization extends AppCompatActivity
 {
     final int MAX_NUMBER_OF_COLORS = 3;
 
+    ColorManager colorManager;
     int currentColor;
-
+    boolean colorSet = false;
+    int[] colorArr;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customization);
-        final Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
 
-        //int defaultColorPrimary = ContextCompat.getColor(this, R.color.colorPrimary);
-        //int defaultColorPrimaryDark = ContextCompat.getColor(this, R.color.colorPrimaryDark);
-        //int defaultColorAccent = ContextCompat.getColor(this, R.color.colorAccent);
-        //int[] colorArr = {defaultColorPrimary, defaultColorPrimaryDark, defaultColorAccent};
+        colorManager = new ColorManager(this);
+        toolbar.setBackgroundColor(colorManager.getColorAccent());
+        int defaultColorPrimary = colorManager.getColorPrimary();
+        int defaultColorPrimaryDark = colorManager.getColorPrimaryDark();
+        int defaultColorAccent = colorManager.getColorAccent();
+        colorArr = new int[]{defaultColorPrimary, defaultColorPrimaryDark, defaultColorAccent};
+        toolbar.setBackgroundColor(colorArr[2]);
         CardView card0 = (CardView) findViewById(R.id.card1);
         CardView card1 = (CardView) findViewById(R.id.card2);
         CardView card2 = (CardView) findViewById(R.id.card3);
@@ -66,15 +71,14 @@ public class Customization extends AppCompatActivity
         {
             public void onClick(View view)
             {
-                int currentColor = 0;
-                for(int i = 0; i < MAX_NUMBER_OF_COLORS; i++)
-                {
-                    //currentColor = colorArr[i];
-                    openColorPicker();
-                    toolbar.setBackgroundColor(currentColor);
-                }
+
+                currentColor = colorArr[2];
+                openColorPicker();
+                colorArr[2] = currentColor;
+                colorManager.setColorAccent(colorArr[2]);
             }
         });
+
     }
     public void openColorPicker()
     {
@@ -90,6 +94,10 @@ public class Customization extends AppCompatActivity
             public void onOk(AmbilWarnaDialog dialog, int color)
             {
                 currentColor = color;
+                colorSet = true;
+                colorManager.setColorAccent(colorArr[2]);
+                finish();
+                startActivity(getIntent());
             }
         });
         colorPicker.show();
