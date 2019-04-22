@@ -128,6 +128,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 db.deleteTask(taskID.toString());
                 populateArrayList(db, sortSelector);
                 adapter.updateData();
+                toast = Toast.makeText(getApplicationContext(), "Task Deleted Successfully", Toast.LENGTH_SHORT);
+                toast.show();
             }
 
             @Override
@@ -136,6 +138,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 populateArrayList(db, sortSelector);
                 populateCompletedTaskList(db, sortSelector);
                 adapter.updateData();
+                toast = Toast.makeText(getApplicationContext(), "Task Marked As Completed", Toast.LENGTH_SHORT);
+                toast.show();
             }
         };
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
