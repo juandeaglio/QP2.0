@@ -19,10 +19,7 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 public class Customization extends AppCompatActivity
 {
     final int MAX_NUMBER_OF_COLORS = 3;
-    //int defaultColorPrimary = ContextCompat.getColor(this, R.color.colorPrimary);
-    //int defaultColorPrimaryDark = ContextCompat.getColor(this, R.color.colorPrimaryDark);
-    //int defaultColorAccent = ContextCompat.getColor(this, R.color.colorAccent);
-    //int[] colorArr = {defaultColorPrimary, defaultColorPrimaryDark, defaultColorAccent};
+
     int currentColor;
 
     @Override
@@ -33,6 +30,10 @@ public class Customization extends AppCompatActivity
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //int defaultColorPrimary = ContextCompat.getColor(this, R.color.colorPrimary);
+        //int defaultColorPrimaryDark = ContextCompat.getColor(this, R.color.colorPrimaryDark);
+        //int defaultColorAccent = ContextCompat.getColor(this, R.color.colorAccent);
+        //int[] colorArr = {defaultColorPrimary, defaultColorPrimaryDark, defaultColorAccent};
         CardView card0 = (CardView) findViewById(R.id.card1);
         CardView card1 = (CardView) findViewById(R.id.card2);
         CardView card2 = (CardView) findViewById(R.id.card3);
