@@ -19,7 +19,6 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 public class Customization extends AppCompatActivity
 {
     final int MAX_NUMBER_OF_COLORS = 3;
-
     int currentColor;
 
     @Override

@@ -6,16 +6,8 @@
     android:layout_width="match_parent"
     android:background="@android:color/white"
     android:layout_height="match_parent">
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButtonSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="168dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="8dp"
-        fab:srcCompat="@drawable/ic_notifications_on_white_24dp" />
+
+
 
     <LinearLayout
         android:id="@+id/add_reminder_layout_top"
@@ -25,6 +17,7 @@
         android:background="@drawable/background_color"
         android:orientation="vertical"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
 
 
         <EditText
@@ -43,37 +36,45 @@
             android:textColorHint="@color/primary_text_disabled_material_dark"
             android:textSize="25dp" />
 
+
+
     </LinearLayout>
+
+
 
     <ScrollView
         android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_below="@id/add_reminder_layout_top"
-        android:layout_height="fill_parent">
+        android:layout_marginTop="-1dp">
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
 
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_marginTop="8dp"
-                android:text="@string/details"
                 android:id="@+id/details"
-                android:textSize="15dp"
-                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
                 android:layout_marginLeft="72dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:text="@string/details"
                 android:textColor="@android:color/black"
-                android:layout_height="72dp"/>
+                android:textSize="15dp" />
 
             <RelativeLayout
                 android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:onClick="setDate"
-                android:clickable="true">
+                android:clickable="true"
+                android:onClick="setDate">
 
 
                 <ImageView
@@ -110,55 +111,56 @@
 
                 </LinearLayout>
 
+
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:clickable="true"
-                android:onClick="setTime"
                 android:id="@+id/time"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:layout_height="72dp">
+                android:clickable="true"
+                android:onClick="setTime">
 
                 <ImageView
                     android:id="@+id/time_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="32dp"
-                    android:src="@drawable/ic_access_time_grey600_24dp"
-                    android:layout_centerVertical="true" />
+                    android:src="@drawable/ic_access_time_grey600_24dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/time_icon"
-                    android:layout_height="wrap_content">
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/time_text"
-                        android:textColor="@android:color/black"
                         android:layout_width="wrap_content"
-                        android:textSize="15dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/time" />
+                        android:text="@string/time"
+                        android:textColor="@android:color/black"
+                        android:textSize="15dp" />
 
                     <TextView
-                        android:layout_width="wrap_content"
                         android:id="@+id/set_time"
-                        android:textSize="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:textColor="@android:color/black"
-                        android:layout_height="wrap_content"/>
+                        android:textSize="15dp" />
 
                 </LinearLayout>
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="match_parent"
                 android:id="@+id/repeat"
+                android:layout_width="match_parent"
                 android:layout_height="72dp">
 
                 <ImageView
@@ -166,33 +168,33 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="32dp"
-                    android:src="@drawable/ic_sync_grey600_24dp"
-                    android:layout_centerVertical="true" />
+                    android:src="@drawable/ic_sync_grey600_24dp" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:orientation="vertical"
                     android:id="@+id/repeat_ll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/repeat_icon"
-                    android:layout_height="wrap_content">
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/repeat_text"
-                        android:textColor="@android:color/black"
                         android:layout_width="wrap_content"
-                        android:textSize="15dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/repeat" />
+                        android:text="@string/repeat"
+                        android:textColor="@android:color/black"
+                        android:textSize="15dp" />
 
                     <TextView
-                        android:layout_width="wrap_content"
                         android:id="@+id/set_repeat"
-                        android:textSize="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:textColor="@android:color/black"
-                        android:layout_height="wrap_content"/>
+                        android:textSize="15dp" />
 
                 </LinearLayout>
 
@@ -200,100 +202,100 @@
                     android:id="@+id/repeat_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="16dp"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="8dp"
-                    android:onClick="onSwitchRepeat"
+                    android:layout_marginRight="16dp"
                     android:checked="true"
-                    android:textOn="On"
-                    android:textOff="Off"/>
+                    android:onClick="onSwitchRepeat"
+                    android:textOff="Off"
+                    android:textOn="On" />
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="match_parent"
                 android:id="@+id/RepeatNo"
-                android:clickable="true"
-                android:onClick="setRepeatNo"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:layout_height="72dp">
+                android:clickable="true"
+                android:onClick="setRepeatNo">
 
                 <ImageView
                     android:id="@+id/repeat_no_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="32dp"
-                    android:src="@drawable/ic_unfold_more_grey600_24dp"
-                    android:layout_centerVertical="true" />
+                    android:src="@drawable/ic_unfold_more_grey600_24dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/repeat_no_icon"
-                    android:layout_height="wrap_content">
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/repeat_no_text"
-                        android:textColor="@android:color/black"
                         android:layout_width="wrap_content"
-                        android:textSize="15dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/repeat_no" />
+                        android:text="@string/repeat_no"
+                        android:textColor="@android:color/black"
+                        android:textSize="15dp" />
 
                     <TextView
-                        android:layout_width="wrap_content"
                         android:id="@+id/set_repeat_no"
-                        android:textSize="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:textColor="@color/abc_secondary_text_material_dark"
-                        android:layout_height="wrap_content"/>
+                        android:textSize="15dp" />
 
                 </LinearLayout>
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="match_parent"
                 android:id="@+id/RepeatType"
-                android:clickable="true"
-                android:onClick="selectRepeatType"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:layout_height="72dp">
+                android:clickable="true"
+                android:onClick="selectRepeatType">
 
                 <ImageView
                     android:id="@+id/repeat_type_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="32dp"
-                    android:src="@drawable/ic_subject_grey600_24dp"
-                    android:layout_centerVertical="true" />
+                    android:src="@drawable/ic_subject_grey600_24dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/repeat_type_icon"
-                    android:layout_height="wrap_content">
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/repeat_type_text"
-                        android:textColor="@android:color/black"
                         android:layout_width="wrap_content"
-                        android:textSize="15dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/repeat_type" />
+                        android:text="@string/repeat_type"
+                        android:textColor="@android:color/black"
+                        android:textSize="15dp" />
 
                     <TextView
-                        android:layout_width="wrap_content"
                         android:id="@+id/set_repeat_type"
-                        android:textSize="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:textColor="@android:color/black"
-                        android:layout_height="wrap_content"/>
+                        android:textSize="15dp" />
 
                 </LinearLayout>
 
@@ -302,6 +304,19 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButtonSave"
+        android:layout_width="68dp"
+        android:layout_height="69dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="304dp"
+        android:layout_marginTop="168dp"
+        android:layout_marginBottom="49dp"
+        android:clickable="true"
+        fab:srcCompat="@drawable/ic_notifications_on_white_24dp" />
 
     <View
         android:layout_width="match_parent"
