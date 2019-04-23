@@ -67,17 +67,6 @@
             android:orientation="vertical">
 
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_marginTop="8dp"
-                android:text="@string/details"
-                android:id="@+id/details"
-                android:textSize="15dp"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="72dp"
-                android:textColor="@android:color/black"
-                android:layout_height="72dp"/>
-
             <RelativeLayout
                 android:id="@+id/date"
                 android:layout_width="match_parent"
@@ -313,27 +302,13 @@
 
         </LinearLayout>
 
-    </ScrollView>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButtonSave"
-        android:layout_width="68dp"
-        android:layout_height="69dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="304dp"
-        android:layout_marginTop="168dp"
-        android:layout_marginBottom="49dp"
-        android:clickable="true"
-        fab:srcCompat="@drawable/ic_notifications_on_white_24dp" />
+    </ScrollView>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_below="@+id/add_reminder_layout_top"
         android:background="@drawable/toolbar_dropshadow" />
-
-
 
 </RelativeLayout>
