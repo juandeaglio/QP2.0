@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -71,7 +75,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
     }
 
     @Override
-    public void onBindViewHolder(TaskCardViewHolder taskCardViewHolder, int i)
+    public void onBindViewHolder(final TaskCardViewHolder taskCardViewHolder, int i)
     {
         final Task task = taskList.get(i);
         taskCardViewHolder.taskName.setText(task.getTaskName());
@@ -80,6 +84,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         taskCardViewHolder.dueDate.setText(dateCorrection(task.getDueDate()));
         taskCardViewHolder.timeDue.setText(task.getTimeDueDate());
         taskCardViewHolder.taskID = task.getTaskId();
+
         taskCardViewHolder.checkBox.setOnCheckedChangeListener(null);
         if(task.getCompleted() == 0)
         {
@@ -89,11 +94,13 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
             taskCardViewHolder.checkBox.setChecked(true);
         taskCardViewHolder.taskCard.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 Intent intent = new Intent(context, ViewTask.class);
                 intent.putExtra("taskid", task.getTaskId().toString());
                 context.startActivity(intent);
             }
+
         });
 
        // mainActivity.registerForContextMenu(taskCardViewHolder.taskCard);

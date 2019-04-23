@@ -26,7 +26,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.DatabaseHelper;
+
 import java.util.Calendar;
+import java.util.UUID;
 
 import maes.tech.intentanim.CustomIntent;
 
@@ -49,6 +52,9 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
     private String mActive;
     private Toast toast;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
+    DatabaseHelper db = new DatabaseHelper(this);
+
+
 
     public Reminder() {
     }
@@ -182,12 +188,27 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
     {
         Intent intent1 = new Intent(Reminder.this, BroadCastService.class);
         intent1.putExtra("Task Name",mTitle);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(Reminder.this, 0,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        int intentId = (int) System.currentTimeMillis();
+        UUID uniqueID = UUID.randomUUID();
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(Reminder.this, intentId,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am = (AlarmManager) Reminder.this.getSystemService(Reminder.this.ALARM_SERVICE);
         am.set(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(),pendingIntent);
-        this.toast = Toast.makeText(this, "Reminder Successfully Saved!", Toast.LENGTH_SHORT);
-        toast.show();
-        goBackToHomepage();
+
+        boolean saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
+        if(saveCompleted){
+            this.toast = Toast.makeText(this, "Reminder Successfully Saved!", Toast.LENGTH_SHORT);
+            toast.show();
+            goBackToHomepage();
+
+        }
+        else {
+            this.toast = Toast.makeText(this, "Reminder Failed", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
+
 
         // Database stuff
     }
