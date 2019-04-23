@@ -33,6 +33,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -110,13 +111,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void  showfirstTimeDialog(){
-        new AlertDialog.Builder(this)
+      new AlertDialog.Builder(this)
                 .setTitle("Welcome")
-                .setMessage("Welcome to Quick Plan!")
+                .setMessage("Welcome to Quick Plan! Would you like a walk though?")
                 .setPositiveButton("Next", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //Start by creating a temp task
+                        showCreateTaskDialog();
 
                     }
                 })
@@ -126,8 +128,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
-                })
-                .create().show();
+                }).create().show();
+
+
+
 
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         SharedPreferences.Editor editor =  prefs.edit();
@@ -135,6 +139,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         editor.apply();
         }
 
+    private void showCreateTaskDialog() {
+       AlertDialog.Builder alert =  new AlertDialog.Builder(this)
+                .setTitle("First things first")
+                .setMessage("You can create a new task or todo with this button")
+                .setPositiveButton("Next", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Start by creating a temp task
+                        //showCreateTaskDialog();
+                        dialog.dismiss();
+
+                    }
+                })
+
+                .setNegativeButton("Skip", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+       AlertDialog dialogWindow = alert.create();
+       dialogWindow.getWindow().setGravity(Gravity.BOTTOM);
+       dialogWindow.getWindow().setLayout(100,200);
+       dialogWindow.show();
+
+    }
 
 
     @Override
