@@ -29,15 +29,14 @@ public class SwipeController extends Callback {
 
     private Drawable icon;
     private Drawable icon2;
-    private final ColorDrawable background;
-    private final ColorDrawable background2;
+    private Paint paint = new Paint();
+    private final RectF background;
 
     public SwipeController(SwipeControllerActions swipeActions, Context context) {
         this.swipeActions = swipeActions;
         icon = ContextCompat.getDrawable(context, R.drawable.delete_icon);
         icon2 = ContextCompat.getDrawable(context, R.drawable.ic_check_white_24dp);
-        background = new ColorDrawable(Color.RED);
-        background2 = new ColorDrawable(Color.BLUE);
+        background = new RectF(0,0,0,0);
     }
 
     @Override
@@ -76,25 +75,25 @@ public class SwipeController extends Callback {
             int iconRight = itemView.getLeft() + iconMargin + icon.getIntrinsicWidth();
             int iconLeft = itemView.getLeft() + iconMargin;
             icon2.setBounds(iconLeft, iconTop, iconRight, iconBottom);
-
-
-            background2.setBounds(itemView.getLeft(), itemView.getTop(),
-                    itemView.getLeft() + ((int) dX) + backgroundCornerOffset,
+            background.set(itemView.getLeft(), itemView.getTop(),
+                    itemView.getRight() + ((int) dX) + backgroundCornerOffset,
                     itemView.getBottom());
-            background2.draw(c);
+            paint.setColor(Color.BLUE);
+            c.drawRoundRect(background,30,30, paint);
             icon2.draw(c);
         } else if (dX < 0) { // Swiping to the left
             int iconLeft = itemView.getRight() - iconMargin - icon.getIntrinsicWidth();
             int iconRight = itemView.getRight() - iconMargin;
             icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+            paint.setColor(Color.RED);
 
-            background.setBounds(itemView.getRight() + ((int) dX) - backgroundCornerOffset,
+            background.set(itemView.getLeft() + ((int) dX) - backgroundCornerOffset,
                     itemView.getTop(), itemView.getRight(), itemView.getBottom());
-            background.draw(c);
+            c.drawRoundRect(background, 30,30, paint);
             icon.draw(c);
         } else { // view is unSwiped
-            background.setBounds(0, 0, 0, 0);
-            background2.setBounds(0,0,0,0);
+            background.set(0, 0, 0, 0);
+            c.drawRoundRect(background, 30,30,paint);
         }
     }
 }
