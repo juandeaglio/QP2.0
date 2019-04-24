@@ -67,16 +67,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NotificationManager notifManager;
     private TaskCardRecyclerAdapter adapter;
     SwipeController swipeController;
+    public static ColorManager colorManager;
 
     public String sortSelector = "Task_Priority"; // Default sorting priority
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         SharedPreferences preferences = getSharedPreferences("prefs", MODE_PRIVATE);
 
@@ -85,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(firstStart){
             showfirstTimeDialog();
         }
-
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -97,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
+        colorManager = new ColorManager(this);
         FloatingActionButton fab = findViewById(R.id.createTaskBtn);
         fab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -109,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
         setUpRecyclerView();
+
     }
 
     private void  showfirstTimeDialog(){
@@ -187,6 +191,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
         adapter.updateData();
 
+        int color = colorManager.getColorAccent();
+        //Toolbar toolbar = findViewById(R.id.toolbar);
+        //toolbar.setBackgroundColor(color);
     }
 
     public void createNotification(String aMessage, Context context) {
