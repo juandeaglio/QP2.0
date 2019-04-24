@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import static maes.tech.intentanim.CustomIntent.customType;
+import com.hololo.tutorial.library.TutorialActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -44,6 +45,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.DatabaseHelper;
+import com.hololo.tutorial.library.Step;
+import com.hololo.tutorial.library.TutorialActivity;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -77,14 +80,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         SharedPreferences preferences = getSharedPreferences("prefs", MODE_PRIVATE);
 
-        boolean firstStart = preferences.getBoolean("firstStart", true);
-
+        //boolean firstStart = preferences.getBoolean("firstStart", true);
+        boolean firstStart = true;
         if(firstStart){
-
             showfirstTimeDialog();
         }
 
-        //showfirstTimeDialog();
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -111,27 +112,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void  showfirstTimeDialog(){
-      new AlertDialog.Builder(this)
-                .setTitle("Welcome")
-                .setMessage("Welcome to Quick Plan! Would you like a walk though?")
-                .setPositiveButton("Next", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Start by creating a temp task
-                        showCreateTaskDialog();
 
-                    }
-                })
-
-                .setNegativeButton("Skip", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).create().show();
-
-
-
+        startActivity(new Intent(this, IntroActivity.class));
 
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         SharedPreferences.Editor editor =  prefs.edit();
@@ -139,33 +121,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         editor.apply();
         }
 
-    private void showCreateTaskDialog() {
-       AlertDialog.Builder alert =  new AlertDialog.Builder(this)
-                .setTitle("First things first")
-                .setMessage("You can create a new task or todo with this button")
-                .setPositiveButton("Next", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Start by creating a temp task
-                        //showCreateTaskDialog();
-                        dialog.dismiss();
-
-                    }
-                })
-
-                .setNegativeButton("Skip", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-
-       AlertDialog dialogWindow = alert.create();
-       dialogWindow.getWindow().setGravity(Gravity.BOTTOM);
-       dialogWindow.getWindow().setLayout(100,200);
-       dialogWindow.show();
-
-    }
 
 
     @Override
@@ -313,6 +268,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }while (cursor.moveToNext());
 
         }
+
 
     }
 

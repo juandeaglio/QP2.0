@@ -34,15 +34,9 @@
             android:name=".CreateTask"
             android:label="@string/title_activity_create_task"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".MainActivity"
-            android:label="@string/homePage"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-
-        <activity
-            android:name=".splash_screen"
             android:label="@string/homePage"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -50,6 +44,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".IntroActivity"
+            android:label="walk through"
+            android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
 
         <receiver
