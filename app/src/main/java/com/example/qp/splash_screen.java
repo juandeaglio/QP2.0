@@ -15,7 +15,7 @@ import maes.tech.intentanim.CustomIntent;
 public class splash_screen extends AppCompatActivity {
 
 
-    private static int timeOut = 2500; //2.5 seconds
+    private static int timeOut = 3500; //3.5 seconds
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +42,11 @@ public class splash_screen extends AppCompatActivity {
             SharedPreferences.Editor editor =  preferences.edit();
             editor.putBoolean("firstStart", false);
             editor.apply();
+
+            //startActivity(new Intent(this, IntroActivity.class));
         }else{
             startActivity(new Intent(splash_screen.this, MainActivity.class));
+            finish();
         }
 
 //

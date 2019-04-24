@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TaskCardRecyclerAdapter adapter;
     SwipeController swipeController;
     public static ColorManager colorManager;
+    public int firstTaskCreated = 0;
 
     public String sortSelector = "Task_Priority"; // Default sorting priority
 
@@ -82,13 +83,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
 
 
+
+
         SharedPreferences preferences = getSharedPreferences("prefs", MODE_PRIVATE);
 
         boolean firstStart = preferences.getBoolean("firstStart", true);
-        //boolean firstStart = true;
+
         if(firstStart){
-            showfirstTimeDialog();
+            showFirstTimeDialog();
         }
+
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -111,11 +116,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         populateArrayList(this.db, this.sortSelector);
 
         adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
+        adapter.updateData();
         setUpRecyclerView();
 
     }
 
-    private void  showfirstTimeDialog(){
+//    private void showSwipeTip(){
+//        new AlertDialog.Builder(this)
+//                .setTitle("Swipe Tip")
+//                .setMessage("You can swipe left and right on task cards for easy completing and deleting")
+//
+//                // Specifying a listener allows you to take an action before dismissing the dialog.
+//                // The dialog is automatically dismissed when a dialog button is clicked.
+//                .setPositiveButton("Got it!", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                })
+//
+//                // A null listener allows the button to dismiss the dialog and take no further action.
+//
+//                .setIcon(android.R.drawable.ic_dialog_alert)
+//                .show();
+//    }
+
+    private void  showFirstTimeDialog(){
 
         startActivity(new Intent(this, IntroActivity.class));
 

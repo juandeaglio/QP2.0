@@ -70,7 +70,7 @@
 
         <TextView
             android:id="@+id/card_due_date"
-            android:layout_width="111dp"
+            android:layout_width="72dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/card_task_name"
             android:layout_marginTop="8dp"
@@ -88,8 +88,9 @@
             android:layout_width="88dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/card_task_name"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
             android:layout_toEndOf="@id/card_check_box"
             android:layout_toRightOf="@id/card_check_box"
             android:textColor="@android:color/black"
@@ -98,7 +99,8 @@
             app:fontFamily="@font/poppins"
             app:layout_constraintBottom_toBottomOf="@+id/card_due_date"
             app:layout_constraintStart_toEndOf="@+id/card_due_date"
-            app:layout_constraintTop_toTopOf="@+id/card_due_date" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
     </android.support.constraint.ConstraintLayout>
 
 
