@@ -13,6 +13,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "task.db";
     public static final String TABLE_NAME = "task_table";
+    //COLS for task table
     public static final String COL_1 = "Task_Name";
     public static final String COL_2 = "Task_Due_Date";
     public static final String COL_3 = "Task_Priority";
@@ -20,6 +21,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_5 = "Task_Completed"; //This data will be an int. 1 for completed, 0 for not
     public static final String COL_6 = "Task_ID";
     public static final String COL_7 = "Task_Time";
+
+
+    public static final String REMINDERS_TABLE_NAME = "reminders_table";
+    // COLS for Reminders table
+    public static final String R_COL_1 = "Intent_ID";
+    public static final String R_COL_2 = "Reminder_ID";
+
+
+
 
     public String[] allColumns = {COL_1, COL_2, COL_3, COL_4, COL_5, COL_6, COL_7};
 
@@ -32,12 +42,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + TABLE_NAME + "(Task_Name varchar(255), Task_Due_Date varchar(255), Task_Priority INT, Task_Description varchar(255), Task_Completed INT, Task_ID varchar(255), Task_Time varchar(255))"); //SQL querey creating our database
+        db.execSQL("create table " + REMINDERS_TABLE_NAME + "(Intent_ID int, Reminder_ID varchar(255))"); //SQL query to create the reminder table
+
     }
 
     @Override
     public void onUpgrade (SQLiteDatabase db,int oldVersion, int newVersion){
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME); //If the table already exists in android studio we ignore
+        db.execSQL("DROP TABLE IF EXISTS " + REMINDERS_TABLE_NAME);
         onCreate(db);
+    }
+
+    public boolean insertReminderData(int IntentID, String ReminderID){
+        SQLiteDatabase reminderDB = getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(R_COL_1, IntentID);
+        contentValues.put(R_COL_2, ReminderID);
+        long result = reminderDB.insert(REMINDERS_TABLE_NAME, null, contentValues);
+
+        if (result == -1){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    public int getIntentID(String reminderID){
+        SQLiteDatabase reminderDB = getWritableDatabase();
+
+        Cursor result = reminderDB.rawQuery("select Intent_ID from " + REMINDERS_TABLE_NAME + " where " + R_COL_2 + " = '" + reminderID + "'",null);
+        if (result.moveToFirst()){
+            return result.getInt(0);
+        }
+        return -1; //Error
     }
 
     public boolean insertData(String taskName, int priority, String dueDate, String description, int isCompleted, UUID taskID, String taskTime){
