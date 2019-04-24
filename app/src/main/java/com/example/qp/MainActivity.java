@@ -8,7 +8,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import static maes.tech.intentanim.CustomIntent.customType;
-import com.hololo.tutorial.library.TutorialActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -45,8 +44,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.DatabaseHelper;
-import com.hololo.tutorial.library.Step;
-import com.hololo.tutorial.library.TutorialActivity;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -189,6 +186,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume()
     {
         super.onResume();
+        populateArrayList(this.db, this.sortSelector);
+
         adapter.updateData();
 
         int color = colorManager.getColorAccent();
