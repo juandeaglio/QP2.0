@@ -24,8 +24,8 @@ public class IntroActivity extends AppIntro {
         addSlide(newInstance("Stay focused on what's important", "Schedule alarms and reminders to keep you on track",
                 R.drawable.alarm_on, ContextCompat.getColor(getApplicationContext(), R.color.navyBlue)));
 
-        addSlide(newInstance("Stay focused on what's important", "Schedule alarms and reminders to keep you on track",
-                R.drawable.alarm_on, ContextCompat.getColor(getApplicationContext(), R.color.navyBlue)));
+        addSlide(newInstance("Let's Get to Planning", "Welcome to Quick Plan",
+                R.drawable.idea, ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary)));
 
     }
 
