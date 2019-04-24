@@ -2,22 +2,14 @@ package com.example.qp;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import yuku.ambilwarna.AmbilWarnaDialog;
 
@@ -25,9 +17,10 @@ public class Customization extends AppCompatActivity
 {
     final int MAX_NUMBER_OF_COLORS = 3;
 
-    ColorManager colorManager = MainActivity.colorManager;
+    int currentIndex = 0;
     int currentColor;
     int[] colorArr;
+    ColorManager colorManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,10 +31,10 @@ public class Customization extends AppCompatActivity
         setSupportActionBar(toolbar);
         colorManager = MainActivity.colorManager;
         toolbar.setBackgroundColor(colorManager.getColorAccent());
-        int defaultColorPrimary = colorManager.getColorPrimary();
+        //int defaultColorPrimary = colorManager.getColorPrimary();
         int defaultColorPrimaryDark = colorManager.getColorPrimaryDark();
         int defaultColorAccent = colorManager.getColorAccent();
-        colorArr = new int[]{defaultColorPrimary, defaultColorPrimaryDark, defaultColorAccent};
+        colorArr = new int[]{defaultColorPrimaryDark, defaultColorAccent};
         toolbar.setBackgroundColor(defaultColorAccent);
         setStatusBarColor(findViewById(R.id.statusBarBackground), defaultColorAccent);
 
@@ -49,6 +42,7 @@ public class Customization extends AppCompatActivity
         CardView card0 = (CardView) findViewById(R.id.card1);
         CardView card1 = (CardView) findViewById(R.id.card2);
         CardView card2 = (CardView) findViewById(R.id.card3);
+
         CardView[] cardArr = new CardView[]{card0, card1, card2};
 
 
@@ -66,19 +60,32 @@ public class Customization extends AppCompatActivity
             TextView priority1 = (TextView) currentCard.findViewById(R.id.card_priority);
             TextView dueDate1 = (TextView) currentCard.findViewById(R.id.card_due_date);
             TextView time1 = (TextView) currentCard.findViewById(R.id.card_time);
+            currentCard.setCardBackgroundColor(defaultColorPrimaryDark);
 
             taskName1.setText(nameArr[i]);
             priority1.setText(priorityArr[i]);
             dueDate1.setText(dueDatesArr[i]);
             time1.setText(timesArr[i]);
         }
-
-        Button changeColorButton = findViewById(R.id.changeColorButton);
+        currentIndex = 0;
+        Button changeColorButton = findViewById(R.id.cardButton);
         changeColorButton.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View view)
             {
-
+                currentIndex = 0;
+                currentColor = colorArr[0];
+                openColorPicker();
+            }
+        });
+        Button changeHeaderColor = findViewById(R.id.headerButton);
+        changeHeaderColor.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
+                currentIndex = 1;
+                currentColor = colorArr[1];
+                openColorPicker();
             }
         });
 
@@ -90,16 +97,22 @@ public class Customization extends AppCompatActivity
             @Override
             public void onCancel(AmbilWarnaDialog dialog)
             {
-
+                currentIndex = 0;
             }
 
             @Override
             public void onOk(AmbilWarnaDialog dialog, int color)
             {
                 currentColor = color;
-                colorManager.setColorAccent(currentColor);
-                finish();
-                startActivity(getIntent());
+                colorArr[currentIndex] = currentColor;
+
+                if(colorArr[0] != colorManager.getColorPrimaryDark() || colorArr[1] != colorManager.getColorAccent())
+                {
+                    colorManager.setColorPrimaryDark(colorArr[0]);
+                    colorManager.setColorAccent(colorArr[1]);
+                    finish();
+                    startActivity(getIntent());
+                }
             }
         });
         colorPicker.show();

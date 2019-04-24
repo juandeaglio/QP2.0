@@ -1,5 +1,6 @@
 package com.example.qp;
 
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -7,7 +8,10 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import static maes.tech.intentanim.CustomIntent.customType;
+
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Canvas;
@@ -29,6 +33,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -73,6 +78,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        SharedPreferences preferences = getSharedPreferences("prefs", MODE_PRIVATE);
+
+        boolean firstStart = preferences.getBoolean("firstStart", true);
+
+        if(firstStart){
+
+            showfirstTimeDialog();
+        }
+
+        //showfirstTimeDialog();
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -96,6 +113,64 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUpRecyclerView();
 
     }
+
+    private void  showfirstTimeDialog(){
+      new AlertDialog.Builder(this)
+                .setTitle("Welcome")
+                .setMessage("Welcome to Quick Plan! Would you like a walk though?")
+                .setPositiveButton("Next", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Start by creating a temp task
+                        showCreateTaskDialog();
+
+                    }
+                })
+
+                .setNegativeButton("Skip", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create().show();
+
+
+
+
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor =  prefs.edit();
+        editor.putBoolean("firstStart", false);
+        editor.apply();
+        }
+
+    private void showCreateTaskDialog() {
+       AlertDialog.Builder alert =  new AlertDialog.Builder(this)
+                .setTitle("First things first")
+                .setMessage("You can create a new task or todo with this button")
+                .setPositiveButton("Next", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Start by creating a temp task
+                        //showCreateTaskDialog();
+                        dialog.dismiss();
+
+                    }
+                })
+
+                .setNegativeButton("Skip", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+       AlertDialog dialogWindow = alert.create();
+       dialogWindow.getWindow().setGravity(Gravity.BOTTOM);
+       dialogWindow.getWindow().setLayout(100,200);
+       dialogWindow.show();
+
+    }
+
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -162,8 +237,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adapter.updateData();
 
         int color = colorManager.getColorAccent();
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setBackgroundColor(color);
+        //Toolbar toolbar = findViewById(R.id.toolbar);
+        //toolbar.setBackgroundColor(color);
     }
 
     public void createNotification(String aMessage, Context context) {

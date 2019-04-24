@@ -16,7 +16,7 @@ public class ColorManager
     {
         colorPrimary = ContextCompat.getColor(activity, R.color.colorPrimary);
         colorAccent = ContextCompat.getColor(activity, R.color.colorAccent);
-        colorPrimaryDark = ContextCompat.getColor(activity, R.color.navyBlue);
+        colorPrimaryDark = ContextCompat.getColor(activity, R.color.colorPrimaryDark);
     }
 
     public int getColorPrimary()
