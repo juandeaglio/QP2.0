@@ -29,6 +29,8 @@ public class SwipeController extends Callback {
 
     private Drawable icon;
     private Drawable icon2;
+    private int colorComplete;
+    private int colorDelete;
     private Paint paint = new Paint();
     private final RectF background;
 
@@ -37,6 +39,8 @@ public class SwipeController extends Callback {
         icon = ContextCompat.getDrawable(context, R.drawable.delete_icon);
         icon2 = ContextCompat.getDrawable(context, R.drawable.ic_check_white_24dp);
         background = new RectF(0,0,0,0);
+        colorDelete = context.getResources().getColor(R.color.colorDelete);
+        colorComplete = context.getResources().getColor(R.color.colorComplete);
     }
 
     @Override
@@ -78,14 +82,14 @@ public class SwipeController extends Callback {
             background.set(itemView.getLeft(), itemView.getTop(),
                     itemView.getRight() + ((int) dX) + backgroundCornerOffset,
                     itemView.getBottom());
-            paint.setColor(Color.BLUE);
+            paint.setColor(colorComplete);
             c.drawRoundRect(background,30,30, paint);
             icon2.draw(c);
         } else if (dX < 0) { // Swiping to the left
             int iconLeft = itemView.getRight() - iconMargin - icon.getIntrinsicWidth();
             int iconRight = itemView.getRight() - iconMargin;
             icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
-            paint.setColor(Color.RED);
+            paint.setColor(colorDelete);
 
             background.set(itemView.getLeft() + ((int) dX) - backgroundCornerOffset,
                     itemView.getTop(), itemView.getRight(), itemView.getBottom());
