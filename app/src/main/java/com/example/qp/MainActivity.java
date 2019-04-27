@@ -187,7 +187,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     {
         super.onResume();
         populateArrayList(this.db, this.sortSelector);
-
         adapter.updateData();
 
         int color = colorManager.getColorAccent();
