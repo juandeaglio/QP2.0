@@ -1,6 +1,7 @@
 package com.example.qp;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -312,8 +313,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void openCreateTaskActivity(View view) {
-        startActivity(new Intent(this, CreateTask.class));
-        CustomIntent.customType(this, "left-to-right");
+        Dialog d = new Dialog(this);
+        d.setTitle("Create Task");
+        d.setContentView(R.layout.create_task_dialog);
+        d.show();
+
+
     }
 
 
