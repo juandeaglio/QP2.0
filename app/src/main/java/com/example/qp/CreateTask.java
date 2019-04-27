@@ -298,9 +298,10 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
         }
 
         public void goBackToHomepage() {
-            startActivity(new Intent(CreateTask.this, MainActivity.class));
+            //startActivity(new Intent(this, MainActivity.class));
             CustomIntent.customType(this, "right-to-left");
 
+            this.finish();
         }
 
 
