@@ -39,6 +39,7 @@
             android:layout_marginTop="8dp"
             android:layout_toEndOf="@id/card_check_box"
             android:layout_toRightOf="@id/card_check_box"
+            tools:fontFamily="@font/poppins"
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -53,6 +54,8 @@
             android:layout_above="@id/card_due_date"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            tools:fontFamily="@font/poppins"
+
             android:layout_marginRight="16dp"
             android:layout_marginBottom="8dp"
             android:layout_toEndOf="@id/card_task_name"
@@ -72,6 +75,8 @@
             android:id="@+id/card_due_date"
             android:layout_width="111dp"
             android:layout_height="wrap_content"
+            tools:fontFamily="@font/poppins"
+
             android:layout_below="@+id/card_task_name"
             android:layout_marginTop="8dp"
             android:layout_toEndOf="@id/card_check_box"
@@ -88,6 +93,8 @@
             android:layout_width="88dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/card_task_name"
+            tools:fontFamily="@font/poppins"
+
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_toEndOf="@id/card_check_box"
