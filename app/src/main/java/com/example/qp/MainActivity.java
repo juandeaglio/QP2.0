@@ -7,6 +7,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import static maes.tech.intentanim.CustomIntent.customType;
 
@@ -24,6 +25,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -38,22 +40,26 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.DatabaseHelper;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
 import maes.tech.intentanim.CustomIntent;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener  {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TimePickerDialog.OnTimeSetListener, NumberPicker.OnValueChangeListener{
 
     public static ArrayList<Task> globalTaskList = new ArrayList<>();
     public static ArrayList<Task> globalCompletedTaskList = new ArrayList<>();
@@ -64,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String CHANNEL_NAME = "ANDROID CHANNEL";
     private NotificationManager notifManager;
     private TaskCardRecyclerAdapter adapter;
+    private Calendar calendar;
     SwipeController swipeController;
     public static ColorManager colorManager;
 
@@ -102,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FloatingActionButton fab = findViewById(R.id.createTaskBtn);
         fab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                openCreateTaskActivity(view);
+                openCreateTaskDialog(view);
             }
         });
 
@@ -110,6 +117,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
         setUpRecyclerView();
+
+
+
 
     }
 
@@ -312,11 +322,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    public void openCreateTaskActivity(View view) {
-        Dialog d = new Dialog(this);
-        d.setTitle("Create Task");
-        d.setContentView(R.layout.create_task_dialog);
-        d.show();
+    public void openCreateTaskDialog(View view) {
+        CreateTaskDialogHandler createTaskDialogHandler = new CreateTaskDialogHandler();
+        createTaskDialogHandler.show(getSupportFragmentManager(), "example dialog");
 
 
     }
@@ -390,4 +398,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        TextView taskTime = (TextView) findViewById(R.id.taskTimeText);
+        String am_pm = "";
+        calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.MILLISECOND,0);
+
+        if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
+            am_pm = "AM";
+        } else if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
+            am_pm = "PM";
+        }
+        String tempText = (calendar.get(Calendar.HOUR) == 0) ? "12" : calendar.get(Calendar.HOUR) + "";
+        String minuteStr = "";
+
+        if (minute <= 9) {
+            minuteStr = "0" + String.valueOf(minute);
+        } else {
+            minuteStr = String.valueOf(minute);
+        }
+        taskTime.setText(tempText + ":" + minuteStr + " " + am_pm);
+        taskTime.setVisibility(View.VISIBLE);
+
+       // this.taskTimeValue = String.valueOf(tempText) + ":" + minuteStr + " " + am_pm;
+
+    }
+
+    @Override
+    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+
+    }
 }
