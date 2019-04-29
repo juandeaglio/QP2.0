@@ -29,6 +29,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String R_COL_2 = "Reminder_ID";
 
 
+    public static final String COLORS_TABLE_NAME = "colors_table";
+    // COLS for Colors table
+    public static final String COLOR_COL_1 = "Color_Primary";
+    public static final String COLOR_COL_2 = "Color_Primary_Dark";
+    public static final String COLOR_COL_3 = "Color_Primary_Accent";
+    public static final String COLOR_COL_4 = "Text_Color";
 
 
     public String[] allColumns = {COL_1, COL_2, COL_3, COL_4, COL_5, COL_6, COL_7};
@@ -43,7 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + TABLE_NAME + "(Task_Name varchar(255), Task_Due_Date varchar(255), Task_Priority INT, Task_Description varchar(255), Task_Completed INT, Task_ID varchar(255), Task_Time varchar(255))"); //SQL querey creating our database
         db.execSQL("create table " + REMINDERS_TABLE_NAME + "(Intent_ID int, Reminder_ID varchar(255))"); //SQL query to create the reminder table
-
+        db.execSQL("create table " + COLORS_TABLE_NAME + "(Color_Primary int, Color_Primary_Dark int, Color_Primary_Accent int, Text_Color int)");
     }
 
     @Override
@@ -68,6 +74,48 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
+
+    public boolean checkIfColorExists(){
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor result = db.rawQuery("select * from " + COLORS_TABLE_NAME ,null);
+
+        if(result.moveToFirst()){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public Cursor getColorValues(){
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor result = db.rawQuery("select * from " + COLORS_TABLE_NAME  ,null);
+
+        return result;
+    }
+
+    public boolean inserColorData(int color_Primary, int color_Primary_Dark, int color_Primary_Accent, int text_Color){
+        SQLiteDatabase colorDB = getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLOR_COL_1, color_Primary);
+        contentValues.put(COLOR_COL_2, color_Primary_Dark);
+        contentValues.put(COLOR_COL_3, color_Primary_Accent);
+        contentValues.put(COLOR_COL_4, text_Color);
+
+
+        long result = colorDB.insert(COLORS_TABLE_NAME, null, contentValues);
+
+        if (result == -1){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+
+
 
     public int getIntentID(String reminderID){
         SQLiteDatabase reminderDB = getWritableDatabase();
