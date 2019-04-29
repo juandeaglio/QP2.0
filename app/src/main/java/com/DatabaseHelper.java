@@ -90,7 +90,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
         long result = colorDB.insert(COLORS_TABLE_NAME, null, contentValues);
-
         if (result == -1){
             return false;
         }
