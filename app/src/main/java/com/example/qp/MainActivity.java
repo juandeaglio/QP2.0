@@ -1,5 +1,6 @@
 package com.example.qp;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -52,6 +53,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -79,12 +81,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TaskCardRecyclerAdapter adapter;
     private Calendar calendar;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private AlarmManager am;
 
     SwipeController swipeController;
     public static ColorManager colorManager;
     public Toolbar toolbar;
     private FloatingActionButton fab;
     public String sortSelector = "Task_Priority"; // Default sorting priority
+    private String taskTimeValue = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -95,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
 
         SharedPreferences preferences = getSharedPreferences("prefs", MODE_PRIVATE);
@@ -359,14 +364,90 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final EditText taskNameDialog = ctDialog.findViewById(R.id.taskNameDialog);
         EditText taskDescription = ctDialog.findViewById(R.id.taskDescription);
 
-        Button saveButtonDialog = ctDialog.findViewById(R.id.saveTaskButtonDialog);
+        Button saveButtonDialog = (Button)ctDialog.findViewById(R.id.saveTaskButtonDialog);
 
         saveButtonDialog.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                String taskName = taskNameDialog.getText().toString();
+                if(taskNameDialog.getText().length() == 0){
+                    taskNameDialog.setError("Title cannot be Blank");
+                    return;
+                }
+                taskNameDialog.setText(fixTaskName(taskNameDialog.getText().toString()));
+
+                TextView dueDate = ctDialog.findViewById(R.id.taskDueDate);
+                if(dueDate.length() == 0){
+                    dueDate.setError("Due Date cannot be blank");
+                    return;
+                }
+                TextView taskTime = (TextView) ctDialog.findViewById(R.id.taskTimeDialog);
+                taskTime.setText(taskTimeValue);
+                if(taskTime.getText().length() == 0){
+                    TextView time = findViewById(R.id.taskTimeDialog);
+                    time.setError("Time cannot be left blank");
+                    return;
+                }
+
+                Switch allDay = (Switch) ctDialog.findViewById(R.id.isAllDay);
+                if (allDay.isChecked()){
+                    //taskTime = "All day";
+                    //TODO: change the time of the task to just go off at the day instead of the time
+                }
+
+                EditText taskNotes = (EditText) ctDialog.findViewById(R.id.taskDescription);
+                if(taskNotes.getText().length() == 0){
+                    taskNotes.setText(""); // IIf user didn't specify priority just set to 1
+                }
+
+//                TextView priority = (TextView) findViewById(R.id.priorityNum);
+//                if(priority.getText().toString().equals("")){
+//                    priority.setText("1"); // IIf user didn't specify priority just set to 1
+//                }
+
+                UUID taskID = UUID.randomUUID();
+
+                boolean saveCompleted = db.insertData(taskNameDialog.getText().toString(), 1, dueDate.getText().toString(), taskNotes.getText().toString(), 0, taskID, taskTime.getText().toString());
+
+                if (saveCompleted) {
+                    Intent intent1 = new Intent(MainActivity.this, StartService.class);
+                    intent1.putExtra("Task Name", taskNameDialog.getText().toString());
+
+                    int id = (int) System.currentTimeMillis();
+                    PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, id, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    long diff = Calendar.getInstance().getTimeInMillis() - calendar.getTimeInMillis();
+
+                    if (diff > 0) { // To accommodate if the user input's time from the past e.g Current Date: 4/15/19 1:03 p.m Set Date : 4/14/19 1:03 p.m
+                        calendar.add(Calendar.DATE, 1);
+                    }
+
+                    am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                    toast = Toast.makeText(MainActivity.this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
+
+                    toast.show();
+                    ctDialog.dismiss();
+                    populateArrayList(db, sortSelector);
+                    adapter.updateData();
+                } else {
+
+                    toast = Toast.makeText(getApplicationContext(), "Task failed to save", Toast.LENGTH_LONG);
+                    toast.show();
+                    //return false;
+
+                }
 
             }
         });
+
+
+
+        Button cancelButtonDialog = (Button)ctDialog.findViewById(R.id.cancelButtonDialog);
+        cancelButtonDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ctDialog.dismiss();
+            }
+        });
+
 
 
         final TextView taskDueDate = ctDialog.findViewById(R.id.taskDueDate);
@@ -489,8 +570,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
-        //TODO get the set time by the user
-        TextView taskTime = (TextView) findViewById(R.id.taskTimeText);
+        Dialog ctDialog = new Dialog(this);
+        ctDialog.setContentView(R.layout.create_task_dialog);
+        TextView taskTime = (TextView) ctDialog.findViewById(R.id.taskTimeDialog);
         String am_pm = "";
         calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
@@ -511,12 +593,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             minuteStr = String.valueOf(minute);
         }
-        taskTime.setText(tempText + ":" + minuteStr + " " + am_pm);
-        taskTime.setVisibility(View.VISIBLE);
+        this.taskTimeValue = tempText + ":" + minuteStr + " " + am_pm;
+        taskTime.setText(taskTimeValue);
+    }
 
-       // this.taskTimeValue = String.valueOf(tempText) + ":" + minuteStr + " " + am_pm;
+
+
+    private String fixTaskName(String taskName){
+        char capitalLetter = Character.toUpperCase(taskName.charAt(0));
+        return taskName.replace(taskName.charAt(0),capitalLetter);
+
 
     }
+
 
 //    @Override
 //    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
