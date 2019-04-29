@@ -1,5 +1,6 @@
 package com.example.qp;
 
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.DatabaseHelper;
+
+import maes.tech.intentanim.CustomIntent;
 import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class Customization extends AppCompatActivity
@@ -21,6 +27,8 @@ public class Customization extends AppCompatActivity
     int currentColor;
     int[] colorArr;
     ColorManager colorManager;
+    Toast toast;
+    DatabaseHelper db = new DatabaseHelper(this);
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -28,11 +36,50 @@ public class Customization extends AppCompatActivity
         setContentView(R.layout.activity_customization);
         Toolbar toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
+
         colorManager = MainActivity.colorManager;
         toolbar.setBackgroundColor(colorManager.getColorAccent());
+        int defaultColorPrimary = colorManager.getColorPrimary();
         int defaultColorPrimaryDark = colorManager.getColorPrimaryDark();
         int defaultColorAccent = colorManager.getColorAccent();
-        colorArr = new int[]{defaultColorPrimaryDark, defaultColorAccent};
+        int defaultColorText = colorManager.getColorText();
+
+
+        this.toast = Toast.makeText(this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
+        Button saveTaskBtn = findViewById(R.id.saveTaskButton);
+        Button cancelButton = findViewById(R.id.cancelButton);
+
+        saveTaskBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (saveColors())
+                {
+                    goBackToHomepage();
+                }
+                else
+                {
+                    toast = Toast.makeText(getApplicationContext(), "Task failed to save", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            }
+
+
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Cursor colorVals = db.getColorValues();
+                colorManager.setColorPrimary(colorVals.getInt(0));
+                colorManager.setColorPrimaryDark(colorVals.getInt(1));
+                colorManager.setColorAccent(colorVals.getInt(2));
+                colorManager.setColorText(colorVals.getInt(3));
+                goBackToHomepage();
+            }
+        });
+
+        colorArr = new int[]{defaultColorPrimary ,defaultColorPrimaryDark, defaultColorAccent, defaultColorText};
         toolbar.setBackgroundColor(defaultColorAccent);
         //setStatusBarColor(findViewById(R.id.statusBarBackground), defaultColorAccent);
         Window window = getWindow();
@@ -72,8 +119,8 @@ public class Customization extends AppCompatActivity
         {
             public void onClick(View view)
             {
-                currentIndex = 0;
-                currentColor = colorArr[0];
+                currentIndex = 1;
+                currentColor = colorArr[1];
                 openColorPicker();
             }
         });
@@ -82,8 +129,8 @@ public class Customization extends AppCompatActivity
         {
             public void onClick(View view)
             {
-                currentIndex = 1;
-                currentColor = colorArr[1];
+                currentIndex = 2;
+                currentColor = colorArr[2];
                 openColorPicker();
             }
         });
@@ -104,11 +151,12 @@ public class Customization extends AppCompatActivity
             {
                 currentColor = color;
                 colorArr[currentIndex] = currentColor;
-
-                if(colorArr[0] != colorManager.getColorPrimaryDark() || colorArr[1] != colorManager.getColorAccent())
+                if(colorArr[0] != colorManager.getColorPrimary() || colorArr[1] != colorManager.getColorPrimaryDark() || colorArr[2] != colorManager.getColorAccent() || colorArr[3] != colorManager.getColorText())
                 {
-                    colorManager.setColorPrimaryDark(colorArr[0]);
-                    colorManager.setColorAccent(colorArr[1]);
+                    colorManager.setColorPrimary(colorArr[0]);
+                    colorManager.setColorPrimaryDark(colorArr[1]);
+                    colorManager.setColorAccent(colorArr[2]);
+                    colorManager.setColorText(colorArr[3]);
                     finish();
                     startActivity(getIntent());
                 }
@@ -117,23 +165,22 @@ public class Customization extends AppCompatActivity
         colorPicker.show();
 
     }
-    public int getActionBarHeight() {
-        int actionBarHeight = 0;
-        TypedValue tv = new TypedValue();
-        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+
+    public void goBackToHomepage()
+    {
+        //startActivity(new Intent(this, MainActivity.class));
+        CustomIntent.customType(this, "right-to-left");
+
+        this.finish();
+    }
+    public boolean saveColors()
+    {
+        if(colorManager != null)
         {
-            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+            db.inserColorData(colorManager.getColorPrimary(), colorManager.getColorPrimaryDark(), colorManager.getColorAccent(), colorManager.getColorText());
+            return true;
         }
-        return actionBarHeight;
+        return false;
     }
-
-    public int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
-
 }
+

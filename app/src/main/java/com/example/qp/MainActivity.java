@@ -25,6 +25,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public Toolbar toolbar;
     public FloatingActionButton fab;
     public String sortSelector = "Task_Priority"; // Default sorting priority
-
+    NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -99,10 +100,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+
         navigationView.setNavigationItemSelectedListener(this);
 
-        colorManager = new ColorManager();
+        if(db.checkIfColorExists())
+        {
+            Cursor colorVals = db.getColorValues();
+            int tableIndex = 0;
+            int colorArr[] = new int[4];
+            while (colorVals.moveToNext())
+            {
+                colorArr[tableIndex] = colorVals.getInt(tableIndex);
+                tableIndex++;
+            }
+            colorManager = new ColorManager(0,0,0,0);
+            colorManager.setColorPrimary(colorArr[0]);
+            colorManager.setColorPrimaryDark(colorArr[1]);
+            colorManager.setColorAccent(colorArr[2]);
+            colorManager.setColorText(colorArr[3]);
+        }
+        else
+        {
+            colorManager = new ColorManager(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
+                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder));
+
+            db.inserColorData(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
+                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder));
+        }
+
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(colorManager.getColorAccent());
@@ -115,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        navigationView.setBackgroundColor(colorManager.getColorPrimaryDark());
 
         populateArrayList(this.db, this.sortSelector);
 
@@ -200,6 +227,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         adapter.updateData();
 
+        if(db.checkIfColorExists())
+        {
+            Cursor colorVals = db.getColorValues();
+            int tableIndex = 0;
+            int colorArr[] = new int[4];
+            while (colorVals.moveToNext())
+            {
+                colorArr[tableIndex] = colorVals.getInt(tableIndex);
+                tableIndex++;
+            }
+            colorManager = new ColorManager(0,0,0,0);
+            colorManager.setColorPrimary(colorArr[0]);
+            colorManager.setColorPrimaryDark(colorArr[1]);
+            colorManager.setColorAccent(colorArr[2]);
+            colorManager.setColorText(colorArr[3]);
+        }
+        else
+        {
+            colorManager = new ColorManager(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
+                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder));
+
+            db.inserColorData(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
+                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder));
+        }
+
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(colorManager.getColorAccent());
@@ -214,6 +266,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 openCreateTaskActivity(view);
             }
         });
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setBackgroundColor(colorManager.getColorPrimaryDark());
 
     }
 

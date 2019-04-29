@@ -47,12 +47,12 @@ public class ColorManager
         this.colorAccent = colorAccent;
     }
 
-    public int getColorType()
+    public int getColorText()
     {
         return colorText;
     }
 
-    public void setColorType(int colorText)
+    public void setColorText(int colorText)
     {
         this.colorAccent = colorText;
     }
