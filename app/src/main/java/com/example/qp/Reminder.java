@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -19,8 +20,11 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -53,8 +57,8 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
     private Toast toast;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     DatabaseHelper db = new DatabaseHelper(this);
-
-
+    AlarmManager am;
+    public ColorManager colorManager;
 
     public Reminder() {
     }
@@ -146,6 +150,18 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
         };
 
 
+
+        colorManager = MainActivity.colorManager;
+        mRepeatSwitch.setThumbTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
+        mRepeatSwitch.setTrackTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
+        mSaveButton.setBackgroundTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
+
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(colorManager.getColorAccent());
+
+        LinearLayout header = findViewById(R.id.add_reminder_layout_top);
+        header.setBackgroundColor(colorManager.getColorAccent());
     }
 
 
@@ -182,21 +198,57 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
         mTimeText.setText(mTime);
     }
     public void goBackToHomepage(){
-        startActivity(new Intent(Reminder.this, MainActivity.class));
+       this.finish();
     }
     public void saveReminder()
     {
-        Intent intent1 = new Intent(Reminder.this, BroadCastService.class);
+
+        Intent intent1 = new Intent(Reminder.this, StartService.class);
         intent1.putExtra("Task Name",mTitle);
 
         int intentId = (int) System.currentTimeMillis();
         UUID uniqueID = UUID.randomUUID();
+        boolean saveCompleted = false;
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(Reminder.this, intentId,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager am = (AlarmManager) Reminder.this.getSystemService(Reminder.this.ALARM_SERVICE);
-        am.set(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(),pendingIntent);
+        PendingIntent pendingIntent = PendingIntent.getService(Reminder.this, intentId,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+        am = (AlarmManager) Reminder.this.getSystemService(ALARM_SERVICE);
 
-        boolean saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
+
+        if (mRepeat == "true")
+        {
+            switch (mRepeatType)
+            {
+                case "Minute":
+                    am.setRepeating(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo) * 60 * 1000,pendingIntent);
+                    saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
+                    break;
+
+                case "Hour":
+                    am.setRepeating(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo)* AlarmManager.INTERVAL_HOUR,pendingIntent);
+                    saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
+                    break;
+                case "Day":
+                    am.setRepeating(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo)* AlarmManager.INTERVAL_DAY,pendingIntent);
+                    saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
+                    break;
+                case "Week":
+                    am.setRepeating(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo)* 7 * AlarmManager.INTERVAL_DAY,pendingIntent);
+                    saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
+                    break;
+                case "Month":
+                    am.setRepeating(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo) * AlarmManager.INTERVAL_DAY * 31,pendingIntent);
+                    saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
+                    break;
+            }
+
+
+        }
+        else
+        {
+            am.set(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(),pendingIntent);
+            saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
+        }
+
         if(saveCompleted){
             this.toast = Toast.makeText(this, "Reminder Successfully Saved!", Toast.LENGTH_SHORT);
             toast.show();
@@ -213,6 +265,11 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
         // Database stuff
     }
 
+
+    public void cancelReminder(PendingIntent intentReminder)
+    {
+        am.cancel(intentReminder);
+    }
     public void onSwitchRepeat(View view) {
         boolean on = ((Switch) view).isChecked();
         if (on) {
@@ -266,7 +323,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
                             mRepeatNo = Integer.toString(1);
                             mRepeatNoText.setText(mRepeatNo);
                             mRepeatText.setText("Every " + mRepeatNo + " " + mRepeatType + "(s)");
-                        } else {
+                        }    else {
                             mRepeatNo = input.getText().toString().trim();
                             mRepeatNoText.setText(mRepeatNo);
                             mRepeatText.setText("Every " + mRepeatNo + " " + mRepeatType + "(s)");
