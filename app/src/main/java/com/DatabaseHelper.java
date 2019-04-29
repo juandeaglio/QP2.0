@@ -166,6 +166,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 }
             }
         }
+
+        return -1; //Error
     }
 
     public Cursor getAllUnCompletedTasksFromTable(){
