@@ -100,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences preferences = getSharedPreferences("prefs", MODE_PRIVATE);
 
         boolean firstStart = preferences.getBoolean("firstStart", true);
-        //boolean firstStart = true;
         if(firstStart){
             showfirstTimeDialog();
         }
