@@ -8,6 +8,8 @@
     <color name="Ceil">#DDE2EC</color>
     <color name="matteOrange">#FFA55B</color>
     <color name="navyBlue">#2b3a75</color>
+    <color name="colorDelete">#E52727</color>
+    <color name="colorComplete">#29db73</color>
 
 </resources>
 
