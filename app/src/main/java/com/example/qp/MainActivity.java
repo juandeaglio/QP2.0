@@ -412,8 +412,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 DialogFragment timePicker = new TimePickerFragment();
                 timePicker.show(getSupportFragmentManager(), "time picker");
 
-                //TODO: Find a way to do onTimeSet()
-
             }
         });
 
@@ -489,7 +487,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+        //TODO get the set time by the user
         TextView taskTime = (TextView) findViewById(R.id.taskTimeText);
         String am_pm = "";
         calendar = Calendar.getInstance();
