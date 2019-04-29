@@ -96,7 +96,7 @@ public class CalendarView extends AppCompatActivity {
                 mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
                 adapter.updateRecyclerView(dueDate);
             }
-        });
+        }, this);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
