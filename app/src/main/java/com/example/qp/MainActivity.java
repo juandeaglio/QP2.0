@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        colorManager = new ColorManager(MainActivity.this);
+        colorManager = new ColorManager();
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(colorManager.getColorAccent());

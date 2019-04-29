@@ -10,13 +10,14 @@ public class ColorManager
     private int colorPrimary;
     private int colorPrimaryDark;
     private int colorAccent;
+    private int colorText;
 
-
-    public ColorManager(Activity activity)
+    public ColorManager(int colorPrimary, int colorAccent, int colorPrimaryDark, int colorText)
     {
-        colorPrimary = ContextCompat.getColor(activity, R.color.colorPrimary);
-        colorAccent = ContextCompat.getColor(activity, R.color.colorAccent);
-        colorPrimaryDark = ContextCompat.getColor(activity, R.color.colorPrimaryDark);
+        this.colorPrimary = colorPrimary;
+        this.colorPrimaryDark = colorPrimaryDark;
+        this.colorAccent = colorAccent;
+        this.colorText = colorText;
     }
 
     public int getColorPrimary()
@@ -34,10 +35,7 @@ public class ColorManager
         return colorPrimaryDark;
     }
 
-    public void setColorPrimaryDark(int colorPrimaryDark)
-    {
-        this.colorPrimaryDark = colorPrimaryDark;
-    }
+    public void setColorPrimaryDark(int colorPrimaryDark) { this.colorPrimaryDark = colorPrimaryDark; }
 
     public int getColorAccent()
     {
@@ -47,5 +45,15 @@ public class ColorManager
     public void setColorAccent(int colorAccent)
     {
         this.colorAccent = colorAccent;
+    }
+
+    public int getColorType()
+    {
+        return colorText;
+    }
+
+    public void setColorType(int colorText)
+    {
+        this.colorAccent = colorText;
     }
 }

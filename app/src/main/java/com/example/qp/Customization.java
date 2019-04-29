@@ -21,7 +21,6 @@ public class Customization extends AppCompatActivity
     int currentColor;
     int[] colorArr;
     ColorManager colorManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -31,7 +30,6 @@ public class Customization extends AppCompatActivity
         setSupportActionBar(toolbar);
         colorManager = MainActivity.colorManager;
         toolbar.setBackgroundColor(colorManager.getColorAccent());
-        //int defaultColorPrimary = colorManager.getColorPrimary();
         int defaultColorPrimaryDark = colorManager.getColorPrimaryDark();
         int defaultColorAccent = colorManager.getColorAccent();
         colorArr = new int[]{defaultColorPrimaryDark, defaultColorAccent};
@@ -46,7 +44,6 @@ public class Customization extends AppCompatActivity
         CardView card2 = (CardView) findViewById(R.id.card3);
 
         CardView[] cardArr = new CardView[]{card0, card1, card2};
-
 
         String nameArr[] = {"Operating Systems Final","Some sort of task", "Not an interesting task."};
         String priorityArr[] = {"1", "2", "4"};
