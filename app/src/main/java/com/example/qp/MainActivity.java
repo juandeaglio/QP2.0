@@ -69,7 +69,7 @@ import java.util.UUID;
 
 import maes.tech.intentanim.CustomIntent;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TimePickerDialog.OnTimeSetListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TimePickerDialog.OnTimeSetListener, NumberPicker.OnValueChangeListener{
 
     public static ArrayList<Task> globalTaskList = new ArrayList<>();
     public static ArrayList<Task> globalCompletedTaskList = new ArrayList<>();
@@ -425,6 +425,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 showNumberPicker();
+
             }
         });
 
@@ -468,14 +469,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                }
 
                 UUID taskID = UUID.randomUUID();
-
-                boolean saveCompleted = db.insertData(taskNameDialog.getText().toString(), 1, dueDate.getText().toString(), taskNotes.getText().toString(), 0, taskID, taskTime.getText().toString());
+                int id = (int) System.currentTimeMillis();
+                boolean saveCompleted = db.insertData(taskNameDialog.getText().toString(), 1, dueDate.getText().toString(), taskNotes.getText().toString(), 0, taskID, taskTime.getText().toString(), id);
 
                 if (saveCompleted) {
                     Intent intent1 = new Intent(MainActivity.this, StartService.class);
                     intent1.putExtra("Task Name", taskNameDialog.getText().toString());
 
-                    int id = (int) System.currentTimeMillis();
                     PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, id, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
 
                     long diff = Calendar.getInstance().getTimeInMillis() - calendar.getTimeInMillis();
@@ -506,32 +506,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void showNumberPicker() {
-        Dialog numPicker = new Dialog(this);
+        final Dialog numPicker = new Dialog(this);
         Dialog ctDialog = new Dialog(this);
         ctDialog.setContentView(R.layout.create_task_dialog);
         numPicker.setTitle("NumberPicker");
         numPicker.setContentView(R.layout.number_picker_dialog);
         Button b1 = (Button) numPicker.findViewById(R.id.button1);
         Button b2 = (Button) numPicker.findViewById(R.id.button2);
-        final NumberPicker np = ctDialog.findViewById(R.id.numberPicker1);
+        final NumberPicker np = numPicker.findViewById(R.id.numberPicker1);
+
         np.setMaxValue(5); // max value 100
         np.setMinValue(1);   // min value 0
         np.setWrapSelectorWheel(true);
-        np.setOnValueChangedListener(MainActivity.this);
+        np.setOnValueChangedListener(this);
+        final TextView nPDialog = ctDialog.findViewById(R.id.taskPriorityDialog);
+
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                np.setText(String.valueOf(np.getValue()));
-                d.dismiss();
+                nPDialog.setText(String.valueOf(np.getValue()));
+                numPicker.dismiss();
             }
         });
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                d.dismiss(); // dismiss the dialog
+                numPicker.dismiss(); // dismiss the dialog
             }
         });
-        d.show();
+        numPicker.show();
 
 
     }
@@ -641,6 +644,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         char capitalLetter = Character.toUpperCase(taskName.charAt(0));
         return taskName.replace(taskName.charAt(0),capitalLetter);
 
+
+    }
+
+    @Override
+    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
 
     }
 

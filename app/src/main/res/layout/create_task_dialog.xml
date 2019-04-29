@@ -73,7 +73,6 @@
 
     <TextView
         android:id="@+id/taskPriorityDialog"
-
         android:layout_width="256dp"
         android:layout_height="53dp"
         android:layout_below="@+id/taskDescription"
