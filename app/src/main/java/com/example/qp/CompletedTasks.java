@@ -1,6 +1,7 @@
 package com.example.qp;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,6 +18,8 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.DatabaseHelper;
@@ -30,6 +33,7 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
     private TaskCardRecyclerAdapter adapter = new TaskCardRecyclerAdapter(MainActivity.globalCompletedTaskList, this);
     private DatabaseHelper db;
     private MainActivity mainActivity= new MainActivity();
+    public ColorManager colorManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +42,17 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        colorManager = MainActivity.colorManager;
 
+        FloatingActionButton fab = findViewById(R.id.deleteAllButton);
 
+        fab.setBackgroundTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
+
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(colorManager.getColorAccent());
+
+        toolbar.setBackgroundColor(colorManager.getColorAccent());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

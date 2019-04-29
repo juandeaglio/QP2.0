@@ -16,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -41,8 +43,7 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
     String taskIDStr;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private Calendar calendar = Calendar.getInstance();
-
-
+    public ColorManager colorManager;
 
     private Intent myIntent = getIntent();
 
@@ -53,10 +54,17 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
         Intent myIntent = getIntent();
         this.toast = Toast.makeText(this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
 
+        colorManager = MainActivity.colorManager;
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-
         setSupportActionBar(toolbar);
+
+        toolbar.setBackgroundColor(colorManager.getColorAccent());
+
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(colorManager.getColorAccent());
+
         this.taskIDStr = myIntent.getStringExtra("taskid");
         final UUID taskID = UUID.fromString(taskIDStr);
         displayTask(taskID);

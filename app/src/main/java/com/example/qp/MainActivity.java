@@ -1,5 +1,6 @@
 package com.example.qp;
 
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -7,7 +8,11 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import static maes.tech.intentanim.CustomIntent.customType;
+
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Canvas;
@@ -29,12 +34,16 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,16 +68,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NotificationManager notifManager;
     private TaskCardRecyclerAdapter adapter;
     SwipeController swipeController;
-
+    public static ColorManager colorManager;
+    public Toolbar toolbar;
+    public FloatingActionButton fab;
     public String sortSelector = "Task_Priority"; // Default sorting priority
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        SharedPreferences preferences = getSharedPreferences("prefs", MODE_PRIVATE);
+
+        boolean firstStart = preferences.getBoolean("firstStart", true);
+        //boolean firstStart = true;
+        if(firstStart){
+            showfirstTimeDialog();
+        }
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -80,19 +102,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        colorManager = new ColorManager(MainActivity.this);
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(colorManager.getColorAccent());
 
-        FloatingActionButton fab = findViewById(R.id.createTaskBtn);
+        fab = findViewById(R.id.createTaskBtn);
+        fab.setBackgroundTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
         fab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 openCreateTaskActivity(view);
             }
         });
 
+
         populateArrayList(this.db, this.sortSelector);
 
         adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
         setUpRecyclerView();
     }
+
+    private void  showfirstTimeDialog(){
+
+        startActivity(new Intent(this, IntroActivity.class));
+
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor =  prefs.edit();
+        editor.putBoolean("firstStart", false);
+        editor.apply();
+        }
+
+
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -156,7 +196,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume()
     {
         super.onResume();
+        populateArrayList(this.db, this.sortSelector);
+
         adapter.updateData();
+
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(colorManager.getColorAccent());
+
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(colorManager.getColorAccent());
+
+        fab = findViewById(R.id.createTaskBtn);
+        fab.setBackgroundTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
+        fab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                openCreateTaskActivity(view);
+            }
+        });
 
     }
 
@@ -239,6 +296,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }while (cursor.moveToNext());
 
         }
+
 
     }
 

@@ -2,6 +2,7 @@ package com.example.qp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Build;
@@ -32,6 +33,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
     private ArrayList<Task> taskList;
     MainActivity mainActivity = new MainActivity();
     private Context context;
+    private ColorManager colorManager;
    /* public TaskCardRecyclerAdapter(ArrayList<Task> globalTaskList, MainActivity context) {
         this.taskList = globalTaskList;
         this.context = context;
@@ -56,9 +58,6 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
             dueDate = (TextView) v.findViewById(R.id.card_due_date);
             checkBox = v.findViewById(R.id.card_check_box);
             timeDue = (TextView) v.findViewById(R.id.card_time);
-
-
-
         }
     }
 
@@ -78,6 +77,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
     public void onBindViewHolder(final TaskCardViewHolder taskCardViewHolder, int i)
     {
         final Task task = taskList.get(i);
+        colorManager = MainActivity.colorManager;
         taskCardViewHolder.taskName.setText(task.getTaskName());
         taskCardViewHolder.priority.setTextColor(Color.parseColor("#000000"));
         taskCardViewHolder.priority.setText(Integer.toString(task.getPriority()));
@@ -86,6 +86,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         taskCardViewHolder.taskID = task.getTaskId();
 
         taskCardViewHolder.checkBox.setOnCheckedChangeListener(null);
+        taskCardViewHolder.checkBox.setButtonTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
         if(task.getCompleted() == 0)
         {
             taskCardViewHolder.checkBox.setChecked(false);
@@ -101,8 +102,10 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
                 context.startActivity(intent);
             }
 
+
         });
 
+        taskCardViewHolder.taskCard.setBackgroundColor(colorManager.getColorPrimaryDark());
        // mainActivity.registerForContextMenu(taskCardViewHolder.taskCard);
 
         taskCardViewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -153,7 +156,8 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
 
 
 
-    public void updateData(){
+    public void updateData()
+    {
         notifyDataSetChanged();
     }
 
