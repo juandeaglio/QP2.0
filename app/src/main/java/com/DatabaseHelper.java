@@ -85,7 +85,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         else {
             return false;
         }
+    }
 
+    public Cursor getColorValues(){
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor result = db.rawQuery("select * from " + COLORS_TABLE_NAME  ,null);
+
+        return result;
     }
 
     public boolean inserColorData(int color_Primary, int color_Primary_Dark, int color_Primary_Accent, int text_Color){
