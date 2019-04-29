@@ -37,9 +37,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLOR_COL_4 = "Text_Color";
 
 
-
-
-
     public String[] allColumns = {COL_1, COL_2, COL_3, COL_4, COL_5, COL_6, COL_7};
 
     public DatabaseHelper(Context context) {
@@ -78,6 +75,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean checkIfColorExists(){
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor result = db.rawQuery("select * from " + COLORS_TABLE_NAME ,null);
+
+        if(result.moveToFirst()){
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    }
 
     public boolean inserColorData(int color_Primary, int color_Primary_Dark, int color_Primary_Accent, int text_Color){
         SQLiteDatabase colorDB = getWritableDatabase();
@@ -98,6 +107,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
+
+
+
 
     public int getIntentID(String reminderID){
         SQLiteDatabase reminderDB = getWritableDatabase();
