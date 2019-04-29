@@ -16,8 +16,11 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -44,6 +47,8 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
         //MainActivity mainActivity = new MainActivity();
         DatabaseHelper db = new DatabaseHelper(this);
 
+        public ColorManager colorManager;
+        public Toolbar toolbar;
         private TextView dueDate;
         private TextView numberPicker;
 
@@ -53,7 +58,8 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
         private String taskTime = "";
         Calendar calendar = Calendar.getInstance();
         AlarmManager am;
-        protected void onCreate(Bundle savedInstanceState) {
+        protected void onCreate(Bundle savedInstanceState)
+        {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_create_task);
              am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -63,7 +69,6 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             this.dueDate = findViewById(R.id.taskDueDate);
             Button saveTaskBtn = findViewById(R.id.saveTaskButton);
             Button cancelButton = findViewById(R.id.cancelButton);
-
 
             saveTaskBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -139,6 +144,15 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
                 }
             });
 
+            colorManager = MainActivity.colorManager;
+
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(colorManager.getColorAccent());
+
+            Toolbar toolbar = findViewById(R.id.toolbar2);
+            setSupportActionBar(toolbar);
+            toolbar.setBackgroundColor(colorManager.getColorAccent());
         }
 
     @Override
