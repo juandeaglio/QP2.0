@@ -175,7 +175,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return  result;
     }
 
-    public Cursor getAllTasksFromtable(){
+    public Cursor getAllTasksFromTable(){
         SQLiteDatabase db = getWritableDatabase();
         Cursor result = db.rawQuery("select * from " + TABLE_NAME ,null);
 
@@ -199,7 +199,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public String getTaskDueDate(String taskID){
-        Cursor data = getAllTasksFromtable();
+        Cursor data = getAllTasksFromTable();
 
         if ((data.moveToFirst())){
             do {
@@ -215,7 +215,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Marks the task with the associated TaskID and changes it's completed field to 1
     //On the home page have a function that if this returns tru then you move the task to the global completed list
     public boolean markTaskCompleted(String taskID){
-        Cursor data = getAllTasksFromtable();
+        Cursor data = getAllTasksFromTable();
         SQLiteDatabase tempDB = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -245,7 +245,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean unCheckCompletedTask(String taskID){
-        Cursor data = getAllTasksFromtable();
+        Cursor data = getAllTasksFromTable();
         SQLiteDatabase tempDB = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 

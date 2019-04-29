@@ -89,6 +89,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public Toolbar toolbar;
     private FloatingActionButton fab;
     public String sortSelector = "Task_Priority"; // Default sorting priority
+
+
+    private int taskPriorityValue = 0;
     private String taskTimeValue = "";
 
     @Override
