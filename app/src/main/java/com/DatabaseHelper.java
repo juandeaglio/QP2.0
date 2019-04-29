@@ -30,6 +30,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // COLS for Reminders table
     public static final String R_COL_1 = "Intent_ID";
     public static final String R_COL_2 = "Reminder_ID";
+    public static final String R_COL_3 = "Reminder_Name";
+    public static final String R_COL_4 = "Reminder_Date";
+    public static final String R_COL_5 = "Reminder_Interval";
+    public static final String R_COL_6 = "Reminder_Interval_Type";
+    public static final String R_COL_7 = "Reminder_Time";
+
+
+
+
+
+
 
 
     public static final String COLORS_TABLE_NAME = "colors_table";
@@ -51,7 +62,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + TABLE_NAME + "(Task_Name varchar(255), Task_Due_Date varchar(255), Task_Priority INT, Task_Description varchar(255), Task_Completed INT, Task_ID varchar(255), Task_Time varchar(255), Task_Pending_Intent int)"); //SQL querey creating our database
-        db.execSQL("create table " + REMINDERS_TABLE_NAME + "(Intent_ID int, Reminder_ID varchar(255))"); //SQL query to create the reminder table
+        db.execSQL("create table " + REMINDERS_TABLE_NAME + "(Intent_ID int, Reminder_ID varchar(255), Reminder_Name varchar(255), Reminder_Date varchar(255), Reminder_Interval int, Reminder_Interval_Type varchar(255), Reminder_Time varchar(255))"); //SQL query to create the reminder table
         db.execSQL("create table " + COLORS_TABLE_NAME + "(Color_Primary int, Color_Primary_Dark int, Color_Primary_Accent int, Text_Color int)");
     }
 
@@ -62,12 +73,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertReminderData(int IntentID, String ReminderID){
+    public boolean insertReminderData(int IntentID, String ReminderID, String reminderName, String reminderDate, String reminderInterval, String reminderIntervalType, String reminderTime){
         SQLiteDatabase reminderDB = getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(R_COL_1, IntentID);
         contentValues.put(R_COL_2, ReminderID);
+        contentValues.put(R_COL_3, reminderName);
+        contentValues.put(R_COL_4, reminderDate);
+        contentValues.put(R_COL_5, reminderInterval);
+        contentValues.put(R_COL_6, reminderIntervalType);
+        contentValues.put(R_COL_7, reminderTime);
         long result = reminderDB.insert(REMINDERS_TABLE_NAME, null, contentValues);
 
         if (result == -1){
