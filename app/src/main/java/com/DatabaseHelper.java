@@ -21,6 +21,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_5 = "Task_Completed"; //This data will be an int. 1 for completed, 0 for not
     public static final String COL_6 = "Task_ID";
     public static final String COL_7 = "Task_Time";
+    public static final String COL_8 = "Task_Pending_Intent";
+
+
 
 
     public static final String REMINDERS_TABLE_NAME = "reminders_table";
@@ -37,9 +40,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLOR_COL_4 = "Text_Color";
 
 
-
-
-
     public String[] allColumns = {COL_1, COL_2, COL_3, COL_4, COL_5, COL_6, COL_7};
 
     public DatabaseHelper(Context context) {
@@ -50,7 +50,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_NAME + "(Task_Name varchar(255), Task_Due_Date varchar(255), Task_Priority INT, Task_Description varchar(255), Task_Completed INT, Task_ID varchar(255), Task_Time varchar(255))"); //SQL querey creating our database
+        db.execSQL("create table " + TABLE_NAME + "(Task_Name varchar(255), Task_Due_Date varchar(255), Task_Priority INT, Task_Description varchar(255), Task_Completed INT, Task_ID varchar(255), Task_Time varchar(255), Task_Pending_Intent int)"); //SQL querey creating our database
         db.execSQL("create table " + REMINDERS_TABLE_NAME + "(Intent_ID int, Reminder_ID varchar(255))"); //SQL query to create the reminder table
         db.execSQL("create table " + COLORS_TABLE_NAME + "(Color_Primary int, Color_Primary_Dark int, Color_Primary_Accent int, Text_Color int)");
     }
@@ -78,6 +78,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean checkIfColorExists(){
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor result = db.rawQuery("select * from " + COLORS_TABLE_NAME ,null);
+
+        if(result.moveToFirst()){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public Cursor getColorValues(){
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor result = db.rawQuery("select * from " + COLORS_TABLE_NAME  ,null);
+
+        return result;
+    }
 
     public boolean inserColorData(int color_Primary, int color_Primary_Dark, int color_Primary_Accent, int text_Color){
         SQLiteDatabase colorDB = getWritableDatabase();
@@ -98,6 +116,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+
+
+
     public int getIntentID(String reminderID){
         SQLiteDatabase reminderDB = getWritableDatabase();
 
@@ -108,7 +129,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return -1; //Error
     }
 
-    public boolean insertData(String taskName, int priority, String dueDate, String description, int isCompleted, UUID taskID, String taskTime){
+    public boolean insertData(String taskName, int priority, String dueDate, String description, int isCompleted, UUID taskID, String taskTime, int pendingIntentID){
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -119,6 +140,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_5, isCompleted);
         contentValues.put(COL_6, taskID.toString());
         contentValues.put(COL_7, taskTime);
+        contentValues.put(COL_8, pendingIntentID);
+
 
         long result = db.insert(TABLE_NAME, null, contentValues); //Will return -1 if not inserted properly
 
@@ -129,6 +152,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         else {
             return true;
         }
+    }
+
+
+    public int getTaskPendingIntent(String taskID){
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor result = db.rawQuery("select * from " + TABLE_NAME + " where " + COL_6 + " = " + taskID,null);
+        if(result.moveToFirst()){
+            while(result.moveToNext()){
+                if(result.getString(5).equals(taskID)){
+                    return result.getInt(7);
+                }
+            }
+        }
+
+        return -1; //Error
     }
 
     public Cursor getAllUnCompletedTasksFromTable(){
