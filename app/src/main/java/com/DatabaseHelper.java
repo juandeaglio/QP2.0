@@ -157,14 +157,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public int getTaskPendingIntent(String taskID){
         SQLiteDatabase db = getWritableDatabase();
-        Cursor result = db.rawQuery("select * from " + TABLE_NAME + " where " + COL_6 + " = " + taskID,null);
-        if(result.moveToFirst()){
+        Cursor result = db.rawQuery("select * from " + TABLE_NAME + " where " + COL_6 + " = '" + taskID + "'",null);
             while(result.moveToNext()){
                 if(result.getString(5).equals(taskID)){
                     return result.getInt(7);
                 }
             }
-        }
+
 
         return -1; //Error
     }
