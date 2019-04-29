@@ -1,6 +1,7 @@
 package com.example.qp;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -18,6 +19,8 @@ import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -36,6 +39,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.Menu;
@@ -45,6 +49,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -61,7 +66,7 @@ import java.util.UUID;
 
 import maes.tech.intentanim.CustomIntent;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TimePickerDialog.OnTimeSetListener, NumberPicker.OnValueChangeListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TimePickerDialog.OnTimeSetListener{
 
     public static ArrayList<Task> globalTaskList = new ArrayList<>();
     public static ArrayList<Task> globalCompletedTaskList = new ArrayList<>();
@@ -73,10 +78,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NotificationManager notifManager;
     private TaskCardRecyclerAdapter adapter;
     private Calendar calendar;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+
     SwipeController swipeController;
     public static ColorManager colorManager;
     public Toolbar toolbar;
-    public FloatingActionButton fab;
+    private FloatingActionButton fab;
     public String sortSelector = "Task_Priority"; // Default sorting priority
 
     @Override
@@ -216,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab.setBackgroundTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
         fab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                openCreateTaskActivity(view);
+                openCreateTaskDialog(view);
             }
         });
 
@@ -340,8 +347,75 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void openCreateTaskDialog(View view) {
-        CreateTaskDialogHandler createTaskDialogHandler = new CreateTaskDialogHandler();
-        createTaskDialogHandler.show(getSupportFragmentManager(), "example dialog");
+//        CreateTaskDialogHandler createTaskDialogHandler = new CreateTaskDialogHandler();
+//        //createTaskDialogHandler.show(getSupportFragmentManager(), "Create Task Dialog");
+//        //createTaskDialogHandler.onCreate();
+//        createTaskDialogHandler.show();
+
+
+        final Dialog ctDialog = new Dialog(this);
+        ctDialog.setTitle("Create New Task");
+        ctDialog.setContentView(R.layout.create_task_dialog);
+        ctDialog.show();
+        final EditText taskNameDialog = ctDialog.findViewById(R.id.taskNameDialog);
+        EditText taskDescription = ctDialog.findViewById(R.id.taskDescription);
+
+        Button saveButtonDialog = ctDialog.findViewById(R.id.saveTaskButtonDialog);
+
+        saveButtonDialog.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                String taskName = taskNameDialog.getText().toString();
+
+            }
+        });
+
+
+        final TextView taskDueDate = ctDialog.findViewById(R.id.taskDueDate);
+
+        taskDueDate.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(MainActivity.this, android.R.style.Theme_Holo_Dialog_MinWidth, mDateSetListener, year, month, day);
+
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+
+            }
+        });
+
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                calendar = Calendar.getInstance();
+                calendar.set(year, month, dayOfMonth);
+                Log.d("Date Picker", "onDateSet: date " + (month + 1) + "/" + dayOfMonth + "/" + year);
+                taskDueDate.setText((month + 1) + "/" + (dayOfMonth) + "/" + year);
+                //taskDueDateValue = String.valueOf(month + 1) + "/" + String.valueOf(dayOfMonth) + "/" + String.valueOf(year);
+
+            }
+        };
+
+
+
+
+        TextView time = ctDialog.findViewById(R.id.taskTimeDialog);
+        time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment timePicker = new TimePickerFragment();
+                timePicker.show(getSupportFragmentManager(), "time picker");
+
+                //TODO: Find a way to do onTimeSet()
+
+            }
+        });
 
 
     }
@@ -444,8 +518,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    @Override
-    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-
-    }
+//    @Override
+//    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+//
+//    }
 }

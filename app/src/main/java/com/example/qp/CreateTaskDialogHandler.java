@@ -1,15 +1,22 @@
 package com.example.qp;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -21,52 +28,29 @@ import org.w3c.dom.Text;
 import java.util.Calendar;
 
 
-public class CreateTaskDialogHandler extends AppCompatDialogFragment implements  TimePickerDialog.OnTimeSetListener {
+public class CreateTaskDialogHandler extends AppCompatActivity implements  TimePickerDialog.OnTimeSetListener {
     private TextView taskNameDialog;
    // private ExampleDialogListener listener;
    private String taskTimeValue = "";
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private Calendar calendar = Calendar.getInstance();
+    private String taskDueDateValue;
 
 
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.create_task_dialog, null);
+    public void show(){
 
-        builder.setView(view)
-                .setTitle("Create Task");
-//                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//
-//                    }
-//                })
-//                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                       // String password = editTextPassword.getText().toString();
-//                        //listener.applyTexts(taskName, "");
-//                    }
-//                });
+        Dialog ctDialog = new Dialog(getBaseContext());
+        ctDialog.setTitle("Create New Task");
+        ctDialog.setContentView(R.layout.create_task_dialog);
+        ctDialog.show();
+        EditText taskTimeDialog = findViewById(R.id.taskNameDialog);
+        EditText taskDescription = findViewById(R.id.taskDescription);
 
 
-        TextView time = view.findViewById(R.id.taskTimeDialog);
-
-        time.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
 
 
-                DialogFragment timePicker = new TimePickerFragment();
-                //todo: Finish getting the suppoertFragmentManager()
-                //timePicker.show(M.getSupportFragmentManager(), "time picker");
-
-            }
-        });
-
-        Button saveButtonDialog = view.findViewById(R.id.saveTaskButtonDialog);
+        Button saveButtonDialog = findViewById(R.id.saveTaskButtonDialog);
 
         saveButtonDialog.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -76,15 +60,123 @@ public class CreateTaskDialogHandler extends AppCompatDialogFragment implements 
         });
 
 
-        return builder.create();
+
+        TextView taskDueDate = findViewById(R.id.taskDueDate);
+
+        taskDueDate.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(CreateTaskDialogHandler.this, android.R.style.Theme_Holo_Dialog_MinWidth, mDateSetListener, year, month, day);
+
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+
+            }
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                TextView taskDueDateText = view.findViewById(R.id.taskDueDate);
+                calendar.set(year, month, dayOfMonth);
+                Log.d("Date Picker", "onDateSet: date " + (month + 1) + "/" + dayOfMonth + "/" + year);
+                taskDueDateValue = String.valueOf(month + 1) + "/" + String.valueOf(dayOfMonth) + "/" + String.valueOf(year);
+
+            }
+        };
+
+
+
+        TextView time = findViewById(R.id.taskTimeDialog);
+        time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment timePicker = new TimePickerFragment();
+                //todo: Finish getting the suppoertFragmentManager()
+                timePicker.show(getSupportFragmentManager(), "time picker");
+
+            }
+        });
+
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Dialog ctDialog = new Dialog(this);
+        ctDialog.setTitle("Create New Task");
+        ctDialog.setContentView(R.layout.create_task_dialog);
+        ctDialog.show();
+        EditText taskTimeDialog = findViewById(R.id.taskNameDialog);
+        EditText taskDescription = findViewById(R.id.taskDescription);
+
+
+
+
+        Button saveButtonDialog = findViewById(R.id.saveTaskButtonDialog);
+
+        saveButtonDialog.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                String taskName = taskNameDialog.getText().toString();
+
+            }
+        });
+
+
+
+        TextView taskDueDate = findViewById(R.id.taskDueDate);
+
+        taskDueDate.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(CreateTaskDialogHandler.this, android.R.style.Theme_Holo_Dialog_MinWidth, mDateSetListener, year, month, day);
+
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+
+            }
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                TextView taskDueDateText = view.findViewById(R.id.taskDueDate);
+                calendar.set(year, month, dayOfMonth);
+                Log.d("Date Picker", "onDateSet: date " + (month + 1) + "/" + dayOfMonth + "/" + year);
+                taskDueDateValue = String.valueOf(month + 1) + "/" + String.valueOf(dayOfMonth) + "/" + String.valueOf(year);
+
+            }
+        };
+
+
+
+        TextView time = findViewById(R.id.taskTimeDialog);
+        time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment timePicker = new TimePickerFragment();
+                //todo: Finish getting the suppoertFragmentManager()
+                timePicker.show(getSupportFragmentManager(), "time picker");
+
+            }
+        });
+
+
+
 
     }
-
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
