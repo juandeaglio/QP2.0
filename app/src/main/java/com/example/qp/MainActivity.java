@@ -14,6 +14,7 @@ import static maes.tech.intentanim.CustomIntent.customType;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Canvas;
@@ -40,11 +41,12 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebView;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.NumberPicker;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -73,7 +75,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Calendar calendar;
     SwipeController swipeController;
     public static ColorManager colorManager;
-
+    public Toolbar toolbar;
+    public FloatingActionButton fab;
     public String sortSelector = "Task_Priority"; // Default sorting priority
 
     @Override
@@ -105,22 +108,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        colorManager = new ColorManager(this);
-        FloatingActionButton fab = findViewById(R.id.createTaskBtn);
+        colorManager = new ColorManager(MainActivity.this);
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(colorManager.getColorAccent());
+
+        fab = findViewById(R.id.createTaskBtn);
+        fab.setBackgroundTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
         fab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 openCreateTaskDialog(view);
             }
         });
 
+
         populateArrayList(this.db, this.sortSelector);
 
         adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
         setUpRecyclerView();
-
-
-
-
     }
 
     private void  showfirstTimeDialog(){
@@ -200,9 +205,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         populateArrayList(this.db, this.sortSelector);
         adapter.updateData();
 
-        int color = colorManager.getColorAccent();
-        //Toolbar toolbar = findViewById(R.id.toolbar);
-        //toolbar.setBackgroundColor(color);
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(colorManager.getColorAccent());
+
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(colorManager.getColorAccent());
+
+        fab = findViewById(R.id.createTaskBtn);
+        fab.setBackgroundTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
+        fab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                openCreateTaskActivity(view);
+            }
+        });
+
     }
 
     public void createNotification(String aMessage, Context context) {

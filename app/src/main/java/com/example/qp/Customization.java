@@ -36,8 +36,10 @@ public class Customization extends AppCompatActivity
         int defaultColorAccent = colorManager.getColorAccent();
         colorArr = new int[]{defaultColorPrimaryDark, defaultColorAccent};
         toolbar.setBackgroundColor(defaultColorAccent);
-        setStatusBarColor(findViewById(R.id.statusBarBackground), defaultColorAccent);
-
+        //setStatusBarColor(findViewById(R.id.statusBarBackground), defaultColorAccent);
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(defaultColorAccent);
 
         CardView card0 = (CardView) findViewById(R.id.card1);
         CardView card1 = (CardView) findViewById(R.id.card2);

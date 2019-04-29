@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -19,8 +20,11 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -54,7 +58,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     DatabaseHelper db = new DatabaseHelper(this);
     AlarmManager am;
-
+    public ColorManager colorManager;
 
     public Reminder() {
     }
@@ -146,6 +150,18 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
         };
 
 
+
+        colorManager = MainActivity.colorManager;
+        mRepeatSwitch.setThumbTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
+        mRepeatSwitch.setTrackTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
+        mSaveButton.setBackgroundTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
+
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(colorManager.getColorAccent());
+
+        LinearLayout header = findViewById(R.id.add_reminder_layout_top);
+        header.setBackgroundColor(colorManager.getColorAccent());
     }
 
 
