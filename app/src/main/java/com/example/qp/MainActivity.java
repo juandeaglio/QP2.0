@@ -69,7 +69,7 @@ import java.util.UUID;
 
 import maes.tech.intentanim.CustomIntent;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TimePickerDialog.OnTimeSetListener, NumberPicker.OnValueChangeListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     public static ArrayList<Task> globalTaskList = new ArrayList<>();
     public static ArrayList<Task> globalCompletedTaskList = new ArrayList<>();
@@ -82,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TaskCardRecyclerAdapter adapter;
     private Calendar calendar;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private TimePickerDialog.OnTimeSetListener mTimeSetListener;
+    private NumberPicker.OnValueChangeListener mNumberSetListener;
     private AlarmManager am;
 
     SwipeController swipeController;
@@ -105,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
+        am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         SharedPreferences preferences = getSharedPreferences("prefs", MODE_PRIVATE);
 
@@ -185,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
         SwipeControllerActions swipeControllerActions = new SwipeControllerActions() {
             @Override
-            public void onLeftSwiped(UUID taskID) {
+            public void onLeftSwiped(UUID taskID) { // MARK COMPLETED
                 db.deleteTask(taskID.toString());
                 populateArrayList(db, sortSelector);
                 adapter.updateData();
@@ -194,7 +197,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
             @Override
-            public void onRightSwiped(UUID taskID){
+            public void onRightSwiped(UUID taskID){ // DELETE
+                int taskPendingID = db.getTaskPendingIntent(taskID.toString());
+                Intent intent1 = new Intent(MainActivity.this, StartService.class);
+                PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, taskPendingID, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+                am.cancel(pendingIntent);
                 db.markTaskCompleted(taskID.toString());
                 populateArrayList(db, sortSelector);
                 populateCompletedTaskList(db, sortSelector);
@@ -387,9 +394,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(MainActivity.this, android.R.style.Theme_Holo_Dialog_MinWidth, mDateSetListener, year, month, day);
+                DatePickerDialog dialog = new DatePickerDialog(MainActivity.this, mDateSetListener, year, month, day);
 
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
 
             }
@@ -411,15 +418,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
+
+
         TextView time = ctDialog.findViewById(R.id.taskTimeDialog);
         time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment timePicker = new TimePickerFragment();
-                timePicker.show(getSupportFragmentManager(), "time picker");
+                int hourOfDay = Calendar.HOUR_OF_DAY;
+                int minute = Calendar.MINUTE;
+                TimePickerDialog timePicker = new TimePickerDialog(MainActivity.this, mTimeSetListener,hourOfDay,minute, false );
+                //timePicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                timePicker.show();
 
             }
         });
+
+        mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                TextView taskTime = (TextView) ctDialog.findViewById(R.id.taskTimeDialog);
+                String am_pm = "";
+                calendar = Calendar.getInstance();
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                calendar.set(Calendar.MINUTE, minute);
+                calendar.set(Calendar.SECOND,0);
+                calendar.set(Calendar.MILLISECOND,0);
+
+                if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
+                    am_pm = "AM";
+                } else if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
+                    am_pm = "PM";
+                }
+                String tempText = (calendar.get(Calendar.HOUR) == 0) ? "12" : calendar.get(Calendar.HOUR) + "";
+                String minuteStr = "";
+
+                if (minute <= 9) {
+                    minuteStr = "0" + String.valueOf(minute);
+                } else {
+                    minuteStr = String.valueOf(minute);
+                }
+                taskTimeValue = tempText + ":" + minuteStr + " " + am_pm;
+                taskTime.setText(taskTimeValue);
+            }
+        };
+
+
 
 
         TextView taskPriority = (TextView) ctDialog.findViewById(R.id.taskPriorityDialog);
@@ -431,6 +474,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
+
+        mNumberSetListener = new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+
+            }
+        };
+
 
         Button saveButtonDialog = (Button)ctDialog.findViewById(R.id.saveTaskButtonDialog);
 
@@ -448,7 +499,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     return;
                 }
                 TextView taskTime = (TextView) ctDialog.findViewById(R.id.taskTimeDialog);
-                taskTime.setText(taskTimeValue);
+                //taskTime.setText(taskTimeValue);
                 if(taskTime.getText().length() == 0){
                     TextView time = findViewById(R.id.taskTimeDialog);
                     time.setError("Time cannot be left blank");
@@ -466,11 +517,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     taskNotes.setText(""); // IIf user didn't specify priority just set to 1
                 }
 
-//                TextView priority = (TextView) findViewById(R.id.priorityNum);
-//                if(priority.getText().toString().equals("")){
-//                    priority.setText("1"); // IIf user didn't specify priority just set to 1
-//                }
+                TextView priority = (TextView) findViewById(R.id.taskNameDialog);
+                if(priority.getText().toString().equals("")){
+                    priority.setText("1"); // IIf user didn't specify priority just set to 1
+                }
 
+                //Generating of TaskID
                 UUID taskID = UUID.randomUUID();
                 int id = (int) System.currentTimeMillis();
                 boolean saveCompleted = db.insertData(taskNameDialog.getText().toString(), 1, dueDate.getText().toString(), taskNotes.getText().toString(), 0, taskID, taskTime.getText().toString(), id);
@@ -491,9 +543,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     toast = Toast.makeText(MainActivity.this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
 
                     toast.show();
-                    ctDialog.dismiss();
                     populateArrayList(db, sortSelector);
                     adapter.updateData();
+                    ctDialog.dismiss();
+
                 } else {
 
                     toast = Toast.makeText(getApplicationContext(), "Task failed to save", Toast.LENGTH_LONG);
@@ -521,7 +574,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         np.setMaxValue(5); // max value 100
         np.setMinValue(1);   // min value 0
         np.setWrapSelectorWheel(true);
-        np.setOnValueChangedListener(this);
+        np.setOnValueChangedListener(mNumberSetListener);
         final TextView nPDialog = ctDialog.findViewById(R.id.taskPriorityDialog);
 
         b1.setOnClickListener(new View.OnClickListener() {
@@ -611,36 +664,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
-        Dialog ctDialog = new Dialog(this);
-        ctDialog.setContentView(R.layout.create_task_dialog);
-        TextView taskTime = (TextView) ctDialog.findViewById(R.id.taskTimeDialog);
-        String am_pm = "";
-        calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-        calendar.set(Calendar.MINUTE, minute);
-        calendar.set(Calendar.SECOND,0);
-        calendar.set(Calendar.MILLISECOND,0);
-
-        if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
-            am_pm = "AM";
-        } else if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
-            am_pm = "PM";
-        }
-        String tempText = (calendar.get(Calendar.HOUR) == 0) ? "12" : calendar.get(Calendar.HOUR) + "";
-        String minuteStr = "";
-
-        if (minute <= 9) {
-            minuteStr = "0" + String.valueOf(minute);
-        } else {
-            minuteStr = String.valueOf(minute);
-        }
-        this.taskTimeValue = tempText + ":" + minuteStr + " " + am_pm;
-        taskTime.setText(taskTimeValue);
-    }
-
 
 
     private String fixTaskName(String taskName){
@@ -650,10 +673,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    @Override
-    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
 
-    }
 
 
 //    @Override
