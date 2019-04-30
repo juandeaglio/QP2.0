@@ -59,11 +59,11 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
         this.toast = Toast.makeText(this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
 
         colorManager = MainActivity.colorManager;
+
         EditText taskName = (EditText) findViewById(R.id.viewTaskName);
         EditText taskNotes = (EditText) findViewById(R.id.viewDescription);
         //taskName.setLinkTextColor(colorManager.getColorPrimaryDark());
         //taskNotes.setBackgroundTintList(ColorStateList.valueOf(colorManager.getColorPrimaryDark()));
-
         am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
