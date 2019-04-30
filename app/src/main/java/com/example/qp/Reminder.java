@@ -216,31 +216,30 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
 
         if (mRepeat == "true")
         {
-//            switch (mRepeatType)
-//            {
-//                case "Minute":
-//                    am.setRepeating(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo) * 60 * 1000,pendingIntent);
-//                    saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
-//                    break;
-//
-//                case "Hour":
-//                    am.setRepeating(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo)* AlarmManager.INTERVAL_HOUR,pendingIntent);
-//                    saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
-//                    break;
-//                case "Day":
-//                    am.setRepeating(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo)* AlarmManager.INTERVAL_DAY,pendingIntent);
-//                    saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
-//                    break;
-//                case "Week":
-//                    am.setRepeating(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo)* 7 * AlarmManager.INTERVAL_DAY,pendingIntent);
-//                    saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
-//                    break;
-//                case "Month":
-//                    am.setRepeating(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo) * AlarmManager.INTERVAL_DAY * 31,pendingIntent);
-//                    saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
-//                    break;
-//            }
+            switch (mRepeatType)
+            {
+                case "Minute":
+                    am.setRepeating(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo) * 60 * 1000,pendingIntent);
+                    //saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
+                    break;
 
+                case "Hour":
+                    am.setRepeating(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo)* AlarmManager.INTERVAL_HOUR,pendingIntent);
+                    //saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
+                    break;
+                case "Day":
+                    am.setRepeating(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo)* AlarmManager.INTERVAL_DAY,pendingIntent);
+                    //saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
+                    break;
+                case "Week":
+                    am.setRepeating(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo)* 7 * AlarmManager.INTERVAL_DAY,pendingIntent);
+                    //saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
+                    break;
+                case "Month":
+                    am.setRepeating(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo) * AlarmManager.INTERVAL_DAY * 31,pendingIntent);
+                    //saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
+                    break;
+            }
 
         }
         else

@@ -1,5 +1,6 @@
 package com.example.qp;
 
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.DatabaseHelper;
+
+import maes.tech.intentanim.CustomIntent;
 import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class Customization extends AppCompatActivity
@@ -19,9 +25,9 @@ public class Customization extends AppCompatActivity
 
     int currentIndex = 0;
     int currentColor;
-    int[] colorArr;
     ColorManager colorManager;
-
+    int [] colorArr = new int[4];
+    DatabaseHelper db = new DatabaseHelper(this);
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -29,12 +35,48 @@ public class Customization extends AppCompatActivity
         setContentView(R.layout.activity_customization);
         Toolbar toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
+
         colorManager = MainActivity.colorManager;
         toolbar.setBackgroundColor(colorManager.getColorAccent());
-        //int defaultColorPrimary = colorManager.getColorPrimary();
+        int defaultColorPrimary = colorManager.getColorPrimary();
         int defaultColorPrimaryDark = colorManager.getColorPrimaryDark();
         int defaultColorAccent = colorManager.getColorAccent();
-        colorArr = new int[]{defaultColorPrimaryDark, defaultColorAccent};
+        int defaultColorText = colorManager.getColorText();
+
+
+        Button saveTaskBtn = findViewById(R.id.saveColorButton);
+        Button cancelButton = findViewById(R.id.cancelColorButton);
+
+        saveTaskBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                //TODO: restart the app.
+                if(saveColors())
+                {
+                    goBackToHomepage();
+                }
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Cursor colorVals = db.getColorValues();
+                colorManager.setColorPrimary(colorVals.getInt(0));
+                colorManager.setColorPrimaryDark(colorVals.getInt(1));
+                colorManager.setColorAccent(colorVals.getInt(2));
+                colorManager.setColorText(colorVals.getInt(3));
+                goBackToHomepage();
+            }
+        });
+
+        colorArr[0] = defaultColorPrimary;
+        colorArr[1] = defaultColorPrimaryDark;
+        colorArr[2] = defaultColorAccent;
+        colorArr[3] = defaultColorText;
         toolbar.setBackgroundColor(defaultColorAccent);
         //setStatusBarColor(findViewById(R.id.statusBarBackground), defaultColorAccent);
         Window window = getWindow();
@@ -46,7 +88,6 @@ public class Customization extends AppCompatActivity
         CardView card2 = (CardView) findViewById(R.id.card3);
 
         CardView[] cardArr = new CardView[]{card0, card1, card2};
-
 
         String nameArr[] = {"Operating Systems Final","Some sort of task", "Not an interesting task."};
         String priorityArr[] = {"1", "2", "4"};
@@ -75,8 +116,8 @@ public class Customization extends AppCompatActivity
         {
             public void onClick(View view)
             {
-                currentIndex = 0;
-                currentColor = colorArr[0];
+                currentIndex = 1;
+                currentColor = colorArr[1];
                 openColorPicker();
             }
         });
@@ -85,8 +126,8 @@ public class Customization extends AppCompatActivity
         {
             public void onClick(View view)
             {
-                currentIndex = 1;
-                currentColor = colorArr[1];
+                currentIndex = 2;
+                currentColor = colorArr[2];
                 openColorPicker();
             }
         });
@@ -107,50 +148,41 @@ public class Customization extends AppCompatActivity
             {
                 currentColor = color;
                 colorArr[currentIndex] = currentColor;
-
-                if(colorArr[0] != colorManager.getColorPrimaryDark() || colorArr[1] != colorManager.getColorAccent())
-                {
-                    colorManager.setColorPrimaryDark(colorArr[0]);
-                    colorManager.setColorAccent(colorArr[1]);
-                    finish();
-                    startActivity(getIntent());
-                }
+                colorManager.setColorPrimary(colorArr[0]);
+                colorManager.setColorPrimaryDark(colorArr[1]);
+                colorManager.setColorAccent(colorArr[2]);
+                colorManager.setColorText(colorArr[3]);
+                finish();
+                startActivity(getIntent());
             }
         });
         colorPicker.show();
 
     }
-    public int getActionBarHeight() {
-        int actionBarHeight = 0;
-        TypedValue tv = new TypedValue();
-        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+
+    public void goBackToHomepage()
+    {
+        //startActivity(new Intent(this, MainActivity.class));
+        CustomIntent.customType(this, "right-to-left");
+
+        this.finish();
+    }
+    public boolean saveColors()
+    {
+        if(colorManager != null)
         {
-            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
-        }
-        return actionBarHeight;
-    }
 
-    public int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
+            db.inserColorData(shadeColor(colorManager.getColorPrimaryDark()), colorManager.getColorPrimaryDark(), colorManager.getColorAccent(), colorManager.getColorText());
 
-    public void setStatusBarColor(View statusBar,int color){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window w = getWindow();
-            w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //status bar height
-            int actionBarHeight = getActionBarHeight();
-            int statusBarHeight = getStatusBarHeight();
-            //action bar height
-            statusBar.getLayoutParams().height = actionBarHeight + statusBarHeight;
-            statusBar.setBackgroundColor(color);
+            return true;
         }
+        return false;
     }
-
+    int shadeColor(int color)
+    {
+        int darkVal = Integer.decode("0xAA0000");
+        return color - darkVal;
+    }
 
 }
+
