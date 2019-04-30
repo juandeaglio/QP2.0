@@ -94,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     NavigationView navigationView;
 
-    AlarmManager am;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -107,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-        am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        //am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         SharedPreferences preferences = getSharedPreferences("prefs", MODE_PRIVATE);
 
@@ -512,11 +511,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else {
                     minuteStr = String.valueOf(minute);
                 }
-                taskTimeValue = tempText + ":" + minuteStr + " " + am_pm;
-                taskTime.setText(taskTimeValue);
+                //taskTimeValue = tempText + ":" + minuteStr + " " + am_pm;
+                taskTime.setText(tempText + ":" + minuteStr + " " + am_pm);
             }
         };
-
 
 
 
