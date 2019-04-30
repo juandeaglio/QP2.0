@@ -68,6 +68,10 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
         db = new DatabaseHelper(this);
         mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
 
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setItemIconTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
+        navigationView.getHeaderView(0).setBackgroundColor(colorManager.getColorAccent());
+
         setUpRecycler();
 
     }
@@ -101,7 +105,7 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
                 mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
                 adapter.updateData();
             }
-        });
+        }, this);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
         itemTouchHelper.attachToRecyclerView(taskRecycler);
 

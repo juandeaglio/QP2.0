@@ -1,5 +1,6 @@
 package com.example.qp;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -16,6 +17,7 @@ import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -25,6 +27,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -73,6 +76,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public FloatingActionButton fab;
     public String sortSelector = "Task_Priority"; // Default sorting priority
 
+    NavigationView navigationView;
+
+    AlarmManager am;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -83,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         SharedPreferences preferences = getSharedPreferences("prefs", MODE_PRIVATE);
 
@@ -99,10 +107,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+
         navigationView.setNavigationItemSelectedListener(this);
 
-        colorManager = new ColorManager(MainActivity.this);
+        if(db.checkIfColorExists())
+        {
+            Cursor colorVals = db.getColorValues();
+            int tableIndex = 0;
+            int colorArr[] = new int[4];
+            while (colorVals.moveToNext() && tableIndex < 4)
+            {
+                colorArr[tableIndex] = colorVals.getInt(tableIndex);
+                tableIndex++;
+            }
+            colorManager = new ColorManager(0,0,0,0);
+            colorManager.setColorPrimary(colorArr[0]);
+            colorManager.setColorPrimaryDark(colorArr[1]);
+            colorManager.setColorAccent(colorArr[2]);
+            colorManager.setColorText(colorArr[3]);
+        }
+        else
+        {
+            colorManager = new ColorManager(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
+                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder));
+
+            db.inserColorData(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
+                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder));
+        }
+
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(colorManager.getColorAccent());
@@ -115,7 +148,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
+        navigationView.setItemIconTintList(ColorStateList.valueOf(colorManager.getColorPrimaryDark()));
+        navigationView.getHeaderView(0).setBackgroundColor(colorManager.getColorPrimaryDark());
         populateArrayList(this.db, this.sortSelector);
 
         adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
@@ -159,12 +193,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onContextItemSelected(item);
     }
 
-    private void setUpRecyclerView(){
+    private void setUpRecyclerView()
+    {
         RecyclerView taskRecycler;
         taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
         SwipeControllerActions swipeControllerActions = new SwipeControllerActions() {
             @Override
-            public void onLeftSwiped(UUID taskID) {
+            public void onLeftSwiped(UUID taskID) { // MARK COMPLETED
                 db.deleteTask(taskID.toString());
                 populateArrayList(db, sortSelector);
                 adapter.updateData();
@@ -173,7 +208,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
             @Override
-            public void onRightSwiped(UUID taskID){
+            public void onRightSwiped(UUID taskID){ // DELETE
+                int taskPendingID = db.getTaskPendingIntent(taskID.toString());
+                Intent intent1 = new Intent(MainActivity.this, StartService.class);
+                PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, taskPendingID, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+                am.cancel(pendingIntent);
                 db.markTaskCompleted(taskID.toString());
                 populateArrayList(db, sortSelector);
                 populateCompletedTaskList(db, sortSelector);
@@ -186,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         taskRecycler.setLayoutManager(layoutManager);
         taskRecycler.setAdapter(adapter);
 
-        swipeController = new SwipeController(swipeControllerActions);
+        swipeController = new SwipeController(swipeControllerActions, this);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
         itemTouchHelper.attachToRecyclerView(taskRecycler);
 
@@ -199,6 +238,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         populateArrayList(this.db, this.sortSelector);
 
         adapter.updateData();
+
+        if(db.checkIfColorExists())
+        {
+            Cursor colorVals = db.getColorValues();
+            int tableIndex = 0;
+            int colorArr[] = new int[4];
+            while (colorVals.moveToNext() && tableIndex < 4)
+            {
+                colorArr[tableIndex] = colorVals.getInt(tableIndex);
+                tableIndex++;
+            }
+            colorManager = new ColorManager(0,0,0,0);
+            colorManager.setColorPrimary(colorArr[0]);
+            colorManager.setColorPrimaryDark(colorArr[1]);
+            colorManager.setColorAccent(colorArr[2]);
+            colorManager.setColorText(colorArr[3]);
+        }
+        else
+        {
+            colorManager = new ColorManager(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
+                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder));
+
+            db.inserColorData(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
+                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder));
+        }
 
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -215,6 +279,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setItemIconTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
+        navigationView.getHeaderView(0).setBackgroundColor(colorManager.getColorAccent());
     }
 
     public void createNotification(String aMessage, Context context) {
