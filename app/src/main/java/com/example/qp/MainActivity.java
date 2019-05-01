@@ -682,7 +682,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_completed_tasks) {
             openCompletedTasks();
 
-        }  else if (id == R.id.nav_reminder) {
+        }
+        else if(id == R.id.nav_project) {
+            startActivity(new Intent(MainActivity.this, Project.class));
+        }else if (id == R.id.nav_reminder) {
             openReminderActivity();
         }else if(id == R.id.customization){
             openCustomizationActivity();

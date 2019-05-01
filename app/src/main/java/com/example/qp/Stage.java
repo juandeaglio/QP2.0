@@ -3,7 +3,8 @@ package com.example.qp;
 import java.util.Date;
 import java.util.UUID;
 
-public class Project{
+public class Stage {
+
     private UUID projectId;
     private String projectName;
     private String dueDate;
@@ -13,7 +14,7 @@ public class Project{
     private short completed; //1 for yes, 0 for no
 
     //Default constructor
-    public Project(String projectName, String  dueDate, String description, int completed, String dueTime)
+    public Stage(String projectName, String  dueDate, String description, int completed, String dueTime)
     {
         this.projectId = UUID.randomUUID();
         this.projectName = projectName;
@@ -22,18 +23,4 @@ public class Project{
         this.description = description;
         this.completed = 0;
     }
-
-    //For prototype
-    public Project() {
-        this.projectId = UUID.randomUUID();
-        this.projectName = "";
-        this.dueDate = "";
-        this.description = "";
-        this.completed = 0;
-        this.timeDueDate = "";
-    }
-
-
-
-
 }

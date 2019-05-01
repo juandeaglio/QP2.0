@@ -178,7 +178,6 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
                 //Update home page cards
                 vtDialog.dismiss();
 
-                //deletePrompt.show()
 
             }
         });
