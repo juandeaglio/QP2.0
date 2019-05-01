@@ -92,6 +92,8 @@ public class Task {
 
     public void setCompleted(short completed) { this.completed = completed; }
 
+
+
     public void setDescription(String description) {
         this.description = description;
     }

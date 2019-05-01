@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.TooltipCompat;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.DatabaseHelper;
+import com.tooltip.Tooltip;
 
 import maes.tech.intentanim.CustomIntent;
 import yuku.ambilwarna.AmbilWarnaDialog;
@@ -49,9 +52,29 @@ public class Customization extends AppCompatActivity
 
 
         this.toast = Toast.makeText(this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
-        Button saveTaskBtn = findViewById(R.id.saveTaskButton);
-        Button cancelButton = findViewById(R.id.cancelButton);
 
+
+        if(defaultColorPrimaryDark == getResources().getColor(R.color.colorPrimaryDark))
+        {
+            Tooltip cardToolTip = new Tooltip.Builder(findViewById(R.id.card3))
+                    .setText("Tap on a card to change the color for cards.")
+                    .setBackgroundColor(defaultColorAccent)
+                    .setGravity(Gravity.END)
+                    .setCancelable(true)
+                    .show();
+        }
+        if(defaultColorAccent == getResources().getColor(R.color.colorAccent))
+        {
+            Tooltip cardToolTip = new Tooltip.Builder(findViewById(R.id.toolbar2))
+                    .setText("Tap on the header to change the color for the header.")
+                    .setBackgroundColor(defaultColorPrimaryDark)
+                    .setGravity(Gravity.END)
+                    .setCancelable(true)
+                    .show();
+        }
+
+        Button saveTaskBtn = (Button)findViewById(R.id.saveColorButton);
+        Button cancelButton = (Button)findViewById(R.id.cancelColorButton);
 
         saveTaskBtn.setOnClickListener(new View.OnClickListener()
         {
@@ -186,17 +209,13 @@ public class Customization extends AppCompatActivity
     {
         //startActivity(new Intent(this, MainActivity.class));
         CustomIntent.customType(this, "right-to-left");
-
-
         this.finish();
     }
     public boolean saveColors()
     {
         if(colorManager != null)
         {
-
-            db.inserColorData(shadeColor(colorManager.getColorPrimaryDark()), colorManager.getColorPrimaryDark(), colorManager.getColorAccent(), colorManager.getColorText());
-
+            db.updateColordata(colorManager.getColorPrimary(), colorManager.getColorPrimaryDark(), colorManager.getColorAccent(), colorManager.getColorText());
             return true;
         }
         return false;

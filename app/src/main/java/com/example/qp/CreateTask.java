@@ -1,18 +1,14 @@
 package com.example.qp;
 
 import android.app.AlarmManager;
-import static maes.tech.intentanim.CustomIntent.customType;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,9 +28,7 @@ import android.widget.Toast;
 
 import com.DatabaseHelper;
 
-import java.sql.Time;
 import java.util.Calendar;
-import java.util.Timer;
 import java.util.UUID;
 
 import maes.tech.intentanim.CustomIntent;
@@ -123,7 +117,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
                 }
             };
 
-            TextView time = findViewById(R.id.taskTime);
+            TextView time = findViewById(R.id.taskTimeDialog);
 
             time.setOnClickListener(new View.OnClickListener() {
 
@@ -260,7 +254,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             }
 
             if(this.taskTime.length() == 0){
-                TextView time = findViewById(R.id.taskTime);
+                TextView time = findViewById(R.id.taskTimeDialog);
                 time.setError("Time cannot be left blank");
                 return false;
             }

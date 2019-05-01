@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 
 import com.github.paolorotolo.appintro.AppIntro;
-import com.github.paolorotolo.appintro.AppIntroFragment;
 
 import static com.github.paolorotolo.appintro.AppIntro2Fragment.newInstance;
 
@@ -24,7 +23,7 @@ public class IntroActivity extends AppIntro {
         addSlide(newInstance("Stay focused on what's important", "Schedule alarms and reminders to keep you on track",
                 R.drawable.alarm_on, ContextCompat.getColor(getApplicationContext(), R.color.navyBlue)));
 
-        addSlide(newInstance("Let's Get to Planning", "Welcome to Quick Plan",
+        addSlide(newInstance("Lets Get to Planning", "Welcome to Quick Plan",
                 R.drawable.idea, ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary)));
 
     }
