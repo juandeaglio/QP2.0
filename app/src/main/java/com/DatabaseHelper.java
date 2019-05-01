@@ -39,10 +39,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
-
-
-
-
     public static final String COLORS_TABLE_NAME = "colors_table";
     // COLS for Colors table
     public static final String COLOR_COL_1 = "Color_Primary";
