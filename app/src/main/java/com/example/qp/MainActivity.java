@@ -1,7 +1,6 @@
 package com.example.qp;
 
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.Notification;
@@ -11,27 +10,18 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import static maes.tech.intentanim.CustomIntent.customType;
-
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -42,17 +32,14 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.ContextMenu;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -61,10 +48,8 @@ import android.widget.Toast;
 
 import com.DatabaseHelper;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.UUID;
 
 import maes.tech.intentanim.CustomIntent;
@@ -474,8 +459,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int hourOfDay = Calendar.HOUR_OF_DAY;
-                int minute = Calendar.MINUTE;
+                Calendar cal = Calendar.getInstance();
+                int hourOfDay = cal.get(Calendar.HOUR_OF_DAY);
+                int minute = cal.get(Calendar.MINUTE);
                 TimePickerDialog timePicker = new TimePickerDialog(MainActivity.this, mTimeSetListener,hourOfDay,minute, false );
                 //timePicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 timePicker.show();
