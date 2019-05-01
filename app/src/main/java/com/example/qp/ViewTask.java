@@ -3,9 +3,12 @@ package com.example.qp;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -30,6 +33,7 @@ import com.DatabaseHelper;
 
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Field;
 import java.sql.Time;
 import java.util.Calendar;
 import java.util.UUID;
@@ -44,7 +48,7 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private Calendar calendar = Calendar.getInstance();
     public ColorManager colorManager;
-
+    AlarmManager am;
     private Intent myIntent = getIntent();
 
     @Override
@@ -55,6 +59,12 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
         this.toast = Toast.makeText(this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
 
         colorManager = MainActivity.colorManager;
+
+        EditText taskName = (EditText) findViewById(R.id.viewTaskName);
+        EditText taskNotes = (EditText) findViewById(R.id.viewDescription);
+        //taskName.setLinkTextColor(colorManager.getColorPrimaryDark());
+        //taskNotes.setBackgroundTintList(ColorStateList.valueOf(colorManager.getColorPrimaryDark()));
+        am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -93,7 +103,6 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
 
                 DatePickerDialog dialog = new DatePickerDialog(ViewTask.this, android.R.style.Theme_Holo_Dialog_MinWidth, mDateSetListener, year, month, day);
 
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
 
             }
@@ -117,7 +126,7 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
             public void onClick(View v) {
                 DialogFragment timePicker = new TimePickerFragment();
                 timePicker.show(getSupportFragmentManager(), "time picker");
-
+                Dialog dialog = timePicker.getDialog();
             }
         });
 
@@ -198,8 +207,13 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
 
 
     public void deleteTask(View view){
+        int taskID = db.getTaskPendingIntent(taskIDStr);
+        Intent intent1 = new Intent(ViewTask.this, StartService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(this, taskID, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+        am.cancel(pendingIntent);
         DeletePrompt deletePrompt = new DeletePrompt();
         deletePrompt.show(getSupportFragmentManager(), "deletePrompt");
+
 //        db.deleteTask(this.taskIDStr);
 //        startActivity(new Intent(this, MainActivity.class));
 

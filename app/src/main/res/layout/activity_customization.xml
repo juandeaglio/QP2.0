@@ -27,6 +27,7 @@
         app:titleTextColor="@android:color/white"
         tools:textAlignment="center" />
 
+    <include layout="@layout/buttons_customization" />
 
 
 
