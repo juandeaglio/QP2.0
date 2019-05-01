@@ -54,6 +54,6 @@ public class ColorManager
 
     public void setColorText(int colorText)
     {
-        this.colorAccent = colorText;
+        this.colorText = colorText;
     }
 }

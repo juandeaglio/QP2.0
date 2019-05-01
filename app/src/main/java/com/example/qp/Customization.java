@@ -25,9 +25,12 @@ public class Customization extends AppCompatActivity
 
     int currentIndex = 0;
     int currentColor;
-    int[] colorArr;
     ColorManager colorManager;
+
     Toast toast;
+
+    int [] colorArr = new int[4];
+
     DatabaseHelper db = new DatabaseHelper(this);
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,21 +52,18 @@ public class Customization extends AppCompatActivity
         Button saveTaskBtn = findViewById(R.id.saveTaskButton);
         Button cancelButton = findViewById(R.id.cancelButton);
 
-        saveTaskBtn.setOnClickListener(new View.OnClickListener() {
+
+        saveTaskBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                if (saveColors())
+            public void onClick(View v)
+            {
+                //TODO: restart the app.
+                if(saveColors())
                 {
                     goBackToHomepage();
                 }
-                else
-                {
-                    toast = Toast.makeText(getApplicationContext(), "Task failed to save", Toast.LENGTH_LONG);
-                    toast.show();
-                }
             }
-
-
         });
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +79,14 @@ public class Customization extends AppCompatActivity
             }
         });
 
+
         colorArr = new int[]{defaultColorPrimary ,defaultColorPrimaryDark, defaultColorAccent, defaultColorText};
+
+        colorArr[0] = defaultColorPrimary;
+        colorArr[1] = defaultColorPrimaryDark;
+        colorArr[2] = defaultColorAccent;
+        colorArr[3] = defaultColorText;
+
         toolbar.setBackgroundColor(defaultColorAccent);
         //setStatusBarColor(findViewById(R.id.statusBarBackground), defaultColorAccent);
         Window window = getWindow();
@@ -151,6 +158,7 @@ public class Customization extends AppCompatActivity
             {
                 currentColor = color;
                 colorArr[currentIndex] = currentColor;
+
                 if(colorArr[0] != colorManager.getColorPrimary() || colorArr[1] != colorManager.getColorPrimaryDark() || colorArr[2] != colorManager.getColorAccent() || colorArr[3] != colorManager.getColorText())
                 {
                     colorManager.setColorPrimary(colorArr[0]);
@@ -160,6 +168,14 @@ public class Customization extends AppCompatActivity
                     finish();
                     startActivity(getIntent());
                 }
+
+                colorManager.setColorPrimary(colorArr[0]);
+                colorManager.setColorPrimaryDark(colorArr[1]);
+                colorManager.setColorAccent(colorArr[2]);
+                colorManager.setColorText(colorArr[3]);
+                finish();
+                startActivity(getIntent());
+
             }
         });
         colorPicker.show();
@@ -171,16 +187,26 @@ public class Customization extends AppCompatActivity
         //startActivity(new Intent(this, MainActivity.class));
         CustomIntent.customType(this, "right-to-left");
 
+
         this.finish();
     }
     public boolean saveColors()
     {
         if(colorManager != null)
         {
-            db.inserColorData(colorManager.getColorPrimary(), colorManager.getColorPrimaryDark(), colorManager.getColorAccent(), colorManager.getColorText());
+
+            db.inserColorData(shadeColor(colorManager.getColorPrimaryDark()), colorManager.getColorPrimaryDark(), colorManager.getColorAccent(), colorManager.getColorText());
+
             return true;
         }
         return false;
     }
+    int shadeColor(int color)
+    {
+        int darkVal = Integer.decode("0xAA0000");
+        return color - darkVal;
+    }
+
+
 }
 

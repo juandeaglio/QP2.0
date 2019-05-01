@@ -122,8 +122,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COLOR_COL_3, color_Primary_Accent);
         contentValues.put(COLOR_COL_4, text_Color);
 
-
-        long result = colorDB.insert(COLORS_TABLE_NAME, null, contentValues);
+        long result = colorDB.update(COLORS_TABLE_NAME, contentValues, "Color_Primary is not NULL", null );
 
         if (result == -1){
             return false;

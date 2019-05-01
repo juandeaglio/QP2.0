@@ -2,6 +2,7 @@ package com.example.qp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
@@ -28,6 +29,7 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
     private ArrayList<Task> taskList;
     private MainActivity mainActivity = new MainActivity();
     private Context context;
+    ColorManager colorManager;
    /* public TaskCardRecyclerAdapter(ArrayList<Task> globalTaskList, MainActivity context) {
         this.taskList = globalTaskList;
         this.context = context;
@@ -71,6 +73,7 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
     public void onBindViewHolder(TaskCardViewHolder taskCardViewHolder, int i)
     {
         final Task task = taskList.get(i);
+        colorManager = MainActivity.colorManager;
         taskCardViewHolder.taskName.setText(task.getTaskName());
         taskCardViewHolder.priority.setTextColor(Color.parseColor("#000000"));
         taskCardViewHolder.priority.setText(Integer.toString(task.getPriority()));
@@ -93,6 +96,9 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
             taskCardViewHolder.checkBox.setChecked(false);
         else
             taskCardViewHolder.checkBox.setChecked(true);
+
+        taskCardViewHolder.checkBox.setButtonTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
+        taskCardViewHolder.taskCard.setBackgroundColor(colorManager.getColorPrimaryDark());
 
         taskCardViewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                                                                    @Override
