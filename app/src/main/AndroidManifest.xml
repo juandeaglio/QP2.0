@@ -36,6 +36,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
+            android:name=".Project"
+            android:label="Projects"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".MainActivity"
             android:label="@string/homePage"
             android:theme="@style/AppTheme.NoActionBar">
