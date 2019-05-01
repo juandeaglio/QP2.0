@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 db.deleteTask(taskID.toString());
                 populateArrayList(db, sortSelector);
                 adapter.updateData();
-                toast = Toast.makeText(getApplicationContext(), "Task Deleted Successfully", Toast.LENGTH_SHORT);
+                toast = Toast.makeText(getApplicationContext(), "Task Deleted", Toast.LENGTH_SHORT);
                 toast.show();
             }
 
@@ -232,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 populateArrayList(db, sortSelector);
                 populateCompletedTaskList(db, sortSelector);
                 adapter.updateData();
-                toast = Toast.makeText(getApplicationContext(), "Task Marked As Completed", Toast.LENGTH_SHORT);
+                toast = Toast.makeText(getApplicationContext(), "Task Completed!", Toast.LENGTH_SHORT);
                 toast.show();
             }
         };
@@ -416,11 +416,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void openCreateTaskDialog(View view) {
-//        CreateTaskDialogHandler createTaskDialogHandler = new CreateTaskDialogHandler();
-//        //createTaskDialogHandler.show(getSupportFragmentManager(), "Create Task Dialog");
-//        //createTaskDialogHandler.onCreate();
-//        createTaskDialogHandler.show();
-
 
         final Dialog ctDialog = new Dialog(this);
         ctDialog.setTitle("Create New Task");
@@ -518,23 +513,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-        TextView taskPriority = (TextView) ctDialog.findViewById(R.id.taskPriorityDialog);
+        final TextView taskPriority = (TextView) ctDialog.findViewById(R.id.taskPriorityDialog);
         taskPriority.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 showNumberPicker();
-
             }
         });
 
         mNumberSetListener = new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-
+                taskPriority.setText(String.valueOf(newVal));
             }
         };
-
 
         Button saveButtonDialog = (Button)ctDialog.findViewById(R.id.saveTaskButtonDialog);
 
@@ -570,7 +563,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     taskNotes.setText(""); // IIf user didn't specify priority just set to 1
                 }
 
-                TextView priority = (TextView) findViewById(R.id.taskNameDialog);
+                TextView priority = (TextView) ctDialog.findViewById(R.id.taskNameDialog);
                 if(priority.getText().toString().equals("")){
                     priority.setText("1"); // IIf user didn't specify priority just set to 1
                 }
@@ -616,8 +609,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void showNumberPicker() {
         final Dialog numPicker = new Dialog(this);
-        Dialog ctDialog = new Dialog(this);
-        ctDialog.setContentView(R.layout.create_task_dialog);
         numPicker.setTitle("NumberPicker");
         numPicker.setContentView(R.layout.number_picker_dialog);
         Button b1 = (Button) numPicker.findViewById(R.id.button1);
@@ -628,12 +619,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         np.setMinValue(1);   // min value 0
         np.setWrapSelectorWheel(true);
         np.setOnValueChangedListener(mNumberSetListener);
-        final TextView nPDialog = ctDialog.findViewById(R.id.taskPriorityDialog);
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nPDialog.setText(String.valueOf(np.getValue()));
+               // nPDialog.setText(String.valueOf(np.getValue()));
                 numPicker.dismiss();
             }
         });
