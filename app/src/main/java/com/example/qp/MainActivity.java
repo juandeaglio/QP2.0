@@ -110,17 +110,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         navigationView.setNavigationItemSelectedListener(this);
-
         if(db.checkIfColorExists())
         {
             Cursor colorVals = db.getColorValues();
-            int tableIndex = 0;
             int colorArr[] = new int[4];
-            while (colorVals.moveToNext() && tableIndex < 4)
-            {
-                colorArr[tableIndex] = colorVals.getInt(tableIndex);
-                tableIndex++;
-            }
+            colorVals.moveToNext();
+            colorArr[0] = colorVals.getInt(0);
+            colorArr[1] = colorVals.getInt(1);
+            colorArr[2] = colorVals.getInt(2);
+            colorArr[3] = colorVals.getInt(3);
+
             colorManager = new ColorManager(0,0,0,0);
             colorManager.setColorPrimary(colorArr[0]);
             colorManager.setColorPrimaryDark(colorArr[1]);
@@ -132,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             colorManager = new ColorManager(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
                     , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder));
 
-            db.inserColorData(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
+            db.insertColorData(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
                     , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder));
         }
 
@@ -242,13 +241,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(db.checkIfColorExists())
         {
             Cursor colorVals = db.getColorValues();
-            int tableIndex = 0;
+
             int colorArr[] = new int[4];
-            while (colorVals.moveToNext() && tableIndex < 4)
-            {
-                colorArr[tableIndex] = colorVals.getInt(tableIndex);
-                tableIndex++;
-            }
+
+            colorVals.moveToNext();
+            colorArr[0] = colorVals.getInt(0);
+            colorArr[1] = colorVals.getInt(1);
+            colorArr[2] = colorVals.getInt(2);
+            colorArr[3] = colorVals.getInt(3);
+
             colorManager = new ColorManager(0,0,0,0);
             colorManager.setColorPrimary(colorArr[0]);
             colorManager.setColorPrimaryDark(colorArr[1]);
@@ -260,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             colorManager = new ColorManager(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
                     , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder));
 
-            db.inserColorData(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
+            db.insertColorData(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
                     , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder));
         }
 

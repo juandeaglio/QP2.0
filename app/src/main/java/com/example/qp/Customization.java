@@ -171,9 +171,7 @@ public class Customization extends AppCompatActivity
     {
         if(colorManager != null)
         {
-
-            db.inserColorData(shadeColor(colorManager.getColorPrimaryDark()), colorManager.getColorPrimaryDark(), colorManager.getColorAccent(), colorManager.getColorText());
-
+            db.updateColordata(colorManager.getColorPrimary(), colorManager.getColorPrimaryDark(), colorManager.getColorAccent(), colorManager.getColorText());
             return true;
         }
         return false;
