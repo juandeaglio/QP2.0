@@ -282,14 +282,14 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             }
 
             UUID taskID = UUID.randomUUID();
-
-            boolean saveCompleted = db.insertData(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()), this.taskDueDateValue, taskNotes.getText().toString(), 0, taskID, this.taskTime);
+            int id = (int) System.currentTimeMillis(); //Pending intent id
+            boolean saveCompleted = db.insertData(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()), this.taskDueDateValue, taskNotes.getText().toString(), 0, taskID, this.taskTime, id);
 
             if (saveCompleted) {
                 Intent intent1 = new Intent(CreateTask.this, StartService.class);
                 intent1.putExtra("Task Name", taskName.getText().toString());
 
-                int id = (int) System.currentTimeMillis();
+
                 PendingIntent pendingIntent = PendingIntent.getService(this, id, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 long diff = Calendar.getInstance().getTimeInMillis() - calendar.getTimeInMillis();

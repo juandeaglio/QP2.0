@@ -1,5 +1,6 @@
 package com.example.qp;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -73,7 +74,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public Toolbar toolbar;
     public FloatingActionButton fab;
     public String sortSelector = "Task_Priority"; // Default sorting priority
+
     NavigationView navigationView;
+
+    AlarmManager am;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -84,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         SharedPreferences preferences = getSharedPreferences("prefs", MODE_PRIVATE);
 
@@ -191,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
         SwipeControllerActions swipeControllerActions = new SwipeControllerActions() {
             @Override
-            public void onLeftSwiped(UUID taskID) {
+            public void onLeftSwiped(UUID taskID) { // MARK COMPLETED
                 db.deleteTask(taskID.toString());
                 populateArrayList(db, sortSelector);
                 adapter.updateData();
@@ -200,7 +206,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
             @Override
-            public void onRightSwiped(UUID taskID){
+            public void onRightSwiped(UUID taskID){ // DELETE
+                int taskPendingID = db.getTaskPendingIntent(taskID.toString());
+                Intent intent1 = new Intent(MainActivity.this, StartService.class);
+                PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, taskPendingID, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+                am.cancel(pendingIntent);
                 db.markTaskCompleted(taskID.toString());
                 populateArrayList(db, sortSelector);
                 populateCompletedTaskList(db, sortSelector);

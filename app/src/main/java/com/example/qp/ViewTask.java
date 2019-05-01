@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -44,7 +45,7 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private Calendar calendar = Calendar.getInstance();
     public ColorManager colorManager;
-
+    AlarmManager am;
     private Intent myIntent = getIntent();
 
     @Override
@@ -55,6 +56,7 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
         this.toast = Toast.makeText(this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
 
         colorManager = MainActivity.colorManager;
+        am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -198,8 +200,13 @@ public class ViewTask extends AppCompatActivity implements TimePickerDialog.OnTi
 
 
     public void deleteTask(View view){
+        int taskID = db.getTaskPendingIntent(taskIDStr);
+        Intent intent1 = new Intent(ViewTask.this, StartService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(this, taskID, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+        am.cancel(pendingIntent);
         DeletePrompt deletePrompt = new DeletePrompt();
         deletePrompt.show(getSupportFragmentManager(), "deletePrompt");
+
 //        db.deleteTask(this.taskIDStr);
 //        startActivity(new Intent(this, MainActivity.class));
 
