@@ -109,7 +109,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public boolean inserColorData(int color_Primary, int color_Primary_Dark, int color_Primary_Accent, int text_Color){
+    public boolean insertColorData(int color_Primary, int color_Primary_Dark, int color_Primary_Accent, int text_Color){
         SQLiteDatabase colorDB = getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -118,7 +118,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COLOR_COL_3, color_Primary_Accent);
         contentValues.put(COLOR_COL_4, text_Color);
 
-        long result = colorDB.update(COLORS_TABLE_NAME, contentValues, "Color_Primary is not NULL", null );
+        long result = colorDB.insert(COLORS_TABLE_NAME, null , contentValues );
 
         if (result == -1){
             return false;
@@ -129,6 +129,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+    public boolean updateColordata(int color_Primary, int color_Primary_Dark, int color_Primary_Accent, int text_Color){
+        SQLiteDatabase colorDB = getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLOR_COL_1, color_Primary);
+        contentValues.put(COLOR_COL_2, color_Primary_Dark);
+        contentValues.put(COLOR_COL_3, color_Primary_Accent);
+        contentValues.put(COLOR_COL_4, text_Color);
+
+        long result = colorDB.update(COLORS_TABLE_NAME, contentValues,  COLOR_COL_1 + " is not NULL", null );
+
+        if (result == -1){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
 
 
     public int getIntentID(String reminderID){
