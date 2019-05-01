@@ -173,6 +173,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
                 DatabaseHelper db = new DatabaseHelper(context);
                 db.deleteTask(taskID);
 
+                mainActivity.populateArrayList(db, mainActivity.sortSelector);
                 updateData();
                 //Update home page cards
                 vtDialog.dismiss();
