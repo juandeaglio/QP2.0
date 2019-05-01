@@ -6,6 +6,7 @@ public class ReminderObject {
     private int reminderInterval;
     private String reminderType;
     private boolean reminderToggle;
+    private String reminderTime;
 
     public ReminderObject(String mReminderName, int mReminderInterval, String mReminderType, boolean mReminderToggle)
     {
@@ -16,6 +17,14 @@ public class ReminderObject {
     }
     public String getReminderName() {
         return reminderName;
+    }
+
+    public String getReminderTime() {
+        return reminderTime;
+    }
+
+    public void setReminderTime(String reminderTime) {
+        this.reminderTime = reminderTime;
     }
 
     public void setReminderName(String reminderName) {
