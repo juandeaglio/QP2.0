@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.DatabaseHelper;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
 
 import maes.tech.intentanim.CustomIntent;
@@ -56,8 +57,11 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
     private String mActive;
     private Toast toast;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
+
+
     DatabaseHelper db = new DatabaseHelper(this);
     AlarmManager am;
+
     public ColorManager colorManager;
 
     public Reminder() {
@@ -67,6 +71,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reminder);
+
 
         mTitleText = (EditText) findViewById(R.id.reminder_title);
         mDateText = (TextView) findViewById(R.id.set_date);
