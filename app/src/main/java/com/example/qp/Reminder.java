@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
@@ -63,6 +65,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
 
     DatabaseHelper db = new DatabaseHelper(this);
     AlarmManager am;
+    private ReminderRecyclerAdapter adapter;
 
     public ColorManager colorManager;
 
@@ -168,6 +171,16 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
 
         LinearLayout header = findViewById(R.id.add_reminder_layout_top);
         header.setBackgroundColor(colorManager.getColorAccent());
+
+        setUpRecyclerView();
+    }
+
+    public void setUpRecyclerView(){
+        RecyclerView recyclerView = findViewById(R.id.reminder_recycler);
+        adapter = new ReminderRecyclerAdapter(globalReminderList);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
     }
 
 
@@ -260,6 +273,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
             this.toast = Toast.makeText(this, "Reminder Failed", Toast.LENGTH_SHORT);
             toast.show();
         }
+        adapter.notifyDataSetChanged();
 
 
         // Database stuff
