@@ -1,5 +1,6 @@
 package com.example.qp;
 
+import android.content.res.ColorStateList;
 import android.graphics.Canvas;
 import android.icu.util.Calendar;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.support.annotation.NonNull;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.DatabaseHelper;
@@ -29,6 +32,7 @@ public class CalendarView extends AppCompatActivity {
     ArrayList<Task>sortedTaskList = new ArrayList<>();
     CalendarRecyclerAdapter adapter = new CalendarRecyclerAdapter(sortedTaskList, this); //sortedTaskList is passed into adapter and any changes to sortedTaskList will changed array in the adapter. use updateSortedData to update screen elements
     private DatabaseHelper db = new DatabaseHelper(this);
+    public ColorManager colorManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,10 +53,17 @@ public class CalendarView extends AppCompatActivity {
                 adapter.updateRecyclerView(date);
             }
         });
+        colorManager = MainActivity.colorManager;
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(colorManager.getColorAccent());
 
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(colorManager.getColorAccent());
 
-
-
+        calendar.setBackgroundTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
+        calendar.setUnfocusedMonthDateColor(colorManager.getColorAccent());
+        calendar.setBackgroundColor(colorManager.getColorAccent());
     }
 
     @Override
@@ -85,7 +96,7 @@ public class CalendarView extends AppCompatActivity {
                 mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
                 adapter.updateRecyclerView(dueDate);
             }
-        });
+        }, this);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
