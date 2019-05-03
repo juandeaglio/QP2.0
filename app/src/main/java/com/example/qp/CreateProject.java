@@ -28,6 +28,8 @@ import com.DatabaseHelper;
 import java.util.Calendar;
 import java.util.UUID;
 
+import maes.tech.intentanim.CustomIntent;
+
 public class CreateProject extends AppCompatActivity {
 
 
@@ -62,7 +64,43 @@ public class CreateProject extends AppCompatActivity {
             }
         });
 
-        
+
+        Button cancelButton = (Button) findViewById(R.id.cancelButton);
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(CreateProject.this, MainActivity.class));
+                CustomIntent.customType(CreateProject.this, "left-to-right");
+
+
+
+                finish(); //If the user cancels making a new project wipe the Project ID here
+            }
+        });
+
+
+        Button saveButton = (Button) findViewById(R.id.saveProjectButton);
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Save the project and it's stages
+                //P---S1---S2---S3---PF
+
+                //Generate Project_ID here? Or in Constructor?
+                Project project = new Project();
+                project.projectId = UUID.randomUUID();
+                toast = Toast.makeText(CreateProject.this, "Implement Me", Toast.LENGTH_LONG);
+                toast.show();
+
+
+
+
+
+            }
+        });
+
     }
 
 
@@ -109,7 +147,7 @@ public class CreateProject extends AppCompatActivity {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 calendar = Calendar.getInstance();
                 calendar.set(year, month, dayOfMonth);
-                Log.d("Date Picker", "onDateSet: date " + (month + 1) + "/" + dayOfMonth + "/" + year);
+                //Log.d("Date Picker", "onDateSet: date " + (month + 1) + "/" + dayOfMonth + "/" + year);
                 stageDueDate.setText((month + 1) + "/" + (dayOfMonth) + "/" + year);
                 //stageDueDateValue = String.valueOf(month + 1) + "/" + String.valueOf(dayOfMonth) + "/" + String.valueOf(year);
 

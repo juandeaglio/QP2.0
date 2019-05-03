@@ -4,13 +4,13 @@ import java.util.Date;
 import java.util.UUID;
 
 public class Project{
-    private UUID projectId;
-    private String projectName;
-    private String dueDate;
-    private String timeDueDate;
-    private Date dateAssigned = new Date();
-    private String description;
-    private short completed; //1 for yes, 0 for no
+    public UUID projectId;
+    public String projectName;
+    public String dueDate;
+    public String timeDueDate;
+    public Date dateAssigned = new Date();
+    public String description;
+    public short completed; //1 for yes, 0 for no
 
     //Default constructor
     public Project(String projectName, String  dueDate, String description, int completed, String dueTime)
@@ -25,7 +25,6 @@ public class Project{
 
     //For prototype
     public Project() {
-        this.projectId = UUID.randomUUID();
         this.projectName = "";
         this.dueDate = "";
         this.description = "";

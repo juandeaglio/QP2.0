@@ -170,6 +170,8 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         TextView viewTaskTime = (TextView) vtDialog.findViewById(R.id.stageTime);
         viewTaskTime.setText(currentTask.getTimeDueDate());
 
+        //TODO: Make taskTime and taskDueDate listeners like in create Task dialog - Ethan
+
         TextView viewTaskDueDate = (TextView) vtDialog.findViewById(R.id.stageDueDate);
         viewTaskDueDate.setText(currentTask.getDueDate());
 

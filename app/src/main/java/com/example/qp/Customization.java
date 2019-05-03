@@ -1,5 +1,6 @@
 package com.example.qp;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
@@ -207,7 +208,7 @@ public class Customization extends AppCompatActivity
 
     public void goBackToHomepage()
     {
-        //startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, MainActivity.class));
         CustomIntent.customType(this, "right-to-left");
         this.finish();
     }
