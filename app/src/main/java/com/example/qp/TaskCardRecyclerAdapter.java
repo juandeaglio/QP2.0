@@ -21,8 +21,6 @@ import android.widget.Toast;
 
 import com.DatabaseHelper;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
@@ -166,13 +164,13 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
 
 
 
-        TextView viewTaskName = (TextView)vtDialog.findViewById(R.id.taskNameDialog);
+        TextView viewTaskName = (TextView)vtDialog.findViewById(R.id.stageNameDialog);
         viewTaskName.setText(currentTask.getTaskName());
 
-        TextView viewTaskTime = (TextView) vtDialog.findViewById(R.id.taskTimeDialog);
+        TextView viewTaskTime = (TextView) vtDialog.findViewById(R.id.stageTime);
         viewTaskTime.setText(currentTask.getTimeDueDate());
 
-        TextView viewTaskDueDate = (TextView) vtDialog.findViewById(R.id.taskDueDate);
+        TextView viewTaskDueDate = (TextView) vtDialog.findViewById(R.id.stageDueDate);
         viewTaskDueDate.setText(currentTask.getDueDate());
 
         EditText viewTaskDescription = (EditText) vtDialog.findViewById(R.id.taskDescription);
@@ -203,19 +201,19 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
             @Override
             public void onClick(View v) {
 
-                EditText taskName = (EditText) vtDialog.findViewById(R.id.taskNameDialog);
+                EditText taskName = (EditText) vtDialog.findViewById(R.id.stageNameDialog);
                 if(taskName.getText().length() == 0){
                     taskName.setError("Task Name cannot be Blank");
                     return;
                 }
 
-                TextView dueDate = vtDialog.findViewById(R.id.taskDueDate);
+                TextView dueDate = vtDialog.findViewById(R.id.stageDueDate);
                 if(dueDate.getText().toString().length() == 0){
                     dueDate.setError("Task Due Date cannot be blank");
                     return;
                 }
 
-                TextView taskTime = (TextView) vtDialog.findViewById(R.id.taskTimeDialog);
+                TextView taskTime = (TextView) vtDialog.findViewById(R.id.stageTime);
                 if(taskTime.getText().toString().length() == 0){
                     taskTime.setError("Task Time cannot be blank");
                     return;
