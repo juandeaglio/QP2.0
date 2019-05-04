@@ -175,12 +175,23 @@ public class CreateProject extends AppCompatActivity {
                     if(saveCompleted){
                         //Stages saved
                     }
+                    else {
+                        //error
+                        toast = Toast.makeText(CreateProject.this, "ERROR: Couldn't save stage to DB", Toast.LENGTH_LONG);
+                        toast.show();
+                    }
                 }
 
+                boolean saveProjectCompeleted = db.insertProjectData(newProject.projectId.toString(),newProject.projectName, newProject.dueDate, newProject.timeDueDate, newProject.description, newProject.stageList.size());
 
-
-                toast = Toast.makeText(CreateProject.this, "Implement Me", Toast.LENGTH_LONG);
-                toast.show();
+                if(saveProjectCompeleted){
+                    toast = Toast.makeText(CreateProject.this, "Project saved successfully!", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+                else {
+                    toast = Toast.makeText(CreateProject.this, "Project failed to save", Toast.LENGTH_LONG);
+                    toast.show();
+                }
 
 
             }
