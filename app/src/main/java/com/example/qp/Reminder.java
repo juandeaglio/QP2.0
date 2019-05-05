@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -19,8 +20,11 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -28,7 +32,9 @@ import android.widget.Toast;
 
 import com.DatabaseHelper;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
 
 import maes.tech.intentanim.CustomIntent;
@@ -40,6 +46,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
     private TextView mDateText, mTimeText, mRepeatText, mRepeatNoText, mRepeatTypeText;
     private FloatingActionButton mSaveButton;
 
+    public static ArrayList<ReminderObject> globalReminderList = new ArrayList<>();
     private int mYear, mMonth, mHour, mMinute, mDay;
     private long mRepeatTime;
     private Switch mRepeatSwitch;
@@ -52,9 +59,12 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
     private String mActive;
     private Toast toast;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private ReminderObject reminder;
+
     DatabaseHelper db = new DatabaseHelper(this);
     AlarmManager am;
 
+    public ColorManager colorManager;
 
     public Reminder() {
     }
@@ -64,6 +74,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reminder);
 
+
         mTitleText = (EditText) findViewById(R.id.reminder_title);
         mDateText = (TextView) findViewById(R.id.set_date);
         mTimeText = (TextView) findViewById(R.id.set_time);
@@ -71,7 +82,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
         mRepeatNoText = (TextView) findViewById(R.id.set_repeat_no);
         mRepeatTypeText = (TextView) findViewById(R.id.set_repeat_type);
         mRepeatSwitch = (Switch) findViewById(R.id.repeat_switch);
-        mSaveButton = (FloatingActionButton) findViewById(R.id.floatingActionButtonSave);
+        //mSaveButton = (FloatingActionButton) findViewById(R.id.floatingActionButtonSave);
 
         // Initialize default values
         mActive = "true";
@@ -146,6 +157,17 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
         };
 
 
+        colorManager = MainActivity.colorManager;
+        //mRepeatSwitch.setThumbTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
+        //mRepeatSwitch.setTrackTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
+        mSaveButton.setBackgroundTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
+
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(colorManager.getColorAccent());
+
+        LinearLayout header = findViewById(R.id.add_reminder_layout_top);
+        header.setBackgroundColor(colorManager.getColorAccent());
     }
 
 
@@ -181,79 +203,73 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
         mTime = hourOfDay + ":" + minute;
         mTimeText.setText(mTime);
     }
-    public void goBackToHomepage(){
-       this.finish();
+
+    public void goBackToHomepage() {
+        this.finish();
     }
-    public void saveReminder()
-    {
+
+    public void saveReminder() {
 
         Intent intent1 = new Intent(Reminder.this, StartService.class);
-        intent1.putExtra("Task Name",mTitle);
+        intent1.putExtra("Task Name", mTitle);
 
         int intentId = (int) System.currentTimeMillis();
         UUID uniqueID = UUID.randomUUID();
         boolean saveCompleted = false;
 
-        PendingIntent pendingIntent = PendingIntent.getService(Reminder.this, intentId,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getService(Reminder.this, intentId, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
         am = (AlarmManager) Reminder.this.getSystemService(ALARM_SERVICE);
 
 
-        if (mRepeat == "true")
-        {
-            switch (mRepeatType)
-            {
-                case "Minute":
-                    am.setRepeating(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo) * 60 * 1000,pendingIntent);
-                    saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
-                    break;
+        if (mRepeat == "true") {
+            reminder = new ReminderObject(mTitle, Integer.parseInt(mRepeatNo), mRepeatType, true);
+            globalReminderList.add(reminder);
+            saveCompleted = db.insertReminderData(intentId, uniqueID.toString(), mTitle, mDate, mRepeatNo, mRepeatType, mTime);
 
+            switch (mRepeatType) {
+                case "Minute":
+                    am.setRepeating(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo) * 60 * 1000, pendingIntent);
+                    break;
                 case "Hour":
-                    am.setRepeating(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo)* AlarmManager.INTERVAL_HOUR,pendingIntent);
-                    saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
+                    am.setRepeating(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo) * AlarmManager.INTERVAL_HOUR, pendingIntent);
                     break;
                 case "Day":
-                    am.setRepeating(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo)* AlarmManager.INTERVAL_DAY,pendingIntent);
-                    saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
+                    am.setRepeating(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo) * AlarmManager.INTERVAL_DAY, pendingIntent);
                     break;
                 case "Week":
-                    am.setRepeating(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo)* 7 * AlarmManager.INTERVAL_DAY,pendingIntent);
-                    saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
+                    am.setRepeating(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo) * 7 * AlarmManager.INTERVAL_DAY, pendingIntent);
                     break;
                 case "Month":
-                    am.setRepeating(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo) * AlarmManager.INTERVAL_DAY * 31,pendingIntent);
-                    saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
+                    am.setRepeating(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo) * AlarmManager.INTERVAL_DAY * 31, pendingIntent);
                     break;
             }
 
-
+        } else {
+            am.set(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), pendingIntent);
+            reminder = new ReminderObject(mTitle, Integer.parseInt(mRepeatNo), mRepeatType, true);
+            globalReminderList.add(reminder);
+            //saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
         }
-        else
-        {
-            am.set(AlarmManager.RTC_WAKEUP,mCalendar.getTimeInMillis(),pendingIntent);
-            saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
-        }
 
-        if(saveCompleted){
+        if (saveCompleted) {
             this.toast = Toast.makeText(this, "Reminder Successfully Saved!", Toast.LENGTH_SHORT);
             toast.show();
             goBackToHomepage();
 
-        }
-        else {
+        } else {
             this.toast = Toast.makeText(this, "Reminder Failed", Toast.LENGTH_SHORT);
             toast.show();
         }
-
 
 
         // Database stuff
     }
 
 
-    public void cancelReminder(PendingIntent intentReminder)
-    {
+    public void cancelReminder(PendingIntent intentReminder) {
         am.cancel(intentReminder);
     }
+
     public void onSwitchRepeat(View view) {
         boolean on = ((Switch) view).isChecked();
         if (on) {
@@ -307,7 +323,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
                             mRepeatNo = Integer.toString(1);
                             mRepeatNoText.setText(mRepeatNo);
                             mRepeatText.setText("Every " + mRepeatNo + " " + mRepeatType + "(s)");
-                        }    else {
+                        } else {
                             mRepeatNo = input.getText().toString().trim();
                             mRepeatNoText.setText(mRepeatNo);
                             mRepeatText.setText("Every " + mRepeatNo + " " + mRepeatType + "(s)");

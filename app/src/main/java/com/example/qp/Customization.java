@@ -1,16 +1,26 @@
 package com.example.qp;
 
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.TooltipCompat;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.DatabaseHelper;
+import com.tooltip.Tooltip;
+
+import maes.tech.intentanim.CustomIntent;
 import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class Customization extends AppCompatActivity
@@ -19,9 +29,13 @@ public class Customization extends AppCompatActivity
 
     int currentIndex = 0;
     int currentColor;
-    int[] colorArr;
     ColorManager colorManager;
 
+    Toast toast;
+
+    int [] colorArr = new int[4];
+
+    DatabaseHelper db = new DatabaseHelper(this);
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -29,22 +43,85 @@ public class Customization extends AppCompatActivity
         setContentView(R.layout.activity_customization);
         Toolbar toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
+
         colorManager = MainActivity.colorManager;
         toolbar.setBackgroundColor(colorManager.getColorAccent());
-        //int defaultColorPrimary = colorManager.getColorPrimary();
+        int defaultColorPrimary = colorManager.getColorPrimary();
         int defaultColorPrimaryDark = colorManager.getColorPrimaryDark();
         int defaultColorAccent = colorManager.getColorAccent();
-        colorArr = new int[]{defaultColorPrimaryDark, defaultColorAccent};
-        toolbar.setBackgroundColor(defaultColorAccent);
-        setStatusBarColor(findViewById(R.id.statusBarBackground), defaultColorAccent);
+        int defaultColorText = colorManager.getColorText();
 
+
+        this.toast = Toast.makeText(this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
+
+
+        if(defaultColorPrimaryDark == getResources().getColor(R.color.colorPrimaryDark))
+        {
+            Tooltip cardToolTip = new Tooltip.Builder(findViewById(R.id.card3))
+                    .setText("Tap on a card to change the color for cards.")
+                    .setBackgroundColor(defaultColorAccent)
+                    .setGravity(Gravity.END)
+                    .setCancelable(true)
+                    .show();
+        }
+        if(defaultColorAccent == getResources().getColor(R.color.colorAccent))
+        {
+            Tooltip cardToolTip = new Tooltip.Builder(findViewById(R.id.toolbar2))
+                    .setText("Tap on the header to change the color for the header.")
+                    .setBackgroundColor(defaultColorPrimaryDark)
+                    .setGravity(Gravity.END)
+                    .setCancelable(true)
+                    .show();
+        }
+
+        Button saveTaskBtn = (Button)findViewById(R.id.saveColorButton);
+        Button cancelButton = (Button)findViewById(R.id.cancelColorButton);
+
+        saveTaskBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                //TODO: restart the app.
+                if(saveColors())
+                {
+                    goBackToHomepage();
+                }
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Cursor colorVals = db.getColorValues();
+                colorManager.setColorPrimary(colorVals.getInt(0));
+                colorManager.setColorPrimaryDark(colorVals.getInt(1));
+                colorManager.setColorAccent(colorVals.getInt(2));
+                colorManager.setColorText(colorVals.getInt(3));
+                goBackToHomepage();
+            }
+        });
+
+
+        colorArr = new int[]{defaultColorPrimary ,defaultColorPrimaryDark, defaultColorAccent, defaultColorText};
+
+        colorArr[0] = defaultColorPrimary;
+        colorArr[1] = defaultColorPrimaryDark;
+        colorArr[2] = defaultColorAccent;
+        colorArr[3] = defaultColorText;
+
+        toolbar.setBackgroundColor(defaultColorAccent);
+        //setStatusBarColor(findViewById(R.id.statusBarBackground), defaultColorAccent);
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(defaultColorAccent);
 
         CardView card0 = (CardView) findViewById(R.id.card1);
         CardView card1 = (CardView) findViewById(R.id.card2);
         CardView card2 = (CardView) findViewById(R.id.card3);
 
         CardView[] cardArr = new CardView[]{card0, card1, card2};
-
 
         String nameArr[] = {"Operating Systems Final","Some sort of task", "Not an interesting task."};
         String priorityArr[] = {"1", "2", "4"};
@@ -73,8 +150,8 @@ public class Customization extends AppCompatActivity
         {
             public void onClick(View view)
             {
-                currentIndex = 0;
-                currentColor = colorArr[0];
+                currentIndex = 1;
+                currentColor = colorArr[1];
                 openColorPicker();
             }
         });
@@ -83,8 +160,8 @@ public class Customization extends AppCompatActivity
         {
             public void onClick(View view)
             {
-                currentIndex = 1;
-                currentColor = colorArr[1];
+                currentIndex = 2;
+                currentColor = colorArr[2];
                 openColorPicker();
             }
         });
@@ -106,49 +183,50 @@ public class Customization extends AppCompatActivity
                 currentColor = color;
                 colorArr[currentIndex] = currentColor;
 
-                if(colorArr[0] != colorManager.getColorPrimaryDark() || colorArr[1] != colorManager.getColorAccent())
+                if(colorArr[0] != colorManager.getColorPrimary() || colorArr[1] != colorManager.getColorPrimaryDark() || colorArr[2] != colorManager.getColorAccent() || colorArr[3] != colorManager.getColorText())
                 {
-                    colorManager.setColorPrimaryDark(colorArr[0]);
-                    colorManager.setColorAccent(colorArr[1]);
+                    colorManager.setColorPrimary(colorArr[0]);
+                    colorManager.setColorPrimaryDark(colorArr[1]);
+                    colorManager.setColorAccent(colorArr[2]);
+                    colorManager.setColorText(colorArr[3]);
                     finish();
                     startActivity(getIntent());
                 }
+
+                colorManager.setColorPrimary(colorArr[0]);
+                colorManager.setColorPrimaryDark(colorArr[1]);
+                colorManager.setColorAccent(colorArr[2]);
+                colorManager.setColorText(colorArr[3]);
+                finish();
+                startActivity(getIntent());
+
             }
         });
         colorPicker.show();
 
     }
-    public int getActionBarHeight() {
-        int actionBarHeight = 0;
-        TypedValue tv = new TypedValue();
-        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+
+    public void goBackToHomepage()
+    {
+        startActivity(new Intent(this, MainActivity.class));
+        CustomIntent.customType(this, "right-to-left");
+        this.finish();
+    }
+    public boolean saveColors()
+    {
+        if(colorManager != null)
         {
-            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+            db.updateColordata(colorManager.getColorPrimary(), colorManager.getColorPrimaryDark(), colorManager.getColorAccent(), colorManager.getColorText());
+            return true;
         }
-        return actionBarHeight;
+        return false;
     }
-
-    public int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
-
-    public void setStatusBarColor(View statusBar,int color){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window w = getWindow();
-            w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //status bar height
-            int actionBarHeight = getActionBarHeight();
-            int statusBarHeight = getStatusBarHeight();
-            //action bar height
-            statusBar.getLayoutParams().height = actionBarHeight + statusBarHeight;
-            statusBar.setBackgroundColor(color);
-        }
+    int shadeColor(int color)
+    {
+        int darkVal = Integer.decode("0xAA0000");
+        return color - darkVal;
     }
 
 
 }
+

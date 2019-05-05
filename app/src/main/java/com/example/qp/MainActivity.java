@@ -1,28 +1,26 @@
 package com.example.qp;
 
-import android.app.AlertDialog;
+import android.app.AlarmManager;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.app.TimePickerDialog;
 import android.content.Context;
-import static maes.tech.intentanim.CustomIntent.customType;
-
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Canvas;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -32,27 +30,31 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.ContextMenu;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.NumberPicker;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.DatabaseHelper;
 
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.UUID;
 
 import maes.tech.intentanim.CustomIntent;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener  {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     public static ArrayList<Task> globalTaskList = new ArrayList<>();
     public static ArrayList<Task> globalCompletedTaskList = new ArrayList<>();
@@ -63,10 +65,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String CHANNEL_NAME = "ANDROID CHANNEL";
     private NotificationManager notifManager;
     private TaskCardRecyclerAdapter adapter;
+    private Calendar calendar;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private TimePickerDialog.OnTimeSetListener mTimeSetListener;
+    private NumberPicker.OnValueChangeListener mNumberSetListener;
+    private AlarmManager am;
+
     SwipeController swipeController;
     public static ColorManager colorManager;
-
+    public Toolbar toolbar;
+    private FloatingActionButton fab;
     public String sortSelector = "Task_Priority"; // Default sorting priority
+
+    NavigationView navigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -77,12 +89,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
+        //am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         SharedPreferences preferences = getSharedPreferences("prefs", MODE_PRIVATE);
 
         boolean firstStart = preferences.getBoolean("firstStart", true);
-        //boolean firstStart = true;
         if(firstStart){
             showfirstTimeDialog();
         }
@@ -94,22 +107,56 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
 
-        colorManager = new ColorManager(this);
-        FloatingActionButton fab = findViewById(R.id.createTaskBtn);
+        navigationView.setNavigationItemSelectedListener(this);
+        if(db.checkIfColorExists())
+        {
+            Cursor colorVals = db.getColorValues();
+            int colorArr[] = new int[4];
+
+            colorVals.moveToNext();
+            colorArr[0] = colorVals.getInt(0);
+            colorArr[1] = colorVals.getInt(1);
+            colorArr[2] = colorVals.getInt(2);
+            colorArr[3] = colorVals.getInt(3);
+
+            colorManager = new ColorManager(0,0,0,0);
+            colorManager.setColorPrimary(colorArr[0]);
+            colorManager.setColorPrimaryDark(colorArr[1]);
+            colorManager.setColorAccent(colorArr[2]);
+            colorManager.setColorText(colorArr[3]);
+        }
+        else
+        {
+            colorManager = new ColorManager(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
+                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder));
+
+            db.insertColorData(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
+                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder));
+        }
+
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(colorManager.getColorAccent());
+
+        fab = findViewById(R.id.createTaskBtn);
+        fab.setBackgroundTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
         fab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                openCreateTaskActivity(view);
+                openCreateTaskDialog(view);
             }
         });
+
+        navigationView.setBackgroundColor(colorManager.getColorPrimaryDark());
+
+        navigationView.setItemIconTintList(ColorStateList.valueOf(colorManager.getColorPrimaryDark()));
+        navigationView.getHeaderView(0).setBackgroundColor(colorManager.getColorPrimaryDark());
 
         populateArrayList(this.db, this.sortSelector);
 
         adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
         setUpRecyclerView();
-
     }
 
     private void  showfirstTimeDialog(){
@@ -149,26 +196,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onContextItemSelected(item);
     }
 
-    private void setUpRecyclerView(){
+    private void setUpRecyclerView()
+    {
         RecyclerView taskRecycler;
         taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
         SwipeControllerActions swipeControllerActions = new SwipeControllerActions() {
             @Override
-            public void onLeftSwiped(UUID taskID) {
+            public void onLeftSwiped(UUID taskID) { // MARK COMPLETED
                 db.deleteTask(taskID.toString());
                 populateArrayList(db, sortSelector);
                 adapter.updateData();
-                toast = Toast.makeText(getApplicationContext(), "Task Deleted Successfully", Toast.LENGTH_SHORT);
+                toast = Toast.makeText(getApplicationContext(), "Task Deleted", Toast.LENGTH_SHORT);
                 toast.show();
             }
 
             @Override
-            public void onRightSwiped(UUID taskID){
+            public void onRightSwiped(UUID taskID){ // DELETE
+                int taskPendingID = db.getTaskPendingIntent(taskID.toString());
+                Intent intent1 = new Intent(MainActivity.this, StartService.class);
+                PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, taskPendingID, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+                am.cancel(pendingIntent);
                 db.markTaskCompleted(taskID.toString());
                 populateArrayList(db, sortSelector);
                 populateCompletedTaskList(db, sortSelector);
                 adapter.updateData();
-                toast = Toast.makeText(getApplicationContext(), "Task Marked As Completed", Toast.LENGTH_SHORT);
+                toast = Toast.makeText(getApplicationContext(), "Task Completed!", Toast.LENGTH_SHORT);
                 toast.show();
             }
         };
@@ -187,12 +239,56 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     {
         super.onResume();
         populateArrayList(this.db, this.sortSelector);
-
         adapter.updateData();
 
-        int color = colorManager.getColorAccent();
-        //Toolbar toolbar = findViewById(R.id.toolbar);
-        //toolbar.setBackgroundColor(color);
+        if(db.checkIfColorExists())
+        {
+            Cursor colorVals = db.getColorValues();
+
+            int colorArr[] = new int[4];
+
+            colorVals.moveToNext();
+            colorArr[0] = colorVals.getInt(0);
+            colorArr[1] = colorVals.getInt(1);
+            colorArr[2] = colorVals.getInt(2);
+            colorArr[3] = colorVals.getInt(3);
+
+
+            colorManager = new ColorManager(0,0,0,0);
+            colorManager.setColorPrimary(colorArr[0]);
+            colorManager.setColorPrimaryDark(colorArr[1]);
+            colorManager.setColorAccent(colorArr[2]);
+            colorManager.setColorText(colorArr[3]);
+        }
+        else
+        {
+            colorManager = new ColorManager(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
+                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder));
+
+            db.insertColorData(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
+                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder));
+        }
+
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(colorManager.getColorAccent());
+
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(colorManager.getColorAccent());
+
+        fab = findViewById(R.id.createTaskBtn);
+        fab.setBackgroundTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
+        fab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                openCreateTaskDialog(view);
+            }
+        });
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setBackgroundColor(colorManager.getColorPrimaryDark());
+        navigationView.setItemIconTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
+        navigationView.getHeaderView(0).setBackgroundColor(colorManager.getColorAccent());
+
     }
 
     public void createNotification(String aMessage, Context context) {
@@ -312,9 +408,229 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    public void openCreateTaskActivity(View view) {
-        startActivity(new Intent(this, CreateTask.class));
-        CustomIntent.customType(this, "left-to-right");
+    public void openCreateTaskDialog(View view) {
+
+        final Dialog ctDialog = new Dialog(this);
+        ctDialog.setTitle("Create New Task");
+        ctDialog.setContentView(R.layout.create_task_dialog);
+        ctDialog.findViewById(R.id.toolbar3).setBackgroundColor(colorManager.getColorAccent());
+        ctDialog.show();
+        final EditText taskNameDialog = ctDialog.findViewById(R.id.stageNameDialog);
+        EditText taskDescription = ctDialog.findViewById(R.id.taskDescription);
+
+        Button cancelButtonDialog = (Button)ctDialog.findViewById(R.id.cancelButtonDialog);
+        cancelButtonDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ctDialog.dismiss();
+            }
+        });
+
+        final TextView taskDueDate = ctDialog.findViewById(R.id.stageDueDate);
+
+        taskDueDate.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(MainActivity.this, mDateSetListener, year, month, day);
+
+                //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+
+            }
+        });
+
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                calendar = Calendar.getInstance();
+                calendar.set(year, month, dayOfMonth);
+                Log.d("Date Picker", "onDateSet: date " + (month + 1) + "/" + dayOfMonth + "/" + year);
+                taskDueDate.setText((month + 1) + "/" + (dayOfMonth) + "/" + year);
+                //taskDueDateValue = String.valueOf(month + 1) + "/" + String.valueOf(dayOfMonth) + "/" + String.valueOf(year);
+
+            }
+        };
+
+
+
+
+
+
+        TextView time = ctDialog.findViewById(R.id.stageTime);
+        time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                int hourOfDay = cal.get(Calendar.HOUR_OF_DAY);
+                int minute = cal.get(Calendar.MINUTE);
+                TimePickerDialog timePicker = new TimePickerDialog(MainActivity.this, mTimeSetListener,hourOfDay,minute, false );
+                //timePicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                timePicker.show();
+
+            }
+        });
+
+        mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                TextView taskTime = (TextView) ctDialog.findViewById(R.id.stageTime);
+                String am_pm = "";
+                calendar = Calendar.getInstance();
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                calendar.set(Calendar.MINUTE, minute);
+                calendar.set(Calendar.SECOND,0);
+                calendar.set(Calendar.MILLISECOND,0);
+
+                if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
+                    am_pm = "AM";
+                } else if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
+                    am_pm = "PM";
+                }
+                String tempText = (calendar.get(Calendar.HOUR) == 0) ? "12" : calendar.get(Calendar.HOUR) + "";
+                String minuteStr = "";
+
+                if (minute <= 9) {
+                    minuteStr = "0" + String.valueOf(minute);
+                } else {
+                    minuteStr = String.valueOf(minute);
+                }
+                //taskTimeValue = tempText + ":" + minuteStr + " " + am_pm;
+                taskTime.setText(tempText + ":" + minuteStr + " " + am_pm);
+            }
+        };
+
+
+
+        final TextView taskPriority = (TextView) ctDialog.findViewById(R.id.taskPriorityDialog);
+        taskPriority.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                showNumberPicker();
+            }
+        });
+
+        mNumberSetListener = new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                taskPriority.setText(String.valueOf(newVal));
+            }
+        };
+
+        Button saveButtonDialog = (Button)ctDialog.findViewById(R.id.saveTaskButtonDialog);
+
+        saveButtonDialog.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                if(taskNameDialog.getText().length() == 0){
+                    taskNameDialog.setError("Title cannot be Blank");
+                    return;
+                }
+                taskNameDialog.setText(fixTaskName(taskNameDialog.getText().toString()));
+
+                TextView dueDate = ctDialog.findViewById(R.id.stageDueDate);
+                if(dueDate.length() == 0){
+                    dueDate.setError("Due Date cannot be blank");
+                    return;
+                }
+                TextView taskTime = (TextView) ctDialog.findViewById(R.id.stageTime);
+                //taskTime.setText(taskTimeValue);
+                if(taskTime.getText().length() == 0){
+                    TextView time = findViewById(R.id.stageTime);
+                    time.setError("Time cannot be left blank");
+                    return;
+                }
+
+                Switch allDay = (Switch) ctDialog.findViewById(R.id.isAllDay);
+                if (allDay.isChecked()){
+                    //taskTime = "All day";
+                    //TODO: change the time of the task to just go off at the day instead of the time
+                }
+
+                EditText taskNotes = (EditText) ctDialog.findViewById(R.id.taskDescription);
+                if(taskNotes.getText().length() == 0){
+                    taskNotes.setText(""); // IIf user didn't specify priority just set to 1
+                }
+
+                TextView priority = (TextView) ctDialog.findViewById(R.id.stageNameDialog);
+                if(priority.getText().toString().equals("")){
+                    priority.setText("1"); // IIf user didn't specify priority just set to 1
+                }
+
+                //Generating of TaskID
+                UUID taskID = UUID.randomUUID();
+                int id = (int) System.currentTimeMillis();
+                boolean saveCompleted = db.insertData(taskNameDialog.getText().toString(), 1, dueDate.getText().toString(), taskNotes.getText().toString(), 0, taskID, taskTime.getText().toString(), id);
+
+                if (saveCompleted) {
+                    Intent intent1 = new Intent(MainActivity.this, StartService.class);
+                    intent1.putExtra("Task Name", taskNameDialog.getText().toString());
+
+                    PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, id, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    long diff = Calendar.getInstance().getTimeInMillis() - calendar.getTimeInMillis();
+
+                    if (diff > 0) { // To accommodate if the user input's time from the past e.g Current Date: 4/15/19 1:03 p.m Set Date : 4/14/19 1:03 p.m
+                        calendar.add(Calendar.DATE, 1);
+                    }
+
+                    am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                    toast = Toast.makeText(MainActivity.this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
+
+                    toast.show();
+                    populateArrayList(db, sortSelector);
+                    adapter.updateData();
+                    ctDialog.dismiss();
+
+                } else {
+
+                    toast = Toast.makeText(getApplicationContext(), "Task failed to save", Toast.LENGTH_LONG);
+                    toast.show();
+                    //return false;
+
+                }
+
+            }
+        });
+
+
+    }
+
+    public void showNumberPicker() {
+        final Dialog numPicker = new Dialog(this);
+        numPicker.setTitle("NumberPicker");
+        numPicker.setContentView(R.layout.number_picker_dialog);
+        Button b1 = (Button) numPicker.findViewById(R.id.button1);
+        Button b2 = (Button) numPicker.findViewById(R.id.button2);
+        final NumberPicker np = numPicker.findViewById(R.id.numberPicker1);
+
+        np.setMaxValue(5); // max value 100
+        np.setMinValue(1);   // min value 0
+        np.setWrapSelectorWheel(true);
+        np.setOnValueChangedListener(mNumberSetListener);
+
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // nPDialog.setText(String.valueOf(np.getValue()));
+                numPicker.dismiss();
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numPicker.dismiss(); // dismiss the dialog
+            }
+        });
+        numPicker.show();
+
+
     }
 
 
@@ -374,7 +690,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_completed_tasks) {
             openCompletedTasks();
 
-        }  else if (id == R.id.nav_reminder) {
+        }
+        else if(id == R.id.nav_project) {
+            startActivity(new Intent(MainActivity.this, CreateProject.class));
+        }else if (id == R.id.nav_reminder) {
             openReminderActivity();
         }else if(id == R.id.customization){
             openCustomizationActivity();
@@ -386,4 +705,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+
+
+    private String fixTaskName(String taskName){
+        char capitalLetter = Character.toUpperCase(taskName.charAt(0));
+        return taskName.replace(taskName.charAt(0),capitalLetter);
+
+
+    }
+
+
+
+
+//    @Override
+//    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+//
+//    }
 }

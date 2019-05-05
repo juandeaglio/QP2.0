@@ -9,6 +9,10 @@
             android:icon="@drawable/home_icon_menu"
             android:title="Home"
             />
+        <item android:id="@+id/nav_project"
+            android:icon="@drawable/ic_alarm_on_white_24dp"
+            android:title="Projects"
+            />
         <item
             android:id="@+id/nav_calendar"
             android:icon="@drawable/ic_calendar_with_a_clock_time_tools"
@@ -21,7 +25,7 @@
 
         <item
             android:id="@+id/nav_completed_tasks"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/check_mark"
             android:title="Completed Tasks" />
 
         <item
