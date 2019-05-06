@@ -60,7 +60,7 @@ public class Customization extends AppCompatActivity
             Tooltip cardToolTip = new Tooltip.Builder(findViewById(R.id.card3))
                     .setText("Tap on a card to change the color for cards.")
                     .setBackgroundColor(defaultColorAccent)
-                    .setGravity(Gravity.END)
+                    .setGravity(Gravity.BOTTOM)
                     .setCancelable(true)
                     .show();
         }
@@ -69,20 +69,19 @@ public class Customization extends AppCompatActivity
             Tooltip cardToolTip = new Tooltip.Builder(findViewById(R.id.toolbar2))
                     .setText("Tap on the header to change the color for the header.")
                     .setBackgroundColor(defaultColorPrimaryDark)
-                    .setGravity(Gravity.END)
+                    .setGravity(Gravity.START)
                     .setCancelable(true)
                     .show();
         }
 
         Button saveTaskBtn = (Button)findViewById(R.id.saveColorButton);
         Button cancelButton = (Button)findViewById(R.id.cancelColorButton);
-
+        Button defaultButton = (Button)findViewById(R.id.defaultButton);
         saveTaskBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                //TODO: restart the app.
                 if(saveColors())
                 {
                     goBackToHomepage();
@@ -103,7 +102,19 @@ public class Customization extends AppCompatActivity
             }
         });
 
-
+        defaultButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                colorManager.setColorPrimary(getResources().getColor(R.color.colorPrimary));
+                colorManager.setColorPrimaryDark(getResources().getColor(R.color.colorPrimaryDark));
+                colorManager.setColorAccent(getResources().getColor(R.color.colorAccent));
+                colorManager.setColorText(getResources().getColor(R.color.colorBackgroundReminder));
+                finish();
+                startActivity(getIntent());
+            }
+        });
         colorArr = new int[]{defaultColorPrimary ,defaultColorPrimaryDark, defaultColorAccent, defaultColorText};
 
         colorArr[0] = defaultColorPrimary;

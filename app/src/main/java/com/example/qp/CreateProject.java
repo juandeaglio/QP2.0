@@ -238,7 +238,7 @@ public class CreateProject extends AppCompatActivity {
         });
 
         final TextView stageDueDate = ctDialog.findViewById(R.id.stageDueDate);
-
+        ctDialog.findViewById(R.id.toolbar3).setBackgroundColor(colorManager.getColorAccent());
         stageDueDate.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -249,7 +249,6 @@ public class CreateProject extends AppCompatActivity {
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog dialog = new DatePickerDialog(CreateProject.this, mDateSetListener, year, month, day);
-                dialog.getWindow().setStatusBarColor(colorManager.getColorAccent());
                 //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
 
