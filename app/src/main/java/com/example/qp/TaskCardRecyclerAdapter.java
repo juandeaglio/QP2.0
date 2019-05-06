@@ -290,6 +290,14 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
             }
         });
 
+        Button cancelButton = (Button) vtDialog.findViewById(R.id.cancelButtonDialog);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                vtDialog.dismiss();
+            }
+        });
+
         Button saveButton = (Button) vtDialog.findViewById(R.id.saveTaskButtonDialog);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override

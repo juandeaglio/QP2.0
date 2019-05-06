@@ -268,7 +268,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 }
             }
 
-
         return -1; //Error
     }
 
@@ -293,7 +292,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_2, dueDate);
         contentValues.put(COL_3, priority);
         contentValues.put(COL_4, description);
-        contentValues.put(COL_5,isCompleted);
+        contentValues.put(COL_5, isCompleted);
         contentValues.put(COL_6, taskID.toString());
         contentValues.put(COL_7, taskTime);
 

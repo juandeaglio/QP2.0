@@ -13,7 +13,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".CreateProject"
-            android:label="@string/title_activity_create_project"
+            android:label="Create New Project"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Customization"
