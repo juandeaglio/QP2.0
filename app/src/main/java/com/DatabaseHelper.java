@@ -81,7 +81,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + COLORS_TABLE_NAME + "(Color_Primary int, Color_Primary_Dark int, Color_Primary_Accent int, Text_Color int)");
 
         //Project/Stages tables
-        db.execSQL("create table " + PROJECT_TABLE_NAME + "(Project_ID varchar(255) PRIMARY KEY, Project_name varchar(255),Project_Due_Date varchar(255), Project_Time varchar(255), Project_Description varchar(255))");
+        db.execSQL("create table " + PROJECT_TABLE_NAME + "(Project_ID varchar(255) PRIMARY KEY, Project_name varchar(255),Project_Due_Date varchar(255), Project_Time varchar(255), Project_Description varchar(255), Num_Of_Stages int)");
         db.execSQL("create table " + STAGE_TABLE_NAME + "(Stage_ID varchar(255) PRIMARY KEY, Stage_Name varchar(255), Stage_Due_Date varchar(255), Stage_Description varchar(255), Stage_Num int, Stage_Pending_Intent_ID int,Project_ID varchar(255), FOREIGN KEY (Project_ID) REFERENCES project_table (Project_ID))");
 
 
@@ -149,7 +149,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(PROJECT_COL_5,projectDesc );
         contentValues.put(PROJECT_COL_6, numOfStages);
 
-        long result = projectDB.insert(STAGE_TABLE_NAME, null , contentValues );
+        long result = projectDB.insert(PROJECT_TABLE_NAME, null , contentValues );
 
 
         if (result == -1){

@@ -173,7 +173,7 @@ public class CreateProject extends AppCompatActivity {
                 for (Stage currentStage : newProject.stageList) {
                     boolean saveCompleted = db.insertStageData(currentStage.getStageID().toString(), currentStage.getStageName(), currentStage.getStageDueDate(), currentStage.getStageDescription(),"1",currentStage.getPendingIntentID(),newProject.projectId.toString());
                     if(saveCompleted){
-                        //Stages saved
+                        System.out.println("saveCompleted = " + saveCompleted);
                     }
                     else {
                         //error
@@ -182,11 +182,14 @@ public class CreateProject extends AppCompatActivity {
                     }
                 }
 
-                boolean saveProjectCompeleted = db.insertProjectData(newProject.projectId.toString(),newProject.projectName, newProject.dueDate, newProject.timeDueDate, newProject.description, newProject.stageList.size());
+                boolean saveProjectData = db.insertProjectData(newProject.projectId.toString(),newProject.projectName, newProject.dueDate, newProject.timeDueDate, newProject.description, newProject.stageList.size());
 
-                if(saveProjectCompeleted){
+                if(saveProjectData){
                     toast = Toast.makeText(CreateProject.this, "Project saved successfully!", Toast.LENGTH_LONG);
                     toast.show();
+                    startActivity(new Intent(CreateProject.this, MainActivity.class));
+                    CustomIntent.customType(CreateProject.this, "left-to-right");
+
                 }
                 else {
                     toast = Toast.makeText(CreateProject.this, "Project failed to save", Toast.LENGTH_LONG);
@@ -354,8 +357,7 @@ public class CreateProject extends AppCompatActivity {
                 //Generating of StageID
 
                 int pendinIntentID = (int) System.currentTimeMillis();
-                //todo insert into stage table
-//                boolean saveCompleted = db.insertData(stageNameDialog.getText().toString(), 1, dueDate.getText().toString(), taskNotes.getText().toString(), 0, stageID, taskTime.getText().toString(), id);
+
 
                 Stage newStage = new Stage(stageNameDialog.getText().toString(), dueDate.getText().toString(), stageTime.getText().toString(), stageDesc.getText().toString(), 0, String.valueOf(pendinIntentID), newProject.projectId.toString());
 
