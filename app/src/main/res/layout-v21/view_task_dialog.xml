@@ -28,6 +28,7 @@
         android:background="@android:drawable/btn_dropdown"
         android:ems="10"
         android:hint="Due Date"
+        android:fontFamily="@font/poppins"
         android:paddingLeft="10sp"
         android:paddingTop="5dp"
         android:textColor="@android:color/black"
@@ -103,6 +104,8 @@
         android:layout_marginEnd="76dp"
         android:layout_marginBottom="40dp"
         android:text="Save"
+        android:fontFamily="@font/poppins"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
