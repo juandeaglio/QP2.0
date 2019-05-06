@@ -39,13 +39,12 @@
     </LinearLayout>
 
 
-
     <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:id="@+id/reminder_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="354dp"
         android:layout_below="@id/add_reminder_layout_top"
         android:layout_marginTop="-1dp">
-
 
 
         <LinearLayout
@@ -308,5 +307,12 @@
         android:layout_height="2dp"
         android:layout_below="@+id/add_reminder_layout_top"
         android:background="@drawable/toolbar_dropshadow" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/reminder_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="269dp"
+        android:layout_below="@+id/reminder_scroll_view"
+        android:layout_marginTop="3dp" />
 
 </RelativeLayout>
