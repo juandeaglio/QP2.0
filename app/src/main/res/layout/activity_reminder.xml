@@ -285,6 +285,17 @@
 
                 </LinearLayout>
 
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/floatingActionButtonSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="16dp"
+                    fab:srcCompat="@drawable/alarm_on" />
+
             </RelativeLayout>
 
         </LinearLayout>

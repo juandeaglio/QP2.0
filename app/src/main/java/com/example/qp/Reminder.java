@@ -61,7 +61,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private ReminderObject reminder;
 
-    DatabaseHelper db = new DatabaseHelper(this);
+    DatabaseHelper db;
     AlarmManager am;
 
     public ColorManager colorManager;
@@ -74,6 +74,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reminder);
 
+        db = new DatabaseHelper(this);
 
         mTitleText = (EditText) findViewById(R.id.reminder_title);
         mDateText = (TextView) findViewById(R.id.set_date);
@@ -82,7 +83,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
         mRepeatNoText = (TextView) findViewById(R.id.set_repeat_no);
         mRepeatTypeText = (TextView) findViewById(R.id.set_repeat_type);
         mRepeatSwitch = (Switch) findViewById(R.id.repeat_switch);
-        //mSaveButton = (FloatingActionButton) findViewById(R.id.floatingActionButtonSave);
+        mSaveButton = (FloatingActionButton) findViewById(R.id.floatingActionButtonSave);
 
         // Initialize default values
         mActive = "true";
