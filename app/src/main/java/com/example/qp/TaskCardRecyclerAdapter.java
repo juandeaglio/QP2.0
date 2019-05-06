@@ -173,8 +173,8 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
                 DatabaseHelper db = new DatabaseHelper(context);
                 db.deleteTask(taskID);
 
+
                 updateData();
-                //Update home page cards
                 vtDialog.dismiss();
 
                 //deletePrompt.show()

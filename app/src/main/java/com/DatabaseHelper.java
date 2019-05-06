@@ -7,6 +7,9 @@ import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.qp.MainActivity;
+
 import java.util.UUID;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -45,6 +48,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLOR_COL_2 = "Color_Primary_Dark";
     public static final String COLOR_COL_3 = "Color_Primary_Accent";
     public static final String COLOR_COL_4 = "Text_Color";
+
+    //private MainActivity mainActivity = new MainActivity();
 
 
     public String[] allColumns = {COL_1, COL_2, COL_3, COL_4, COL_5, COL_6, COL_7};
