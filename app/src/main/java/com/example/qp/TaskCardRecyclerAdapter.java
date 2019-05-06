@@ -1,22 +1,28 @@
 package com.example.qp;
 
 import android.app.AlarmManager;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.DatabaseHelper;
@@ -35,11 +41,11 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
     private ColorManager colorManager;
     private Toast toast;
     private String taskIDV;
-   /* public TaskCardRecyclerAdapter(ArrayList<Task> globalTaskList, MainActivity context) {
-        this.taskList = globalTaskList;
-        this.context = context;
-        this.db = new DatabaseHelper(context);
-    }*/
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private TimePickerDialog.OnTimeSetListener mTimeSetListener;
+    private NumberPicker.OnValueChangeListener mNumberSetListener;
+
+
 
     public class TaskCardViewHolder extends RecyclerView.ViewHolder {
         CardView taskCard;
@@ -170,16 +176,102 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         TextView viewTaskTime = (TextView) vtDialog.findViewById(R.id.stageTime);
         viewTaskTime.setText(currentTask.getTimeDueDate());
 
+        viewTaskTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int hourOfDay = Calendar.HOUR_OF_DAY;
+                int minute = Calendar.MINUTE;
+                TimePickerDialog timePicker = new TimePickerDialog(context, mTimeSetListener,hourOfDay,minute, false );
+                //timePicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                timePicker.show();
+            }
+        });
+
+        mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                TextView taskTime = (TextView) vtDialog.findViewById(R.id.stageTime);
+                String am_pm = "";
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                calendar.set(Calendar.MINUTE, minute);
+                calendar.set(Calendar.SECOND,0);
+                calendar.set(Calendar.MILLISECOND,0);
+
+                if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
+                    am_pm = "AM";
+                } else if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
+                    am_pm = "PM";
+                }
+                String tempText = (calendar.get(Calendar.HOUR) == 0) ? "12" : calendar.get(Calendar.HOUR) + "";
+                String minuteStr = "";
+
+                if (minute <= 9) {
+                    minuteStr = "0" + String.valueOf(minute);
+                } else {
+                    minuteStr = String.valueOf(minute);
+                }
+                //taskTimeValue = tempText + ":" + minuteStr + " " + am_pm;
+                taskTime.setText(tempText + ":" + minuteStr + " " + am_pm);
+            }
+        };
+
+
+
+
+
         //TODO: Make taskTime and taskDueDate listeners like in create Task dialog - Ethan
 
-        TextView viewTaskDueDate = (TextView) vtDialog.findViewById(R.id.stageDueDate);
+        final TextView viewTaskDueDate = (TextView) vtDialog.findViewById(R.id.stageDueDate);
         viewTaskDueDate.setText(currentTask.getDueDate());
+
+        viewTaskDueDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(context, mDateSetListener, year, month, day);
+
+                //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year, month, dayOfMonth);
+                Log.d("Date Picker", "onDateSet: date " + (month + 1) + "/" + dayOfMonth + "/" + year);
+                viewTaskDueDate.setText((month + 1) + "/" + (dayOfMonth) + "/" + year);
+                //taskDueDateValue = String.valueOf(month + 1) + "/" + String.valueOf(dayOfMonth) + "/" + String.valueOf(year);
+
+            }
+        };
 
         EditText viewTaskDescription = (EditText) vtDialog.findViewById(R.id.taskDescription);
         viewTaskDescription.setText(currentTask.getDescription());
 
-        TextView viewTaskPriority = (TextView) vtDialog.findViewById(R.id.taskPriorityDialog);
+        final TextView viewTaskPriority = (TextView) vtDialog.findViewById(R.id.taskPriorityDialog);
         viewTaskPriority.setText(String.valueOf(currentTask.getPriority()));
+
+        viewTaskPriority.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNumberPicker();
+
+            }
+        });
+        mNumberSetListener = new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                viewTaskPriority.setText(String.valueOf(newVal));
+            }
+        };
+
 
         final Button deleteButton = (Button) vtDialog.findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -191,7 +283,6 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
 
                 mainActivity.populateArrayList(db, mainActivity.sortSelector);
                 updateData();
-                //Update home page cards
                 vtDialog.dismiss();
 
 
@@ -254,13 +345,13 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
                     am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
                     mainActivity.populateArrayList(db, mainActivity.sortSelector);
                     updateData();
-                    toast = Toast.makeText(context, "Reminder Successfully Saved!", Toast.LENGTH_SHORT);
+                    toast = Toast.makeText(context, "Task edits saved!", Toast.LENGTH_SHORT);
                     toast.show();
                     vtDialog.dismiss();
                 }
                 else
                 {
-                    toast = Toast.makeText(mainActivity,"Task failed to save", Toast.LENGTH_LONG);
+                    toast = Toast.makeText(mainActivity,"Failed to save Task edits", Toast.LENGTH_LONG);
                     toast.show();
                 }
 
@@ -268,6 +359,38 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
             }
         });
 
+
+
+    }
+
+
+    public void showNumberPicker() {
+        final Dialog numPicker = new Dialog(context);
+        numPicker.setTitle("NumberPicker");
+        numPicker.setContentView(R.layout.number_picker_dialog);
+        Button b1 = (Button) numPicker.findViewById(R.id.button1);
+        Button b2 = (Button) numPicker.findViewById(R.id.button2);
+        final NumberPicker np = numPicker.findViewById(R.id.numberPicker1);
+
+        np.setMaxValue(5); // max value 100
+        np.setMinValue(1);   // min value 0
+        np.setWrapSelectorWheel(true);
+        np.setOnValueChangedListener(mNumberSetListener);
+
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // nPDialog.setText(String.valueOf(np.getValue()));
+                numPicker.dismiss();
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numPicker.dismiss(); // dismiss the dialog
+            }
+        });
+        numPicker.show();
 
 
     }
