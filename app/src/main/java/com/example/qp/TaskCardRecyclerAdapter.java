@@ -164,6 +164,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         final Dialog vtDialog = new Dialog(context);
         vtDialog.setTitle("View Task");
         vtDialog.setContentView(R.layout.view_task_dialog);
+        vtDialog.findViewById(R.id.toolbar3).setBackgroundColor(colorManager.getColorAccent());
         vtDialog.show();
         Task currentTask = getTaskFromList(taskID);
 
@@ -182,6 +183,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
                 int hourOfDay = Calendar.HOUR_OF_DAY;
                 int minute = Calendar.MINUTE;
                 TimePickerDialog timePicker = new TimePickerDialog(context, mTimeSetListener,hourOfDay,minute, false );
+
                 //timePicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 timePicker.show();
             }
@@ -233,8 +235,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(context, mDateSetListener, year, month, day);
-
+                DatePickerDialog dialog = new DatePickerDialog(context, android.R.style.Theme_Material_Light_Dialog, mDateSetListener, year, month, day);
                 //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }

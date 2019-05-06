@@ -134,9 +134,9 @@ public class Customization extends AppCompatActivity
 
         CardView[] cardArr = new CardView[]{card0, card1, card2};
 
-        String nameArr[] = {"Operating Systems Final","Some sort of task", "Not an interesting task."};
+        String nameArr[] = {"Test Task 1","Test Task 2", "Test Task 3"};
         String priorityArr[] = {"1", "2", "4"};
-        String dueDatesArr[] = {"Who knows?", "4/21/2086", "5/15/2019"};
+        String dueDatesArr[] = {"5/06/2040", "4/21/2086", "5/15/2019"};
         String timesArr[] = {"10:00 am", "4:39 pm", "2:00 pm"};
 
 

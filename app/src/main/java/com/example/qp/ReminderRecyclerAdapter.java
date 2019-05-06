@@ -44,7 +44,6 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
     @Override
     public void onBindViewHolder(final ReminderCardViewHolder reminderCardViewHolder, int i){
         final ReminderObject reminder = mReminderArrayList.get(i);
-
         reminderCardViewHolder.name.setText(reminder.getReminderName());
         reminderCardViewHolder.time.setText(reminder.getReminderTime());
 
