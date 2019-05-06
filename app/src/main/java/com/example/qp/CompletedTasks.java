@@ -116,9 +116,13 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
         int id = item.getItemId();
         if(id == R.id.nav_home){
             startActivity(new Intent(CompletedTasks.this, MainActivity.class));
+            CustomIntent.customType(this, "right-to-left");
+
         }
        else if (id == R.id.nav_calendar) {
             startActivity(new Intent(CompletedTasks.this, CalendarView.class));
+            CustomIntent.customType(this, "right-to-left");
+
 
         } else if (id == R.id.nav_completed_tasks) {
             Toast toast = Toast.makeText(getApplicationContext(),
@@ -128,6 +132,8 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
 
         }  else if (id == R.id.nav_reminder) {
             startActivity(new Intent(CompletedTasks.this, Reminder.class));
+            CustomIntent.customType(this, "right-to-left");
+
         }
 
 
