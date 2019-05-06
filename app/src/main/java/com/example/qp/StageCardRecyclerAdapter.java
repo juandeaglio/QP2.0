@@ -45,6 +45,7 @@ public class StageCardRecyclerAdapter extends RecyclerView.Adapter<StageCardRecy
         stageCardViewHolder.name.setText(stage.getStageName());
         stageCardViewHolder.dueDate.setText(stage.getStageDueDate());
         stageCardViewHolder.dueTime.setText(stage.getStageTimeDue());
+        stageCardViewHolder.stageNumber.setText(Integer.toString(stage.getStageNum()));
 
         colorManager = MainActivity.colorManager;
         stageCardViewHolder.cardView.setBackgroundColor(colorManager.getColorAccent());

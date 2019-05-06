@@ -45,6 +45,7 @@ public class CreateProject extends AppCompatActivity {
     private AlarmManager am;
     private Project newProject;
     ColorManager colorManager;
+    private StageCardRecyclerAdapter adapter;
 
     Calendar calendar = Calendar.getInstance();
 
@@ -210,12 +211,16 @@ public class CreateProject extends AppCompatActivity {
 
             }
         });
+        setUpRecycler();
     }
 
     public void setUpRecycler(){
-        StageCardRecyclerAdapter adapter;
-        RecyclerView recyclerView;
-        LinearLayoutManager layoutManager;
+        adapter = new StageCardRecyclerAdapter(newProject.stageList);
+        RecyclerView recyclerView = findViewById(R.id.stage_recycler);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
     }
 
 
@@ -395,7 +400,7 @@ public class CreateProject extends AppCompatActivity {
 
                 toast.show();
                 //populateArrayList(db, sortSelector);
-                //adapter.updateData();
+                adapter.notifyDataSetChanged();
                 ctDialog.dismiss();
 
 
