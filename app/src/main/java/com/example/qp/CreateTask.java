@@ -60,7 +60,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 
 
             this.toast = Toast.makeText(this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
-            this.dueDate = findViewById(R.id.taskDueDate);
+            this.dueDate = findViewById(R.id.stageDueDate);
             Button saveTaskBtn = findViewById(R.id.saveTaskButton);
             Button cancelButton = findViewById(R.id.cancelButton);
 
@@ -117,7 +117,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
                 }
             };
 
-            TextView time = findViewById(R.id.taskTimeDialog);
+            TextView time = findViewById(R.id.stageTime);
 
             time.setOnClickListener(new View.OnClickListener() {
 
@@ -247,14 +247,14 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             }
             taskName.setText(fixTaskName());
 
-            TextView dueDate = findViewById(R.id.taskDueDate);
+            TextView dueDate = findViewById(R.id.stageDueDate);
             if(this.taskDueDateValue.length() == 0){
                 dueDate.setError("Due Date cannot be blank");
                 return false;
             }
 
             if(this.taskTime.length() == 0){
-                TextView time = findViewById(R.id.taskTimeDialog);
+                TextView time = findViewById(R.id.stageTime);
                 time.setError("Time cannot be left blank");
                 return false;
             }

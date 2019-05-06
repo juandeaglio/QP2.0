@@ -29,7 +29,7 @@
         tools:textSize="20dp" />
 
     <TextView
-        android:id="@+id/taskTimeDialog"
+        android:id="@+id/stageTime"
         android:layout_width="180dp"
         android:layout_height="44dp"
         android:layout_marginStart="8dp"
@@ -188,7 +188,7 @@
 
 
     <TextView
-        android:id="@+id/taskDueDate"
+        android:id="@+id/stageDueDate"
         android:layout_width="180dp"
         android:layout_height="44dp"
         android:layout_marginStart="8dp"

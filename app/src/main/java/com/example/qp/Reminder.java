@@ -85,7 +85,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
         mRepeatNoText = (TextView) findViewById(R.id.set_repeat_no);
         mRepeatTypeText = (TextView) findViewById(R.id.set_repeat_type);
         mRepeatSwitch = (Switch) findViewById(R.id.repeat_switch);
-        mSaveButton = (FloatingActionButton) findViewById(R.id.floatingActionButtonSave);
+        //mSaveButton = (FloatingActionButton) findViewById(R.id.floatingActionButtonSave);
 
         // Initialize default values
         mActive = "true";

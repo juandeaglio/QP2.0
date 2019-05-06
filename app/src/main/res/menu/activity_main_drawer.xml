@@ -25,7 +25,7 @@
 
         <item
             android:id="@+id/nav_completed_tasks"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/check_mark"
             android:title="Completed Tasks" />
 
         <item
