@@ -14,7 +14,7 @@
         <activity
             android:name=".CreateProject"
             android:label="@string/title_activity_create_project"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Customization"
             android:label="@string/title_activity_customization"
@@ -61,7 +61,7 @@
         <activity
             android:name=".IntroActivity"
             android:label="walk through"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver
             android:name=".BroadCastService"

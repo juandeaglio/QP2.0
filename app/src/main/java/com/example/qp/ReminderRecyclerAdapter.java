@@ -52,7 +52,8 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
 
         reminderCardViewHolder.activeSwitch.setOnCheckedChangeListener(null);
         reminderCardViewHolder.activeSwitch.setChecked(reminder.isReminderToggle());
-        reminderCardViewHolder.activeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        reminderCardViewHolder.activeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
