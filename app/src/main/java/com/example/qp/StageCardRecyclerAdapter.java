@@ -2,17 +2,20 @@ package com.example.qp;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class StageCardRecyclerAdapter extends RecyclerView.Adapter<StageCardRecyclerAdapter.StageCardViewHolder>
+public class StageCardRecyclerAdapter extends RecyclerView.Adapter<StageCardRecyclerAdapter.StageCardViewHolder> implements StageTouchHelperAdapter
 {
     ColorManager colorManager;
     private ArrayList<Stage> stageArray;
+    private final ItemTouchHelper mItemTouchHelper;
     public class StageCardViewHolder extends RecyclerView.ViewHolder{
         CardView cardView;
         TextView name;
@@ -29,8 +32,9 @@ public class StageCardRecyclerAdapter extends RecyclerView.Adapter<StageCardRecy
         }
     }
 
-    public StageCardRecyclerAdapter(ArrayList<Stage> stageArray){
+    public StageCardRecyclerAdapter(ArrayList<Stage> stageArray, ItemTouchHelper itemTouchHelper){
         this.stageArray = stageArray;
+        mItemTouchHelper = itemTouchHelper;
     }
 
     @Override
@@ -39,7 +43,22 @@ public class StageCardRecyclerAdapter extends RecyclerView.Adapter<StageCardRecy
     }
 
     @Override
-    public void onBindViewHolder(StageCardViewHolder stageCardViewHolder, int i){
+    public void onItemDismiss(int position) {
+        stageArray.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        Collections.swap(stageArray, fromPosition, toPosition);
+        // TODO: 5/6/2019 ADD LOGIC TO CHANGE ORDER IN DATABASE
+
+        notifyItemMoved(fromPosition, toPosition);
+        return true;
+    }
+
+    @Override
+    public void onBindViewHolder(final StageCardViewHolder stageCardViewHolder, int i){
         final Stage stage = stageArray.get(i);
 
         stageCardViewHolder.name.setText(stage.getStageName());
@@ -49,6 +68,13 @@ public class StageCardRecyclerAdapter extends RecyclerView.Adapter<StageCardRecy
 
         colorManager = MainActivity.colorManager;
         stageCardViewHolder.cardView.setBackgroundColor(colorManager.getColorAccent());
+        stageCardViewHolder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                mItemTouchHelper.startDrag(stageCardViewHolder);
+                return false;
+            }
+        });
     }
 
     @Override

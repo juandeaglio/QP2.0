@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.support.v7.widget.helper.ItemTouchHelper.Callback;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,7 +34,16 @@ public class SwipeController extends Callback {
     private int colorDelete;
     private Paint paint = new Paint();
     private final RectF background;
-
+    private StageTouchHelperAdapter mItemTouchHelper;
+    public SwipeController(SwipeControllerActions swipeActions, Context context, StageTouchHelperAdapter itemTouchHelper) {
+        this.swipeActions = swipeActions;
+        icon = ContextCompat.getDrawable(context, R.drawable.delete_icon);
+        icon2 = ContextCompat.getDrawable(context, R.drawable.ic_check_white_24dp);
+        background = new RectF(0,0,0,0);
+        colorDelete = context.getResources().getColor(R.color.colorDelete);
+        colorComplete = context.getResources().getColor(R.color.colorComplete);
+        mItemTouchHelper = itemTouchHelper;
+    }
     public SwipeController(SwipeControllerActions swipeActions, Context context) {
         this.swipeActions = swipeActions;
         icon = ContextCompat.getDrawable(context, R.drawable.delete_icon);
@@ -41,16 +51,27 @@ public class SwipeController extends Callback {
         background = new RectF(0,0,0,0);
         colorDelete = context.getResources().getColor(R.color.colorDelete);
         colorComplete = context.getResources().getColor(R.color.colorComplete);
+        mItemTouchHelper = null;
+    }
+
+    public void setItemTouchHelper(StageTouchHelperAdapter stageTouchHelperAdapter){
+        mItemTouchHelper = stageTouchHelperAdapter;
     }
 
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        return makeMovementFlags(0, LEFT | RIGHT);
+        return makeMovementFlags(UP|DOWN, LEFT | RIGHT);
     }
 
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        return false;
+        if (viewHolder.getItemViewType() != target.getItemViewType()) {
+            return false;
+        }
+
+        // Notify the adapter of the move
+        mItemTouchHelper.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        return true;
     }
 
     @Override
