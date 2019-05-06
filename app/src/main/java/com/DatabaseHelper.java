@@ -3,12 +3,8 @@ package com;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseErrorHandler;
-import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.example.qp.MainActivity;
 
 import java.util.UUID;
 
@@ -27,8 +23,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_8 = "Task_Pending_Intent";
 
 
-
-
     public static final String REMINDERS_TABLE_NAME = "reminders_table";
     // COLS for Reminders table
     public static final String R_COL_1 = "Intent_ID";
@@ -40,8 +34,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String R_COL_7 = "Reminder_Time";
 
 
-
-
     public static final String COLORS_TABLE_NAME = "colors_table";
     // COLS for Colors table
     public static final String COLOR_COL_1 = "Color_Primary";
@@ -49,7 +41,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLOR_COL_3 = "Color_Primary_Accent";
     public static final String COLOR_COL_4 = "Text_Color";
 
-    //private MainActivity mainActivity = new MainActivity();
+    public static final String PROJECT_TABLE_NAME = "project_table";
+    public static final String PROJECT_COL_1 = "Project_ID"; //Primary Key
+    public static final String PROJECT_COL_2 = "Project_Name";
+    public static final String PROJECT_COL_3 = "Project_Due_Date";
+    public static final String PROJECT_COL_4 = "Project_Time";
+    public static final String PROJECT_COL_5 = "Project_Description";
+    public static final String PROJECT_COL_6 = "Num_of_Stages";
+
+
+    public static final String STAGE_TABLE_NAME = "stage_table";
+    public static final String STAGE_COL_1 = "Stage_ID";
+    public static final String STAGE_COL_2 = "Stage_Name";
+    public static final String STAGE_COL_3 = "Stage_Due_Date";
+    public static final String STAGE_COL_4 = "Stage_Description";
+    public static final String STAGE_COL_5 = "Stage_Num";
+    public static final String STAGE_COL_6 = "Stage_Pending_Intent_ID";
+    public static final String STAGE_COL_7 = "Project_ID";
+
+
+
+
+
+
 
 
     public String[] allColumns = {COL_1, COL_2, COL_3, COL_4, COL_5, COL_6, COL_7};
@@ -65,6 +79,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + TABLE_NAME + "(Task_Name varchar(255), Task_Due_Date varchar(255), Task_Priority INT, Task_Description varchar(255), Task_Completed INT, Task_ID varchar(255), Task_Time varchar(255), Task_Pending_Intent int)"); //SQL querey creating our database
         db.execSQL("create table " + REMINDERS_TABLE_NAME + "(Intent_ID int, Reminder_ID varchar(255), Reminder_Name varchar(255), Reminder_Date varchar(255), Reminder_Interval int, Reminder_Interval_Type varchar(255), Reminder_Time varchar(255))"); //SQL query to create the reminder table
         db.execSQL("create table " + COLORS_TABLE_NAME + "(Color_Primary int, Color_Primary_Dark int, Color_Primary_Accent int, Text_Color int)");
+
+        //Project/Stages tables
+        db.execSQL("create table " + PROJECT_TABLE_NAME + "(Project_ID varchar(255) PRIMARY KEY, Project_name varchar(255),Project_Due_Date varchar(255), Project_Time varchar(255), Project_Description varchar(255), Num_Of_Stages int)");
+        db.execSQL("create table " + STAGE_TABLE_NAME + "(Stage_ID varchar(255) PRIMARY KEY, Stage_Name varchar(255), Stage_Due_Date varchar(255), Stage_Description varchar(255), Stage_Num int, Stage_Pending_Intent_ID int,Project_ID varchar(255), FOREIGN KEY (Project_ID) REFERENCES project_table (Project_ID))");
+
+
     }
 
     @Override
@@ -93,6 +113,60 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         else {
             return true;
         }
+    }
+
+    public boolean insertStageData(String stage_ID, String stage_Name, String stage_Due_Date, String stage_Description, String stage_Num, String stage_Pending_Intent_ID,String project_ID){
+        SQLiteDatabase stageDB = getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(STAGE_COL_1, stage_ID);
+        contentValues.put(STAGE_COL_2, stage_Name);
+        contentValues.put(STAGE_COL_3, stage_Due_Date);
+        contentValues.put(STAGE_COL_4, stage_Description);
+        contentValues.put(STAGE_COL_5, stage_Num);
+        contentValues.put(STAGE_COL_6, stage_Pending_Intent_ID);
+        contentValues.put(STAGE_COL_7, project_ID);
+
+        long result = stageDB.insert(STAGE_TABLE_NAME, null , contentValues );
+
+
+        if (result == -1){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    public boolean insertProjectData(String project_ID, String projectName,String projectDueDate, String projectTime, String projectDesc, int numOfStages){
+        SQLiteDatabase projectDB = getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(PROJECT_COL_1, project_ID);
+        contentValues.put(PROJECT_COL_2, projectName);
+        contentValues.put(PROJECT_COL_3, projectDueDate);
+        contentValues.put(PROJECT_COL_4, projectTime);
+        contentValues.put(PROJECT_COL_5,projectDesc );
+        contentValues.put(PROJECT_COL_6, numOfStages);
+
+        long result = projectDB.insert(PROJECT_TABLE_NAME, null , contentValues );
+
+
+        if (result == -1){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+
+
+    public Cursor getAllStagesForProject(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor result = db.rawQuery("select Stage_ID, Stage_Name, Stage_Due_Date, Stage_Description, Stage_Num, Project_ID from " + STAGE_TABLE_NAME + " s"  + " join project_table p on s.Project_ID = p.Project_ID",null);
+
+        return result;
     }
 
     public boolean checkIfColorExists(){

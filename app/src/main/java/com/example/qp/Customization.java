@@ -1,5 +1,6 @@
 package com.example.qp;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,7 +30,11 @@ public class Customization extends AppCompatActivity
     int currentIndex = 0;
     int currentColor;
     ColorManager colorManager;
+
+    Toast toast;
+
     int [] colorArr = new int[4];
+
     DatabaseHelper db = new DatabaseHelper(this);
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -45,6 +50,10 @@ public class Customization extends AppCompatActivity
         int defaultColorPrimaryDark = colorManager.getColorPrimaryDark();
         int defaultColorAccent = colorManager.getColorAccent();
         int defaultColorText = colorManager.getColorText();
+
+
+        this.toast = Toast.makeText(this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
+
 
         if(defaultColorPrimaryDark == getResources().getColor(R.color.colorPrimaryDark))
         {
@@ -64,8 +73,9 @@ public class Customization extends AppCompatActivity
                     .setCancelable(true)
                     .show();
         }
-        Button saveTaskBtn = findViewById(R.id.saveColorButton);
-        Button cancelButton = findViewById(R.id.cancelColorButton);
+
+        Button saveTaskBtn = (Button)findViewById(R.id.saveColorButton);
+        Button cancelButton = (Button)findViewById(R.id.cancelColorButton);
 
         saveTaskBtn.setOnClickListener(new View.OnClickListener()
         {
@@ -93,10 +103,14 @@ public class Customization extends AppCompatActivity
             }
         });
 
+
+        colorArr = new int[]{defaultColorPrimary ,defaultColorPrimaryDark, defaultColorAccent, defaultColorText};
+
         colorArr[0] = defaultColorPrimary;
         colorArr[1] = defaultColorPrimaryDark;
         colorArr[2] = defaultColorAccent;
         colorArr[3] = defaultColorText;
+
         toolbar.setBackgroundColor(defaultColorAccent);
         //setStatusBarColor(findViewById(R.id.statusBarBackground), defaultColorAccent);
         Window window = getWindow();
@@ -168,12 +182,24 @@ public class Customization extends AppCompatActivity
             {
                 currentColor = color;
                 colorArr[currentIndex] = currentColor;
+
+                if(colorArr[0] != colorManager.getColorPrimary() || colorArr[1] != colorManager.getColorPrimaryDark() || colorArr[2] != colorManager.getColorAccent() || colorArr[3] != colorManager.getColorText())
+                {
+                    colorManager.setColorPrimary(colorArr[0]);
+                    colorManager.setColorPrimaryDark(colorArr[1]);
+                    colorManager.setColorAccent(colorArr[2]);
+                    colorManager.setColorText(colorArr[3]);
+                    finish();
+                    startActivity(getIntent());
+                }
+
                 colorManager.setColorPrimary(colorArr[0]);
                 colorManager.setColorPrimaryDark(colorArr[1]);
                 colorManager.setColorAccent(colorArr[2]);
                 colorManager.setColorText(colorArr[3]);
                 finish();
                 startActivity(getIntent());
+
             }
         });
         colorPicker.show();
@@ -182,9 +208,8 @@ public class Customization extends AppCompatActivity
 
     public void goBackToHomepage()
     {
-        //startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, MainActivity.class));
         CustomIntent.customType(this, "right-to-left");
-
         this.finish();
     }
     public boolean saveColors()
@@ -201,6 +226,7 @@ public class Customization extends AppCompatActivity
         int darkVal = Integer.decode("0xAA0000");
         return color - darkVal;
     }
+
 
 }
 

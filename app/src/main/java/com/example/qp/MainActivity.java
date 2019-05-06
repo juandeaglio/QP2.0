@@ -131,11 +131,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Cursor colorVals = db.getColorValues();
             int tableIndex = 0;
             int colorArr[] = new int[4];
-            while (colorVals.moveToNext() && tableIndex < 4)
-            {
-                colorArr[tableIndex] = colorVals.getInt(tableIndex);
-                tableIndex++;
-            }
+
+            colorVals.moveToNext();
+            colorArr[0] = colorVals.getInt(0);
+            colorArr[1] = colorVals.getInt(1);
+            colorArr[2] = colorVals.getInt(2);
+            colorArr[3] = colorVals.getInt(3);
+
             colorManager = new ColorManager(0,0,0,0);
             colorManager.setColorPrimary(colorArr[0]);
             colorManager.setColorPrimaryDark(colorArr[1]);
@@ -163,8 +165,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        navigationView.setBackgroundColor(colorManager.getColorPrimaryDark());
+
         navigationView.setItemIconTintList(ColorStateList.valueOf(colorManager.getColorPrimaryDark()));
         navigationView.getHeaderView(0).setBackgroundColor(colorManager.getColorPrimaryDark());
+
         populateArrayList(this.db, this.sortSelector);
 
         adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
@@ -258,11 +263,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Cursor colorVals = db.getColorValues();
             int tableIndex = 0;
             int colorArr[] = new int[4];
-            while (colorVals.moveToNext() && tableIndex < 4)
-            {
-                colorArr[tableIndex] = colorVals.getInt(tableIndex);
-                tableIndex++;
-            }
+
+            colorVals.moveToNext();
+            colorArr[0] = colorVals.getInt(0);
+            colorArr[1] = colorVals.getInt(1);
+            colorArr[2] = colorVals.getInt(2);
+            colorArr[3] = colorVals.getInt(3);
+
+
             colorManager = new ColorManager(0,0,0,0);
             colorManager.setColorPrimary(colorArr[0]);
             colorManager.setColorPrimaryDark(colorArr[1]);
@@ -294,8 +302,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setBackgroundColor(colorManager.getColorPrimaryDark());
         navigationView.setItemIconTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
         navigationView.getHeaderView(0).setBackgroundColor(colorManager.getColorAccent());
+
     }
 
     public void createNotification(String aMessage, Context context) {
@@ -420,8 +430,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final Dialog ctDialog = new Dialog(this);
         ctDialog.setTitle("Create New Task");
         ctDialog.setContentView(R.layout.create_task_dialog);
+        ctDialog.findViewById(R.id.toolbar3).setBackgroundColor(colorManager.getColorAccent());
         ctDialog.show();
-        final EditText taskNameDialog = ctDialog.findViewById(R.id.taskNameDialog);
+        final EditText taskNameDialog = ctDialog.findViewById(R.id.stageNameDialog);
         EditText taskDescription = ctDialog.findViewById(R.id.taskDescription);
 
         Button cancelButtonDialog = (Button)ctDialog.findViewById(R.id.cancelButtonDialog);
@@ -432,7 +443,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        final TextView taskDueDate = ctDialog.findViewById(R.id.taskDueDate);
+        final TextView taskDueDate = ctDialog.findViewById(R.id.stageDueDate);
 
         taskDueDate.setOnClickListener(new View.OnClickListener() {
 
@@ -469,7 +480,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-        TextView time = ctDialog.findViewById(R.id.taskTimeDialog);
+        TextView time = ctDialog.findViewById(R.id.stageTime);
         time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -485,7 +496,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                TextView taskTime = (TextView) ctDialog.findViewById(R.id.taskTimeDialog);
+                TextView taskTime = (TextView) ctDialog.findViewById(R.id.stageTime);
                 String am_pm = "";
                 calendar = Calendar.getInstance();
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
@@ -539,15 +550,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 taskNameDialog.setText(fixTaskName(taskNameDialog.getText().toString()));
 
-                TextView dueDate = ctDialog.findViewById(R.id.taskDueDate);
+                TextView dueDate = ctDialog.findViewById(R.id.stageDueDate);
                 if(dueDate.length() == 0){
                     dueDate.setError("Due Date cannot be blank");
                     return;
                 }
-                TextView taskTime = (TextView) ctDialog.findViewById(R.id.taskTimeDialog);
+                TextView taskTime = (TextView) ctDialog.findViewById(R.id.stageTime);
                 //taskTime.setText(taskTimeValue);
                 if(taskTime.getText().length() == 0){
-                    TextView time = findViewById(R.id.taskTimeDialog);
+                    TextView time = findViewById(R.id.stageTime);
                     time.setError("Time cannot be left blank");
                     return;
                 }
@@ -563,7 +574,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     taskNotes.setText(""); // IIf user didn't specify priority just set to 1
                 }
 
-                TextView priority = (TextView) ctDialog.findViewById(R.id.taskNameDialog);
+                TextView priority = (TextView) ctDialog.findViewById(R.id.stageNameDialog);
                 if(priority.getText().toString().equals("")){
                     priority.setText("1"); // IIf user didn't specify priority just set to 1
                 }
@@ -695,7 +706,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_completed_tasks) {
             openCompletedTasks();
 
-        }  else if (id == R.id.nav_reminder) {
+        }
+        else if(id == R.id.nav_project) {
+            startActivity(new Intent(MainActivity.this, CreateProject.class));
+        }else if (id == R.id.nav_reminder) {
             openReminderActivity();
         }else if(id == R.id.customization){
             openCustomizationActivity();

@@ -12,6 +12,10 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".CreateProject"
+            android:label="@string/title_activity_create_project"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".Customization"
             android:label="@string/title_activity_customization"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -34,7 +38,6 @@
             android:name=".CreateTask"
             android:label="@string/title_activity_create_task"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".MainActivity"
             android:label="@string/homePage"
@@ -45,8 +48,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-
         <activity
             android:name=".splash_screen"
             android:label="@string/homePage"
@@ -60,9 +61,7 @@
         <activity
             android:name=".IntroActivity"
             android:label="walk through"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <receiver
             android:name=".BroadCastService"
