@@ -91,4 +91,12 @@ public class Stage {
     public void setProjectID(String projectID) {
         this.projectID = projectID;
     }
+
+    public int getStageNum() {
+        return stageNum;
+    }
+
+    public void setStageNum(int stageNum) {
+        this.stageNum = stageNum;
+    }
 }
