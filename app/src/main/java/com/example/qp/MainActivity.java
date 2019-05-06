@@ -599,6 +599,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
                     toast = Toast.makeText(MainActivity.this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
 
+//                    Snackbar.make(view, "Task Saved!", Snackbar.LENGTH_SHORT)
+//                            .show();
+
                     toast.show();
                     populateArrayList(db, sortSelector);
                     adapter.updateData();
