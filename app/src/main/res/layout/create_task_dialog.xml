@@ -73,6 +73,7 @@
         android:layout_marginBottom="84dp"
         android:background="@drawable/edit_text_border"
         android:hint="Priority"
+        android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textColorHint="@android:color/black"
         android:textSize="23sp"
