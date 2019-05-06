@@ -1,5 +1,6 @@
 package com.example.qp;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
         TextView time;
         TextView interval;
         Switch activeSwitch;
+        CardView cardView;
 
         public ReminderCardViewHolder(View v){
             super(v);
@@ -25,6 +27,7 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
             time = v.findViewById(R.id.card_reminder_time);
             interval = v.findViewById(R.id.card_reminder_interval);
             activeSwitch = v.findViewById(R.id.reminder_card_switch);
+            cardView = v.findViewById(R.id.reminder_card);
         }
     }
 
@@ -49,7 +52,8 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
 
         reminderCardViewHolder.activeSwitch.setOnCheckedChangeListener(null);
         reminderCardViewHolder.activeSwitch.setChecked(reminder.isReminderToggle());
-        reminderCardViewHolder.activeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        reminderCardViewHolder.activeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 

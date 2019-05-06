@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        navigationView.setBackgroundColor(colorManager.getColorPrimaryDark());
+        //navigationView.setBackgroundColor(colorManager.getColorPrimaryDark());
 
         navigationView.setItemIconTintList(ColorStateList.valueOf(colorManager.getColorPrimaryDark()));
         navigationView.getHeaderView(0).setBackgroundColor(colorManager.getColorPrimaryDark());
@@ -302,7 +302,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setBackgroundColor(colorManager.getColorPrimaryDark());
+        //navigationView.setBackgroundColor(colorManager.getColorPrimaryDark());
         navigationView.setItemIconTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
         navigationView.getHeaderView(0).setBackgroundColor(colorManager.getColorAccent());
 
