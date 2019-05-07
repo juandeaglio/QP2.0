@@ -43,9 +43,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String PROJECT_TABLE_NAME = "project_table";
     public static final String PROJECT_COL_1 = "Project_ID"; //Primary Key
-    public static final String PROJECT_COL_2 = "Project_Due_Date";
-    public static final String PROJECT_COL_3 = "Project_Time";
-    public static final String PROJECT_COL_4 = "Project_Description";
+    public static final String PROJECT_COL_2 = "Project_Name";
+    public static final String PROJECT_COL_3 = "Project_Due_Date";
+    public static final String PROJECT_COL_4 = "Project_Time";
+    public static final String PROJECT_COL_5 = "Project_Description";
+    public static final String PROJECT_COL_6 = "Num_of_Stages";
+
 
     public static final String STAGE_TABLE_NAME = "stage_table";
     public static final String STAGE_COL_1 = "Stage_ID";
@@ -53,12 +56,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String STAGE_COL_3 = "Stage_Due_Date";
     public static final String STAGE_COL_4 = "Stage_Description";
     public static final String STAGE_COL_5 = "Stage_Num";
-    public static final String STAGE_COL_6 = "Project_ID";
-
-
-
-
-
+    public static final String STAGE_COL_6 = "Stage_Pending_Intent_ID";
+    public static final String STAGE_COL_7 = "Project_ID";
 
 
 
@@ -77,8 +76,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + COLORS_TABLE_NAME + "(Color_Primary int, Color_Primary_Dark int, Color_Primary_Accent int, Text_Color int)");
 
         //Project/Stages tables
-        db.execSQL("create table " + PROJECT_TABLE_NAME + "(Project_ID varchar(255) PRIMARY KEY, Project_Due_Date varchar(255), Project_Time varchar(255), Project_Description varchar(255))");
-        db.execSQL("create table " + STAGE_TABLE_NAME + "(Stage_ID varchar(255) PRIMARY KEY, Stage_Name varchar(255), Stage_Due_Date varchar(255), Stage_Description varchar(255), Stage_Num int, Project_ID varchar(255), FOREIGN KEY (Project_ID) REFERENCES project_table (Project_ID))");
+        db.execSQL("create table " + PROJECT_TABLE_NAME + "(Project_ID varchar(255) PRIMARY KEY, Project_name varchar(255),Project_Due_Date varchar(255), Project_Time varchar(255), Project_Description varchar(255), Num_Of_Stages int)");
+        db.execSQL("create table " + STAGE_TABLE_NAME + "(Stage_ID varchar(255) PRIMARY KEY, Stage_Name varchar(255), Stage_Due_Date varchar(255), Stage_Description varchar(255), Stage_Num int, Stage_Pending_Intent_ID int,Project_ID varchar(255), FOREIGN KEY (Project_ID) REFERENCES project_table (Project_ID))");
 
 
     }
@@ -111,10 +110,56 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean insertStageData(String stage_ID, String stage_Name, String stage_Due_Date, String stage_Description, String stage_Num, String stage_Pending_Intent_ID,String project_ID){
+        SQLiteDatabase stageDB = getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(STAGE_COL_1, stage_ID);
+        contentValues.put(STAGE_COL_2, stage_Name);
+        contentValues.put(STAGE_COL_3, stage_Due_Date);
+        contentValues.put(STAGE_COL_4, stage_Description);
+        contentValues.put(STAGE_COL_5, stage_Num);
+        contentValues.put(STAGE_COL_6, stage_Pending_Intent_ID);
+        contentValues.put(STAGE_COL_7, project_ID);
+
+        long result = stageDB.insert(STAGE_TABLE_NAME, null , contentValues );
+
+
+        if (result == -1){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    public boolean insertProjectData(String project_ID, String projectName,String projectDueDate, String projectTime, String projectDesc, int numOfStages){
+        SQLiteDatabase projectDB = getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(PROJECT_COL_1, project_ID);
+        contentValues.put(PROJECT_COL_2, projectName);
+        contentValues.put(PROJECT_COL_3, projectDueDate);
+        contentValues.put(PROJECT_COL_4, projectTime);
+        contentValues.put(PROJECT_COL_5,projectDesc );
+        contentValues.put(PROJECT_COL_6, numOfStages);
+
+        long result = projectDB.insert(PROJECT_TABLE_NAME, null , contentValues );
+
+
+        if (result == -1){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+
 
     public Cursor getAllStagesForProject(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor result = db.rawQuery("select Stage_ID, Stage_Name, Stage_Due_Date, Stage_Description, Stage_Num, Project_ID from " + STAGE_TABLE_NAME + " s"  + " join project_table p on s.Project_ID = p.Project_ID",null);
+        Cursor result = db.rawQuery("select Stage_ID, Stage_Name, Stage_Due_Date, Stage_Description, Stage_Num, Stage_Pending_Intent_ID, s.Project_ID from " + STAGE_TABLE_NAME + " s"  + " join project_table p on s.Project_ID = p.Project_ID",null);
 
         return result;
     }
@@ -223,7 +268,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 }
             }
 
-
         return -1; //Error
     }
 
@@ -248,7 +292,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_2, dueDate);
         contentValues.put(COL_3, priority);
         contentValues.put(COL_4, description);
-        contentValues.put(COL_5,isCompleted);
+        contentValues.put(COL_5, isCompleted);
         contentValues.put(COL_6, taskID.toString());
         contentValues.put(COL_7, taskTime);
 
