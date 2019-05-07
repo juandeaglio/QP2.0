@@ -330,6 +330,8 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
 
                 boolean updateCompleted = db.updateTable(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()),dueDate.getText().toString(), taskNotes.getText().toString(), 0, UUID.fromString(taskIDV), taskTime.getText().toString());
 
+                //TODO: when having 2 tasks on home screen. If you change the details of one task the task will overwrite itself with data form other task
+
                 if(updateCompleted)
                 {
                     Calendar calendar = Calendar.getInstance();
