@@ -161,9 +161,6 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         vtDialog.show();
         Task currentTask = getTaskFromList(taskID);
 
-
-
-
         TextView viewTaskName = (TextView)vtDialog.findViewById(R.id.stageNameDialog);
         viewTaskName.setText(currentTask.getTaskName());
 
