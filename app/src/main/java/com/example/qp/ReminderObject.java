@@ -1,5 +1,7 @@
 package com.example.qp;
 
+import java.util.UUID;
+
 public class ReminderObject {
 
     private String reminderName;
@@ -7,13 +9,23 @@ public class ReminderObject {
     private String reminderType;
     private boolean reminderToggle;
     private String reminderTime;
+    private String reminderUUID;
 
-    public ReminderObject(String mReminderName, int mReminderInterval, String mReminderType, boolean mReminderToggle)
+    public String getReminderUUID() {
+        return reminderUUID;
+    }
+
+    public void setReminderUUID(String reminderUUID) {
+        this.reminderUUID = reminderUUID;
+    }
+
+    public ReminderObject(String mReminderName, int mReminderInterval, String mReminderType, boolean mReminderToggle, String reminderID)
     {
         this.reminderName = mReminderName;
         this.reminderInterval = mReminderInterval;
         this.reminderType = mReminderType;
         this.reminderToggle = mReminderToggle;
+        this.reminderUUID = reminderID;
     }
     public String getReminderName() {
         return reminderName;
