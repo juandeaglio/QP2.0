@@ -36,6 +36,7 @@ public class CreateProject extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener projectDateSetListener;
     private TimePickerDialog.OnTimeSetListener projectTimeSetListener;
     private NumberPicker.OnValueChangeListener mNumberSetListener;
+
     DatabaseHelper db = new DatabaseHelper(this);
     private Toast toast = null;
     private AlarmManager am;
