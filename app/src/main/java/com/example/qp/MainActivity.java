@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
         SwipeControllerActions swipeControllerActions = new SwipeControllerActions() {
             @Override
-            public void onLeftSwiped(UUID taskID) { // MARK COMPLETED
+            public void onLeftSwiped(UUID taskID) { // Delete
                 db.deleteTask(taskID.toString());
                 populateArrayList(db, sortSelector);
                 adapter.updateData();
@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
             @Override
-            public void onRightSwiped(UUID taskID){ // DELETE
+            public void onRightSwiped(UUID taskID){ // Save
                 int taskPendingID = db.getTaskPendingIntent(taskID.toString());
                 Intent intent1 = new Intent(MainActivity.this, StartService.class);
                 PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, taskPendingID, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
