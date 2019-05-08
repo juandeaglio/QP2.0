@@ -5,12 +5,14 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,9 +31,10 @@ import com.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.UUID;
 
-public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecyclerAdapter.TaskCardViewHolder> {
+public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecyclerAdapter.TaskCardViewHolder> implements StageTouchHelperAdapter {
 
 
     private DatabaseHelper db ;
@@ -44,6 +47,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private TimePickerDialog.OnTimeSetListener mTimeSetListener;
     private NumberPicker.OnValueChangeListener mNumberSetListener;
+    private final ItemTouchHelper mItemTouchHelper;
 
 
 
@@ -68,11 +72,12 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         }
     }
 
-    public TaskCardRecyclerAdapter (ArrayList<Task> taskList, Context context)
+    public TaskCardRecyclerAdapter (ArrayList<Task> taskList, Context context, ItemTouchHelper itemTouchHelper)
     {
         this.taskList = taskList;
         this.db = new DatabaseHelper(context);
         this.context = context;
+        mItemTouchHelper = itemTouchHelper;
     }
 
     @Override
@@ -113,6 +118,14 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
             }
 
 
+        });
+        taskCardViewHolder.taskCard.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                mItemTouchHelper.startDrag(taskCardViewHolder);
+
+                return false;
+            }
         });
 
         taskCardViewHolder.taskCard.setBackgroundColor(colorManager.getColorPrimaryDark());
@@ -393,6 +406,20 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         numPicker.show();
 
 
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        taskList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        Collections.swap(taskList, fromPosition, toPosition);
+
+        notifyItemMoved(fromPosition, toPosition);
+        return true;
     }
 
 

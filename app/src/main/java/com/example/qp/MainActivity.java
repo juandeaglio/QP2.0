@@ -172,7 +172,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         populateArrayList(this.db, this.sortSelector);
 
-        adapter = new TaskCardRecyclerAdapter(globalTaskList, this);
         setUpRecyclerView();
     }
 
@@ -215,8 +214,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void setUpRecyclerView()
     {
-        RecyclerView taskRecycler;
-        taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
+        RecyclerView taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
         SwipeControllerActions swipeControllerActions = new SwipeControllerActions() {
             @Override
             public void onLeftSwiped(UUID taskID) { // MARK COMPLETED
@@ -241,12 +239,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 toast.show();
             }
         };
+        swipeController = new SwipeController(swipeControllerActions, this);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
+        adapter = new TaskCardRecyclerAdapter(globalTaskList, this, itemTouchHelper);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         taskRecycler.setLayoutManager(layoutManager);
         taskRecycler.setAdapter(adapter);
 
-        swipeController = new SwipeController(swipeControllerActions, this);
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
+        swipeController.setItemTouchHelper(adapter);
         itemTouchHelper.attachToRecyclerView(taskRecycler);
 
 

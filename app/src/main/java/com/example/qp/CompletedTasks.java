@@ -30,7 +30,7 @@ import maes.tech.intentanim.CustomIntent;
 
 public class CompletedTasks extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private TaskCardRecyclerAdapter adapter = new TaskCardRecyclerAdapter(MainActivity.globalCompletedTaskList, this);
+    private TaskCardRecyclerAdapter adapter;
     private DatabaseHelper db;
     private MainActivity mainActivity= new MainActivity();
     public ColorManager colorManager;
@@ -87,8 +87,7 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
         RecyclerView taskRecycler;
         taskRecycler = (RecyclerView) findViewById(R.id.completed_task_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        taskRecycler.setLayoutManager(layoutManager);
-        taskRecycler.setAdapter(adapter);
+
 
         swipeController = new SwipeController(new SwipeControllerActions() {
             @Override
@@ -107,6 +106,9 @@ public class CompletedTasks extends AppCompatActivity implements NavigationView.
             }
         }, this);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
+        adapter = new TaskCardRecyclerAdapter(MainActivity.globalCompletedTaskList, this, itemTouchHelper);
+        taskRecycler.setLayoutManager(layoutManager);
+        taskRecycler.setAdapter(adapter);
         itemTouchHelper.attachToRecyclerView(taskRecycler);
 
     }
