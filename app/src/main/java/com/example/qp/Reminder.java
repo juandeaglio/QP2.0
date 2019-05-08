@@ -320,7 +320,6 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
                 if (saveCompleted) {
                     this.toast = Toast.makeText(this, "Reminder Successfully Saved!", Toast.LENGTH_SHORT);
                     toast.show();
-                    goBackToHomepage();
 
                 } else {
                     this.toast = Toast.makeText(this, "Reminder Failed", Toast.LENGTH_SHORT);
