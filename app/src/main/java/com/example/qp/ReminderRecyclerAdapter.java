@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecyclerAdapter.ReminderCardViewHolder> {
 
     private ArrayList<ReminderObject> mReminderArrayList = new ArrayList<>();
+    ColorManager colorManager;
     public class ReminderCardViewHolder extends RecyclerView.ViewHolder{
         TextView name;
         TextView time;
@@ -43,7 +44,6 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
     @Override
     public void onBindViewHolder(final ReminderCardViewHolder reminderCardViewHolder, int i){
         final ReminderObject reminder = mReminderArrayList.get(i);
-
         reminderCardViewHolder.name.setText(reminder.getReminderName());
         reminderCardViewHolder.time.setText(reminder.getReminderTime());
 
@@ -59,6 +59,8 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
 
             }
         });
+        colorManager = MainActivity.colorManager;
+        reminderCardViewHolder.cardView.setBackgroundColor(colorManager.getColorAccent());
     }
 
     @Override
