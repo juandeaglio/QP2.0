@@ -80,7 +80,7 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
             }
         });
         colorManager = MainActivity.colorManager;
-        reminderCardViewHolder.cardView.setBackgroundColor(colorManager.getColorAccent());
+        reminderCardViewHolder.cardView.setBackgroundColor(colorManager.getColorPrimaryDark());
     }
 
     @Override
