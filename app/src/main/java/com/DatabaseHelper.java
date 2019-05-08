@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.qp.R;
+
 import java.util.UUID;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -62,6 +64,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public String[] allColumns = {COL_1, COL_2, COL_3, COL_4, COL_5, COL_6, COL_7};
+    public String[] reminderColumns = {R_COL_1, R_COL_2, R_COL_3, R_COL_4, R_COL_5, R_COL_6, R_COL_7};
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -268,6 +271,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 }
             }
 
+        return -1; //Error
+    }
+
+    public int getReminderPendingIntent(String taskID){
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor result = db.rawQuery("select * from " + REMINDERS_TABLE_NAME + " where " + R_COL_2 + " = '" + taskID + "'",null);
+        while(result.moveToNext()){
+            if(result.getString(1).equals(taskID)){
+                return result.getInt(0);
+            }
+        }
 
         return -1; //Error
     }
@@ -286,6 +300,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return  result;
     }
 
+    public Cursor getAllRemindersFromTable(){
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor result = db.query(REMINDERS_TABLE_NAME, this.reminderColumns,null,null,null,null, R_COL_3 + " " + "asc", null);
+        return  result;
+    }
+
     public boolean updateTable(String taskName, int priority, String dueDate, String description, int isCompleted, UUID taskID, String taskTime){
         SQLiteDatabase tempDb = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -293,7 +313,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_2, dueDate);
         contentValues.put(COL_3, priority);
         contentValues.put(COL_4, description);
-        contentValues.put(COL_5,isCompleted);
+        contentValues.put(COL_5, isCompleted);
         contentValues.put(COL_6, taskID.toString());
         contentValues.put(COL_7, taskTime);
 
@@ -373,6 +393,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL(querey);
     }
+
+    public void deleteReminder(String taskID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String querey = "DELETE FROM " + REMINDERS_TABLE_NAME + " WHERE " +
+                R_COL_2 + " = '" + taskID + "'";
+
+        db.execSQL(querey);
+    }
+
 
     public void deleteAllCompletedTasks(){
         SQLiteDatabase db = this.getWritableDatabase();
