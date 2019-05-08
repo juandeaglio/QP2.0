@@ -61,11 +61,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
-
-
-
-
-
     public String[] allColumns = {COL_1, COL_2, COL_3, COL_4, COL_5, COL_6, COL_7};
 
     public DatabaseHelper(Context context) {
@@ -164,7 +159,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getAllStagesForProject(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor result = db.rawQuery("select Stage_ID, Stage_Name, Stage_Due_Date, Stage_Description, Stage_Num, Project_ID from " + STAGE_TABLE_NAME + " s"  + " join project_table p on s.Project_ID = p.Project_ID",null);
+        Cursor result = db.rawQuery("select Stage_ID, Stage_Name, Stage_Due_Date, Stage_Description, Stage_Num, Stage_Pending_Intent_ID, s.Project_ID from " + STAGE_TABLE_NAME + " s"  + " join project_table p on s.Project_ID = p.Project_ID",null);
 
         return result;
     }
@@ -273,7 +268,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 }
             }
 
-
         return -1; //Error
     }
 
@@ -298,7 +292,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_2, dueDate);
         contentValues.put(COL_3, priority);
         contentValues.put(COL_4, description);
-        contentValues.put(COL_5,isCompleted);
+        contentValues.put(COL_5, isCompleted);
         contentValues.put(COL_6, taskID.toString());
         contentValues.put(COL_7, taskTime);
 

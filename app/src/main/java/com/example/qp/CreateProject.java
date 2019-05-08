@@ -7,11 +7,16 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -30,7 +35,6 @@ import maes.tech.intentanim.CustomIntent;
 public class CreateProject extends AppCompatActivity {
 
 
-    public static ColorManager colorManager;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private TimePickerDialog.OnTimeSetListener mTimeSetListener;
     private DatePickerDialog.OnDateSetListener projectDateSetListener;
@@ -41,6 +45,8 @@ public class CreateProject extends AppCompatActivity {
     private Toast toast = null;
     private AlarmManager am;
     private Project newProject;
+    ColorManager colorManager;
+    private StageCardRecyclerAdapter adapter;
 
     Calendar calendar = Calendar.getInstance();
 
@@ -48,13 +54,17 @@ public class CreateProject extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_create_project);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
-
 
         newProject = new Project(); //Create the project, UUID is generated in constructor
         am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
+        colorManager = MainActivity.colorManager;
+        toolbar.setBackgroundColor(colorManager.getColorAccent());
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(colorManager.getColorAccent());
 
         final TextView projectDueDate = (TextView) findViewById(R.id.projectDueDate);
         projectDueDate.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +92,7 @@ public class CreateProject extends AppCompatActivity {
                 //Log.d("Date Picker", "onDateSet: date " + (month + 1) + "/" + dayOfMonth + "/" + year);
                 projectDueDate.setText((month + 1) + "/" + (dayOfMonth) + "/" + year);
                 //stageDueDateValue = String.valueOf(month + 1) + "/" + String.valueOf(dayOfMonth) + "/" + String.valueOf(year);
+
 
             }
         };
@@ -130,6 +141,7 @@ public class CreateProject extends AppCompatActivity {
         };
 
         FloatingActionButton fab = findViewById(R.id.createNewStageButton);
+        fab.setBackgroundTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -200,7 +212,15 @@ public class CreateProject extends AppCompatActivity {
 
             }
         });
+        setUpRecycler();
+    }
 
+    public void setUpRecycler(){
+        adapter = new StageCardRecyclerAdapter(newProject.stageList);
+        RecyclerView recyclerView = findViewById(R.id.stage_recycler);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
 
     }
 
@@ -224,7 +244,7 @@ public class CreateProject extends AppCompatActivity {
         });
 
         final TextView stageDueDate = ctDialog.findViewById(R.id.stageDueDate);
-
+        ctDialog.findViewById(R.id.toolbar3).setBackgroundColor(colorManager.getColorAccent());
         stageDueDate.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -235,7 +255,6 @@ public class CreateProject extends AppCompatActivity {
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog dialog = new DatePickerDialog(CreateProject.this, mDateSetListener, year, month, day);
-
                 //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
 
@@ -381,7 +400,7 @@ public class CreateProject extends AppCompatActivity {
 
                 toast.show();
                 //populateArrayList(db, sortSelector);
-                //adapter.updateData();
+                adapter.notifyDataSetChanged();
                 ctDialog.dismiss();
 
 

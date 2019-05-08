@@ -21,7 +21,6 @@ public class Task {
     //Default constructor
     public Task(String taskName, String  dueDate, int priority, String description, int completed, String dueTime)
     {
-        this.taskId = UUID.randomUUID();
         this.taskName = taskName;
         this.dueDate = dueDate;
         this.timeDueDate = dueTime;
@@ -32,7 +31,6 @@ public class Task {
 
     //For prototype
     public Task() {
-        this.taskId = UUID.randomUUID();
         this.taskName = "";
         this.dueDate = "";
         this.priority = 0;

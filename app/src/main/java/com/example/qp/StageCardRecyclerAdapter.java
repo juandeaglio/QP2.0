@@ -9,8 +9,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class StageCardRecyclerAdapter extends RecyclerView.Adapter<StageCardRecyclerAdapter.StageCardViewHolder> {
-
+public class StageCardRecyclerAdapter extends RecyclerView.Adapter<StageCardRecyclerAdapter.StageCardViewHolder>
+{
+    ColorManager colorManager;
     private ArrayList<Stage> stageArray;
     public class StageCardViewHolder extends RecyclerView.ViewHolder{
         CardView cardView;
@@ -18,7 +19,6 @@ public class StageCardRecyclerAdapter extends RecyclerView.Adapter<StageCardRecy
         TextView dueDate;
         TextView dueTime;
         TextView stageNumber;
-
         public StageCardViewHolder(View v){
             super(v);
             cardView = v.findViewById(R.id.task_card);
@@ -41,11 +41,14 @@ public class StageCardRecyclerAdapter extends RecyclerView.Adapter<StageCardRecy
     @Override
     public void onBindViewHolder(StageCardViewHolder stageCardViewHolder, int i){
         final Stage stage = stageArray.get(i);
+
         stageCardViewHolder.name.setText(stage.getStageName());
         stageCardViewHolder.dueDate.setText(stage.getStageDueDate());
         stageCardViewHolder.dueTime.setText(stage.getStageTimeDue());
+        stageCardViewHolder.stageNumber.setText(Integer.toString(stage.getStageNum()));
 
-
+        colorManager = MainActivity.colorManager;
+        stageCardViewHolder.cardView.setBackgroundColor(colorManager.getColorAccent());
     }
 
     @Override
