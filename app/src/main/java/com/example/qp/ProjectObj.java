@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
-public class Project{
+public class ProjectObj {
     public UUID projectId;
     public String projectName;
     public String dueDate;
@@ -15,7 +15,7 @@ public class Project{
     public ArrayList<Stage> stageList;
 
     //Default constructor
-    public Project(String projectName, String  dueDate, String description, int completed, String dueTime)
+    public ProjectObj(String projectName, String  dueDate, String description, int completed, String dueTime)
     {
         this.projectId = UUID.randomUUID();
         this.projectName = projectName;
@@ -26,7 +26,7 @@ public class Project{
     }
 
     //For prototype
-    public Project() {
+    public ProjectObj() {
         this.projectId = UUID.randomUUID();
         this.projectName = "";
         this.dueDate = "";
