@@ -52,7 +52,11 @@ public class StageCardRecyclerAdapter extends RecyclerView.Adapter<StageCardRecy
     public boolean onItemMove(int fromPosition, int toPosition) {
         Collections.swap(stageArray, fromPosition, toPosition);
         // TODO: 5/6/2019 ADD LOGIC TO CHANGE ORDER IN DATABASE
+        //TextView stageNum = (TextView)
+        for (int i = 0; i < stageArray.size(); i++){
+            stageArray.get(i).setStageNum(i);
 
+        }
         notifyItemMoved(fromPosition, toPosition);
         return true;
     }
