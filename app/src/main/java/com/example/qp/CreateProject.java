@@ -186,7 +186,7 @@ public class CreateProject extends AppCompatActivity {
                 newProject.description = projDescription.getText().toString();
 
                 for (Stage currentStage : newProject.stageList) {
-                    boolean saveCompleted = db.insertStageData(currentStage.getStageID().toString(), currentStage.getStageName(), currentStage.getStageDueDate(), currentStage.getStageDescription(),"1",currentStage.getPendingIntentID(),newProject.projectId.toString());
+                    boolean saveCompleted = db.insertStageData(currentStage.getStageID().toString(), currentStage.getStageName(), currentStage.getStageDueDate(), currentStage.getStageDescription(),String.valueOf(currentStage.getStageNum()),currentStage.getPendingIntentID(),newProject.projectId.toString());
                     if(saveCompleted){
                         System.out.println("saveCompleted = " + saveCompleted);
                     }
