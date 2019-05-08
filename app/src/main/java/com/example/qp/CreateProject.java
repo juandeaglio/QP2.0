@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 import com.DatabaseHelper;
 
 import java.util.Calendar;
+import java.util.UUID;
 
 import maes.tech.intentanim.CustomIntent;
 
@@ -40,6 +42,7 @@ public class CreateProject extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener projectDateSetListener;
     private TimePickerDialog.OnTimeSetListener projectTimeSetListener;
     private NumberPicker.OnValueChangeListener mNumberSetListener;
+
     DatabaseHelper db = new DatabaseHelper(this);
     private Toast toast = null;
     private AlarmManager am;
@@ -183,7 +186,7 @@ public class CreateProject extends AppCompatActivity {
                 newProject.description = projDescription.getText().toString();
 
                 for (Stage currentStage : newProject.stageList) {
-                    boolean saveCompleted = db.insertStageData(currentStage.getStageID().toString(), currentStage.getStageName(), currentStage.getStageDueDate(), currentStage.getStageDescription(),"1",currentStage.getPendingIntentID(),newProject.projectId.toString());
+                    boolean saveCompleted = db.insertStageData(currentStage.getStageID().toString(), currentStage.getStageName(), currentStage.getStageDueDate(), currentStage.getStageDescription(),String.valueOf(currentStage.getStageNum()),currentStage.getPendingIntentID(),newProject.projectId.toString());
                     if(saveCompleted){
                         System.out.println("saveCompleted = " + saveCompleted);
                     }
@@ -215,12 +218,26 @@ public class CreateProject extends AppCompatActivity {
     }
 
     public void setUpRecycler(){
-        adapter = new StageCardRecyclerAdapter(newProject.stageList);
+        SwipeControllerActions swipeActions = new SwipeControllerActions() {
+            @Override
+            public void onLeftSwiped(UUID taskID) {
+                super.onLeftSwiped(taskID);
+            }
+
+            @Override
+            public void onRightSwiped(UUID taskID) {
+                super.onRightSwiped(taskID);
+            }
+        };
+        SwipeController swipeController = new SwipeController(swipeActions, this);
         RecyclerView recyclerView = findViewById(R.id.stage_recycler);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
+        adapter = new StageCardRecyclerAdapter(newProject.stageList, itemTouchHelper);
+        swipeController.setItemTouchHelper(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
 
