@@ -177,16 +177,16 @@ public class CreateProject extends AppCompatActivity {
                 //Save the project and it's stages
                 //P---S1---S2---S3---PF
                 TextView projName = (TextView) findViewById(R.id.projectName);
-                newProjectObj.projectName = projName.getText().toString();
-                newProjectObj.dueDate = projectDueDate.getText().toString();
-                newProjectObj.timeDueDate = projectTime.getText().toString();
-                newProjectObj.completed = 0;
+                newProjectObj.setProjectName(projName.getText().toString());
+                newProjectObj.setDueDate(projectDueDate.getText().toString());
+                newProjectObj.setTimeDueDate(projectTime.getText().toString());
+                newProjectObj.setCompleted((short) 0);
 
                 TextView projDescription = (TextView) findViewById(R.id.projectDescription);
-                newProjectObj.description = projDescription.getText().toString();
+                newProjectObj.setDescription(projDescription.getText().toString());
 
-                for (Stage currentStage : newProjectObj.stageList) {
-                    boolean saveCompleted = db.insertStageData(currentStage.getStageID().toString(), currentStage.getStageName(), currentStage.getStageDueDate(), currentStage.getStageDescription(),String.valueOf(currentStage.getStageNum()),currentStage.getPendingIntentID(), newProjectObj.projectId.toString());
+                for (Stage currentStage : newProjectObj.getStageList()) {
+                    boolean saveCompleted = db.insertStageData(currentStage.getStageID().toString(), currentStage.getStageName(), currentStage.getStageDueDate(), currentStage.getStageDescription(),String.valueOf(currentStage.getStageNum()),currentStage.getPendingIntentID(), newProjectObj.getProjectId().toString());
                     if(saveCompleted){
                         System.out.println("saveCompleted = " + saveCompleted);
                     }
@@ -197,7 +197,7 @@ public class CreateProject extends AppCompatActivity {
                     }
                 }
 
-                boolean saveProjectData = db.insertProjectData(newProjectObj.projectId.toString(), newProjectObj.projectName, newProjectObj.dueDate, newProjectObj.timeDueDate, newProjectObj.description, newProjectObj.stageList.size());
+                boolean saveProjectData = db.insertProjectData(newProjectObj.getProjectId().toString(), newProjectObj.getProjectName(), newProjectObj.getDueDate(), newProjectObj.getTimeDueDate(), newProjectObj.getDescription(), newProjectObj.getStageList().size());
 
                 if(saveProjectData){
                     toast = Toast.makeText(CreateProject.this, "Project saved successfully!", Toast.LENGTH_LONG);
@@ -232,7 +232,7 @@ public class CreateProject extends AppCompatActivity {
         SwipeController swipeController = new SwipeController(swipeActions, this);
         RecyclerView recyclerView = findViewById(R.id.stage_recycler);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
-        adapter = new StageCardRecyclerAdapter(newProjectObj.stageList, itemTouchHelper);
+        adapter = new StageCardRecyclerAdapter(newProjectObj.getStageList(), itemTouchHelper);
         swipeController.setItemTouchHelper(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -395,9 +395,9 @@ public class CreateProject extends AppCompatActivity {
                 int pendinIntentID = (int) System.currentTimeMillis();
 
 
-                Stage newStage = new Stage(stageNameDialog.getText().toString(), dueDate.getText().toString(), stageTime.getText().toString(), stageDesc.getText().toString(), 0, String.valueOf(pendinIntentID), newProjectObj.projectId.toString());
+                Stage newStage = new Stage(stageNameDialog.getText().toString(), dueDate.getText().toString(), stageTime.getText().toString(), stageDesc.getText().toString(), 0, String.valueOf(pendinIntentID), newProjectObj.getProjectId().toString());
 
-                newProjectObj.stageList.add(newStage); //Add the new stage to project to the list of stages in out Project obj
+                newProjectObj.getStageList().add(newStage); //Add the new stage to project to the list of stages in out Project obj
 
 
                 Intent intent1 = new Intent(CreateProject.this, StartService.class);

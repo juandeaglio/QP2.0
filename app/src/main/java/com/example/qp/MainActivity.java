@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView.setNavigationItemSelectedListener(this);
 
+
         if(db.checkIfColorExists())
         {
             Cursor colorVals = db.getColorValues();

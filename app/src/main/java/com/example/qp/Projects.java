@@ -1,15 +1,26 @@
 package com.example.qp;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.view.Window;
 
+import com.DatabaseHelper;
+
+import java.util.ArrayList;
+import java.util.UUID;
+
 public class Projects extends AppCompatActivity {
+
+    private ArrayList<ProjectObj> projectArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +39,44 @@ public class Projects extends AppCompatActivity {
 
         Window window = getWindow();
         window.setStatusBarColor(getResources().getColor(R.color.matteOrange));
+
+
+        populateProjectArray();
+        setUpRecyclerView();
+    }
+
+    private void setUpRecyclerView(){
+
+        SwipeControllerActions swipeControllerActions = new SwipeControllerActions() {
+            @Override
+            public void onLeftSwiped(UUID taskID) {
+                // TODO: 5/8/2019 NEEDS TO BE IMPLEMENTED
+            }
+
+            @Override
+            public void onRightSwiped(UUID taskID) {
+                // TODO: 5/8/2019 NEEDS TO BE IMPLEMENTED
+                super.onRightSwiped(taskID);
+            }
+        };
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        RecyclerView recyclerView = findViewById(R.id.project_recycler);
+        ProjectRecyclerAdapter adapter = new ProjectRecyclerAdapter(projectArrayList);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(layoutManager);
+
+        SwipeControllerProjects swipeController = new SwipeControllerProjects(swipeControllerActions,this);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
+
+    }
+
+    private void populateProjectArray(){
+
+        projectArrayList.add(new ProjectObj());
+        // TODO: 5/8/2019 NEEDS TO BE IMPLEMENTED
     }
 
 }
