@@ -59,7 +59,7 @@ public class CreateProject extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
 
-        newProjectObj = new ProjectObj(); //Create the project, UUID is generated in constructor
+        this.newProjectObj.setProjectId(UUID.randomUUID()); //Create the project, UUID is generated in constructor
         am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         colorManager = MainActivity.colorManager;
@@ -197,8 +197,7 @@ public class CreateProject extends AppCompatActivity {
                     }
                 }
 
-                boolean saveProjectData = db.insertProjectData(newProjectObj.getProjectId().toString(), newProjectObj.getProjectName(), newProjectObj.getDueDate(), newProjectObj.getTimeDueDate(), newProjectObj.getDescription(), newProjectObj.getStageList().size());
-
+                boolean saveProjectData = db.insertProjectData(newProjectObj.getProjectId().toString(), newProjectObj.getProjectName(), newProjectObj.getDueDate(), newProjectObj.getTimeDueDate(), newProjectObj.getDescription(),0,newProjectObj.getNumOfStages());
                 if(saveProjectData){
                     toast = Toast.makeText(CreateProject.this, "Project saved successfully!", Toast.LENGTH_LONG);
                     toast.show();
@@ -217,6 +216,9 @@ public class CreateProject extends AppCompatActivity {
         setUpRecycler();
     }
 
+
+
+
     public void setUpRecycler(){
         SwipeControllerActions swipeActions = new SwipeControllerActions() {
             @Override
@@ -232,7 +234,7 @@ public class CreateProject extends AppCompatActivity {
         SwipeController swipeController = new SwipeController(swipeActions, this);
         RecyclerView recyclerView = findViewById(R.id.stage_recycler);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
-        adapter = new StageCardRecyclerAdapter(newProjectObj.getStageList(), itemTouchHelper);
+        adapter = new StageCardRecyclerAdapter(this.newProjectObj.getStageList(), itemTouchHelper);
         swipeController.setItemTouchHelper(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);

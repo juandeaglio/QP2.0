@@ -20,7 +20,8 @@ import java.util.UUID;
 
 public class Projects extends AppCompatActivity {
 
-    private ArrayList<ProjectObj> projectArrayList = new ArrayList<>();
+
+    public ArrayList<ProjectObj> projectArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +75,16 @@ public class Projects extends AppCompatActivity {
     }
 
     private void populateProjectArray(){
+        DatabaseHelper db = new DatabaseHelper(this);
 
-        projectArrayList.add(new ProjectObj());
+        Cursor projectDB =  db.getAllProjects();
+        for (projectDB.moveToFirst(); !projectDB.isAfterLast(); projectDB.moveToNext()) {
+            // do what you need with the projectDB here
+            ProjectObj newProject = new ProjectObj(projectDB.getString(0),projectDB.getString(1),projectDB.getString(2),projectDB.getString(4),0,projectDB.getString(3),projectArrayList.size());
+            projectArrayList.add(newProject);
+        }
+
+
         // TODO: 5/8/2019 NEEDS TO BE IMPLEMENTED
     }
 

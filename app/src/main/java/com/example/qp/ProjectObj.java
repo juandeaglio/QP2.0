@@ -13,6 +13,15 @@ public class ProjectObj {
     private String description;
     private short completed; //1 for yes, 0 for no
     private ArrayList<Stage> stageList;
+    private int numOfStages;
+
+    public int getNumOfStages() {
+        return numOfStages;
+    }
+
+    public void setNumOfStages(int numOfStages) {
+        this.numOfStages = numOfStages;
+    }
 
     public UUID getProjectId() {
         return projectId;
@@ -79,25 +88,15 @@ public class ProjectObj {
     }
 
     //Default constructor
-    public ProjectObj(String projectName, String  dueDate, String description, int completed, String dueTime)
+    public ProjectObj(String projectID,String projectName, String  dueDate, String description, int completed, String dueTime, int numOfStages)
     {
-        this.projectId = UUID.randomUUID();
+        this.projectId =  UUID.fromString(projectID);
         this.projectName = projectName;
         this.dueDate = dueDate;
         this.timeDueDate = dueTime;
         this.description = description;
         this.completed = 0;
-    }
-
-    //For prototype
-    public ProjectObj() {
-        this.projectId = UUID.randomUUID();
-        this.projectName = "TEST 1";
-        this.dueDate = "09/04/2019";
-        this.description = "";
-        this.completed = 0;
-        this.timeDueDate = "11:50 AM";
-        this.stageList = new ArrayList<>(); //initialization of the stage array
+        this.numOfStages = numOfStages;
     }
 
 
