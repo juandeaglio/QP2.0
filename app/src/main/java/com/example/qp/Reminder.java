@@ -193,7 +193,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
 
     public void setUpRecyclerView() {
         final RecyclerView recyclerView = findViewById(R.id.reminder_recycler);
-        adapter = new ReminderRecyclerAdapter(globalReminderList, this);
+        adapter = new ReminderRecyclerAdapter(globalReminderList, this, am);
 
         SwipeControllerActions swipeControllerActions = new SwipeControllerActions() {
 
@@ -206,7 +206,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
                 db.deleteReminder(taskID.toString());
                 populateArrayList(db, "");
                 adapter.updateData();
-                toast = Toast.makeText(getApplicationContext(), "Reminder Completed!", Toast.LENGTH_SHORT);
+                toast = Toast.makeText(getApplicationContext(), "Reminder Deleted!", Toast.LENGTH_SHORT);
                 toast.show();
             }
 
@@ -228,7 +228,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
                 if (cursor.moveToFirst()) {
                     do {
                         //MainActivity.globalTaskList.add();
-                        ReminderObject reminder = new ReminderObject(cursor.getString(2), cursor.getInt(4), cursor.getString(5), true,cursor.getString(1));
+                        ReminderObject reminder = new ReminderObject(cursor.getString(2), cursor.getInt(4), cursor.getString(5), true,cursor.getString(1),null);
                         globalReminderList.add(reminder); //Adds it to the global array list
                     } while (cursor.moveToNext());
 
@@ -288,31 +288,44 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
 
 
                 if (mRepeat == "true") {
-                    reminder = new ReminderObject(mTitle, Integer.parseInt(mRepeatNo), mRepeatType, true,uniqueID.toString());
+                    long frequencyOfAlarm;
+                    reminder = new ReminderObject(mTitle, Integer.parseInt(mRepeatNo), mRepeatType, true,uniqueID.toString(),mCalendar);
                     globalReminderList.add(reminder);
                     saveCompleted = db.insertReminderData(intentId, uniqueID.toString(), mTitle, mDate, mRepeatNo, mRepeatType, mTime);
 
                     switch (mRepeatType) {
+
                         case "Minute":
+                            frequencyOfAlarm = Integer.parseInt(mRepeatNo) * 60 * 1000;
+                            reminder.setFrequencyOfAlarm(frequencyOfAlarm);
                             am.setRepeating(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo) * 60 * 1000, pendingIntent);
+
                             break;
                         case "Hour":
+                            frequencyOfAlarm = Integer.parseInt(mRepeatNo) * AlarmManager.INTERVAL_HOUR;
+                            reminder.setFrequencyOfAlarm(frequencyOfAlarm);
                             am.setRepeating(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo) * AlarmManager.INTERVAL_HOUR, pendingIntent);
                             break;
                         case "Day":
+                            frequencyOfAlarm = Integer.parseInt(mRepeatNo) * AlarmManager.INTERVAL_DAY;
+                            reminder.setFrequencyOfAlarm(frequencyOfAlarm);
                             am.setRepeating(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo) * AlarmManager.INTERVAL_DAY, pendingIntent);
                             break;
                         case "Week":
+                            frequencyOfAlarm = Integer.parseInt(mRepeatNo) * 7 * AlarmManager.INTERVAL_DAY;
+                            reminder.setFrequencyOfAlarm(frequencyOfAlarm);
                             am.setRepeating(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo) * 7 * AlarmManager.INTERVAL_DAY, pendingIntent);
                             break;
                         case "Month":
+                            frequencyOfAlarm = Integer.parseInt(mRepeatNo) * AlarmManager.INTERVAL_DAY * 31;
+                            reminder.setFrequencyOfAlarm(frequencyOfAlarm);
                             am.setRepeating(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo) * AlarmManager.INTERVAL_DAY * 31, pendingIntent);
                             break;
                     }
 
                 } else {
                     am.set(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), pendingIntent);
-                    reminder = new ReminderObject(mTitle, Integer.parseInt(mRepeatNo), mRepeatType, true,uniqueID.toString());
+                    reminder = new ReminderObject(mTitle, Integer.parseInt(mRepeatNo), mRepeatType, true,uniqueID.toString(),mCalendar);
                     globalReminderList.add(reminder);
                     //saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
                 }

@@ -1,5 +1,6 @@
 package com.example.qp;
 
+import java.util.Calendar;
 import java.util.UUID;
 
 public class ReminderObject {
@@ -10,6 +11,25 @@ public class ReminderObject {
     private boolean reminderToggle;
     private String reminderTime;
     private String reminderUUID;
+    private Calendar dueDate;
+    private long frequencyOfAlarm;
+
+    public long getFrequencyOfAlarm() {
+        return frequencyOfAlarm;
+    }
+
+    public void setFrequencyOfAlarm(long frequencyOfAlarm) {
+        this.frequencyOfAlarm = frequencyOfAlarm;
+    }
+
+    public Calendar getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(Calendar dueDate) {
+        this.dueDate = dueDate;
+    }
+
 
     public String getReminderUUID() {
         return reminderUUID;
@@ -19,13 +39,15 @@ public class ReminderObject {
         this.reminderUUID = reminderUUID;
     }
 
-    public ReminderObject(String mReminderName, int mReminderInterval, String mReminderType, boolean mReminderToggle, String reminderID)
+    public ReminderObject(String mReminderName, int mReminderInterval, String mReminderType, boolean mReminderToggle, String reminderID, Calendar dueDate)
     {
         this.reminderName = mReminderName;
         this.reminderInterval = mReminderInterval;
         this.reminderType = mReminderType;
         this.reminderToggle = mReminderToggle;
         this.reminderUUID = reminderID;
+        this.dueDate = dueDate;
+
     }
     public String getReminderName() {
         return reminderName;
