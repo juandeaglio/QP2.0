@@ -183,7 +183,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
 
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        //window.setStatusBarColor(colorManager.getColorAccent());
+        window.setStatusBarColor(colorManager.getColorAccent());
 
         LinearLayout header = findViewById(R.id.add_reminder_layout_top);
         header.setBackgroundColor(colorManager.getColorAccent());
