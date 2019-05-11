@@ -188,7 +188,7 @@ public class CreateProject extends AppCompatActivity {
                 for (Stage currentStage : newProject.stageList) {
                     boolean saveCompleted = db.insertStageData(currentStage.getStageID().toString(), currentStage.getStageName(), currentStage.getStageDueDate(), currentStage.getStageDescription(),String.valueOf(currentStage.getStageNum()),currentStage.getPendingIntentID(),newProject.projectId.toString());
                     if(saveCompleted){
-                        System.out.println("saveCompleted = " + saveCompleted);
+                         System.out.println("saveCompleted = " + saveCompleted);
                     }
                     else {
                         //error
