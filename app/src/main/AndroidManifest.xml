@@ -12,6 +12,10 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".Projects"
+            android:label="Projects"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".CreateProject"
             android:label="Create New Project"
             android:theme="@style/AppTheme.NoActionBar" />

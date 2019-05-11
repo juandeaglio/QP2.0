@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView.setNavigationItemSelectedListener(this);
 
+
         if(db.checkIfColorExists())
         {
             Cursor colorVals = db.getColorValues();
@@ -204,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         taskRecycler = (RecyclerView) findViewById(R.id.task_card_recycler);
         SwipeControllerActions swipeControllerActions = new SwipeControllerActions() {
             @Override
-            public void onLeftSwiped(UUID taskID) { // MARK COMPLETED
+            public void onLeftSwiped(UUID taskID) { // Delete
                 db.deleteTask(taskID.toString());
                 populateArrayList(db, sortSelector);
                 adapter.updateData();
@@ -213,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
             @Override
-            public void onRightSwiped(UUID taskID){ // DELETE
+            public void onRightSwiped(UUID taskID){ // Save
                 int taskPendingID = db.getTaskPendingIntent(taskID.toString());
                 Intent intent1 = new Intent(MainActivity.this, StartService.class);
                 PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, taskPendingID, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -696,7 +697,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
         else if(id == R.id.nav_project) {
-            startActivity(new Intent(MainActivity.this, CreateProject.class));
+            startActivity(new Intent(MainActivity.this, Projects.class));
         }else if (id == R.id.nav_reminder) {
             openReminderActivity();
         }else if(id == R.id.customization){

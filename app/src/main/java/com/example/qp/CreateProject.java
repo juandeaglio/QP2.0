@@ -46,7 +46,7 @@ public class CreateProject extends AppCompatActivity {
     DatabaseHelper db = new DatabaseHelper(this);
     private Toast toast = null;
     private AlarmManager am;
-    private Project newProject;
+    private ProjectObj newProjectObj;
     ColorManager colorManager;
     private StageCardRecyclerAdapter adapter;
 
@@ -59,7 +59,7 @@ public class CreateProject extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
 
-        newProject = new Project(); //Create the project, UUID is generated in constructor
+        this.newProjectObj.setProjectId(UUID.randomUUID()); //Create the project, UUID is generated in constructor
         am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         colorManager = MainActivity.colorManager;
@@ -177,16 +177,16 @@ public class CreateProject extends AppCompatActivity {
                 //Save the project and it's stages
                 //P---S1---S2---S3---PF
                 TextView projName = (TextView) findViewById(R.id.projectName);
-                newProject.projectName = projName.getText().toString();
-                newProject.dueDate = projectDueDate.getText().toString();
-                newProject.timeDueDate = projectTime.getText().toString();
-                newProject.completed = 0;
+                newProjectObj.setProjectName(projName.getText().toString());
+                newProjectObj.setDueDate(projectDueDate.getText().toString());
+                newProjectObj.setTimeDueDate(projectTime.getText().toString());
+                newProjectObj.setCompleted((short) 0);
 
                 TextView projDescription = (TextView) findViewById(R.id.projectDescription);
-                newProject.description = projDescription.getText().toString();
+                newProjectObj.setDescription(projDescription.getText().toString());
 
-                for (Stage currentStage : newProject.stageList) {
-                    boolean saveCompleted = db.insertStageData(currentStage.getStageID().toString(), currentStage.getStageName(), currentStage.getStageDueDate(), currentStage.getStageDescription(),String.valueOf(currentStage.getStageNum()),currentStage.getPendingIntentID(),newProject.projectId.toString());
+                for (Stage currentStage : newProjectObj.getStageList()) {
+                    boolean saveCompleted = db.insertStageData(currentStage.getStageID().toString(), currentStage.getStageName(), currentStage.getStageDueDate(), currentStage.getStageDescription(),String.valueOf(currentStage.getStageNum()),currentStage.getPendingIntentID(), newProjectObj.getProjectId().toString());
                     if(saveCompleted){
                          System.out.println("saveCompleted = " + saveCompleted);
                     }
@@ -197,12 +197,11 @@ public class CreateProject extends AppCompatActivity {
                     }
                 }
 
-                boolean saveProjectData = db.insertProjectData(newProject.projectId.toString(),newProject.projectName, newProject.dueDate, newProject.timeDueDate, newProject.description, newProject.stageList.size());
-
+                boolean saveProjectData = db.insertProjectData(newProjectObj.getProjectId().toString(), newProjectObj.getProjectName(), newProjectObj.getDueDate(), newProjectObj.getTimeDueDate(), newProjectObj.getDescription(),0,newProjectObj.getNumOfStages());
                 if(saveProjectData){
                     toast = Toast.makeText(CreateProject.this, "Project saved successfully!", Toast.LENGTH_LONG);
                     toast.show();
-                    startActivity(new Intent(CreateProject.this, MainActivity.class));
+                    startActivity(new Intent(CreateProject.this, Projects.class));
                     CustomIntent.customType(CreateProject.this, "left-to-right");
 
                 }
@@ -216,6 +215,9 @@ public class CreateProject extends AppCompatActivity {
         });
         setUpRecycler();
     }
+
+
+
 
     public void setUpRecycler(){
         SwipeControllerActions swipeActions = new SwipeControllerActions() {
@@ -232,7 +234,7 @@ public class CreateProject extends AppCompatActivity {
         SwipeController swipeController = new SwipeController(swipeActions, this);
         RecyclerView recyclerView = findViewById(R.id.stage_recycler);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
-        adapter = new StageCardRecyclerAdapter(newProject.stageList, itemTouchHelper);
+        adapter = new StageCardRecyclerAdapter(this.newProjectObj.getStageList(), itemTouchHelper);
         swipeController.setItemTouchHelper(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -395,9 +397,9 @@ public class CreateProject extends AppCompatActivity {
                 int pendinIntentID = (int) System.currentTimeMillis();
 
 
-                Stage newStage = new Stage(stageNameDialog.getText().toString(), dueDate.getText().toString(), stageTime.getText().toString(), stageDesc.getText().toString(), 0, String.valueOf(pendinIntentID), newProject.projectId.toString());
+                Stage newStage = new Stage(stageNameDialog.getText().toString(), dueDate.getText().toString(), stageTime.getText().toString(), stageDesc.getText().toString(), 0, String.valueOf(pendinIntentID), newProjectObj.getProjectId().toString());
 
-                newProject.stageList.add(newStage); //Add the new stage to project to the list of stages in out Project obj
+                newProjectObj.getStageList().add(newStage); //Add the new stage to project to the list of stages in out Project obj
 
 
                 Intent intent1 = new Intent(CreateProject.this, StartService.class);

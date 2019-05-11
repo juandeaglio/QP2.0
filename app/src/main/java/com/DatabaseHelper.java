@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.qp.R;
+
 import java.util.UUID;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -47,7 +49,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String PROJECT_COL_3 = "Project_Due_Date";
     public static final String PROJECT_COL_4 = "Project_Time";
     public static final String PROJECT_COL_5 = "Project_Description";
-    public static final String PROJECT_COL_6 = "Num_of_Stages";
+    public static final String PROJECT_COL_6 = "Is_Completed";
+    public static final String PROJECT_COL_7 = "Num_of_Stages";
 
 
     public static final String STAGE_TABLE_NAME = "stage_table";
@@ -62,6 +65,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public String[] allColumns = {COL_1, COL_2, COL_3, COL_4, COL_5, COL_6, COL_7};
+    public String[] reminderColumns = {R_COL_1, R_COL_2, R_COL_3, R_COL_4, R_COL_5, R_COL_6, R_COL_7};
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -76,7 +80,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + COLORS_TABLE_NAME + "(Color_Primary int, Color_Primary_Dark int, Color_Primary_Accent int, Text_Color int)");
 
         //Project/Stages tables
-        db.execSQL("create table " + PROJECT_TABLE_NAME + "(Project_ID varchar(255) PRIMARY KEY, Project_name varchar(255),Project_Due_Date varchar(255), Project_Time varchar(255), Project_Description varchar(255), Num_Of_Stages int)");
+        db.execSQL("create table " + PROJECT_TABLE_NAME + "(Project_ID varchar(255) PRIMARY KEY, Project_name varchar(255),Project_Due_Date varchar(255), Project_Time varchar(255), Project_Description varchar(255), Is_Completed int ,Num_Of_Stages int)");
         db.execSQL("create table " + STAGE_TABLE_NAME + "(Stage_ID varchar(255) PRIMARY KEY, Stage_Name varchar(255), Stage_Due_Date varchar(255), Stage_Description varchar(255), Stage_Num int, Stage_Pending_Intent_ID int,Project_ID varchar(255), FOREIGN KEY (Project_ID) REFERENCES project_table (Project_ID))");
 
 
@@ -86,6 +90,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade (SQLiteDatabase db,int oldVersion, int newVersion){
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME); //If the table already exists in android studio we ignore
         db.execSQL("DROP TABLE IF EXISTS " + REMINDERS_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + COLORS_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + PROJECT_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + STAGE_TABLE_NAME);
+
         onCreate(db);
     }
 
@@ -133,7 +141,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean insertProjectData(String project_ID, String projectName,String projectDueDate, String projectTime, String projectDesc, int numOfStages){
+    public boolean insertProjectData(String project_ID, String projectName,String projectDueDate, String projectTime, String projectDesc, int completed,int numOfStages){
         SQLiteDatabase projectDB = getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -142,7 +150,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(PROJECT_COL_3, projectDueDate);
         contentValues.put(PROJECT_COL_4, projectTime);
         contentValues.put(PROJECT_COL_5,projectDesc );
-        contentValues.put(PROJECT_COL_6, numOfStages);
+        contentValues.put(PROJECT_COL_6, 0);
+        contentValues.put(PROJECT_COL_7, numOfStages);
+
 
         long result = projectDB.insert(PROJECT_TABLE_NAME, null , contentValues );
 
@@ -162,6 +172,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor result = db.rawQuery("select Stage_ID, Stage_Name, Stage_Due_Date, Stage_Description, Stage_Num, Stage_Pending_Intent_ID, s.Project_ID from " + STAGE_TABLE_NAME + " s"  + " join project_table p on s.Project_ID = p.Project_ID",null);
 
         return result;
+    }
+
+    public Cursor getAllProjects(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor result = db.rawQuery("select * from " + PROJECT_TABLE_NAME + " order by " + PROJECT_COL_6 + " desc ",null);
+        return  result;
     }
 
     public boolean checkIfColorExists(){
@@ -271,6 +287,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return -1; //Error
     }
 
+    public int getReminderPendingIntent(String taskID){
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor result = db.rawQuery("select * from " + REMINDERS_TABLE_NAME + " where " + R_COL_2 + " = '" + taskID + "'",null);
+        while(result.moveToNext()){
+            if(result.getString(1).equals(taskID)){
+                return result.getInt(0);
+            }
+        }
+
+        return -1; //Error
+    }
+
     public Cursor getAllUnCompletedTasksFromTable(){
         SQLiteDatabase db = getWritableDatabase();
         Cursor result = db.rawQuery("select * from " + TABLE_NAME + " where " + COL_5 + " != 0",null);
@@ -282,6 +310,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         Cursor result = db.rawQuery("select * from " + TABLE_NAME ,null);
 
+        return  result;
+    }
+
+    public Cursor getAllRemindersFromTable(){
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor result = db.query(REMINDERS_TABLE_NAME, this.reminderColumns,null,null,null,null, R_COL_3 + " " + "asc", null);
         return  result;
     }
 
@@ -372,6 +406,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL(querey);
     }
+
+    public void deleteReminder(String taskID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String querey = "DELETE FROM " + REMINDERS_TABLE_NAME + " WHERE " +
+                R_COL_2 + " = '" + taskID + "'";
+
+        db.execSQL(querey);
+    }
+
 
     public void deleteAllCompletedTasks(){
         SQLiteDatabase db = this.getWritableDatabase();
