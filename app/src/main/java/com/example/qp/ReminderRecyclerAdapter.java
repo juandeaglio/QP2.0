@@ -84,9 +84,8 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
                     int reminderPendingID = db.getReminderPendingIntent(reminderCardViewHolder.reminderID);
                     Intent intent1 = new Intent(context, StartService.class);
                     PendingIntent pendingIntent = PendingIntent.getService(context, reminderPendingID, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-                    am.setRepeating(AlarmManager.RTC_WAKEUP,reminder.getDueDate().getTimeInMillis(),reminder.getFrequencyOfAlarm(),pendingIntent);
-                    // am.setRepeating(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo) * 60 * 1000, pendingIntent);
-                }
+                    am.setRepeating(AlarmManager.RTC_WAKEUP,reminder.getDueDate(),reminder.getFrequencyOfAlarm(),pendingIntent);
+                                    }
                 else
                 {
                     Toast toast = Toast.makeText(context, "Repeating alarm disabled. ", Toast.LENGTH_LONG);

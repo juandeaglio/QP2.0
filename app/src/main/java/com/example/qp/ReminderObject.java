@@ -11,7 +11,7 @@ public class ReminderObject {
     private boolean reminderToggle;
     private String reminderTime;
     private String reminderUUID;
-    private Calendar dueDate;
+    private long dueDate;
     private long frequencyOfAlarm;
 
     public long getFrequencyOfAlarm() {
@@ -22,11 +22,11 @@ public class ReminderObject {
         this.frequencyOfAlarm = frequencyOfAlarm;
     }
 
-    public Calendar getDueDate() {
+    public long getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Calendar dueDate) {
+    public void setDueDate(long dueDate) {
         this.dueDate = dueDate;
     }
 
@@ -39,7 +39,7 @@ public class ReminderObject {
         this.reminderUUID = reminderUUID;
     }
 
-    public ReminderObject(String mReminderName, int mReminderInterval, String mReminderType, boolean mReminderToggle, String reminderID, Calendar dueDate)
+    public ReminderObject(String mReminderName, int mReminderInterval, String mReminderType, boolean mReminderToggle, String reminderID, long dueDate)
     {
         this.reminderName = mReminderName;
         this.reminderInterval = mReminderInterval;

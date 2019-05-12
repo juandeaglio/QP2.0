@@ -228,7 +228,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
                 if (cursor.moveToFirst()) {
                     do {
                         //MainActivity.globalTaskList.add();
-                        ReminderObject reminder = new ReminderObject(cursor.getString(2), cursor.getInt(4), cursor.getString(5), true,cursor.getString(1),null);
+                        ReminderObject reminder = new ReminderObject(cursor.getString(2), cursor.getInt(4), cursor.getString(5), true,cursor.getString(1),0);
                         globalReminderList.add(reminder); //Adds it to the global array list
                     } while (cursor.moveToNext());
 
@@ -289,7 +289,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
 
                 if (mRepeat == "true") {
                     long frequencyOfAlarm;
-                    reminder = new ReminderObject(mTitle, Integer.parseInt(mRepeatNo), mRepeatType, true,uniqueID.toString(),mCalendar);
+                    reminder = new ReminderObject(mTitle, Integer.parseInt(mRepeatNo), mRepeatType, true,uniqueID.toString(),mCalendar.getTimeInMillis());
                     globalReminderList.add(reminder);
                     saveCompleted = db.insertReminderData(intentId, uniqueID.toString(), mTitle, mDate, mRepeatNo, mRepeatType, mTime);
 
@@ -325,7 +325,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
 
                 } else {
                     am.set(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), pendingIntent);
-                    reminder = new ReminderObject(mTitle, Integer.parseInt(mRepeatNo), mRepeatType, true,uniqueID.toString(),mCalendar);
+                    reminder = new ReminderObject(mTitle, Integer.parseInt(mRepeatNo), mRepeatType, true,uniqueID.toString(),mCalendar.getTimeInMillis());
                     globalReminderList.add(reminder);
                     //saveCompleted = db.insertReminderData(intentId, uniqueID.toString());
                 }
