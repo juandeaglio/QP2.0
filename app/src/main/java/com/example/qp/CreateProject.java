@@ -59,6 +59,7 @@ public class CreateProject extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
 
+        newProjectObj = new ProjectObj();
         this.newProjectObj.setProjectId(UUID.randomUUID()); //Create the project, UUID is generated in constructor
         am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 

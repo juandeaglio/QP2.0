@@ -80,7 +80,14 @@ public class Projects extends AppCompatActivity {
         Cursor projectDB =  db.getAllProjects();
         for (projectDB.moveToFirst(); !projectDB.isAfterLast(); projectDB.moveToNext()) {
             // do what you need with the projectDB here
-            ProjectObj newProject = new ProjectObj(projectDB.getString(0),projectDB.getString(1),projectDB.getString(2),projectDB.getString(4),0,projectDB.getString(3),projectArrayList.size());
+            ProjectObj newProject = new ProjectObj();
+            newProject.setProjectId(UUID.fromString(projectDB.getString(0)));
+            newProject.setProjectName(projectDB.getString(1));
+            newProject.setDueDate(projectDB.getString(2));
+            newProject.setTimeDueDate(projectDB.getString(3));
+            newProject.setDescription(projectDB.getString(4));
+            newProject.setCompleted((short)projectDB.getInt(5));
+            newProject.setNumOfStages(Integer.parseInt(projectDB.getString(6)));
             projectArrayList.add(newProject);
         }
 
