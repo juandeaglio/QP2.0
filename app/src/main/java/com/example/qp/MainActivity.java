@@ -428,7 +428,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ctDialog.dismiss();
             }
         });
-
         final TextView taskDueDate = ctDialog.findViewById(R.id.stageDueDate);
 
         taskDueDate.setOnClickListener(new View.OnClickListener() {
@@ -444,10 +443,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
-
             }
         });
-
 
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -527,7 +524,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         };
 
         Button saveButtonDialog = (Button)ctDialog.findViewById(R.id.saveTaskButtonDialog);
-
+        saveButtonDialog.setBackgroundColor(colorManager.getColorAccent());
+        saveButtonDialog.setCompoundDrawableTintList(ColorStateList.valueOf(colorManager.getColorText()));
         saveButtonDialog.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if(taskNameDialog.getText().length() == 0){

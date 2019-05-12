@@ -6,19 +6,6 @@
     android:layout_height="500dp"
     tools:contextc=".MainActivity">
 
-    <Button
-        android:id="@+id/cancelButtonDialog"
-        android:layout_width="122dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="40dp"
-        android:text="Cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/saveTaskButtonDialog"
-        app:layout_constraintHorizontal_bias="0.059"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
         android:id="@+id/stageDueDate"
         android:layout_width="353dp"
@@ -97,18 +84,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stageTime" />
 
-    <Button
-        android:id="@+id/saveTaskButtonDialog"
-        android:layout_width="122dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="76dp"
-        android:layout_marginBottom="40dp"
-        android:text="Save"
-        android:fontFamily="@font/poppins"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <Switch
         android:id="@+id/isAllDay"
         android:layout_width="wrap_content"
@@ -129,18 +104,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/deleteButton"
-        android:layout_width="78dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="156dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/delete_icon_black"
-        android:onClick="deleteTask"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
         android:id="@+id/textView2"
         android:layout_width="165dp"
@@ -156,5 +119,35 @@
         app:layout_constraintEnd_toEndOf="@+id/toolbar3"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/saveTaskButtonDialog"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="76dp"
+        android:layout_marginBottom="40dp"
+        android:drawableLeft="@android:drawable/ic_menu_save"
+        android:drawablePadding="-10sp"
+        android:paddingLeft="10sp"
+        android:text="Save"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/taskPriorityDialog" />
+
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="40dp"
+        android:drawableLeft="@android:drawable/ic_menu_delete"
+        android:drawablePadding="0sp"
+        android:onClick="deleteTask"
+        android:paddingLeft="0sp"
+        android:text="Delete"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/taskPriorityDialog" />
 
 </android.support.constraint.ConstraintLayout>

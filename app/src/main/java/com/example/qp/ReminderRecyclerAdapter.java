@@ -1,5 +1,6 @@
 package com.example.qp;
 
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.DatabaseHelper;
 
@@ -22,7 +24,7 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
     ColorManager colorManager;
     private Context context;
     private DatabaseHelper db;
-
+    private AlarmManager am;
     public class ReminderCardViewHolder extends RecyclerView.ViewHolder{
         TextView name;
         TextView time;
@@ -43,9 +45,10 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
         }
     }
 
-    public ReminderRecyclerAdapter(ArrayList<ReminderObject> reminderList, Context context){
+    public ReminderRecyclerAdapter(ArrayList<ReminderObject> reminderList, Context context, AlarmManager alarm){
         mReminderArrayList = reminderList;
         this.context = context;
+        this.am = alarm;
     }
 
     @Override
@@ -72,11 +75,29 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
         {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                db = new DatabaseHelper(context); TODO
-//                int reminderPendingID = db.getTaskPendingIntent(taskID.toString());
-//                Intent intent1 = new Intent(context, StartService.class);
-//                PendingIntent pendingIntent = PendingIntent.getService(context, reminderPendingID, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-//                am.cancel(pendingIntent);
+
+                db = new DatabaseHelper(context);
+                if (isChecked) // set alarm
+                {
+                    Toast toast = Toast.makeText(context, "Repeating alarm set. ", Toast.LENGTH_LONG);
+                    toast.show();
+                    int reminderPendingID = db.getReminderPendingIntent(reminderCardViewHolder.reminderID);
+                    Intent intent1 = new Intent(context, StartService.class);
+                    PendingIntent pendingIntent = PendingIntent.getService(context, reminderPendingID, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+                    am.setRepeating(AlarmManager.RTC_WAKEUP,reminder.getDueDate(),reminder.getFrequencyOfAlarm(),pendingIntent);
+                                    }
+                else
+                {
+                    Toast toast = Toast.makeText(context, "Repeating alarm disabled. ", Toast.LENGTH_LONG);
+                    toast.show();
+                    int reminderPendingID = db.getReminderPendingIntent(reminderCardViewHolder.reminderID);
+                    Intent intent1 = new Intent(context, StartService.class);
+                    PendingIntent pendingIntent = PendingIntent.getService(context, reminderPendingID, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+                    am.cancel(pendingIntent);
+                }
+
+
+
             }
         });
         colorManager = MainActivity.colorManager;

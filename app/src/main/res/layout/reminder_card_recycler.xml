@@ -74,7 +74,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:checked="true"
-            android:onClick="onSwitchClick"
             android:layout_marginTop="28dp"
             app:layout_constraintStart_toEndOf="@id/card_reminder_name"
             app:layout_constraintTop_toTopOf="parent" />
