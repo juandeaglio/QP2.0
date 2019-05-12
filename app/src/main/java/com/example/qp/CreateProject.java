@@ -59,7 +59,12 @@ public class CreateProject extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
 
-        this.newProjectObj.setProjectId(UUID.randomUUID()); //Create the project, UUID is generated in constructor
+        //TODO: here fix this lol
+        if(this.newProjectObj == null){
+            this.newProjectObj = new ProjectObj("","","","",0,"",-1);
+            this.newProjectObj.setProjectId(UUID.randomUUID()); //Create the project, UUID is generated in constructor
+        }
+
         am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         colorManager = MainActivity.colorManager;
