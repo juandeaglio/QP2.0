@@ -36,24 +36,25 @@ public class CalendarView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        colorManager = MainActivity.colorManager;
         setContentView(R.layout.activity_calendar_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        android.widget.CalendarView calendar = findViewById(R.id.calendarView);
+        final android.widget.CalendarView calendar = findViewById(R.id.calendarView);
 
         setUpRecycler();
 
         adapter.updateRecyclerView(convertDate(calendar.getDate()));
-
         calendar.setOnDateChangeListener(new android.widget.CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull android.widget.CalendarView view, int year, int month, int dayOfMonth) {
+
                 month++;
                 String date = String.valueOf(month) + "/" + dayOfMonth + "/" + year;
                 adapter.updateRecyclerView(date);
             }
         });
-        colorManager = MainActivity.colorManager;
+
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(colorManager.getColorAccent());
@@ -62,8 +63,8 @@ public class CalendarView extends AppCompatActivity {
         toolbar.setBackgroundColor(colorManager.getColorAccent());
 
         calendar.setBackgroundTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
-        calendar.setUnfocusedMonthDateColor(colorManager.getColorAccent());
         calendar.setBackgroundColor(colorManager.getColorAccent());
+
     }
 
     @Override
