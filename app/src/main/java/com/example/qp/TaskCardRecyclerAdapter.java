@@ -95,6 +95,11 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
 
         taskCardViewHolder.checkBox.setOnCheckedChangeListener(null);
         taskCardViewHolder.checkBox.setButtonTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
+
+        taskCardViewHolder.taskName.setTextColor(colorManager.getColorText());
+        taskCardViewHolder.dueDate.setTextColor(colorManager.getColorText());
+        taskCardViewHolder.priority.setTextColor(colorManager.getColorText());
+        taskCardViewHolder.timeDue.setTextColor(colorManager.getColorText());
         if(task.getCompleted() == 0)
         {
             taskCardViewHolder.checkBox.setChecked(false);
