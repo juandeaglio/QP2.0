@@ -338,21 +338,21 @@ public class CreateProject extends AppCompatActivity {
         };
 
 
-        final TextView stageNum = (TextView) ctDialog.findViewById(R.id.stageNumberDialog);
-        stageNum.setOnClickListener(new View.OnClickListener() {
+//        final TextView stageNum = (TextView) ctDialog.findViewById(R.id.stageNumberDialog);
+//        stageNum.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                showNumberPicker();
+//            }
+//        });
 
-            @Override
-            public void onClick(View v) {
-                showNumberPicker();
-            }
-        });
-
-        mNumberSetListener = new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                stageNum.setText(String.valueOf(newVal));
-            }
-        };
+//        mNumberSetListener = new NumberPicker.OnValueChangeListener() {
+//            @Override
+//            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+//                stageNum.setText(String.valueOf(newVal));
+//            }
+//        };
 
         Button saveButtonDialog = (Button) ctDialog.findViewById(R.id.saveStageButtonDialog);
 
