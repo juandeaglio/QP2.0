@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.DatabaseHelper;
 
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -88,6 +89,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         final Task task = taskList.get(i);
         this.taskIDV = task.getTaskId().toString();
         colorManager = MainActivity.colorManager;
+
         taskCardViewHolder.taskName.setText(task.getTaskName());
         taskCardViewHolder.priority.setTextColor(Color.parseColor("#000000"));
         taskCardViewHolder.priority.setText(Integer.toString(task.getPriority()));
@@ -154,16 +156,6 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
 
     }
 
-    private void sortOverdueFirst(){
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy");
-        String currentDate = sdf.format(calendar.getTime());
-
-        String[] values = taskList.get(0).getDueDate().split("/");
-        for (Task task: taskList) {
-            values = task.getDueDate().split("/");
-        }
-    }
 
 
     public Task getTaskFromList(String taskID){

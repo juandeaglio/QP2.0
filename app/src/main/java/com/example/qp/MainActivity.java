@@ -48,8 +48,11 @@ import android.widget.Toast;
 
 import com.DatabaseHelper;
 
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 import maes.tech.intentanim.CustomIntent;
@@ -373,8 +376,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }while (cursor.moveToNext());
 
         }
+        sortOverdueFirst();
 
 
+    }
+
+    private void sortOverdueFirst(){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy");
+        String formattedDate = sdf.format(calendar.getTime());
+        Date currentDate = sdf.parse(formattedDate, new ParsePosition(0));
+
+        Date compareDate;
+        ArrayList<Task> overdueTasks = new ArrayList<>();
+        for (int i = 0; i < globalTaskList.size(); i++) {
+            compareDate = sdf.parse(globalTaskList.get(i).getDueDate(), new ParsePosition(0));
+            if (compareDate.compareTo(currentDate) < 0) {
+                globalTaskList.get(i).setOverdue(true);
+                overdueTasks.add(globalTaskList.get(i));
+            }
+        }
+        for(int i = overdueTasks.size()-1; i >= 0; i--){
+            if(globalTaskList.remove(overdueTasks.get(i)))
+                globalTaskList.add(0, overdueTasks.get(i));
+        }
     }
 
     public void populateCompletedTaskList(DatabaseHelper db, String sortSelector){
