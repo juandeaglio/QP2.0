@@ -107,7 +107,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(R_COL_5, reminderInterval);
         contentValues.put(R_COL_6, reminderIntervalType);
         contentValues.put(R_COL_7, reminderTime);
-        contentValues.put(R_COL_8, 0);
+        contentValues.put(R_COL_8, isActive);
         long result = reminderDB.insert(REMINDERS_TABLE_NAME, null, contentValues);
 
         if (result == -1){
@@ -123,7 +123,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(R_COL_8, 1);
+        contentValues.put(R_COL_8, 0);
 
         long result = db.update(REMINDERS_TABLE_NAME,contentValues, "Reminder_ID = "  + reminderID,null);
 
@@ -141,7 +141,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(R_COL_8, 0);
+        contentValues.put(R_COL_8, 1);
 
         long result = db.update(REMINDERS_TABLE_NAME,contentValues, "Reminder_ID = "  + reminderID,null);
 
@@ -321,6 +321,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
 
         return -1; //Error
+    }
+
+    public int getToggleValue(String reminderID) {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor result = db.rawQuery("select * from " + REMINDERS_TABLE_NAME + " where " + R_COL_2 + " = '" + reminderID + "'", null);
+
+        if ((result.moveToFirst())){
+            do {
+                if(result.getString(1).equals(reminderID)){
+                    return result.getInt(7);
+                }
+            }while (result.moveToNext());
+        }
+
+            return -1;
+
     }
 
     public int getReminderPendingIntent(String taskID){

@@ -50,6 +50,7 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
         mReminderArrayList = reminderList;
         this.context = context;
         this.am = alarm;
+        db = new DatabaseHelper(context);
     }
 
     @Override
@@ -72,8 +73,17 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
         reminderCardViewHolder.interval.setText(intervalConcat);
 
         reminderCardViewHolder.activeSwitch.setOnCheckedChangeListener(null);
-        reminderCardViewHolder.activeSwitch.setChecked(reminder.isReminderToggle());
 
+
+        if (db.getToggleValue(reminderCardViewHolder.reminderID) == 1)
+        {
+            reminderCardViewHolder.activeSwitch.setChecked(true);
+        }
+
+        else
+        {
+            reminderCardViewHolder.activeSwitch.setChecked(false);
+        }
         reminderCardViewHolder.interval.setTextColor(colorManager.getColorText());
         reminderCardViewHolder.name.setTextColor(colorManager.getColorText());
         reminderCardViewHolder.time.setTextColor(colorManager.getColorText());
@@ -86,7 +96,7 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                db = new DatabaseHelper(context);
+
                 if (isChecked) // set alarm
                 {
                     Toast toast = Toast.makeText(context, "Repeating alarm set. ", Toast.LENGTH_LONG);
@@ -95,6 +105,7 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
                     Intent intent1 = new Intent(context, StartService.class);
                     PendingIntent pendingIntent = PendingIntent.getService(context, reminderPendingID, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
                     am.setRepeating(AlarmManager.RTC_WAKEUP,reminder.getDueDate(),reminder.getFrequencyOfAlarm(),pendingIntent);
+                    db.turnOnReminder(reminderCardViewHolder.reminderID);
                                     }
                 else
                 {
@@ -104,6 +115,8 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
                     Intent intent1 = new Intent(context, StartService.class);
                     PendingIntent pendingIntent = PendingIntent.getService(context, reminderPendingID, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
                     am.cancel(pendingIntent);
+                    db.turnOffReminder(reminderCardViewHolder.reminderID);
+
                 }
 
 
