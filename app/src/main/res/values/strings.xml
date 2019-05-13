@@ -50,6 +50,10 @@
     <string name="title_activity_create_project">CreateProject</string>
     <string name="title_activity_test">test</string>
     <string name="title_activity_projects">projects</string>
+
+    <string name="title_activity_action_map">ActionMap</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
 
 

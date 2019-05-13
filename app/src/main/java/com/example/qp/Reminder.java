@@ -18,16 +18,13 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -40,7 +37,6 @@ import com.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.UUID;
 
 import maes.tech.intentanim.CustomIntent;
@@ -291,7 +287,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
                     long frequencyOfAlarm;
                     reminder = new ReminderObject(mTitle, Integer.parseInt(mRepeatNo), mRepeatType, true,uniqueID.toString(),mCalendar.getTimeInMillis());
                     globalReminderList.add(reminder);
-                    saveCompleted = db.insertReminderData(intentId, uniqueID.toString(), mTitle, mDate, mRepeatNo, mRepeatType, mTime);
+                    saveCompleted = db.insertReminderData(intentId, uniqueID.toString(), mTitle, mDate, mRepeatNo, mRepeatType, mTime,0);
 
                     switch (mRepeatType) {
 
