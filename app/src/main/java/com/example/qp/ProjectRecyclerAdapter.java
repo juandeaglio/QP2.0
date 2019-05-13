@@ -15,7 +15,7 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<ProjectRecycler
 
     public static ArrayList<ProjectObj> projectArrayList;
     //private Projects projects = new Projects();
-
+    ColorManager colorManager;
     public class ProjectViewHolder extends RecyclerView.ViewHolder {
 
         TextView projectName;
@@ -23,6 +23,7 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<ProjectRecycler
         TextView dueTime;
         CardView cardView;
         UUID uuid;
+
         //CardView projectCard;
 
 
@@ -40,11 +41,14 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<ProjectRecycler
     }
 
     @Override
-    public void onBindViewHolder(ProjectViewHolder projectViewHolder, int i) {
+    public void onBindViewHolder(ProjectViewHolder projectViewHolder, int i)
+    {
 
         final ProjectObj project = projectArrayList.get(i);
+        colorManager = MainActivity.colorManager;
 
         //final ProjectObj project = projects.projectArrayList.get(i);
+        projectViewHolder.cardView.setCardBackgroundColor(colorManager.getColorPrimaryDark());
         projectViewHolder.uuid = project.getProjectId();
 
         projectViewHolder.projectName.setText(project.getProjectName());

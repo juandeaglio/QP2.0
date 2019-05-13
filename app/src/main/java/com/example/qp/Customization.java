@@ -242,7 +242,7 @@ public class Customization extends AppCompatActivity
                     colorManager.setColorPrimary(shadeColor(colorArr[2]));
                     colorManager.setColorPrimaryDark(colorArr[1]);
                     colorManager.setColorAccent(colorArr[2]);
-                    colorManager.setColorText(colorArr[3]);
+                    colorManager.setColorText(getContrastColor(colorArr[1]));
                     finish();
                     startActivity(getIntent());
                 }
@@ -272,7 +272,11 @@ public class Customization extends AppCompatActivity
         int darkVal = Integer.decode("0xAA0000");
         return color - darkVal;
     }
-
+    public static int getContrastColor(int color)
+    {
+        double y = (299 * Color.red(color) + 587 * Color.green(color) + 114 * Color.blue(color)) / 1000;
+        return y >= 128 ? Color.BLACK : Color.WHITE;
+    }
     public void showColorWheelDialog()
     {
         final Dialog vtDialog = new Dialog(context);
@@ -325,7 +329,7 @@ public class Customization extends AppCompatActivity
                     colorManager.setColorPrimary(shadeColor(colorArr[2]));
                     colorManager.setColorPrimaryDark(colorArr[1]);
                     colorManager.setColorAccent(colorArr[2]);
-                    colorManager.setColorText(colorArr[3]);
+                    colorManager.setColorText(getContrastColor(colorArr[1]));
                 }
                 vtDialog.dismiss();
                 finish();

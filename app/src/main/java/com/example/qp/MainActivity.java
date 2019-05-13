@@ -542,9 +542,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 TextView taskTime = (TextView) ctDialog.findViewById(R.id.stageTime);
                 //taskTime.setText(taskTimeValue);
-                if(taskTime.getText().length() == 0){
-                    TextView time = findViewById(R.id.stageTime);
-                    time.setError("Time cannot be left blank");
+                if(taskTime.getText().equals(""))
+                {
+                    taskTime.setError("Time cannot be left blank");
                     return;
                 }
 

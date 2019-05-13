@@ -1,6 +1,7 @@
 package com.example.qp;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.Layout;
 import android.view.View;
 import android.view.Window;
 
@@ -22,14 +24,14 @@ public class Projects extends AppCompatActivity {
 
 
     public ArrayList<ProjectObj> projectArrayList = new ArrayList<>();
-
+    ColorManager colorManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_projects);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
-
+        colorManager = MainActivity.colorManager;
         FloatingActionButton fab = findViewById(R.id.createProjectBtn);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,8 +40,11 @@ public class Projects extends AppCompatActivity {
             }
         });
 
+
+        fab.setBackgroundTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
         Window window = getWindow();
-        window.setStatusBarColor(getResources().getColor(R.color.matteOrange));
+        window.setStatusBarColor(colorManager.getColorAccent());
+        toolbar.setBackgroundColor(colorManager.getColorAccent());
 
 
         populateProjectArray();
