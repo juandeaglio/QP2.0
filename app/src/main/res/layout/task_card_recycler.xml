@@ -39,25 +39,40 @@
             android:layout_marginTop="8dp"
             android:layout_toEndOf="@id/card_check_box"
             android:layout_toRightOf="@id/card_check_box"
-            tools:fontFamily="@font/poppins"
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold"
             app:fontFamily="@font/poppins"
             app:layout_constraintStart_toEndOf="@+id/card_check_box"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:fontFamily="@font/poppins" />
+
+        <TextView
+            android:id="@+id/overdue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:fontFamily="@font/poppins"
+            app:layout_constraintBottom_toTopOf="@+id/card_priority"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.923"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:fontFamily="@font/poppins" />
 
         <TextView
             android:id="@+id/card_priority"
-            android:layout_width="28dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@id/card_due_date"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            tools:fontFamily="@font/poppins"
+            android:layout_marginEnd="28dp"
 
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="8dp"
             android:layout_toEndOf="@id/card_task_name"
             android:layout_toRightOf="@id/card_task_name"
             android:paddingStart="10dp"
@@ -68,16 +83,17 @@
             android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.787"
+            tools:fontFamily="@font/poppins" />
 
 
         <TextView
             android:id="@+id/card_due_date"
             android:layout_width="111dp"
             android:layout_height="wrap_content"
-            tools:fontFamily="@font/poppins"
-
             android:layout_below="@+id/card_task_name"
+
             android:layout_marginTop="8dp"
             android:layout_toEndOf="@id/card_check_box"
             android:layout_toRightOf="@id/card_check_box"
@@ -86,16 +102,16 @@
             android:textStyle="bold"
             app:fontFamily="@font/poppins"
             app:layout_constraintStart_toStartOf="@+id/card_task_name"
-            app:layout_constraintTop_toBottomOf="@+id/card_task_name" />
+            app:layout_constraintTop_toBottomOf="@+id/card_task_name"
+            tools:fontFamily="@font/poppins" />
 
         <TextView
             android:id="@+id/card_time"
             android:layout_width="88dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/card_task_name"
-            tools:fontFamily="@font/poppins"
-
             android:layout_marginStart="8dp"
+
             android:layout_marginLeft="8dp"
             android:layout_toEndOf="@id/card_check_box"
             android:layout_toRightOf="@id/card_check_box"
@@ -105,7 +121,8 @@
             app:fontFamily="@font/poppins"
             app:layout_constraintBottom_toBottomOf="@+id/card_due_date"
             app:layout_constraintStart_toEndOf="@+id/card_due_date"
-            app:layout_constraintTop_toTopOf="@+id/card_due_date" />
+            app:layout_constraintTop_toTopOf="@+id/card_due_date"
+            tools:fontFamily="@font/poppins" />
     </android.support.constraint.ConstraintLayout>
 
 

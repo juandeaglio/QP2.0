@@ -56,6 +56,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         TextView priority;
         TextView dueDate;
         TextView timeDue;
+        TextView overdue;
         CheckBox checkBox;
         UUID taskID;
 
@@ -68,6 +69,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
             dueDate = (TextView) v.findViewById(R.id.card_due_date);
             checkBox = v.findViewById(R.id.card_check_box);
             timeDue = (TextView) v.findViewById(R.id.card_time);
+            overdue = v.findViewById(R.id.overdue);
         }
     }
 
@@ -96,6 +98,9 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         taskCardViewHolder.dueDate.setText(dateCorrection(task.getDueDate()));
         taskCardViewHolder.timeDue.setText(task.getTimeDueDate());
         taskCardViewHolder.taskID = task.getTaskId();
+        if(task.isOverdue()){
+            taskCardViewHolder.overdue.setText("!");
+        }
 
         taskCardViewHolder.checkBox.setOnCheckedChangeListener(null);
         taskCardViewHolder.checkBox.setButtonTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
