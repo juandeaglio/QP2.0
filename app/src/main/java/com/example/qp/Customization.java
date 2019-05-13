@@ -89,7 +89,7 @@ public class Customization extends AppCompatActivity
         }
         if(defaultColorText == getResources().getColor(R.color.colorBackgroundReminder))
         {
-            Tooltip cardToolTip = new Tooltip.Builder(findViewById(R.id.textColorButton))
+            Tooltip cardToolTip = new Tooltip.Builder(findViewById(R.id.complementaryColorButton))
                     .setText("Tap here to change the text color.")
                     .setTextColor(defaultColorText)
                     .setGravity(Gravity.BOTTOM)
@@ -98,8 +98,11 @@ public class Customization extends AppCompatActivity
         }
 
         Button saveTaskBtn = (Button)findViewById(R.id.saveColorButton);
+        saveTaskBtn.setBackgroundColor(defaultColorAccent);
         Button cancelButton = (Button)findViewById(R.id.cancelColorButton);
+        cancelButton.setBackgroundColor(defaultColorAccent);
         Button defaultButton = (Button)findViewById(R.id.defaultButton);
+        defaultButton.setBackgroundColor(defaultColorAccent);
         saveTaskBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -205,19 +208,9 @@ public class Customization extends AppCompatActivity
                 openColorPicker();
             }
         });
-        Button changeTextColor = findViewById(R.id.textColorButton);
-        changeTextColor.setTextColor(defaultColorText);
-        changeTextColor.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View view)
-            {
-                currentIndex = 3;
-                currentColor = colorArr[3];
-                openColorPicker();
-            }
-        });
 
-        ImageView colorWheelButton = findViewById(R.id.colorWheelButton);
+        Button colorWheelButton = findViewById(R.id.complementaryColorButton);
+        //colorWheelButton.setBackgroundColor(defaultColorAccent);
         colorWheelButton.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View view)
@@ -246,7 +239,7 @@ public class Customization extends AppCompatActivity
 
                 if(colorArr[0] != colorManager.getColorPrimary() || colorArr[1] != colorManager.getColorPrimaryDark() || colorArr[2] != colorManager.getColorAccent() || colorArr[3] != colorManager.getColorText())
                 {
-                    colorManager.setColorPrimary(colorArr[0]);
+                    colorManager.setColorPrimary(shadeColor(colorArr[2]));
                     colorManager.setColorPrimaryDark(colorArr[1]);
                     colorManager.setColorAccent(colorArr[2]);
                     colorManager.setColorText(colorArr[3]);
@@ -329,7 +322,7 @@ public class Customization extends AppCompatActivity
             {
                 if(colorArr[0] != colorManager.getColorPrimary() || colorArr[1] != colorManager.getColorPrimaryDark() || colorArr[2] != colorManager.getColorAccent() || colorArr[3] != colorManager.getColorText())
                 {
-                    colorManager.setColorPrimary(colorArr[0]);
+                    colorManager.setColorPrimary(shadeColor(colorArr[2]));
                     colorManager.setColorPrimaryDark(colorArr[1]);
                     colorManager.setColorAccent(colorArr[2]);
                     colorManager.setColorText(colorArr[3]);
