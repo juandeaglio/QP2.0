@@ -23,6 +23,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_8 = "Task_Pending_Intent";
 
 
+
     public static final String REMINDERS_TABLE_NAME = "reminders_table";
     // COLS for Reminders table
     public static final String R_COL_1 = "Intent_ID";
