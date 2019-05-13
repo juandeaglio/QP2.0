@@ -27,8 +27,10 @@ import android.widget.Toast;
 
 import com.DatabaseHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecyclerAdapter.TaskCardViewHolder> {
@@ -150,6 +152,17 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         }
         );
 
+    }
+
+    private void sortOverdueFirst(){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy");
+        String currentDate = sdf.format(calendar.getTime());
+
+        String[] values = taskList.get(0).getDueDate().split("/");
+        for (Task task: taskList) {
+            values = task.getDueDate().split("/");
+        }
     }
 
 
