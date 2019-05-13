@@ -17,6 +17,7 @@ public class Task {
     private int priority;
     private String description;
     private short completed; //1 for yes, 0 for no
+    private boolean overdue;
 
     //Default constructor
     public Task(String taskName, String  dueDate, int priority, String description, int completed, String dueTime)
@@ -27,6 +28,15 @@ public class Task {
         this.priority = priority;
         this.description = description;
         this.completed = 0;
+        this.overdue = false;
+    }
+
+    public boolean isOverdue() {
+        return overdue;
+    }
+
+    public void setOverdue(boolean overdue) {
+        this.overdue = overdue;
     }
 
     //For prototype
@@ -37,6 +47,7 @@ public class Task {
         this.description = "";
         this.completed = 0;
         this.timeDueDate = "";
+        this.overdue = false;
     }
 
     public UUID getTaskId() {
