@@ -26,7 +26,8 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
     private Context context;
     private DatabaseHelper db;
     private AlarmManager am;
-    public class ReminderCardViewHolder extends RecyclerView.ViewHolder{
+
+    public class ReminderCardViewHolder extends RecyclerView.ViewHolder {
         TextView name;
         TextView time;
         TextView interval;
@@ -35,7 +36,7 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
         String reminderID;
 
 
-        public ReminderCardViewHolder(View v){
+        public ReminderCardViewHolder(View v) {
             super(v);
             name = v.findViewById(R.id.card_reminder_name);
             time = v.findViewById(R.id.card_reminder_time);
@@ -46,23 +47,24 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
         }
     }
 
-    public ReminderRecyclerAdapter(ArrayList<ReminderObject> reminderList, Context context, AlarmManager alarm){
+    public ReminderRecyclerAdapter(ArrayList<ReminderObject> reminderList, Context context, AlarmManager alarm) {
         mReminderArrayList = reminderList;
         this.context = context;
         this.am = alarm;
+        db = new DatabaseHelper(context);
     }
 
     @Override
-    public int getItemCount(){
+    public int getItemCount() {
         return mReminderArrayList.size();
     }
 
-    public void updateData()
-    {
+    public void updateData() {
         notifyDataSetChanged();
     }
+
     @Override
-    public void onBindViewHolder(final ReminderCardViewHolder reminderCardViewHolder, int i){
+    public void onBindViewHolder(final ReminderCardViewHolder reminderCardViewHolder, int i) {
         colorManager = MainActivity.colorManager;
         final ReminderObject reminder = mReminderArrayList.get(i);
         reminderCardViewHolder.name.setText(reminder.getReminderName());
@@ -72,8 +74,13 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
         reminderCardViewHolder.interval.setText(intervalConcat);
 
         reminderCardViewHolder.activeSwitch.setOnCheckedChangeListener(null);
-        reminderCardViewHolder.activeSwitch.setChecked(reminder.isReminderToggle());
 
+
+        if (db.getToggleValue(reminderCardViewHolder.reminderID) == 1) {
+            reminderCardViewHolder.activeSwitch.setChecked(true);
+        } else {
+            reminderCardViewHolder.activeSwitch.setChecked(false);
+        }
         reminderCardViewHolder.interval.setTextColor(colorManager.getColorText());
         reminderCardViewHolder.name.setTextColor(colorManager.getColorText());
         reminderCardViewHolder.time.setTextColor(colorManager.getColorText());
@@ -81,12 +88,11 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
         reminderCardViewHolder.activeSwitch.setThumbTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
         reminderCardViewHolder.activeSwitch.setTrackTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
 
-        reminderCardViewHolder.activeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-        {
+        reminderCardViewHolder.activeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                db = new DatabaseHelper(context);
+
                 if (isChecked) // set alarm
                 {
                     Toast toast = Toast.makeText(context, "Repeating alarm set. ", Toast.LENGTH_LONG);
@@ -94,18 +100,18 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
                     int reminderPendingID = db.getReminderPendingIntent(reminderCardViewHolder.reminderID);
                     Intent intent1 = new Intent(context, StartService.class);
                     PendingIntent pendingIntent = PendingIntent.getService(context, reminderPendingID, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-                    am.setRepeating(AlarmManager.RTC_WAKEUP,reminder.getDueDate(),reminder.getFrequencyOfAlarm(),pendingIntent);
-                                    }
-                else
-                {
+                    am.setRepeating(AlarmManager.RTC_WAKEUP, reminder.getDueDate(), reminder.getFrequencyOfAlarm(), pendingIntent);
+                    db.turnOnReminder(reminderCardViewHolder.reminderID);
+                } else {
                     Toast toast = Toast.makeText(context, "Repeating alarm disabled. ", Toast.LENGTH_LONG);
                     toast.show();
                     int reminderPendingID = db.getReminderPendingIntent(reminderCardViewHolder.reminderID);
                     Intent intent1 = new Intent(context, StartService.class);
                     PendingIntent pendingIntent = PendingIntent.getService(context, reminderPendingID, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
                     am.cancel(pendingIntent);
-                }
+                    db.turnOffReminder(reminderCardViewHolder.reminderID);
 
+                }
 
 
             }
@@ -115,7 +121,7 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
     }
 
     @Override
-    public ReminderCardViewHolder onCreateViewHolder(ViewGroup v, int i){
+    public ReminderCardViewHolder onCreateViewHolder(ViewGroup v, int i) {
         View itemView = LayoutInflater.from(v.getContext()).inflate(R.layout.reminder_card_recycler, v, false);
         return new ReminderCardViewHolder(itemView);
     }
