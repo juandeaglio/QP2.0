@@ -1,5 +1,7 @@
 package com.example.qp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,15 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
 import java.util.ArrayList;
 import java.util.UUID;
+
+import maes.tech.intentanim.CustomIntent;
 
 public class ProjectRecyclerAdapter extends RecyclerView.Adapter<ProjectRecyclerAdapter.ProjectViewHolder> {
 
     public static ArrayList<ProjectObj> projectArrayList;
     //private Projects projects = new Projects();
     ColorManager colorManager;
+    Context context;
     public class ProjectViewHolder extends RecyclerView.ViewHolder {
 
         TextView projectName;
@@ -36,13 +40,13 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<ProjectRecycler
         }
     }
 
-    public ProjectRecyclerAdapter(ArrayList<ProjectObj> projectArrayList) {
+    public ProjectRecyclerAdapter(ArrayList<ProjectObj> projectArrayList, Context context) {
         this.projectArrayList = projectArrayList;
+        this.context = context;
     }
 
     @Override
-    public void onBindViewHolder(ProjectViewHolder projectViewHolder, int i)
-    {
+    public void onBindViewHolder(ProjectViewHolder projectViewHolder, int i) {
 
         final ProjectObj project = projectArrayList.get(i);
         colorManager = MainActivity.colorManager;
@@ -57,12 +61,14 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<ProjectRecycler
 
         projectViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
 //                Intent intent = new Intent(context, ViewTask.class);
 //                intent.putExtra("taskid", task.getTaskId().toString());
 //                context.startActivity(intent);
-                  //TODO: Add onClick event to grab all the stages associated with this project. - Ethan
+                //TODO: Add onClick event to grab all the stages associated with this project. - Ethan
+                context.startActivity(new Intent(context, ActionMap.class));
+                CustomIntent.customType(context, "left-to-right");
+
 
             }
 

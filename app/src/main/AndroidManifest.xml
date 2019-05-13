@@ -13,7 +13,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".ActionMap"
-            android:label="@string/title_activity_action_map"
+            android:label="Action Map"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".Projects"

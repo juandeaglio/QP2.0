@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.text.Layout;
 import android.view.View;
 import android.view.Window;
 
@@ -66,7 +65,7 @@ public class Projects extends AppCompatActivity {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         RecyclerView recyclerView = findViewById(R.id.project_recycler);
-        ProjectRecyclerAdapter adapter = new ProjectRecyclerAdapter(projectArrayList);
+        ProjectRecyclerAdapter adapter = new ProjectRecyclerAdapter(projectArrayList, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);
 
