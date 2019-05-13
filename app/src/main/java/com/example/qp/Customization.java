@@ -1,7 +1,12 @@
 package com.example.qp;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,10 +15,13 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.TooltipCompat;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,9 +38,14 @@ public class Customization extends AppCompatActivity
     int currentIndex = 0;
     int currentColor;
     ColorManager colorManager;
-
+    View colorView;
+    View complementaryColorView;
+    ImageView colorBox;
+    ImageView colorWheel;
     Toast toast;
-
+    Bitmap bitmap;
+    Context context;
+    Intent intent;
     int [] colorArr = new int[4];
 
     DatabaseHelper db = new DatabaseHelper(this);
@@ -43,7 +56,8 @@ public class Customization extends AppCompatActivity
         setContentView(R.layout.activity_customization);
         Toolbar toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
-
+        intent = getIntent();
+        context = this;
         colorManager = MainActivity.colorManager;
         toolbar.setBackgroundColor(colorManager.getColorAccent());
         int defaultColorPrimary = colorManager.getColorPrimary();
@@ -73,10 +87,22 @@ public class Customization extends AppCompatActivity
                     .setCancelable(true)
                     .show();
         }
+        if(defaultColorText == getResources().getColor(R.color.colorBackgroundReminder))
+        {
+            Tooltip cardToolTip = new Tooltip.Builder(findViewById(R.id.complementaryColorButton))
+                    .setText("Tap here to change the text color.")
+                    .setTextColor(defaultColorText)
+                    .setGravity(Gravity.BOTTOM)
+                    .setCancelable(true)
+                    .show();
+        }
 
         Button saveTaskBtn = (Button)findViewById(R.id.saveColorButton);
+        saveTaskBtn.setBackgroundColor(defaultColorAccent);
         Button cancelButton = (Button)findViewById(R.id.cancelColorButton);
+        cancelButton.setBackgroundColor(defaultColorAccent);
         Button defaultButton = (Button)findViewById(R.id.defaultButton);
+        defaultButton.setBackgroundColor(defaultColorAccent);
         saveTaskBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -141,6 +167,7 @@ public class Customization extends AppCompatActivity
 
 
         //Creates the hardcoded cards, not really important.
+        //toolbar.setTitleTextColor(defaultColorText);
         for(int i = 0; i < cardArr.length; i++)
         {
             CardView currentCard = cardArr[i];
@@ -154,6 +181,11 @@ public class Customization extends AppCompatActivity
             priority1.setText(priorityArr[i]);
             dueDate1.setText(dueDatesArr[i]);
             time1.setText(timesArr[i]);
+
+            taskName1.setTextColor(defaultColorText);
+            priority1.setTextColor(defaultColorText);
+            dueDate1.setTextColor(defaultColorText);
+            time1.setTextColor(defaultColorText);
         }
         currentIndex = 0;
         Button changeColorButton = findViewById(R.id.cardButton);
@@ -177,7 +209,18 @@ public class Customization extends AppCompatActivity
             }
         });
 
+        Button colorWheelButton = findViewById(R.id.complementaryColorButton);
+        //colorWheelButton.setBackgroundColor(defaultColorAccent);
+        colorWheelButton.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
+                showColorWheelDialog();
+            }
+        });
+
     }
+
     public void openColorPicker()
     {
         AmbilWarnaDialog colorPicker = new AmbilWarnaDialog(this, currentColor, new AmbilWarnaDialog.OnAmbilWarnaListener()
@@ -196,21 +239,13 @@ public class Customization extends AppCompatActivity
 
                 if(colorArr[0] != colorManager.getColorPrimary() || colorArr[1] != colorManager.getColorPrimaryDark() || colorArr[2] != colorManager.getColorAccent() || colorArr[3] != colorManager.getColorText())
                 {
-                    colorManager.setColorPrimary(colorArr[0]);
+                    colorManager.setColorPrimary(shadeColor(colorArr[2]));
                     colorManager.setColorPrimaryDark(colorArr[1]);
                     colorManager.setColorAccent(colorArr[2]);
-                    colorManager.setColorText(colorArr[3]);
+                    colorManager.setColorText(getContrastColor(colorArr[1]));
                     finish();
                     startActivity(getIntent());
                 }
-
-                colorManager.setColorPrimary(colorArr[0]);
-                colorManager.setColorPrimaryDark(colorArr[1]);
-                colorManager.setColorAccent(colorArr[2]);
-                colorManager.setColorText(colorArr[3]);
-                finish();
-                startActivity(getIntent());
-
             }
         });
         colorPicker.show();
@@ -237,7 +272,80 @@ public class Customization extends AppCompatActivity
         int darkVal = Integer.decode("0xAA0000");
         return color - darkVal;
     }
+    public static int getContrastColor(int color)
+    {
+        double y = (299 * Color.red(color) + 587 * Color.green(color) + 114 * Color.blue(color)) / 1000;
+        return y >= 128 ? Color.BLACK : Color.WHITE;
+    }
+    public void showColorWheelDialog()
+    {
+        final Dialog vtDialog = new Dialog(context);
+        vtDialog.setTitle("Color Wheel");
+        vtDialog.setContentView(R.layout.color_wheel_dialog);
+        vtDialog.findViewById(R.id.toolbar3).setBackgroundColor(colorManager.getColorAccent());
+        vtDialog.show();
 
+        colorWheel = vtDialog.findViewById(R.id.colorWheelImage);
+
+        colorView = vtDialog.findViewById(R.id.colorView);
+        complementaryColorView = vtDialog.findViewById(R.id.complementaryColorView);
+        colorWheel.setDrawingCacheEnabled(true);
+        colorWheel.buildDrawingCache(true);
+
+        colorWheel.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                if(event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE)
+                {
+                    bitmap = colorWheel.getDrawingCache();
+                    int pixel;
+                    if(event.getX() < colorWheel.getMaxWidth() && event.getY() < colorWheel.getMaxHeight())
+                        pixel = bitmap.getPixel((int)event.getX(), (int)event.getY());
+                    else
+                        pixel = 0;
+                    String hex = "#" + Integer.toHexString(pixel);
+
+                    currentColor = pixel;
+                    colorArr[2] = currentColor;
+
+                    colorArr[1] = getOppositeColor(currentColor);
+                    colorView.setBackgroundColor(currentColor);
+                    complementaryColorView.setBackgroundColor(colorArr[1]);
+
+                }
+                return true;
+            }
+
+        });
+        Button finishButton = vtDialog.findViewById(R.id.finishButton);
+        finishButton.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
+                if(colorArr[0] != colorManager.getColorPrimary() || colorArr[1] != colorManager.getColorPrimaryDark() || colorArr[2] != colorManager.getColorAccent() || colorArr[3] != colorManager.getColorText())
+                {
+                    colorManager.setColorPrimary(shadeColor(colorArr[2]));
+                    colorManager.setColorPrimaryDark(colorArr[1]);
+                    colorManager.setColorAccent(colorArr[2]);
+                    colorManager.setColorText(getContrastColor(colorArr[1]));
+                }
+                vtDialog.dismiss();
+                finish();
+                startActivity(intent);
+            }
+        });
+    }
+
+    int getOppositeColor(int c)
+    {
+        float[] hsv = new float[3];
+        Color.RGBToHSV(Color.red(c), Color.green(c),
+                Color.blue(c), hsv);
+        hsv[0] = (hsv[0] + 180) % 360;
+        return Color.HSVToColor(hsv);
+    }
 
 }
 

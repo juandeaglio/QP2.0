@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -62,6 +63,7 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
     }
     @Override
     public void onBindViewHolder(final ReminderCardViewHolder reminderCardViewHolder, int i){
+        colorManager = MainActivity.colorManager;
         final ReminderObject reminder = mReminderArrayList.get(i);
         reminderCardViewHolder.name.setText(reminder.getReminderName());
         reminderCardViewHolder.time.setText(reminder.getReminderTime());
@@ -71,6 +73,14 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
 
         reminderCardViewHolder.activeSwitch.setOnCheckedChangeListener(null);
         reminderCardViewHolder.activeSwitch.setChecked(reminder.isReminderToggle());
+
+        reminderCardViewHolder.interval.setTextColor(colorManager.getColorText());
+        reminderCardViewHolder.name.setTextColor(colorManager.getColorText());
+        reminderCardViewHolder.time.setTextColor(colorManager.getColorText());
+
+        reminderCardViewHolder.activeSwitch.setThumbTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
+        reminderCardViewHolder.activeSwitch.setTrackTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
+
         reminderCardViewHolder.activeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
             @Override
@@ -100,7 +110,7 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
 
             }
         });
-        colorManager = MainActivity.colorManager;
+
         reminderCardViewHolder.cardView.setBackgroundColor(colorManager.getColorPrimaryDark());
     }
 

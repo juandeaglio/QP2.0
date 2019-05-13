@@ -10,12 +10,11 @@
         android:id="@+id/cancelButtonDialog"
         android:layout_width="122dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="48dp"
         android:text="Cancel"
         android:textSize="15sp"
-
 
 
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,7 +27,7 @@
         android:layout_width="353dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
         android:background="@android:drawable/btn_dropdown"
         android:ems="10"
         android:hint="Due Date"
@@ -57,7 +56,7 @@
 
     <EditText
         android:id="@+id/stageNameDialog"
-        android:layout_width="231dp"
+        android:layout_width="349dp"
         android:layout_height="39dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="88dp"
@@ -72,8 +71,8 @@
         android:id="@+id/stageDescription"
         android:layout_width="353dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
         android:ems="10"
         android:hint="Description"
         android:inputType="textPersonName"
@@ -84,13 +83,13 @@
         android:id="@+id/saveStageButtonDialog"
         android:layout_width="122dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="88dp"
-        android:layout_marginBottom="4dp"
-        android:text="Save"
-
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="48dp"
         android:drawableLeft="@android:drawable/ic_menu_save"
+
         android:drawablePadding="-10sp"
         android:paddingLeft="10sp"
+        android:text="Save"
         android:textSize="15sp"
 
         app:layout_constraintBottom_toBottomOf="parent"
@@ -100,7 +99,7 @@
         android:id="@+id/isAllDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="272dp"
+        android:layout_marginTop="264dp"
         android:layout_marginEnd="80dp"
         android:text="All Day  "
         app:layout_constraintEnd_toEndOf="parent"
@@ -129,31 +128,6 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/toolbar3"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/stageNum"
-        android:layout_width="98dp"
-        android:layout_height="23dp"
-        android:layout_marginStart="280dp"
-        android:layout_marginTop="68dp"
-        android:text="Stage Number"
-        android:textAlignment="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/stageNumberDialog"
-        android:layout_width="96dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="280dp"
-        android:layout_marginTop="92dp"
-        android:text="1"
-        android:textAlignment="center"
-        android:textColor="@color/navyBlue"
-        android:textSize="19sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 

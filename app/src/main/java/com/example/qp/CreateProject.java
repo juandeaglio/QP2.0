@@ -59,8 +59,7 @@ public class CreateProject extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
 
-        //TODO: here fix this lol
-        this.newProjectObj = new ProjectObj("", "", "", "", 0, "", -1);
+        newProjectObj = new ProjectObj();
         this.newProjectObj.setProjectId(UUID.randomUUID()); //Create the project, UUID is generated in constructor
 
 
@@ -337,21 +336,21 @@ public class CreateProject extends AppCompatActivity {
         };
 
 
-        final TextView stageNum = (TextView) ctDialog.findViewById(R.id.stageNumberDialog);
-        stageNum.setOnClickListener(new View.OnClickListener() {
+//        final TextView stageNum = (TextView) ctDialog.findViewById(R.id.stageNumberDialog);
+//        stageNum.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                showNumberPicker();
+//            }
+//        });
 
-            @Override
-            public void onClick(View v) {
-                showNumberPicker();
-            }
-        });
-
-        mNumberSetListener = new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                stageNum.setText(String.valueOf(newVal));
-            }
-        };
+//        mNumberSetListener = new NumberPicker.OnValueChangeListener() {
+//            @Override
+//            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+//                stageNum.setText(String.valueOf(newVal));
+//            }
+//        };
 
         Button saveButtonDialog = (Button) ctDialog.findViewById(R.id.saveStageButtonDialog);
 

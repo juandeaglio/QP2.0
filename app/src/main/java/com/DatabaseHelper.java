@@ -335,7 +335,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return -1; //Error
     }
 
-    public Cursor getAllUnCompletedTasksFromTable(){
+    public Cursor getAllUnCompletedTasksFromTable()
+    {
         SQLiteDatabase db = getWritableDatabase();
         Cursor result = db.rawQuery("select * from " + TABLE_NAME + " where " + COL_5 + " != 0",null);
 

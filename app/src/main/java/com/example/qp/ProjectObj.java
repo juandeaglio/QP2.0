@@ -88,15 +88,26 @@ public class ProjectObj {
     }
 
     //Default constructor
-    public ProjectObj()
-    {
-        this.projectId =  UUID.randomUUID();
+//    public ProjectObj(String projectID,String projectName, String  dueDate, String description, int completed, String dueTime, int numOfStages)
+//    {
+//        this.projectId =  UUID.fromString(projectID);
+//        this.projectName = projectName;
+//        this.dueDate = dueDate;
+//        this.timeDueDate = dueTime;
+//        this.description = description;
+//        this.completed = 0;
+//        this.numOfStages = numOfStages;
+//    }
+
+    public ProjectObj(){
+        this.projectId = UUID.randomUUID();
         this.projectName = "";
         this.dueDate = "";
         this.timeDueDate = "";
-        this.description = "";
+        this. description = "";
         this.completed = 0;
         this.numOfStages = 0;
+        this.stageList = new ArrayList<>();
     }
 
 
