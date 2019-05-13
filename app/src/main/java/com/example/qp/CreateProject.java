@@ -60,10 +60,9 @@ public class CreateProject extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //TODO: here fix this lol
-        if(this.newProjectObj == null){
-            this.newProjectObj = new ProjectObj("","","","",0,"",-1);
-            this.newProjectObj.setProjectId(UUID.randomUUID()); //Create the project, UUID is generated in constructor
-        }
+        this.newProjectObj = new ProjectObj("", "", "", "", 0, "", -1);
+        this.newProjectObj.setProjectId(UUID.randomUUID()); //Create the project, UUID is generated in constructor
+
 
         am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
@@ -104,7 +103,7 @@ public class CreateProject extends AppCompatActivity {
             }
         };
 
-        final TextView projectTime = (TextView) findViewById(R.id.projectTime) ;
+        final TextView projectTime = (TextView) findViewById(R.id.projectTime);
         projectTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -191,26 +190,24 @@ public class CreateProject extends AppCompatActivity {
                 newProjectObj.setDescription(projDescription.getText().toString());
 
                 for (Stage currentStage : newProjectObj.getStageList()) {
-                    boolean saveCompleted = db.insertStageData(currentStage.getStageID().toString(), currentStage.getStageName(), currentStage.getStageDueDate(), currentStage.getStageDescription(),String.valueOf(currentStage.getStageNum()),currentStage.getPendingIntentID(), newProjectObj.getProjectId().toString());
-                    if(saveCompleted){
-                         System.out.println("saveCompleted = " + saveCompleted);
-                    }
-                    else {
+                    boolean saveCompleted = db.insertStageData(currentStage.getStageID().toString(), currentStage.getStageName(), currentStage.getStageDueDate(), currentStage.getStageDescription(), String.valueOf(currentStage.getStageNum()), currentStage.getPendingIntentID(), newProjectObj.getProjectId().toString());
+                    if (saveCompleted) {
+                        System.out.println("saveCompleted = " + saveCompleted);
+                    } else {
                         //error
                         toast = Toast.makeText(CreateProject.this, "ERROR: Couldn't save stage to DB", Toast.LENGTH_LONG);
                         toast.show();
                     }
                 }
 
-                boolean saveProjectData = db.insertProjectData(newProjectObj.getProjectId().toString(), newProjectObj.getProjectName(), newProjectObj.getDueDate(), newProjectObj.getTimeDueDate(), newProjectObj.getDescription(),0,newProjectObj.getNumOfStages());
-                if(saveProjectData){
+                boolean saveProjectData = db.insertProjectData(newProjectObj.getProjectId().toString(), newProjectObj.getProjectName(), newProjectObj.getDueDate(), newProjectObj.getTimeDueDate(), newProjectObj.getDescription(), 0, newProjectObj.getNumOfStages());
+                if (saveProjectData) {
                     toast = Toast.makeText(CreateProject.this, "Project saved successfully!", Toast.LENGTH_LONG);
                     toast.show();
                     startActivity(new Intent(CreateProject.this, Projects.class));
                     CustomIntent.customType(CreateProject.this, "left-to-right");
 
-                }
-                else {
+                } else {
                     toast = Toast.makeText(CreateProject.this, "Project failed to save", Toast.LENGTH_LONG);
                     toast.show();
                 }
@@ -222,9 +219,7 @@ public class CreateProject extends AppCompatActivity {
     }
 
 
-
-
-    public void setUpRecycler(){
+    public void setUpRecycler() {
         SwipeControllerActions swipeActions = new SwipeControllerActions() {
             @Override
             public void onLeftSwiped(UUID taskID) {
