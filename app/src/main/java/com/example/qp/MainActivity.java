@@ -719,10 +719,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
-
-//    @Override
-//    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-//
-//    }
 }
