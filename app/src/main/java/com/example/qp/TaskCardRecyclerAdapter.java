@@ -278,7 +278,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
 
         final Button deleteButton = (Button) vtDialog.findViewById(R.id.deleteButton);
         deleteButton.setBackgroundColor(colorManager.getColorAccent());
-        deleteButton.setCompoundDrawableTintList(ColorStateList.valueOf(colorManager.getColorText()));
+        //deleteButton.setCompoundDrawableTintList(ColorStateList.valueOf(colorManager.getColorText()));
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -296,7 +296,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
 
         Button saveButton = (Button) vtDialog.findViewById(R.id.saveTaskButtonDialog);
         saveButton.setBackgroundColor(colorManager.getColorAccent());
-        saveButton.setCompoundDrawableTintList(ColorStateList.valueOf(colorManager.getColorText()));
+        //saveButton.setCompoundDrawableTintList(ColorStateList.valueOf(colorManager.getColorText()));
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

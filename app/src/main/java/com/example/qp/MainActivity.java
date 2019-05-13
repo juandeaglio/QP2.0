@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //navigationView.setBackgroundColor(colorManager.getColorPrimaryDark());
 
-        navigationView.setItemIconTintList(ColorStateList.valueOf(colorManager.getColorPrimaryDark()));
+        navigationView.setItemIconTintList(ColorStateList.valueOf(colorManager.getColorPrimary()));
         navigationView.getHeaderView(0).setBackgroundColor(colorManager.getColorPrimaryDark());
 
         populateArrayList(this.db, this.sortSelector);
@@ -422,6 +422,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         EditText taskDescription = ctDialog.findViewById(R.id.taskDescription);
 
         Button cancelButtonDialog = (Button)ctDialog.findViewById(R.id.cancelButtonDialog);
+        cancelButtonDialog.setBackgroundColor(colorManager.getColorAccent());
         cancelButtonDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -525,7 +526,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Button saveButtonDialog = (Button)ctDialog.findViewById(R.id.saveTaskButtonDialog);
         saveButtonDialog.setBackgroundColor(colorManager.getColorAccent());
-        saveButtonDialog.setCompoundDrawableTintList(ColorStateList.valueOf(colorManager.getColorText()));
+        //saveButtonDialog.setCompoundDrawableTintList(ColorStateList.valueOf(colorManager.getColorText()));
         saveButtonDialog.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if(taskNameDialog.getText().length() == 0){
@@ -541,9 +542,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 TextView taskTime = (TextView) ctDialog.findViewById(R.id.stageTime);
                 //taskTime.setText(taskTimeValue);
-                if(taskTime.getText().length() == 0){
-                    TextView time = findViewById(R.id.stageTime);
-                    time.setError("Time cannot be left blank");
+                if(taskTime.getText().equals(""))
+                {
+                    taskTime.setError("Time cannot be left blank");
                     return;
                 }
 
