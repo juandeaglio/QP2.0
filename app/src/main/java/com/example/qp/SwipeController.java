@@ -86,6 +86,11 @@ public class SwipeController extends Callback {
     }
 
     @Override
+    public boolean isLongPressDragEnabled(){
+        return false;
+    }
+
+    @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
         super.onChildDraw(c, recyclerView, viewHolder, dX,
                 dY, actionState, isCurrentlyActive);
