@@ -10,6 +10,7 @@
     <color name="navyBlue">#2b3a75</color>
     <color name="colorDelete">#E52727</color>
     <color name="colorComplete">#29db73</color>
+    <color name="overDue">#f44242</color>
 
     <color name="black_overlay">#66000000</color>
 
