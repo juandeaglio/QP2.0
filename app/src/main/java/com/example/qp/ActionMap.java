@@ -1,17 +1,16 @@
 package com.example.qp;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.DatabaseHelper;
 
@@ -52,6 +51,20 @@ public class ActionMap extends AppCompatActivity {
         //TODO: Dynamically build/make buttons in vertical linearl layout based on the stageArrayList in the currentProj variable - QP
         LinearLayout mapLayout = (LinearLayout) findViewById(R.id.mapContainer);
 
+        Button btnShow = new Button(this);
+        btnShow.setText("Project Start");
+        btnShow.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        btnShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ActionMap.this, "This is working", Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+        if (mapLayout != null) {
+            mapLayout.addView(btnShow);
+        }
 
 
 

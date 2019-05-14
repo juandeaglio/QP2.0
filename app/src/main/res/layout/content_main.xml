@@ -42,24 +42,27 @@
         app:rippleColor="@color/navyBlue"
         app:srcCompat="@drawable/baseline_add_24px" />
 
-    <TextView
+    <View
         android:id="@+id/userCard"
         android:layout_width="404dp"
         android:layout_height="155dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
         android:background="@drawable/rounded"
         android:backgroundTint="@color/userColor"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:outlineAmbientShadowColor="@color/navyBlue" />
+
 
     <TextView
         android:id="@+id/goodLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/poppins"
         android:text="Good"
@@ -69,25 +72,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <DigitalClock
+        android:id="@+id/simpleDigitalClock"
+        android:layout_width="105dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="24dp"
+        android:fontFamily="@font/poppins"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/dateLabel"
+        app:layout_constraintTop_toTopOf="@+id/dateLabel" />
+
     <TextView
         android:id="@+id/timeLabel"
-        android:layout_width="107dp"
+        android:layout_width="132dp"
         android:layout_height="49dp"
-        android:layout_marginStart="144dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/poppins"
         android:text="Morning"
         android:textAlignment="textStart"
         android:textColor="@color/navyBlue"
         android:textSize="26sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/goodLabel"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/userNameLabel"
-        android:layout_width="158dp"
+        android:layout_width="117dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/poppins"
         android:text="Ethan"
@@ -97,26 +113,12 @@
         app:layout_constraintStart_toEndOf="@+id/timeLabel"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <DigitalClock
-        android:id="@+id/simpleDigitalClock"
-        android:layout_width="105dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="64dp"
-        android:fontFamily="@font/poppins"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/dateLabel"
-        android:layout_width="213dp"
+        android:layout_width="214dp"
         android:layout_height="24dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="8dp"
         android:fontFamily="@font/poppins"
         android:text="Date"
         android:textAlignment="center"
@@ -124,22 +126,26 @@
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/quoteLabel"
+        app:layout_constraintStart_toStartOf="@+id/userCard"
+        app:layout_constraintTop_toBottomOf="@+id/timeLabel" />
 
     <TextView
         android:id="@+id/quoteLabel"
         android:layout_width="397dp"
         android:layout_height="41dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:fontFamily="@font/poppins"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="13sp"
         android:textStyle="italic"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/simpleDigitalClock" />
+        app:layout_constraintBottom_toBottomOf="@+id/userCard"
+        app:layout_constraintEnd_toEndOf="@+id/userCard"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 
 </android.support.constraint.ConstraintLayout>
