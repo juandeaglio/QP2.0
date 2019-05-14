@@ -81,9 +81,9 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
         } else {
             reminderCardViewHolder.activeSwitch.setChecked(false);
         }
-        reminderCardViewHolder.interval.setTextColor(colorManager.getColorText());
-        reminderCardViewHolder.name.setTextColor(colorManager.getColorText());
-        reminderCardViewHolder.time.setTextColor(colorManager.getColorText());
+        reminderCardViewHolder.interval.setTextColor(colorManager.getCardTextColor());
+        reminderCardViewHolder.name.setTextColor(colorManager.getCardTextColor());
+        reminderCardViewHolder.time.setTextColor(colorManager.getCardTextColor());
 
         reminderCardViewHolder.activeSwitch.setThumbTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
         reminderCardViewHolder.activeSwitch.setTrackTintList(ColorStateList.valueOf(colorManager.getColorAccent()));

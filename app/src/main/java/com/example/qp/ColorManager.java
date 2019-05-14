@@ -10,14 +10,16 @@ public class ColorManager
     private int colorPrimary;
     private int colorPrimaryDark;
     private int colorAccent;
-    private int colorText;
+    private int cardTextColor;
+    private int headerTextcolor;
 
-    public ColorManager(int colorPrimary, int colorAccent, int colorPrimaryDark, int colorText)
+    public ColorManager(int colorPrimary, int colorAccent, int colorPrimaryDark, int cardTextColor, int headerTextcolor)
     {
         this.colorPrimary = colorPrimary;
         this.colorPrimaryDark = colorPrimaryDark;
         this.colorAccent = colorAccent;
-        this.colorText = colorText;
+        this.cardTextColor = cardTextColor;
+        this.headerTextcolor = headerTextcolor;
     }
 
     public int getColorPrimary()
@@ -47,13 +49,23 @@ public class ColorManager
         this.colorAccent = colorAccent;
     }
 
-    public int getColorText()
+    public int getCardTextColor()
     {
-        return colorText;
+        return this.cardTextColor;
     }
 
-    public void setColorText(int colorText)
+    public void setCardTextColor(int cardTextColor)
     {
-        this.colorText = colorText;
+        this.cardTextColor = cardTextColor;
+    }
+
+    public int getHeaderTextColor()
+    {
+        return this.headerTextcolor;
+    }
+
+    public void setHeaderTextColor(int headerTextcolor)
+    {
+        this.headerTextcolor = headerTextcolor;
     }
 }

@@ -81,10 +81,10 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
         taskCardViewHolder.timeDue.setText(task.getTimeDueDate());
         taskCardViewHolder.taskID = task.getTaskId();
 
-        taskCardViewHolder.taskName.setTextColor(colorManager.getColorText());
-        taskCardViewHolder.dueDate.setTextColor(colorManager.getColorText());
-        taskCardViewHolder.priority.setTextColor(colorManager.getColorText());
-        taskCardViewHolder.timeDue.setTextColor(colorManager.getColorText());
+        taskCardViewHolder.taskName.setTextColor(colorManager.getCardTextColor());
+        taskCardViewHolder.dueDate.setTextColor(colorManager.getCardTextColor());
+        taskCardViewHolder.priority.setTextColor(colorManager.getCardTextColor());
+        taskCardViewHolder.timeDue.setTextColor(colorManager.getCardTextColor());
 
         taskCardViewHolder.taskCard.setOnClickListener(new View.OnClickListener() {
             @Override

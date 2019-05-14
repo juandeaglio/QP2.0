@@ -11,6 +11,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -105,10 +106,10 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         taskCardViewHolder.checkBox.setOnCheckedChangeListener(null);
         taskCardViewHolder.checkBox.setButtonTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
 
-        taskCardViewHolder.taskName.setTextColor(colorManager.getColorText());
-        taskCardViewHolder.dueDate.setTextColor(colorManager.getColorText());
-        taskCardViewHolder.priority.setTextColor(colorManager.getColorText());
-        taskCardViewHolder.timeDue.setTextColor(colorManager.getColorText());
+        taskCardViewHolder.taskName.setTextColor(colorManager.getCardTextColor());
+        taskCardViewHolder.dueDate.setTextColor(colorManager.getCardTextColor());
+        taskCardViewHolder.priority.setTextColor(colorManager.getCardTextColor());
+        taskCardViewHolder.timeDue.setTextColor(colorManager.getCardTextColor());
         if(task.getCompleted() == 0)
         {
             taskCardViewHolder.checkBox.setChecked(false);
@@ -179,7 +180,10 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         final Dialog vtDialog = new Dialog(context);
         vtDialog.setTitle("View Task");
         vtDialog.setContentView(R.layout.view_task_dialog);
-        vtDialog.findViewById(R.id.toolbar3).setBackgroundColor(colorManager.getColorAccent());
+        Toolbar toolbarDialog = vtDialog.findViewById(R.id.toolbar3);
+        toolbarDialog.setBackgroundColor(colorManager.getColorAccent());
+        toolbarDialog.setTitleTextColor(colorManager.getHeaderTextColor());
+
         vtDialog.show();
         Task currentTask = getTaskFromList(taskID);
 
@@ -288,6 +292,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
 
         final Button deleteButton = (Button) vtDialog.findViewById(R.id.deleteButton);
         deleteButton.setBackgroundColor(colorManager.getColorAccent());
+        deleteButton.setTextColor(colorManager.getHeaderTextColor());
         //deleteButton.setCompoundDrawableTintList(ColorStateList.valueOf(colorManager.getColorText()));
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -305,6 +310,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         });
 
         Button saveButton = (Button) vtDialog.findViewById(R.id.saveTaskButtonDialog);
+        saveButton.setTextColor(colorManager.getHeaderTextColor());
         saveButton.setBackgroundColor(colorManager.getColorAccent());
         //saveButton.setCompoundDrawableTintList(ColorStateList.valueOf(colorManager.getColorText()));
         saveButton.setOnClickListener(new View.OnClickListener() {

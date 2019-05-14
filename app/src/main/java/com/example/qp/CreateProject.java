@@ -67,6 +67,7 @@ public class CreateProject extends AppCompatActivity {
 
         colorManager = MainActivity.colorManager;
         toolbar.setBackgroundColor(colorManager.getColorAccent());
+        toolbar.setTitleTextColor(colorManager.getHeaderTextColor());
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(colorManager.getColorAccent());
@@ -159,7 +160,8 @@ public class CreateProject extends AppCompatActivity {
 
 
         Button cancelButton = (Button) findViewById(R.id.cancelButton);
-
+        cancelButton.setBackgroundColor(colorManager.getColorAccent());
+        cancelButton.setTextColor(colorManager.getHeaderTextColor());
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -173,7 +175,8 @@ public class CreateProject extends AppCompatActivity {
 
 
         Button saveButton = (Button) findViewById(R.id.saveProjectButton);
-
+        saveButton.setBackgroundColor(colorManager.getColorAccent());
+        saveButton.setTextColor(colorManager.getHeaderTextColor());
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -253,6 +256,8 @@ public class CreateProject extends AppCompatActivity {
         final EditText stageDescription = ctDialog.findViewById(R.id.stageDescription);
 
         Button cancelButtonDialog = (Button) ctDialog.findViewById(R.id.cancelButtonDialog);
+        cancelButtonDialog.setBackgroundColor(colorManager.getColorAccent());
+        cancelButtonDialog.setTextColor(colorManager.getHeaderTextColor());
         cancelButtonDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -353,7 +358,8 @@ public class CreateProject extends AppCompatActivity {
 //        };
 
         Button saveButtonDialog = (Button) ctDialog.findViewById(R.id.saveStageButtonDialog);
-
+        saveButtonDialog.setBackgroundColor(colorManager.getColorAccent());
+        saveButtonDialog.setTextColor(colorManager.getHeaderTextColor());
         saveButtonDialog.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (stageNameDialog.getText().length() == 0) {

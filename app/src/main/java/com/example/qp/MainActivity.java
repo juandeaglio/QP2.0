@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -119,27 +120,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             Cursor colorVals = db.getColorValues();
             int tableIndex = 0;
-            int colorArr[] = new int[4];
+            int colorArr[] = new int[5];
 
             colorVals.moveToNext();
             colorArr[0] = colorVals.getInt(0);
             colorArr[1] = colorVals.getInt(1);
             colorArr[2] = colorVals.getInt(2);
             colorArr[3] = colorVals.getInt(3);
+            colorArr[4] = colorVals.getInt(4);
 
-            colorManager = new ColorManager(0,0,0,0);
+
+            colorManager = new ColorManager(0,0,0,0, 0);
             colorManager.setColorPrimary(colorArr[0]);
             colorManager.setColorPrimaryDark(colorArr[1]);
             colorManager.setColorAccent(colorArr[2]);
-            colorManager.setColorText(colorArr[3]);
+            colorManager.setCardTextColor(colorArr[3]);
+            colorManager.setHeaderTextColor(colorArr[4]);
         }
         else
         {
             colorManager = new ColorManager(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
-                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder));
+                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder), Color.WHITE);
 
             db.insertColorData(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
-                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder));
+                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder), Color.WHITE);
         }
 
         Window window = getWindow();
@@ -251,28 +255,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             Cursor colorVals = db.getColorValues();
             int tableIndex = 0;
-            int colorArr[] = new int[4];
+            int colorArr[] = new int[5];
 
             colorVals.moveToNext();
             colorArr[0] = colorVals.getInt(0);
             colorArr[1] = colorVals.getInt(1);
             colorArr[2] = colorVals.getInt(2);
             colorArr[3] = colorVals.getInt(3);
+            colorArr[4] = colorVals.getInt(4);
 
 
-            colorManager = new ColorManager(0,0,0,0);
+            colorManager = new ColorManager(0,0,0,0, 0);
             colorManager.setColorPrimary(colorArr[0]);
             colorManager.setColorPrimaryDark(colorArr[1]);
             colorManager.setColorAccent(colorArr[2]);
-            colorManager.setColorText(colorArr[3]);
+            colorManager.setCardTextColor(colorArr[3]);
+            colorManager.setHeaderTextColor(colorArr[4]);
         }
         else
         {
             colorManager = new ColorManager(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
-                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder));
+                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder), Color.WHITE);
 
             db.insertColorData(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
-                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder));
+                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder), Color.WHITE);
         }
 
         Window window = getWindow();
@@ -281,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setBackgroundColor(colorManager.getColorAccent());
-
+        toolbar.setTitleTextColor(colorManager.getHeaderTextColor());
         fab = findViewById(R.id.createTaskBtn);
         fab.setBackgroundTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
         fab.setOnClickListener(new View.OnClickListener() {
@@ -441,13 +447,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final Dialog ctDialog = new Dialog(this);
         ctDialog.setTitle("Create New Task");
         ctDialog.setContentView(R.layout.create_task_dialog);
-        ctDialog.findViewById(R.id.toolbar3).setBackgroundColor(colorManager.getColorAccent());
+        Toolbar toolbarDialog = ctDialog.findViewById(R.id.toolbar3);
+        toolbarDialog.setBackgroundColor(colorManager.getColorAccent());
+        toolbarDialog.setTitleTextColor(colorManager.getHeaderTextColor());
+
         ctDialog.show();
         final EditText taskNameDialog = ctDialog.findViewById(R.id.stageNameDialog);
         EditText taskDescription = ctDialog.findViewById(R.id.taskDescription);
 
         Button cancelButtonDialog = (Button)ctDialog.findViewById(R.id.cancelButtonDialog);
         cancelButtonDialog.setBackgroundColor(colorManager.getColorAccent());
+        cancelButtonDialog.setTextColor(colorManager.getHeaderTextColor());
         cancelButtonDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -455,7 +465,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
         final TextView taskDueDate = ctDialog.findViewById(R.id.stageDueDate);
-
         taskDueDate.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -551,6 +560,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Button saveButtonDialog = (Button)ctDialog.findViewById(R.id.saveTaskButtonDialog);
         saveButtonDialog.setBackgroundColor(colorManager.getColorAccent());
+        saveButtonDialog.setTextColor(colorManager.getHeaderTextColor());
         //saveButtonDialog.setCompoundDrawableTintList(ColorStateList.valueOf(colorManager.getColorText()));
         saveButtonDialog.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
