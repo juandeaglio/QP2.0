@@ -38,8 +38,7 @@
             android:layout_below="@+id/card_reminder_name"
 
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="44dp"
-            android:layout_marginRight="44dp"
+
             android:text="Time"
             android:textColor="@android:color/black"
             android:textSize="19sp"
@@ -51,13 +50,12 @@
 
         <TextView
             android:id="@+id/card_reminder_interval"
-            android:layout_width="111dp"
+            android:layout_width="155dp"
             android:layout_height="0dp"
             android:layout_below="@+id/card_reminder_name"
 
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="64dp"
-            android:layout_marginRight="64dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginRight="60dp"
             android:text="Interval"
             android:textColor="@android:color/black"
             android:textSize="14sp"

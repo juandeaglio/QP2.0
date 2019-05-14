@@ -108,7 +108,15 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
         mDay = mCalendar.get(Calendar.DATE);
 
         mDate = mMonth + "/" + mDay + "/" + mYear;
-        mTime = mHour + ":" + mMinute;
+
+        if (mHour >= 12)
+        {
+            mTime = (mHour % 12) + ":" + mMinute + " PM"; // Determine whether AM OR PM based on hour
+        }
+        else if (mHour <= 11)
+        {
+            mTime = (mHour % 12) + ":" + mMinute + " AM";
+        }
         this.mDateText.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -261,7 +269,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
                 mCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 mCalendar.set(Calendar.MINUTE, minute);
                 mCalendar.set(Calendar.SECOND, 0);
-                mTime = hourOfDay + ":" + minute;
+                mTime = (hourOfDay % 12) + ":" + minute;
                 mTimeText.setText(mTime);
             }
 
