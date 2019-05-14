@@ -1,18 +1,24 @@
 package com.example.qp;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.TooltipCompat;
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -34,7 +40,7 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 public class Customization extends AppCompatActivity
 {
     final int MAX_NUMBER_OF_COLORS = 3;
-
+    private Paint m_paint = new Paint();
     int currentIndex = 0;
     int currentColor;
     ColorManager colorManager;
@@ -66,8 +72,6 @@ public class Customization extends AppCompatActivity
         int defaultCardTextColor = colorManager.getCardTextColor();
         int defaultHeaderTextColor = colorManager.getHeaderTextColor();
 
-
-        this.toast = Toast.makeText(this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
 
 
         if(defaultColorPrimaryDark == getResources().getColor(R.color.colorPrimaryDark))
