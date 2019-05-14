@@ -389,15 +389,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void sortOverdueFirst(){
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
         String formattedDate = sdf.format(calendar.getTime());
         Date currentDate = sdf.parse(formattedDate, new ParsePosition(0));
 
         Date compareDate;
         ArrayList<Task> overdueTasks = new ArrayList<>();
         for (int i = 0; i < globalTaskList.size(); i++) {
-            compareDate = sdf.parse(globalTaskList.get(i).getDueDate(), new ParsePosition(0));
-            if (compareDate.compareTo(currentDate) < 0) {
+            compareDate = sdf.parse(globalTaskList.get(i).getDueDate() + " " + globalTaskList.get(i).getTimeDueDate(), new ParsePosition(0));
+            if (compareDate.compareTo(currentDate) <= 0) {
                 globalTaskList.get(i).setOverdue(true);
                 overdueTasks.add(globalTaskList.get(i));
             }
