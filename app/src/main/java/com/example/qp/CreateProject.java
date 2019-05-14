@@ -192,7 +192,7 @@ public class CreateProject extends AppCompatActivity {
                 newProjectObj.setDescription(projDescription.getText().toString());
 
                 for (Stage currentStage : newProjectObj.getStageList()) {
-                    boolean saveCompleted = db.insertStageData(currentStage.getStageID().toString(), currentStage.getStageName(), currentStage.getStageDueDate(), currentStage.getStageDescription(), String.valueOf(currentStage.getStageNum()), currentStage.getPendingIntentID(), newProjectObj.getProjectId().toString());
+                    boolean saveCompleted = db.insertStageData(currentStage.getStageID().toString(), currentStage.getStageName(), currentStage.getStageDueDate(), currentStage.getStageDescription(),currentStage.getPendingIntentID(), currentStage.getStageNum(),currentStage.getProjectID());
                     if (saveCompleted) {
                         System.out.println("saveCompleted = " + saveCompleted);
                     } else {
@@ -402,7 +402,7 @@ public class CreateProject extends AppCompatActivity {
                 int pendinIntentID = (int) System.currentTimeMillis();
 
 
-                Stage newStage = new Stage(stageNameDialog.getText().toString(), dueDate.getText().toString(), stageTime.getText().toString(), stageDesc.getText().toString(), 0, String.valueOf(pendinIntentID), newProjectObj.getProjectId().toString());
+                Stage newStage = new Stage(stageNameDialog.getText().toString(), dueDate.getText().toString(), stageDesc.getText().toString(), 0, String.valueOf(pendinIntentID), 0,newProjectObj.getProjectId().toString());
 
                 newProjectObj.getStageList().add(newStage); //Add the new stage to project to the list of stages in out Project obj
 

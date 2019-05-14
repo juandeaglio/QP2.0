@@ -16,7 +16,7 @@ public class ProjectObj {
     private int numOfStages;
 
     public int getNumOfStages() {
-        return numOfStages;
+        return stageList.size();
     }
 
     public void setNumOfStages(int numOfStages) {

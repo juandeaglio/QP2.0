@@ -94,7 +94,6 @@ public class Projects extends AppCompatActivity {
         }
 
 
-        // TODO: 5/8/2019 NEEDS TO BE IMPLEMENTED
     }
 
 }

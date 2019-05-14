@@ -16,16 +16,16 @@ public class Stage {
 
 
     //Default constructor
-    public Stage(String stageName, String  stageDueDate, String stageTimeDue,String stageDescription, int isCompleted, String pendingIntentID, String projectID)
+    public Stage(String stageName, String stageDueDate,String stageDescription, int isCompleted, String pendingIntentID, int stageNum, String projectID)
     {
         this.stageID = UUID.randomUUID();
         this.stageName = stageName;
         this.stageDueDate = stageDueDate;
-        this.stageTimeDue = stageTimeDue;
         this.stageDescription = stageDescription;
         this.isCompleted = isCompleted;
         this.pendingIntentID = pendingIntentID;
         this.projectID = projectID;
+        this.stageNum = stageNum;
     }
 
     public UUID getStageID() {
