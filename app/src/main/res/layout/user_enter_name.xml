@@ -14,8 +14,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="124dp"
         android:ems="10"
-        android:hint="Name
-"
+        android:hint="Name"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,8 +24,8 @@
         android:id="@+id/saveButton"
         android:layout_width="286dp"
         android:layout_height="104dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginBottom="16dp"
         android:text="Submit"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"

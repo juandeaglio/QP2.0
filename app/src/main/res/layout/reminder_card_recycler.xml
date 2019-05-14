@@ -38,13 +38,12 @@
             android:layout_below="@+id/card_reminder_name"
 
             android:layout_marginTop="8dp"
-
             android:text="Time"
             android:textColor="@android:color/black"
             android:textSize="19sp"
             android:textStyle="bold"
             app:fontFamily="@font/poppins"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/card_reminder_interval"
             app:layout_constraintTop_toTopOf="parent"
             tools:fontFamily="@font/poppins" />
 

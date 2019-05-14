@@ -57,19 +57,33 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:outlineAmbientShadowColor="@color/navyBlue" />
 
+
     <TextView
         android:id="@+id/goodLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/poppins"
         android:text="Good"
         android:textAlignment="textStart"
         android:textColor="@color/navyBlue"
         android:textSize="26sp"
-        app:layout_constraintStart_toStartOf="@+id/userCard"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <DigitalClock
+        android:id="@+id/simpleDigitalClock"
+        android:layout_width="105dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="24dp"
+        android:fontFamily="@font/poppins"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/dateLabel"
+        app:layout_constraintTop_toTopOf="@+id/dateLabel" />
 
     <TextView
         android:id="@+id/timeLabel"
@@ -99,24 +113,11 @@
         app:layout_constraintStart_toEndOf="@+id/timeLabel"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <DigitalClock
-        android:id="@+id/simpleDigitalClock"
-        android:layout_width="105dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="8dp"
-        android:fontFamily="@font/poppins"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/dateLabel"
-        app:layout_constraintTop_toTopOf="@+id/dateLabel" />
-
     <TextView
         android:id="@+id/dateLabel"
         android:layout_width="214dp"
         android:layout_height="24dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="24dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/poppins"
         android:text="Date"
@@ -144,6 +145,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/userCard"
         app:layout_constraintEnd_toEndOf="@+id/userCard"
         app:layout_constraintStart_toStartOf="parent" />
+
 
 
 </android.support.constraint.ConstraintLayout>
