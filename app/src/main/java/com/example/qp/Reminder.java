@@ -287,7 +287,7 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
                     long frequencyOfAlarm;
                     reminder = new ReminderObject(mTitle, Integer.parseInt(mRepeatNo), mRepeatType, true,uniqueID.toString(),mCalendar.getTimeInMillis());
                     globalReminderList.add(reminder);
-                    saveCompleted = db.insertReminderData(intentId, uniqueID.toString(), mTitle, mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo), mRepeatType, mTime,1);
+                    saveCompleted = db.insertReminderData(intentId, uniqueID.toString(), mTitle, mCalendar.getTimeInMillis(), Integer.parseInt(mRepeatNo), mRepeatType, mTime,1,mTime);
 
                     switch (mRepeatType) {
 

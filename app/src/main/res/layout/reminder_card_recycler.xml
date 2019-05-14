@@ -13,12 +13,12 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/card"
-        android:layout_width="match_parent"
+        android:layout_width="432dp"
         android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/card_reminder_name"
-            android:layout_width="329dp"
+            android:layout_width="328dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
@@ -37,35 +37,53 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/card_reminder_name"
 
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="44dp"
+            android:layout_marginRight="44dp"
             android:layout_toEndOf="@id/card_check_box"
             android:layout_toRightOf="@id/card_check_box"
             android:text="Time"
             android:textColor="@android:color/black"
-            android:textSize="15sp"
+            android:textSize="19sp"
             android:textStyle="bold"
             app:fontFamily="@font/poppins"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_reminder_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:fontFamily="@font/poppins" />
 
         <TextView
             android:id="@+id/card_reminder_interval"
-            android:layout_width="88dp"
-            android:layout_height="wrap_content"
+            android:layout_width="111dp"
+            android:layout_height="0dp"
             android:layout_below="@+id/card_reminder_name"
-            android:layout_marginStart="8dp"
 
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="64dp"
+            android:layout_marginRight="64dp"
             android:text="Interval"
             android:textColor="@android:color/black"
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:fontFamily="@font/poppins"
-            app:layout_constraintBottom_toBottomOf="@+id/card_reminder_time"
-            app:layout_constraintStart_toEndOf="@id/card_reminder_time"
-            app:layout_constraintTop_toBottomOf="@id/card_reminder_name"
-            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_reminder_time"
+            tools:fontFamily="@font/poppins" />
+
+        <TextView
+            android:id="@+id/card_reminder_interval2"
+            android:layout_width="111dp"
+            android:layout_height="0dp"
+            android:layout_below="@+id/card_reminder_name"
+
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="136dp"
+            android:layout_marginRight="136dp"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:fontFamily="@font/poppins"
+            app:layout_constraintEnd_toStartOf="@+id/card_reminder_interval"
+            app:layout_constraintTop_toBottomOf="@+id/card_reminder_name"
             tools:fontFamily="@font/poppins" />
 
         <Switch
@@ -73,8 +91,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:checked="true"
             android:layout_marginTop="28dp"
+            android:checked="true"
             app:layout_constraintStart_toEndOf="@id/card_reminder_name"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>

@@ -38,6 +38,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String R_COL_6 = "Reminder_Interval_Type";
     public static final String R_COL_7 = "Reminder_Time";
     public static final String R_COL_8 = "is_Active";
+    public static final String R_COL_9 = "Reminder_Calendar_Date";
 
 
     public static final String COLORS_TABLE_NAME = "colors_table";
@@ -73,7 +74,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public String[] allColumns = {COL_1, COL_2, COL_3, COL_4, COL_5, COL_6, COL_7};
-    public String[] reminderColumns = {R_COL_1, R_COL_2, R_COL_3, R_COL_4, R_COL_5, R_COL_6, R_COL_7,R_COL_8};
+    public String[] reminderColumns = {R_COL_1, R_COL_2, R_COL_3, R_COL_4, R_COL_5, R_COL_6, R_COL_7,R_COL_8,R_COL_9};
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -83,7 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + TABLE_NAME + "(Task_Name varchar(255), Task_Due_Date varchar(255), Task_Priority INT, Task_Description varchar(255), Task_Completed INT, Task_ID varchar(255), Task_Time varchar(255), Task_Pending_Intent int)"); //SQL querey creating our database
-        db.execSQL("create table " + REMINDERS_TABLE_NAME + "(Intent_ID int, Reminder_ID varchar(255), Reminder_Name varchar(255), Reminder_Date varchar(255), Reminder_Interval int, Reminder_Interval_Type varchar(255), Reminder_Time varchar(255), is_Active int)"); //SQL query to create the reminder table
+        db.execSQL("create table " + REMINDERS_TABLE_NAME + "(Intent_ID int, Reminder_ID varchar(255), Reminder_Name varchar(255), Reminder_Date varchar(255), Reminder_Interval int, Reminder_Interval_Type varchar(255), Reminder_Time varchar(255), is_Active int, Reminder_Calendar_Date varchar (255) )"); //SQL query to create the reminder table
         db.execSQL("create table " + COLORS_TABLE_NAME + "(Color_Primary int, Color_Primary_Dark int, Color_Primary_Accent int, Color_Card_Text int, Color_Header_Text int)");
 
         //Project/Stages tables
@@ -138,7 +139,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return "-1";
     }
 
-    public boolean insertReminderData(int IntentID, String ReminderID, String reminderName, long reminderDate, int reminderInterval, String reminderIntervalType, String reminderTime, int isActive){
+    public boolean insertReminderData(int IntentID, String ReminderID, String reminderName, long reminderDate, int reminderInterval, String reminderIntervalType, String reminderTime, int isActive, String reminderCalendarDate){
         SQLiteDatabase reminderDB = getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -150,6 +151,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(R_COL_6, reminderIntervalType);
         contentValues.put(R_COL_7, reminderTime);
         contentValues.put(R_COL_8, isActive);
+        contentValues.put(R_COL_9, reminderCalendarDate);
         long result = reminderDB.insert(REMINDERS_TABLE_NAME, null, contentValues);
 
         if (result == -1) {
@@ -157,6 +159,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else {
             return true;
         }
+    }
+
+    public String getReminderCalendarDate(String reminderID)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor result = db.rawQuery("select * from " + REMINDERS_TABLE_NAME + " where " + R_COL_2 + " = '" + reminderID + "'", null);
+        if ((result.moveToFirst())){
+            do {
+                if(result.getString(1).equals(reminderID)){
+                    return result.getString(8);
+                }
+            }while (result.moveToNext());
+        }
+
+        return "null"; // if it did not find the due date
     }
 
     public long getReminderDueDate(String reminderID)

@@ -67,10 +67,13 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
     public void onBindViewHolder(final ReminderCardViewHolder reminderCardViewHolder, int i) {
         colorManager = MainActivity.colorManager;
         final ReminderObject reminder = mReminderArrayList.get(i);
+
         reminderCardViewHolder.name.setText(reminder.getReminderName());
-        reminderCardViewHolder.time.setText(reminder.getReminderTime());
         reminderCardViewHolder.reminderID = reminder.getReminderUUID();
-        String intervalConcat = "every " + reminder.getReminderInterval() + " " + reminder.getReminderType();
+        String calendarDueDate = db.getReminderCalendarDate(reminderCardViewHolder.reminderID);
+        reminderCardViewHolder.time.setText(calendarDueDate);
+
+        String intervalConcat = "Every " + reminder.getReminderInterval() + " " + reminder.getReminderType() + "(s)";
         reminderCardViewHolder.interval.setText(intervalConcat);
 
         reminderCardViewHolder.activeSwitch.setOnCheckedChangeListener(null);
