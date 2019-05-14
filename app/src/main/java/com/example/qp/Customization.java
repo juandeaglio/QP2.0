@@ -39,6 +39,7 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class Customization extends AppCompatActivity
 {
+    //TODO: toolbar colors need to be done, color presets, one for reach group.
     final int MAX_NUMBER_OF_COLORS = 3;
     private Paint m_paint = new Paint();
     int currentIndex = 0;
