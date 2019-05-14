@@ -42,9 +42,11 @@ public class IntroActivity extends AppIntro {
     private Runnable waitForAnimation = new Runnable() {
         @Override
         public void run() {
-            dbHelper.insertUserData(userName);
+            if(dbHelper.insertUserData(userName)){
+                startActivity(new Intent(IntroActivity.this, MainActivity.class));
+                finish();
 
-            startActivity(new Intent(IntroActivity.this, MainActivity.class));
+            }
         }
     };
 
@@ -76,9 +78,23 @@ public class IntroActivity extends AppIntro {
 
         @Override
         public void onSkipPressed (Fragment currentFragment){
-            super.onSkipPressed(currentFragment);
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-            finish();
+            super.onDonePressed(currentFragment);
+            final Dialog enterUser = new Dialog(this);
+            enterUser.setTitle("NumberPicker");
+            enterUser.setContentView(R.layout.user_enter_name);
+            enterUser.show();
+
+
+
+            final SubmitButton submitButton = (SubmitButton) enterUser.findViewById(R.id.saveButton);
+            submitButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TextView textView = (TextView) enterUser.findViewById(R.id.userName);
+                    userName = textView.getText().toString();
+                    submitButton.postDelayed(waitForAnimation,2000);
+                }
+            });
+
         }
     }
