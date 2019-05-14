@@ -341,7 +341,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    public void createNotification(String aMessage, Context context) {
+    public void createNotification(String aMessage, Context context, String bMessage) {
         final int NOTIFY_ID = 0; // ID of notification
         String id = CHANNEL_ID; // default_channel_id
         String title = (CHANNEL_NAME); // Default Channel
@@ -385,7 +385,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             builder.setContentTitle(aMessage)                            // required
                     .setSmallIcon(android.R.drawable.ic_popup_reminder)   // required
 
-                    .setContentText(context.getString(R.string.app_name)) // required
+                    .setContentText(bMessage) // required
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
@@ -645,7 +645,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (saveCompleted) {
                     Intent intent1 = new Intent(MainActivity.this, StartService.class);
                     intent1.putExtra("Task Name", taskNameDialog.getText().toString());
-
+                    intent1.putExtra("Message", dueDate.getText().toString());
                     PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, id, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
 
                     long diff = Calendar.getInstance().getTimeInMillis() - calendar.getTimeInMillis();

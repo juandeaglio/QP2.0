@@ -25,7 +25,8 @@ public class StartService extends IntentService {
     protected void onHandleIntent(Intent intent) {
 
         String taskName = (String)intent.getExtras().get("Task Name");
-        mainActivity.createNotification(taskName,this);
+        String message = (String)intent.getExtras().get("Message");
+        mainActivity.createNotification(taskName,this,message);
         Log.d("Reminder", taskName);
     }
 

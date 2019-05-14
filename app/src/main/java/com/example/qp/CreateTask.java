@@ -284,6 +284,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
                 intent1.putExtra("Task Name", taskName.getText().toString());
 
 
+
                 PendingIntent pendingIntent = PendingIntent.getService(this, id, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 long diff = Calendar.getInstance().getTimeInMillis() - calendar.getTimeInMillis();

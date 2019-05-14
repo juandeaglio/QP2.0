@@ -354,7 +354,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
                     Calendar calendar = Calendar.getInstance();
                     Intent intent1 = new Intent(context, BroadCastService.class);
                     intent1.putExtra("Task Name",taskName.getText().toString());
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+                    PendingIntent pendingIntent = PendingIntent.getService(context, 0,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
                     AlarmManager am = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
 
                     String taskDueDate = taskTime.getText().toString();
