@@ -46,7 +46,7 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<ProjectRecycler
     }
 
     @Override
-    public void onBindViewHolder(ProjectViewHolder projectViewHolder, int i) {
+    public void onBindViewHolder(final ProjectViewHolder projectViewHolder, int i) {
 
         final ProjectObj project = projectArrayList.get(i);
         colorManager = MainActivity.colorManager;
@@ -66,7 +66,10 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<ProjectRecycler
 //                intent.putExtra("taskid", task.getTaskId().toString());
 //                context.startActivity(intent);
                 //TODO: Add onClick event to grab all the stages associated with this project. - Ethan
-                context.startActivity(new Intent(context, ActionMap.class));
+                Intent intent = new Intent(context, ActionMap.class);
+
+                intent.putExtra("ProjectID",projectViewHolder.uuid.toString());
+                context.startActivity(intent);
                 CustomIntent.customType(context, "left-to-right");
 
 
