@@ -68,7 +68,6 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
             taskName = (TextView) v.findViewById(R.id.card_task_name);
             priority = (TextView) v.findViewById(R.id.card_priority);
             dueDate = (TextView) v.findViewById(R.id.card_due_date);
-            checkBox = v.findViewById(R.id.card_check_box);
             timeDue = (TextView) v.findViewById(R.id.card_time);
             overdue = v.findViewById(R.id.overdue);
         }
@@ -103,19 +102,10 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
             taskCardViewHolder.overdue.setText("!");
         }
 
-        taskCardViewHolder.checkBox.setOnCheckedChangeListener(null);
-        taskCardViewHolder.checkBox.setButtonTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
-
         taskCardViewHolder.taskName.setTextColor(colorManager.getCardTextColor());
         taskCardViewHolder.dueDate.setTextColor(colorManager.getCardTextColor());
         taskCardViewHolder.priority.setTextColor(colorManager.getCardTextColor());
         taskCardViewHolder.timeDue.setTextColor(colorManager.getCardTextColor());
-        if(task.getCompleted() == 0)
-        {
-            taskCardViewHolder.checkBox.setChecked(false);
-        }
-        else
-            taskCardViewHolder.checkBox.setChecked(true);
         taskCardViewHolder.taskCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -132,33 +122,6 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
 
         taskCardViewHolder.taskCard.setBackgroundColor(colorManager.getColorPrimaryDark());
        // mainActivity.registerForContextMenu(taskCardViewHolder.taskCard);
-
-        taskCardViewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    if(db.markTaskCompleted(task.getTaskId().toString())){
-                        // System.out.println("True");
-                        mainActivity.populateArrayList(db, mainActivity.sortSelector);
-                        mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
-                        updateData();
-                    }
-                    else {
-                        System.out.println("False");
-                    }
-                }
-                else
-                {
-                    if(db.unCheckCompletedTask(task.getTaskId().toString())){
-                        mainActivity.populateArrayList(db, mainActivity.sortSelector);
-                        mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
-                        updateData();
-                    }
-                }
-
-            }
-        }
-        );
 
     }
 
