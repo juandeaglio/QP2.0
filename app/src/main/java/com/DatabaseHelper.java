@@ -29,8 +29,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String R_COL_1 = "Intent_ID";
     public static final String R_COL_2 = "Reminder_ID";
     public static final String R_COL_3 = "Reminder_Name";
-    public static final String R_COL_4 = "Reminder_Date";
-    public static final String R_COL_5 = "Reminder_Interval";
+    public static final String R_COL_4 = "Reminder_Date";             // due date
+    public static final String R_COL_5 = "Reminder_Interval";                // reminder interval
     public static final String R_COL_6 = "Reminder_Interval_Type";
     public static final String R_COL_7 = "Reminder_Time";
     public static final String R_COL_8 = "is_Active";
@@ -70,7 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public String[] allColumns = {COL_1, COL_2, COL_3, COL_4, COL_5, COL_6, COL_7};
-    public String[] reminderColumns = {R_COL_1, R_COL_2, R_COL_3, R_COL_4, R_COL_5, R_COL_6, R_COL_7};
+    public String[] reminderColumns = {R_COL_1, R_COL_2, R_COL_3, R_COL_4, R_COL_5, R_COL_6, R_COL_7,R_COL_8};
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -137,7 +137,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return "-1";
     }
 
-    public boolean insertReminderData(int IntentID, String ReminderID, String reminderName, String reminderDate, String reminderInterval, String reminderIntervalType, String reminderTime, int isActive){
+    public boolean insertReminderData(int IntentID, String ReminderID, String reminderName, long reminderDate, int reminderInterval, String reminderIntervalType, String reminderTime, int isActive){
         SQLiteDatabase reminderDB = getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -157,6 +157,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         else {
             return true;
         }
+    }
+
+    public long getReminderDueDate(String reminderID)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor result = db.rawQuery("select * from " + REMINDERS_TABLE_NAME + " where " + R_COL_2 + " = '" + reminderID + "'", null);
+        if ((result.moveToFirst())){
+            do {
+                if(result.getString(1).equals(reminderID)){
+                    return result.getLong(3);
+                }
+            }while (result.moveToNext());
+        }
+
+        return -1; // if it did not find the due date
+    }
+
+    public int getReminderInterval(String reminderID)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor result = db.rawQuery("select * from " + REMINDERS_TABLE_NAME + " where " + R_COL_2 + " = '" + reminderID + "'", null);
+        if ((result.moveToFirst())){
+            do {
+                if(result.getString(1).equals(reminderID)){
+                    return result.getInt(4);
+                }
+            }while (result.moveToNext());
+        }
+
+        return -1; // if it did not find the due date
     }
 
     public boolean turnOffReminder(String reminderID){
