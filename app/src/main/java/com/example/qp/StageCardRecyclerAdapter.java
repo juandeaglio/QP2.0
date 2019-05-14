@@ -13,7 +13,7 @@ import java.util.Collections;
 
 public class StageCardRecyclerAdapter extends RecyclerView.Adapter<StageCardRecyclerAdapter.StageCardViewHolder> implements StageTouchHelperAdapter
 {
-    ColorManager colorManager;
+    ColorManager colorManager = MainActivity.colorManager;
     private ArrayList<Stage> stageArray;
     private final ItemTouchHelper mItemTouchHelper;
     public class StageCardViewHolder extends RecyclerView.ViewHolder{
@@ -70,8 +70,13 @@ public class StageCardRecyclerAdapter extends RecyclerView.Adapter<StageCardRecy
         stageCardViewHolder.dueTime.setText(stage.getStageTimeDue());
         stageCardViewHolder.stageNumber.setText(Integer.toString(stage.getStageNum()));
 
+        stageCardViewHolder.name.setTextColor(colorManager.getCardTextColor());
+        stageCardViewHolder.dueDate.setTextColor(colorManager.getCardTextColor());
+        stageCardViewHolder.dueTime.setTextColor(colorManager.getCardTextColor());
+        stageCardViewHolder.stageNumber.setTextColor(colorManager.getCardTextColor());
+
         colorManager = MainActivity.colorManager;
-        stageCardViewHolder.cardView.setBackgroundColor(colorManager.getColorAccent());
+        stageCardViewHolder.cardView.setBackgroundColor(colorManager.getColorPrimaryDark());
         stageCardViewHolder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

@@ -41,7 +41,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLOR_COL_1 = "Color_Primary";
     public static final String COLOR_COL_2 = "Color_Primary_Dark";
     public static final String COLOR_COL_3 = "Color_Primary_Accent";
-    public static final String COLOR_COL_4 = "Text_Color";
+    public static final String COLOR_COL_4 = "Color_Card_Text";
+    public static final String COLOR_COL_5 = "Color_Header_Text";
 
     public static final String PROJECT_TABLE_NAME = "project_table";
     public static final String PROJECT_COL_1 = "Project_ID"; //Primary Key
@@ -81,7 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + TABLE_NAME + "(Task_Name varchar(255), Task_Due_Date varchar(255), Task_Priority INT, Task_Description varchar(255), Task_Completed INT, Task_ID varchar(255), Task_Time varchar(255), Task_Pending_Intent int)"); //SQL querey creating our database
         db.execSQL("create table " + REMINDERS_TABLE_NAME + "(Intent_ID int, Reminder_ID varchar(255), Reminder_Name varchar(255), Reminder_Date varchar(255), Reminder_Interval int, Reminder_Interval_Type varchar(255), Reminder_Time varchar(255), is_Active int)"); //SQL query to create the reminder table
-        db.execSQL("create table " + COLORS_TABLE_NAME + "(Color_Primary int, Color_Primary_Dark int, Color_Primary_Accent int, Text_Color int)");
+        db.execSQL("create table " + COLORS_TABLE_NAME + "(Color_Primary int, Color_Primary_Dark int, Color_Primary_Accent int, Color_Card_Text int, Color_Header_Text int)");
 
         //Project/Stages tables
         db.execSQL("create table " + PROJECT_TABLE_NAME + "(Project_ID varchar(255) PRIMARY KEY, Project_name varchar(255),Project_Due_Date varchar(255), Project_Time varchar(255), Project_Description varchar(255), Is_Completed int ,Num_Of_Stages int)");
@@ -275,15 +276,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public boolean insertColorData(int color_Primary, int color_Primary_Dark, int color_Primary_Accent, int text_Color){
+    public boolean insertColorData(int color_Primary, int color_Primary_Dark, int color_Primary_Accent, int color_Card_Text, int color_Header_Text){
         SQLiteDatabase colorDB = getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLOR_COL_1, color_Primary);
         contentValues.put(COLOR_COL_2, color_Primary_Dark);
         contentValues.put(COLOR_COL_3, color_Primary_Accent);
-        contentValues.put(COLOR_COL_4, text_Color);
-
+        contentValues.put(COLOR_COL_4, color_Card_Text);
+        contentValues.put(COLOR_COL_5, color_Header_Text);
         long result = colorDB.insert(COLORS_TABLE_NAME, null , contentValues );
 
         if (result == -1){
@@ -295,14 +296,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean updateColordata(int color_Primary, int color_Primary_Dark, int color_Primary_Accent, int text_Color){
+    public boolean updateColordata(int color_Primary, int color_Primary_Dark, int color_Primary_Accent, int color_Card_Text, int color_Header_Text){
         SQLiteDatabase colorDB = getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLOR_COL_1, color_Primary);
         contentValues.put(COLOR_COL_2, color_Primary_Dark);
         contentValues.put(COLOR_COL_3, color_Primary_Accent);
-        contentValues.put(COLOR_COL_4, text_Color);
+        contentValues.put(COLOR_COL_4, color_Card_Text);
+        contentValues.put(COLOR_COL_5, color_Header_Text);
 
         long result = colorDB.update(COLORS_TABLE_NAME, contentValues,  COLOR_COL_1 + " is not NULL", null );
 

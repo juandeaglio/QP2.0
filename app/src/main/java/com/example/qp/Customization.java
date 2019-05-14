@@ -1,18 +1,24 @@
 package com.example.qp;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.TooltipCompat;
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -33,8 +39,9 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class Customization extends AppCompatActivity
 {
+    //TODO: toolbar colors need to be done, color presets, one for reach group.
     final int MAX_NUMBER_OF_COLORS = 3;
-
+    private Paint m_paint = new Paint();
     int currentIndex = 0;
     int currentColor;
     ColorManager colorManager;
@@ -63,10 +70,9 @@ public class Customization extends AppCompatActivity
         int defaultColorPrimary = colorManager.getColorPrimary();
         int defaultColorPrimaryDark = colorManager.getColorPrimaryDark();
         int defaultColorAccent = colorManager.getColorAccent();
-        int defaultColorText = colorManager.getColorText();
+        int defaultCardTextColor = colorManager.getCardTextColor();
+        int defaultHeaderTextColor = colorManager.getHeaderTextColor();
 
-
-        this.toast = Toast.makeText(this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
 
 
         if(defaultColorPrimaryDark == getResources().getColor(R.color.colorPrimaryDark))
@@ -84,15 +90,6 @@ public class Customization extends AppCompatActivity
                     .setText("Tap on the header to change the color for the header.")
                     .setBackgroundColor(defaultColorPrimaryDark)
                     .setGravity(Gravity.START)
-                    .setCancelable(true)
-                    .show();
-        }
-        if(defaultColorText == getResources().getColor(R.color.colorBackgroundReminder))
-        {
-            Tooltip cardToolTip = new Tooltip.Builder(findViewById(R.id.complementaryColorButton))
-                    .setText("Tap here to change the text color.")
-                    .setTextColor(defaultColorText)
-                    .setGravity(Gravity.BOTTOM)
                     .setCancelable(true)
                     .show();
         }
@@ -114,7 +111,7 @@ public class Customization extends AppCompatActivity
                 }
             }
         });
-
+        saveTaskBtn.setTextColor(colorManager.getHeaderTextColor());
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -123,10 +120,12 @@ public class Customization extends AppCompatActivity
                 colorManager.setColorPrimary(colorVals.getInt(0));
                 colorManager.setColorPrimaryDark(colorVals.getInt(1));
                 colorManager.setColorAccent(colorVals.getInt(2));
-                colorManager.setColorText(colorVals.getInt(3));
+                colorManager.setCardTextColor(colorVals.getInt(3));
+                colorManager.setHeaderTextColor(colorVals.getInt(4));
                 goBackToHomepage();
             }
         });
+        cancelButton.setTextColor(colorManager.getHeaderTextColor());
 
         defaultButton.setOnClickListener(new View.OnClickListener()
         {
@@ -136,19 +135,23 @@ public class Customization extends AppCompatActivity
                 colorManager.setColorPrimary(getResources().getColor(R.color.colorPrimary));
                 colorManager.setColorPrimaryDark(getResources().getColor(R.color.colorPrimaryDark));
                 colorManager.setColorAccent(getResources().getColor(R.color.colorAccent));
-                colorManager.setColorText(getResources().getColor(R.color.colorBackgroundReminder));
+                colorManager.setCardTextColor(getResources().getColor(R.color.colorBackgroundReminder));
+                colorManager.setHeaderTextColor(Color.WHITE);
                 finish();
                 startActivity(getIntent());
             }
         });
-        colorArr = new int[]{defaultColorPrimary ,defaultColorPrimaryDark, defaultColorAccent, defaultColorText};
+        defaultButton.setTextColor(colorManager.getHeaderTextColor());
+        colorArr = new int[]{defaultColorPrimary ,defaultColorPrimaryDark, defaultColorAccent, defaultCardTextColor, defaultHeaderTextColor};
 
         colorArr[0] = defaultColorPrimary;
         colorArr[1] = defaultColorPrimaryDark;
         colorArr[2] = defaultColorAccent;
-        colorArr[3] = defaultColorText;
+        colorArr[3] = defaultCardTextColor;
+        colorArr[4] = defaultHeaderTextColor;
 
         toolbar.setBackgroundColor(defaultColorAccent);
+        toolbar.setTitleTextColor(defaultHeaderTextColor);
         //setStatusBarColor(findViewById(R.id.statusBarBackground), defaultColorAccent);
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -167,7 +170,7 @@ public class Customization extends AppCompatActivity
 
 
         //Creates the hardcoded cards, not really important.
-        //toolbar.setTitleTextColor(defaultColorText);
+        toolbar.setTitleTextColor(defaultHeaderTextColor);
         for(int i = 0; i < cardArr.length; i++)
         {
             CardView currentCard = cardArr[i];
@@ -182,10 +185,10 @@ public class Customization extends AppCompatActivity
             dueDate1.setText(dueDatesArr[i]);
             time1.setText(timesArr[i]);
 
-            taskName1.setTextColor(defaultColorText);
-            priority1.setTextColor(defaultColorText);
-            dueDate1.setTextColor(defaultColorText);
-            time1.setTextColor(defaultColorText);
+            taskName1.setTextColor(defaultCardTextColor);
+            priority1.setTextColor(defaultCardTextColor);
+            dueDate1.setTextColor(defaultCardTextColor);
+            time1.setTextColor(defaultCardTextColor);
         }
         currentIndex = 0;
         Button changeColorButton = findViewById(R.id.cardButton);
@@ -237,12 +240,14 @@ public class Customization extends AppCompatActivity
                 currentColor = color;
                 colorArr[currentIndex] = currentColor;
 
-                if(colorArr[0] != colorManager.getColorPrimary() || colorArr[1] != colorManager.getColorPrimaryDark() || colorArr[2] != colorManager.getColorAccent() || colorArr[3] != colorManager.getColorText())
+                if(colorArr[0] != colorManager.getColorPrimary() || colorArr[1] != colorManager.getColorPrimaryDark()
+                        || colorArr[2] != colorManager.getColorAccent() || colorArr[3] != colorManager.getCardTextColor() || colorArr[4] != colorManager.getHeaderTextColor() )
                 {
                     colorManager.setColorPrimary(shadeColor(colorArr[2]));
                     colorManager.setColorPrimaryDark(colorArr[1]);
                     colorManager.setColorAccent(colorArr[2]);
-                    colorManager.setColorText(getContrastColor(colorArr[1]));
+                    colorManager.setCardTextColor(getContrastColor(colorArr[1]));
+                    colorManager.setHeaderTextColor(getContrastColor(colorArr[2]));
                     finish();
                     startActivity(getIntent());
                 }
@@ -262,7 +267,8 @@ public class Customization extends AppCompatActivity
     {
         if(colorManager != null)
         {
-            db.updateColordata(colorManager.getColorPrimary(), colorManager.getColorPrimaryDark(), colorManager.getColorAccent(), colorManager.getColorText());
+            db.updateColordata(colorManager.getColorPrimary(), colorManager.getColorPrimaryDark(),
+                    colorManager.getColorAccent(), colorManager.getCardTextColor(), colorManager.getHeaderTextColor());
             return true;
         }
         return false;
@@ -324,12 +330,14 @@ public class Customization extends AppCompatActivity
         {
             public void onClick(View view)
             {
-                if(colorArr[0] != colorManager.getColorPrimary() || colorArr[1] != colorManager.getColorPrimaryDark() || colorArr[2] != colorManager.getColorAccent() || colorArr[3] != colorManager.getColorText())
+                if(colorArr[0] != colorManager.getColorPrimary() || colorArr[1] != colorManager.getColorPrimaryDark()
+                        || colorArr[2] != colorManager.getColorAccent() || colorArr[3] != colorManager.getCardTextColor() || colorArr[4] != colorManager.getHeaderTextColor())
                 {
                     colorManager.setColorPrimary(shadeColor(colorArr[2]));
                     colorManager.setColorPrimaryDark(colorArr[1]);
                     colorManager.setColorAccent(colorArr[2]);
-                    colorManager.setColorText(getContrastColor(colorArr[1]));
+                    colorManager.setCardTextColor(getContrastColor(colorArr[1]));
+                    colorManager.setHeaderTextColor(getContrastColor(colorArr[2]));
                 }
                 vtDialog.dismiss();
                 finish();
