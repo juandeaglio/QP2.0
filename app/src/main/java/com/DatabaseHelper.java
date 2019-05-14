@@ -62,6 +62,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String STAGE_COL_6 = "Stage_Pending_Intent_ID";
     public static final String STAGE_COL_7 = "Project_ID";
 
+    public static final String USER_TABLE_NAME = "user_table";
+    public static final String USER_COL_1 = "Username";
+
+
 
 
     public String[] allColumns = {COL_1, COL_2, COL_3, COL_4, COL_5, COL_6, COL_7};
@@ -83,18 +87,53 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + PROJECT_TABLE_NAME + "(Project_ID varchar(255) PRIMARY KEY, Project_name varchar(255),Project_Due_Date varchar(255), Project_Time varchar(255), Project_Description varchar(255), Is_Completed int ,Num_Of_Stages int)");
         db.execSQL("create table " + STAGE_TABLE_NAME + "(Stage_ID varchar(255) PRIMARY KEY, Stage_Name varchar(255), Stage_Due_Date varchar(255), Stage_Description varchar(255), Stage_Num int, Stage_Pending_Intent_ID int,Project_ID varchar(255), FOREIGN KEY (Project_ID) REFERENCES project_table (Project_ID))");
 
+        //User name
+        db.execSQL("create table " + USER_TABLE_NAME + "(Username varchar(255))");
+
 
     }
 
     @Override
     public void onUpgrade (SQLiteDatabase db,int oldVersion, int newVersion){
+
+
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME); //If the table already exists in android studio we ignore
         db.execSQL("DROP TABLE IF EXISTS " + REMINDERS_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + COLORS_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + PROJECT_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + STAGE_TABLE_NAME);
-
+        db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE_NAME);
         onCreate(db);
+    }
+
+
+    public boolean insertUserData(String userName){
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(USER_COL_1, userName);
+
+        long result = db.insert(USER_TABLE_NAME, null, contentValues);
+
+        if(result == -1){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    public String getUserName(){
+
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor result = db.rawQuery("select * from " + USER_TABLE_NAME ,null);
+
+        if(result.moveToFirst()){
+            do {
+                return result.getString(0);
+            }while (result.moveToNext());
+        }
+        return "-1";
     }
 
     public boolean insertReminderData(int IntentID, String ReminderID, String reminderName, String reminderDate, String reminderInterval, String reminderIntervalType, String reminderTime, int isActive){

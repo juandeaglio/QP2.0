@@ -48,6 +48,7 @@ import android.widget.Toast;
 
 import com.DatabaseHelper;
 
+import java.text.DateFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static ArrayList<Task> globalTaskList = new ArrayList<>();
     public static ArrayList<Task> globalCompletedTaskList = new ArrayList<>();
+    private Quotes quotes = new Quotes();
     DatabaseHelper db = new DatabaseHelper(this);
     SQLiteDatabase taskDB;
     private Toast toast = null;
@@ -99,9 +101,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences preferences = getSharedPreferences("prefs", MODE_PRIVATE);
 
         boolean firstStart = preferences.getBoolean("firstStart", true);
+        //boolean firstStart = true;
         if(firstStart){
             showfirstTimeDialog();
         }
+
+        setUpUserCard();
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -182,6 +187,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreateContextMenu(menu, v, menuInfo);
 
         getMenuInflater().inflate(R.menu.task_card_long_press, menu);
+
+    }
+
+    public void setUpUserCard(){
+
+
+        TextView userNameLabel = (TextView) findViewById(R.id.userNameLabel);
+        String userName = db.getUserName();
+        userNameLabel.setText(userName);
+
+
+        TextView dateLabel = (TextView) findViewById(R.id.dateLabel);
+        Calendar cal = Calendar.getInstance();
+        dateLabel.setText(DateFormat.getDateInstance(DateFormat.FULL).format(cal.getTime()));
+
+        TextView quoteLabel = (TextView) findViewById(R.id.quoteLabel);
+        quoteLabel.setText(quotes.getRandomQuote()); //Testing quotes
+
+        TextView timeLabel = (TextView) findViewById(R.id.timeLabel);
+
+        int timeOfDay = cal.get(Calendar.HOUR_OF_DAY);
+
+        if(timeOfDay >= 0 && timeOfDay < 12){
+            timeLabel.setText("Morning");
+        }else if(timeOfDay >= 12 && timeOfDay < 16){
+            timeLabel.setText("Afternoon");
+        }else if(timeOfDay >= 16 && timeOfDay < 21){
+            timeLabel.setText("Evening");
+        }else if(timeOfDay >= 21 && timeOfDay < 24){
+            timeLabel.setText("Evening");
+        }
+
+
 
     }
 
