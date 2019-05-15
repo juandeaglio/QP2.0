@@ -40,6 +40,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.DigitalClock;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Switch;
@@ -119,37 +120,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         navigationView.setNavigationItemSelectedListener(this);
-
-
-        if(db.checkIfColorExists())
-        {
-            Cursor colorVals = db.getColorValues();
-            int tableIndex = 0;
-            int colorArr[] = new int[5];
-
-            colorVals.moveToNext();
-            colorArr[0] = colorVals.getInt(0);
-            colorArr[1] = colorVals.getInt(1);
-            colorArr[2] = colorVals.getInt(2);
-            colorArr[3] = colorVals.getInt(3);
-            colorArr[4] = colorVals.getInt(4);
-
-
-            colorManager = new ColorManager(0,0,0,0, 0);
-            colorManager.setColorPrimary(colorArr[0]);
-            colorManager.setColorPrimaryDark(colorArr[1]);
-            colorManager.setColorAccent(colorArr[2]);
-            colorManager.setCardTextColor(colorArr[3]);
-            colorManager.setHeaderTextColor(colorArr[4]);
-        }
-        else
-        {
-            colorManager = new ColorManager(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
-                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder), Color.WHITE);
-
-            db.insertColorData(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
-                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder), Color.WHITE);
-        }
+        initColorManager();
 
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -194,22 +165,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    public void setUpUserCard(){
-
+    public void setUpUserCard()
+    {
+        initColorManager();
+        View userCard = (View) findViewById(R.id.userCard);
+        userCard.setBackgroundTintList(ColorStateList.valueOf(colorManager.getColorPrimaryDark()));
 
         TextView userNameLabel = (TextView) findViewById(R.id.userNameLabel);
+        userNameLabel.setTextColor(colorManager.getCardTextColor());
         String userName = db.getUserName();
         userNameLabel.setText(userName);
 
+        TextView goodText = (TextView) findViewById(R.id.goodLabel);
+        goodText.setTextColor(colorManager.getCardTextColor());
 
         TextView dateLabel = (TextView) findViewById(R.id.dateLabel);
+        dateLabel.setTextColor(colorManager.getCardTextColor());
         Calendar cal = Calendar.getInstance();
         dateLabel.setText(DateFormat.getDateInstance(DateFormat.FULL).format(cal.getTime()));
 
         TextView quoteLabel = (TextView) findViewById(R.id.quoteLabel);
+        quoteLabel.setTextColor(colorManager.getCardTextColor());
         quoteLabel.setText(quotes.getRandomQuote()); //Testing quotes
 
         TextView timeLabel = (TextView) findViewById(R.id.timeLabel);
+        timeLabel.setTextColor(colorManager.getCardTextColor());
+
+        DigitalClock digitalClock = (DigitalClock) findViewById(R.id.simpleDigitalClock);
+        digitalClock.setTextColor(colorManager.getCardTextColor());
 
         int timeOfDay = cal.get(Calendar.HOUR_OF_DAY);
 
@@ -220,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }else if(timeOfDay >= 16 && timeOfDay < 21){
             timeLabel.setText("Evening");
         }else if(timeOfDay >= 21 && timeOfDay < 24){
-            timeLabel.setText("Evening");
+            timeLabel.setText("Night");
         }
 
 
@@ -289,36 +272,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         populateArrayList(this.db, this.sortSelector);
         adapter.updateData();
 
-        if(db.checkIfColorExists())
-        {
-            Cursor colorVals = db.getColorValues();
-            int tableIndex = 0;
-            int colorArr[] = new int[5];
-
-            colorVals.moveToNext();
-            colorArr[0] = colorVals.getInt(0);
-            colorArr[1] = colorVals.getInt(1);
-            colorArr[2] = colorVals.getInt(2);
-            colorArr[3] = colorVals.getInt(3);
-            colorArr[4] = colorVals.getInt(4);
-
-
-            colorManager = new ColorManager(0,0,0,0, 0);
-            colorManager.setColorPrimary(colorArr[0]);
-            colorManager.setColorPrimaryDark(colorArr[1]);
-            colorManager.setColorAccent(colorArr[2]);
-            colorManager.setCardTextColor(colorArr[3]);
-            colorManager.setHeaderTextColor(colorArr[4]);
-        }
-        else
-        {
-            colorManager = new ColorManager(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
-                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder), Color.WHITE);
-
-            db.insertColorData(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
-                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder), Color.WHITE);
-        }
-
+        initColorManager();
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(colorManager.getColorAccent());
@@ -335,6 +289,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
+        //TextView navQPText = findViewById(R.id.QP);
+        //navQPText.setTextColor(colorManager.getHeaderTextColor());
+        //TextView setATaskText = findViewById(R.id.setATask);
+        //setATaskText.setTextColor(colorManager.getHeaderTextColor());
         //navigationView.setBackgroundColor(colorManager.getColorPrimaryDark());
         navigationView.setItemIconTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
         navigationView.getHeaderView(0).setBackgroundColor(colorManager.getColorAccent());
@@ -488,7 +446,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbarDialog = ctDialog.findViewById(R.id.toolbar3);
         toolbarDialog.setBackgroundColor(colorManager.getColorAccent());
         toolbarDialog.setTitleTextColor(colorManager.getHeaderTextColor());
-
         ctDialog.show();
         final EditText taskNameDialog = ctDialog.findViewById(R.id.stageNameDialog);
         EditText taskDescription = ctDialog.findViewById(R.id.taskDescription);
@@ -791,5 +748,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    private void initColorManager()
+    {
+        if(db.checkIfColorExists())
+        {
+            Cursor colorVals = db.getColorValues();
+            int tableIndex = 0;
+            int colorArr[] = new int[5];
+
+            colorVals.moveToNext();
+            colorArr[0] = colorVals.getInt(0);
+            colorArr[1] = colorVals.getInt(1);
+            colorArr[2] = colorVals.getInt(2);
+            colorArr[3] = colorVals.getInt(3);
+            colorArr[4] = colorVals.getInt(4);
+
+
+            colorManager = new ColorManager(0,0,0,0, 0);
+            colorManager.setColorPrimary(colorArr[0]);
+            colorManager.setColorPrimaryDark(colorArr[1]);
+            colorManager.setColorAccent(colorArr[2]);
+            colorManager.setCardTextColor(colorArr[3]);
+            colorManager.setHeaderTextColor(colorArr[4]);
+        }
+        else
+        {
+            colorManager = new ColorManager(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
+                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder), Color.WHITE);
+
+            db.insertColorData(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark)
+                    , getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorBackgroundReminder), Color.WHITE);
+        }
+    }
 
 }

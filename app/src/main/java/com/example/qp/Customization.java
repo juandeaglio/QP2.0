@@ -111,6 +111,8 @@ public class Customization extends AppCompatActivity
                 }
             }
         });
+
+        initThemeButtons();
         saveTaskBtn.setTextColor(colorManager.getHeaderTextColor());
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -353,6 +355,101 @@ public class Customization extends AppCompatActivity
                 Color.blue(c), hsv);
         hsv[0] = (hsv[0] + 180) % 360;
         return Color.HSVToColor(hsv);
+    }
+
+    void initThemeButtons()
+    {
+        Button themeButton1 = (Button)findViewById(R.id.theme_1);
+        themeButton1.setBackgroundColor(colorManager.getColorAccent());
+        themeButton1.setTextColor(colorManager.getHeaderTextColor());
+        themeButton1.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                int primaryDark = Color.parseColor("#bca7d6");
+                int accent = Color.parseColor("#5311a3");
+                int cardTextColor = getContrastColor(primaryDark);
+                int headerTextColor = getContrastColor(accent);
+
+                colorManager.setColorPrimaryDark(primaryDark);
+                colorManager.setColorPrimary(shadeColor(primaryDark));
+                colorManager.setColorAccent(accent);
+                colorManager.setCardTextColor(cardTextColor);
+                colorManager.setHeaderTextColor(headerTextColor);
+                finish();
+                startActivity(getIntent());
+            }
+        });
+
+        Button themeButton2 = (Button)findViewById(R.id.theme_2);
+        themeButton2.setBackgroundColor(colorManager.getColorAccent());
+        themeButton2.setTextColor(colorManager.getHeaderTextColor());
+        themeButton2.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                int primaryDark = Color.parseColor("#000000");
+                int accent = Color.parseColor("#cc2a2a");
+                int cardTextColor = getContrastColor(primaryDark);
+                int headerTextColor = getContrastColor(accent);
+
+                colorManager.setColorPrimaryDark(primaryDark);
+                colorManager.setColorPrimary(shadeColor(primaryDark));
+                colorManager.setColorAccent(accent);
+                colorManager.setCardTextColor(cardTextColor);
+                colorManager.setHeaderTextColor(headerTextColor);
+                finish();
+                startActivity(getIntent());
+            }
+        });
+
+        Button themeButton3 = (Button)findViewById(R.id.theme_3);
+        themeButton3.setBackgroundColor(colorManager.getColorAccent());
+        themeButton3.setTextColor(colorManager.getHeaderTextColor());
+        themeButton3.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                int primaryDark = Color.parseColor("#e00f90");
+                int accent = Color.parseColor("#3f3f3f");
+                int cardTextColor = getContrastColor(primaryDark);
+                int headerTextColor = getContrastColor(accent);
+
+                colorManager.setColorPrimaryDark(primaryDark);
+                colorManager.setColorPrimary(shadeColor(primaryDark));
+                colorManager.setColorAccent(accent);
+                colorManager.setCardTextColor(cardTextColor);
+                colorManager.setHeaderTextColor(headerTextColor);
+                finish();
+                startActivity(getIntent());
+            }
+        });
+        Button themeButton4 = (Button)findViewById(R.id.theme_4);
+        themeButton4.setBackgroundColor(colorManager.getColorAccent());
+        themeButton4.setTextColor(colorManager.getHeaderTextColor());
+        themeButton4.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                int primaryDark = Color.parseColor("#000000");
+                int accent = Color.parseColor("#000000");
+                int cardTextColor = getContrastColor(primaryDark);
+                int headerTextColor = getContrastColor(accent);
+
+                colorManager.setColorPrimaryDark(primaryDark);
+                colorManager.setColorPrimary(shadeColor(primaryDark));
+                colorManager.setColorAccent(accent);
+                colorManager.setCardTextColor(cardTextColor);
+                colorManager.setHeaderTextColor(headerTextColor);
+                finish();
+                startActivity(getIntent());
+            }
+        });
+
     }
 
 }

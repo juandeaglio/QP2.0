@@ -178,8 +178,6 @@ public class Reminder extends AppCompatActivity implements TimePickerDialog.OnTi
         };
 
 
-
-
         colorManager = MainActivity.colorManager;
         mRepeatSwitch.setThumbTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
         mRepeatSwitch.setTrackTintList(ColorStateList.valueOf(colorManager.getColorAccent()));

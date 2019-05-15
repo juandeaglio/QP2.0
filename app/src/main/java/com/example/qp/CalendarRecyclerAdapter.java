@@ -52,7 +52,6 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
             taskName = (TextView) v.findViewById(R.id.card_task_name);
             priority = (TextView) v.findViewById(R.id.card_priority);
             dueDate = (TextView) v.findViewById(R.id.card_due_date);
-            checkBox = v.findViewById(R.id.card_check_box);
             timeDue = (TextView) v.findViewById(R.id.card_time);
         }
     }

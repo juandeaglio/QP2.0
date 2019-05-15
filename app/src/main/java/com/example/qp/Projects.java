@@ -43,6 +43,7 @@ public class Projects extends AppCompatActivity {
         window.setStatusBarColor(colorManager.getColorAccent());
         toolbar.setBackgroundColor(colorManager.getColorAccent());
 
+        toolbar.setTitleTextColor(colorManager.getHeaderTextColor());
 
         populateProjectArray();
         setUpRecyclerView();
