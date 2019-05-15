@@ -6,12 +6,10 @@ import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.design.widget.TextInputLayout;
+
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,25 +25,21 @@ import android.widget.Toast;
 
 import com.DatabaseHelper;
 
-import java.sql.Time;
+
 import java.util.Calendar;
-import java.util.Timer;
 import java.util.UUID;
 
-import static android.app.PendingIntent.getActivity;
 
 public class CreateTask extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, NumberPicker.OnValueChangeListener {
 
         //Global variable for the array list of tasks
-        MainActivity mainActivity = new MainActivity();
+
         DatabaseHelper db = new DatabaseHelper(this);
 
         private TextView dueDate;
         private TextView numberPicker;
 
         private DatePickerDialog.OnDateSetListener mDateSetListener;
-        private NumberPicker.OnClickListener mNumberListener;
-        private TimePickerDialog.OnTimeSetListener mTimeSetListener;
         Toast toast;
         private String taskDueDateValue = "";
         private String taskTime = "";
@@ -53,10 +47,6 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_create_task);
-
-    //        TextInputLayout inputTaskName = findViewById(R.id.input_task_name);
-    //        TextInputLayout inputTaskPriority = findViewById(R.id.input_task_priority);
-    //        TextInputLayout inputTaskDescription = findViewById(R.id.input_task_description);
 
 
             this.toast = Toast.makeText(this, "Task Successfully Saved!", Toast.LENGTH_SHORT);
@@ -110,8 +100,6 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             mDateSetListener = new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-    //                int dayOfTheMonth = Calendar.DAY_OF_WEEK;
-    //                String dayOfMonthStr = getDayOfWeekStr(dayOfTheMonth);
                     TextView taskDueDateText = findViewById(R.id.taskDueDateText);
                     calendar.set(year, month, dayOfMonth);
                     Log.d("Date Picker", "onDateSet: date " + (month + 1) + "/" + dayOfMonth + "/" + year);
@@ -173,19 +161,6 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 
         }
 
-        //TODO: get day of week
-        private String getDayOfWeekStr(int dayOfTheMonth) {
-            switch (dayOfTheMonth) {
-                case 1:
-                    return "Mon";
-                case 2:
-                    return "Tues";
-                case 3:
-                    return "Wed";
-            }
-            return "";
-        }
-
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             TextView taskTime = (TextView) findViewById(R.id.taskTimeText);
@@ -202,7 +177,7 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             String tempText = (calendar.get(Calendar.HOUR) == 0) ? "12" : calendar.get(Calendar.HOUR) + "";
             String minuteStr = "";
 
-            //Error checking because android treats 1:00 pm as 1:__ Pm ????
+
             if (minute <= 9) {
                 minuteStr = "0" + String.valueOf(minute);
             } else {
@@ -210,7 +185,6 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             }
             taskTime.setText(tempText + ":" + minuteStr + " " + am_pm);
             taskTime.setVisibility(View.VISIBLE);
-            //.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + am_pm);
 
             this.taskTime = String.valueOf(tempText) + ":" + minuteStr + " " + am_pm;
 
@@ -228,10 +202,6 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
 
 
         public boolean saveTask() {
-            //Saves task in array list
-            //mainActivity.globalTaskList.add(newTask);
-            //Task newTask = new Task();
-            //goBackToHomepage();
 
             EditText taskName = (EditText) findViewById(R.id.taskName);
             if(taskName.getText().length() == 0){
@@ -267,7 +237,6 @@ public class CreateTask extends AppCompatActivity implements TimePickerDialog.On
             boolean saveCompleted = db.insertData(taskName.getText().toString(), Integer.parseInt(priority.getText().toString()), this.taskDueDateValue, taskNotes.getText().toString(), 0, taskID, this.taskTime);
 
             if (saveCompleted) {
-                //mainActivity.populateArrayList(); Commented out because it results in a crash
                 Intent intent1 = new Intent(CreateTask.this, StartService.class);
                 intent1.putExtra("Task Name", taskName.getText().toString());
 

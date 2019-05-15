@@ -3,15 +3,10 @@ package com;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseErrorHandler;
-import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.qp.CreateTask;
-import com.example.qp.MainActivity;
 
-import java.util.Date;
 import java.util.UUID;
 
 
@@ -70,12 +65,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor getAllUnCompletedTasksFromTable(){
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor result = db.rawQuery("select * from " + TABLE_NAME + " where " + COL_5 + " != 0",null);
 
-        return  result;
-    }
 
     public Cursor getAllTasksFromtable(){
         SQLiteDatabase db = getWritableDatabase();
@@ -101,23 +91,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    //Returns the due date to a specific task id
-    public String getTaskDueDate(String taskID){
-        Cursor data = getAllTasksFromtable();
-
-        if ((data.moveToFirst())){
-            do {
-                if(data.getString(5).equals(taskID)){
-                    return data.getString(1);
-                }
-            }while (data.moveToNext());
-        }
-
-        return ""; //Didn't find it
-    }
-
-    //Marks the task with the associated TaskID and changes it's completed field to 1
-    //On the home page have a function that if this returns tru then you move the task to the global completed list
     public boolean markTaskCompleted(String taskID){
         Cursor data = getAllTasksFromtable();
         SQLiteDatabase tempDB = getWritableDatabase();
@@ -133,16 +106,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }while (data.moveToNext());
         }
 
-        return false; // :(
+        return false;
     }
 
-    //Returns a cursor with all the uncompleted tasks
-//    public Cursor sortTable(String column, String order){
-//        //Thinking we clear the data table and repopulate it after we sort the table
-//        //MainActivity.globalTaskList.clear();
-//        Cursor sortedTable = this.getWritableDatabase().query(TABLE_NAME + " Where " + COL_5 + " != 1", this.allColumns,null,null,null,null, column + " " + order); //ex: Task_Priority(Column) + order("asc" or "desc")
-//        return sortedTable;
-//    }
+
 
     public Cursor sortCompletedTasks(String sortSelector){
         Cursor sortedTable = this.getWritableDatabase().query(TABLE_NAME + " Where " + COL_5 + " != 0", this.allColumns,null,null,null,null, sortSelector + " " + "asc"); //ex: Task_Priority(Column) + order("asc" or "desc")
@@ -164,7 +131,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 if (data.getString(5).equals(taskID)){
                     tempDB.update(TABLE_NAME, contentValues, "Task_ID = ?", new String[] { taskID});
-                    return true; //Successful update
+                    return true;
                 }
             }while (data.moveToNext());
         }

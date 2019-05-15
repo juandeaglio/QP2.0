@@ -27,11 +27,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
     private ArrayList<Task> taskList;
     MainActivity mainActivity = new MainActivity();
     private Context context;
-   /* public TaskCardRecyclerAdapter(ArrayList<Task> globalTaskList, MainActivity context) {
-        this.taskList = globalTaskList;
-        this.context = context;
-        this.db = new DatabaseHelper(context);
-    }*/
+
 
     public class TaskCardViewHolder extends RecyclerView.ViewHolder {
         CardView taskCard;
@@ -95,7 +91,6 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     if(db.markTaskCompleted(task.getTaskId().toString())){
-                        // System.out.println("True");
                         mainActivity.populateArrayList(db, mainActivity.sortSelector);
                         mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
                         updateData();
@@ -107,7 +102,6 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
                 else
                 {
                     if(db.unCheckCompletedTask(task.getTaskId().toString())){
-//                        mainActivity.populateArrayList(db);
                         mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
                         updateData();
                     }

@@ -13,8 +13,7 @@ import static android.support.v7.widget.helper.ItemTouchHelper.*;
 
 enum ButtonsState {
     GONE,
-    LEFT_VISIBLE,
-    RIGHT_VISIBLE
+   RIGHT_VISIBLE
 }
 
 class SwipeController extends Callback {

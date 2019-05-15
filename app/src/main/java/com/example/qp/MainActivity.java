@@ -17,7 +17,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -30,27 +29,20 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.DatabaseHelper;
 
-import java.sql.Time;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.UUID;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener  {
 
     public static ArrayList<Task> globalTaskList = new ArrayList<>();
     public static ArrayList<Task> globalCompletedTaskList = new ArrayList<>();
-    public Intent myIntent;
-    DatabaseHelper db = new DatabaseHelper(this);
+        DatabaseHelper db = new DatabaseHelper(this);
     SQLiteDatabase taskDB;
-    private CreateTask createTask;
-    //private DatabaseHelper mDB;
+        //private DatabaseHelper mDB;
     private Toast toast = null;
     public static final String CHANNEL_ID = "com.chikeandroid.tutsplustalerts.ANDROID";
     public static final String CHANNEL_NAME = "ANDROID CHANNEL";
@@ -218,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if(cursor.moveToFirst()){
             do {
-                //MainActivity.globalTaskList.add();
+
                 Task newTask  = new Task();
                 newTask.setTaskName(cursor.getString(0)); //Task Name
                 newTask.setDueDate(cursor.getString(1)); // Due Date
@@ -236,18 +228,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     //TODO: refactor this code
 
-    public void openViewTask() {
-        startActivity(new Intent(this, ViewTask.class));
-    }
 
     public void openReminderActivity() {
         startActivity(new Intent(this, Reminder.class));
     }
 
-    public void openCalendarViewActivity() {
-        startActivity(new Intent(MainActivity.this, CalendarView.class));
-
-    }
 
 
     public void openCreateTaskActivity(View view) {
@@ -278,7 +263,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()){
             case R.id.mSortPriority:
-                //Maybe use mDB.SortTable()?
                 this.sortSelector = "Task_Priority";
                 populateArrayList(this.db, sortSelector);
                 adapter.updateData();
