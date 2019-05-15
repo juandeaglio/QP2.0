@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.qp.ProjectObj;
-import com.example.qp.Projects;
 import com.example.qp.Stage;
 
 import java.util.ArrayList;
@@ -500,6 +499,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         tempDb.update(TABLE_NAME, contentValues, "Task_ID = ?", new String[]{taskID.toString()});
         return true;
+    }
+
+    public boolean updateStageTable(String stageID,String stage_ID, String stage_Name, String stage_Due_Date, String stage_Description, String stage_Pending_Intent_ID,  int stageNum,String project_ID){
+        SQLiteDatabase stageDB = getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(STAGE_COL_1, stage_ID);
+        contentValues.put(STAGE_COL_2, stage_Name);
+        contentValues.put(STAGE_COL_3, stage_Due_Date);
+        contentValues.put(STAGE_COL_4, stage_Description);
+        contentValues.put(STAGE_COL_5, stage_Pending_Intent_ID);
+        contentValues.put(STAGE_COL_6, stageNum);
+        contentValues.put(STAGE_COL_7, project_ID);
+
+        long result = stageDB.update(STAGE_TABLE_NAME, contentValues,"Stage_ID = '" + stage_ID + "'",null);
+    if (result == -1){
+        return false;
+    }
+    else {
+        return true;
+    }
     }
 
 
