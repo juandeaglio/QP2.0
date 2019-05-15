@@ -1,32 +1,22 @@
 package com.example.qp;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.TooltipCompat;
-import android.text.Layout;
-import android.text.StaticLayout;
-import android.text.TextPaint;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -119,11 +109,17 @@ public class Customization extends AppCompatActivity
             public void onClick(View v)
             {
                 Cursor colorVals = db.getColorValues();
-                colorManager.setColorPrimary(colorVals.getInt(0));
-                colorManager.setColorPrimaryDark(colorVals.getInt(1));
-                colorManager.setColorAccent(colorVals.getInt(2));
-                colorManager.setCardTextColor(colorVals.getInt(3));
-                colorManager.setHeaderTextColor(colorVals.getInt(4));
+
+                if (colorVals.moveToFirst()){
+                    do {
+                        colorManager.setColorPrimary(colorVals.getInt(0));
+                        colorManager.setColorPrimaryDark(colorVals.getInt(1));
+                        colorManager.setColorAccent(colorVals.getInt(2));
+                        colorManager.setCardTextColor(colorVals.getInt(3));
+                        colorManager.setHeaderTextColor(colorVals.getInt(4));
+                    }while (colorVals.moveToNext());
+                }
+
                 goBackToHomepage();
             }
         });

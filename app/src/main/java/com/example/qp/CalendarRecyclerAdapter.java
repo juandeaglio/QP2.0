@@ -2,22 +2,16 @@ package com.example.qp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.DatabaseHelper;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -25,7 +19,7 @@ import java.util.UUID;
 public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecyclerAdapter.TaskCardViewHolder> {
 
 
-    private DatabaseHelper db ;
+    private DatabaseHelper db;
     private ArrayList<Task> taskList;
     private MainActivity mainActivity = new MainActivity();
     private Context context;
@@ -45,8 +39,7 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
         CheckBox checkBox;
         UUID taskID;
 
-        public TaskCardViewHolder(View v)
-        {
+        public TaskCardViewHolder(View v) {
             super(v);
             taskCard = v.findViewById(R.id.task_card);
             taskName = (TextView) v.findViewById(R.id.card_task_name);
@@ -56,8 +49,7 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
         }
     }
 
-    public CalendarRecyclerAdapter (ArrayList<Task> taskList, Context context)
-    {
+    public CalendarRecyclerAdapter(ArrayList<Task> taskList, Context context) {
         this.taskList = taskList;
         this.db = new DatabaseHelper(context);
         this.context = context;
@@ -69,8 +61,7 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
     }
 
     @Override
-    public void onBindViewHolder(TaskCardViewHolder taskCardViewHolder, int i)
-    {
+    public void onBindViewHolder(TaskCardViewHolder taskCardViewHolder, int i) {
         final Task task = taskList.get(i);
         colorManager = MainActivity.colorManager;
         taskCardViewHolder.taskName.setText(task.getTaskName());
@@ -94,50 +85,46 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
             }
         });
 
-        taskCardViewHolder.checkBox.setOnCheckedChangeListener(null);
+        //taskCardViewHolder.checkBox.setOnCheckedChangeListener(null);
 
-        if(task.getCompleted() == 0)
-            taskCardViewHolder.checkBox.setChecked(false);
-        else
-            taskCardViewHolder.checkBox.setChecked(true);
+//        if(task.getCompleted() == 0)
+//            taskCardViewHolder.checkBox.setChecked(false);
+//        else
+//            taskCardViewHolder.checkBox.setChecked(true);
 
-        taskCardViewHolder.checkBox.setButtonTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
+        //taskCardViewHolder.checkBox.setButtonTintList(ColorStateList.valueOf(colorManager.getColorAccent()));
         taskCardViewHolder.taskCard.setBackgroundColor(colorManager.getColorPrimaryDark());
 
-        taskCardViewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                                                   @Override
-                                                                   public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                                                       if(isChecked){
-                                                                           if(db.markTaskCompleted(task.getTaskId().toString())){
-                                                                               // System.out.println("True");
-                                                                               mainActivity.populateArrayList(db, mainActivity.sortSelector);
-                                                                               mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
-
-                                                                               updateRecyclerView(task.getDueDate());
-                                                                               updateData();
-                                                                           }
-                                                                           else {
-                                                                               System.out.println("False");
-                                                                           }
-                                                                       }
-                                                                       else
-                                                                       {
-                                                                           if(db.unCheckCompletedTask(task.getTaskId().toString())){
-//                        mainActivity.populateArrayList(db);
-                                                                               mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
-                                                                               updateData();
-                                                                           }
-                                                                       }
-
-                                                                   }
-                                                               }
-        );
+//        taskCardViewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                                                                   @Override
+//                                                                   public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                                                                       if (isChecked) {
+//                                                                           if (db.markTaskCompleted(task.getTaskId().toString())) {
+//                                                                               // System.out.println("True");
+//                                                                               mainActivity.populateArrayList(db, mainActivity.sortSelector);
+//                                                                               mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
+//
+//                                                                               updateRecyclerView(task.getDueDate());
+//                                                                               updateData();
+//                                                                           } else {
+//                                                                               System.out.println("False");
+//                                                                           }
+//                                                                       } else {
+//                                                                           if (db.unCheckCompletedTask(task.getTaskId().toString())) {
+////                        mainActivity.populateArrayList(db);
+//                                                                               mainActivity.populateCompletedTaskList(db, mainActivity.sortSelector);
+//                                                                               updateData();
+//                                                                           }
+//                                                                       }
+//
+//                                                                   }
+//                                                               }
+//        );
 
     }
 
-    private String dateCorrection(String date)
-    {
-        String dateArr [];
+    private String dateCorrection(String date) {
+        String dateArr[];
         dateArr = date.split("/");
         int month = Integer.parseInt(dateArr[0]);
         date = month + "/" + dateArr[1] + "/" + dateArr[2];
@@ -151,18 +138,17 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
     }
 
 
-    public void updateRecyclerView(String date){
+    public void updateRecyclerView(String date) {
         taskList.clear();
-        for(int i=0; i < MainActivity.globalTaskList.size(); i++)
-        {
-            if(date.equals(MainActivity.globalTaskList.get(i).getDueDate()))
+        for (int i = 0; i < MainActivity.globalTaskList.size(); i++) {
+            if (date.equals(MainActivity.globalTaskList.get(i).getDueDate()))
                 taskList.add(MainActivity.globalTaskList.get(i));
         }
         notifyDataSetChanged();
     }
 
 
-    public void updateData(){
+    public void updateData() {
         notifyDataSetChanged();
     }
 

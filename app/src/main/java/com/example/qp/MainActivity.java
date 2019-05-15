@@ -205,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }else if(timeOfDay >= 21 && timeOfDay < 24){
             timeLabel.setText("Night");
         }
+        //timeLabel.setText("Afternoon");
 
 
 
@@ -743,7 +744,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private String fixTaskName(String taskName){
         char capitalLetter = Character.toUpperCase(taskName.charAt(0));
-        return taskName.replace(taskName.charAt(0),capitalLetter);
+        String fixedName = capitalLetter + taskName.substring(1,taskName.length());
+        return fixedName;
 
 
     }

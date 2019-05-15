@@ -77,13 +77,14 @@ public class ActionMap extends AppCompatActivity {
 
     public void createActionMap() {
         LinearLayout mapLayout = (LinearLayout) findViewById(R.id.mapContainer);
+        mapLayout.removeAllViews();
         final ProjectObj currentProj = db.getProject(projectIDStr);
         currentProj.setStageList(db.getStagesForProject(projectIDStr));
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 350, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        layoutParams.setMargins(0, 0, 0, 228);
+        layoutParams.setMargins(0, 0, 0, 150);
 
 
         //Build button for the project start
@@ -349,6 +350,7 @@ public class ActionMap extends AppCompatActivity {
                     //mainActivity.populateArrayList(db, mainActivity.sortSelector);
                     //updateData();
                     Toast.makeText(ActionMap.this, "Stage edits saved!", Toast.LENGTH_SHORT).show();
+                    createActionMap();
                     vtDialog.dismiss();
                 }
                 else
