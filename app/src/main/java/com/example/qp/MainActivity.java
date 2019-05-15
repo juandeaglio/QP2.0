@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //boolean firstStart = true;
         if(firstStart){
             showfirstTimeDialog();
+            makeDummyTasks();
         }
 
         setUpUserCard();
@@ -155,6 +156,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         editor.apply();
         }
 
+        private void makeDummyTasks()
+        {
+            String nameArr[] = {"Operating Systems Final","COMP 350 Final"
+                    , "Get lit after finals", "Finish Homework", "Call body shop"
+                    , "Finish OS Project", "Think of more tasks", "Finish history of math essay"
+                    , "Clean car", "Brush up on design patterns"};
+            int priorityArr[] = {2, 2, 3, 2, 3, 1, 4, 4, 5, 5};
+            String dueDatesArr[] = {"5/06/2040 ", "5/21/2086", "5/15/2019", "6/02/2019", "6/03/2019", "6/04/2020", "5/20/2019", "5/25/1920", "5/28/2019", "5/29/2019"};
+            String timesArr[] = {"10:00 am", "4:39 pm", "2:00 pm", "3:00 pm", "4:00 am", "12:30 pm", "1:00 pm", "3:00 pm", "2:00 am", "4:56 pm"};
+
+            for (int i = 0; i <10; i++)
+            {
+                Task newTask = new Task(nameArr[i], dueDatesArr[i], priorityArr[i], "nah", 0, timesArr[i]);
+                newTask.setTaskId(UUID.randomUUID());
+               if( db.insertData(newTask.getTaskName(), newTask.getPriority(),newTask.getDueDate(),newTask.getDescription(),0, newTask.getTaskId(),newTask.getTimeDueDate(),-1))
+               {
+
+               }
+
+
+            }
+
+        }
+
 
 
     @Override
@@ -169,30 +194,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     {
         initColorManager();
         View userCard = (View) findViewById(R.id.userCard);
-        userCard.setBackgroundTintList(ColorStateList.valueOf(colorManager.getColorPrimaryDark()));
+        //userCard.setBackgroundTintList(ColorStateList.valueOf(colorManager.getColorPrimaryDark()));
 
         TextView userNameLabel = (TextView) findViewById(R.id.userNameLabel);
-        userNameLabel.setTextColor(colorManager.getCardTextColor());
+        //userNameLabel.setTextColor(colorManager.getCardTextColor());
         String userName = db.getUserName();
         userNameLabel.setText(userName);
 
         TextView goodText = (TextView) findViewById(R.id.goodLabel);
-        goodText.setTextColor(colorManager.getCardTextColor());
+        //goodText.setTextColor(colorManager.getCardTextColor());
 
         TextView dateLabel = (TextView) findViewById(R.id.dateLabel);
-        dateLabel.setTextColor(colorManager.getCardTextColor());
+        //dateLabel.setTextColor(colorManager.getCardTextColor());
         Calendar cal = Calendar.getInstance();
         dateLabel.setText(DateFormat.getDateInstance(DateFormat.FULL).format(cal.getTime()));
 
         TextView quoteLabel = (TextView) findViewById(R.id.quoteLabel);
-        quoteLabel.setTextColor(colorManager.getCardTextColor());
+        //quoteLabel.setTextColor(colorManager.getCardTextColor());
         quoteLabel.setText(quotes.getRandomQuote()); //Testing quotes
 
         TextView timeLabel = (TextView) findViewById(R.id.timeLabel);
-        timeLabel.setTextColor(colorManager.getCardTextColor());
+        //timeLabel.setTextColor(colorManager.getCardTextColor());
 
         DigitalClock digitalClock = (DigitalClock) findViewById(R.id.simpleDigitalClock);
-        digitalClock.setTextColor(colorManager.getCardTextColor());
+        //digitalClock.setTextColor(colorManager.getCardTextColor());
 
         int timeOfDay = cal.get(Calendar.HOUR_OF_DAY);
 
@@ -379,7 +404,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }while (cursor.moveToNext());
 
         }
-        sortOverdueFirst();
+        //sortOverdueFirst();
 
 
     }

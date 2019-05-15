@@ -81,8 +81,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
     }
 
     @Override
-    public void onBindViewHolder(final TaskCardViewHolder taskCardViewHolder, int i)
-    {
+    public void onBindViewHolder(final TaskCardViewHolder taskCardViewHolder, int i) {
         final Task task = taskList.get(i);
         this.taskIDV = task.getTaskId().toString();
         colorManager = MainActivity.colorManager;
@@ -93,18 +92,19 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
         taskCardViewHolder.dueDate.setText(dateCorrection(task.getDueDate()));
         taskCardViewHolder.timeDue.setText(task.getTimeDueDate());
         taskCardViewHolder.taskID = task.getTaskId();
-        if(task.isOverdue()){
-            taskCardViewHolder.overdue.setText("!");
+        if (task.isOverdue()) {
+            //taskCardViewHolder.overdue.setText("!");
         }
 
         taskCardViewHolder.taskName.setTextColor(colorManager.getCardTextColor());
         taskCardViewHolder.dueDate.setTextColor(colorManager.getCardTextColor());
         taskCardViewHolder.priority.setTextColor(colorManager.getCardTextColor());
         taskCardViewHolder.timeDue.setTextColor(colorManager.getCardTextColor());
+        if (task.getCompleted() == 0){
+
         taskCardViewHolder.taskCard.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
 //                Intent intent = new Intent(context, ViewTask.class);
 //                intent.putExtra("taskid", task.getTaskId().toString());
 //                context.startActivity(intent);
@@ -114,6 +114,7 @@ public class TaskCardRecyclerAdapter extends RecyclerView.Adapter<TaskCardRecycl
 
 
         });
+    }
 
         taskCardViewHolder.taskCard.setBackgroundColor(colorManager.getColorPrimaryDark());
        // mainActivity.registerForContextMenu(taskCardViewHolder.taskCard);

@@ -72,7 +72,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String USER_COL_1 = "Username";
 
 
-    public String[] allColumns = {COL_1, COL_2, COL_3, COL_4, COL_5, COL_6, COL_7};
+    public String[] allColumns = {COL_1, COL_2, COL_3, COL_4, COL_5, COL_6, COL_7, COL_8};
     public String[] reminderColumns = {R_COL_1, R_COL_2, R_COL_3, R_COL_4, R_COL_5, R_COL_6, R_COL_7,R_COL_8,R_COL_9};
 
     public DatabaseHelper(Context context) {
@@ -564,7 +564,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Cursor sortUnCompletedTasks(String sortSelector) {
-        Cursor sortedTable = this.getWritableDatabase().query(TABLE_NAME + " Where " + COL_5 + " != 1", this.allColumns, null, null, null, null, sortSelector + " " + "asc"); //ex: Task_Priority(Column) + order("asc" or "desc")
+        Cursor sortedTable = this.getWritableDatabase().query(TABLE_NAME + " Where " + COL_5 + " != 1 ", this.allColumns, null, null, null, null, sortSelector + " " + "asc"); //ex: Task_Priority(Column) + order("asc" or "desc")
         return sortedTable;
     }
 
